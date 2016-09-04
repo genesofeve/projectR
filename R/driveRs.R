@@ -103,6 +103,9 @@ driveRs.default <- function(
 #' @seealso
 #' @return
 #' @import limma
+#' @examples \dontrun{
+#'    projectR(data=D,Patterns=AP)
+#'}
 
 driveRs.CoGAPS <- function(
   data=NA, # a dataset to be projected onto
@@ -134,6 +137,8 @@ driveRs.CoGAPS <- function(
   colnames(As4P) <- paste('Pattern ',1:dim(As4P)[2],sep='') #make option to imput vector or change label
   p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
   print(dim(p4P))
+
+
   Design <- model.matrix(~0 + As4P)
   colnames(Design) <- colnames(As4P)
   Projection <- lmFit(t(p4P),Design)
