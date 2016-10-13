@@ -3,8 +3,8 @@ Type: Package
 Title: projectR
 Version: 0.1
 Date: 2016-09-03
-Author: Genevieve Stein-O'Brien, Joo Heon Shin, Carlo Colantuoni
+Author: Genevieve Stein-O'Brien, Joo Heon Shin, Elana Fertig, Carlo Colantuoni
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
-Description: Projection of weights from PCA, CoGAPS, NMF, and clustering
+Description: Functions for the projection of weights from PCA, CoGAPS, NMF, and clustering
 License: GPL (==2)
 LazyData: TRUE

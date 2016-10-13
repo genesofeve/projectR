@@ -1,10 +1,10 @@
 Package: projectR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: projectR
 Version: 0.1
 Date: 2016-09-03
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Genevieve Stein-O'Brien, Joo Heon Shin, Carlo Colantuoni
+Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
+Description: Projection of weights from PCA, CoGAPS, NMF, and clustering
+License: GPL (==2)
 LazyData: TRUE
