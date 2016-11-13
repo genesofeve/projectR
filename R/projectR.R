@@ -341,7 +341,13 @@ projectR.prcomp <- function(
     rnP<-rownames(data[rows1,])
   }
 
-  projectionPatterns<- data %*% Patterns #head(X %*% PCA$rotation)
+  rows2=match(uniEGids,rownames(Patterns))
+  data <- as.matrix(data)
+  p2P <- as.matrix(data[rows1,])
+  rownames(p2P) <- rnP
+  As4P <- Patterns[rows2,]
+
+  projectionPatterns<- p2P %*% As4P #head(X %*% PCA$rotation)
 
   #calculate percent varience accoutned for by each PC in newdata
   #Eigenvalues<-eigen(cov(t(projectionPatterns)))$values
