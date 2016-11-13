@@ -324,9 +324,7 @@ projectR.prcomp <- function(
   ...){
 
   # to use in Carlo Version, make flag?
-  old.centers<-Patterns$center
-
-  data<-apply(data,1,function(x) x-mean(x))
+  #old.centers<-Patterns$center
 
   Patterns<-Patterns$rotation
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -342,10 +340,10 @@ projectR.prcomp <- function(
   }
 
   rows2=match(uniEGids,rownames(Patterns))
-  data <- as.matrix(data)
   p2P <- as.matrix(data[rows1,])
   rownames(p2P) <- rnP
   As4P <- Patterns[rows2,]
+  p2P<-apply(p2P,1,function(x) x-mean(x))
 
   projectionPatterns<- p2P %*% As4P #head(X %*% PCA$rotation)
 
