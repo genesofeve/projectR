@@ -348,9 +348,9 @@ projectR.prcomp <- function(
   projectionPatterns<- p2P %*% As4P #head(X %*% PCA$rotation)
 
   #calculate percent varience accoutned for by each PC in newdata
-  #Eigenvalues<-eigen(cov(t(projectionPatterns)))$values
-  #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
-  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(data,2,var)))
+  Eigenvalues<-eigen(cov(projectionPatterns))$values
+  PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
+  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
 
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, PercentVariance)
