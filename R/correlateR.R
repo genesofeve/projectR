@@ -1,7 +1,6 @@
 
 
-cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE) 
-lapply(cor2T,head)
+#cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE) 
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
 	dat=NA,
