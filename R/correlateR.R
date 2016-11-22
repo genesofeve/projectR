@@ -1,6 +1,22 @@
+#' @title <brief desc>
+#'
+#' @description <full description>
+#' @param 	genes  gene or character vector of genes for reference expression pattern
+#' @param 	dat matrix or data frame with  genes to be used for to calculate correlation
+#' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off. 
+#' @param 	threshold numeric indicating value at which to make threshold
+#' @param 	absR logical indicating where to include both positive and negatively correlated genes  
+#' @param 	...  addtion impdelta a vector of weights describing
+#' @export
+#' @keywords
+#' @seealso
+#' @return
+#' @aliases
+#' @examples \dontrun{
+#' #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
+#'}
 
-
-#cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE) 
+ 
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
 	dat=NA,
