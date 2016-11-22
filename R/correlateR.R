@@ -1,6 +1,6 @@
 
 
-#cor2T<-correlateR(genes="T", dat=p, threshtype="R", threshold=.7, absR=TRUE) 
+#cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=.7, absR=TRUE) 
 
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
@@ -10,6 +10,9 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 	absR=FALSE, # logical indicating where to include both positive and negatively correlated genes  
 	... # addtion imputs to cor, such as method 
 	){
+	if(threshtype=="N" & threshold<1){
+		stop('Threshold must be integer greater than 1 for type "N"')
+	}
 	cor2gene<-apply(dat, 1, function(G) cor(t(p[genes,]), G, ...))
 	if(absR){
 		if(threshtype=="R"){
