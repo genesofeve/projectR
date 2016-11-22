@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Package: PROjectR
 Type: Package
 Title: What the Package Does (Title Case)
@@ -7,4 +8,15 @@ Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
+=======
+Package: projectR
+Type: Package
+Title: projectR
+Version: 0.1
+Date: 2016-09-03
+Author: Genevieve Stein-O'Brien, Joo Heon Shin, Elana Fertig, Carlo Colantuoni
+Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
+Description: Functions for the projection of weights from PCA, CoGAPS, NMF, and clustering
+License: GPL (==2)
+>>>>>>> bcb933b1ea8bebc64be858c01dcf49c69f3b8452
 LazyData: TRUE
