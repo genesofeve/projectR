@@ -1,11 +1,11 @@
 <<<<<<< HEAD
-Package: PROjectR
+Package: projectoR
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1
 Date: 2016-11-22
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: Genevieve Stein-O’Brien
+Maintainer: Genevieve Stein-O’Brien <gsteinobrien@jhmi.edu>
 Description: More about what it does (maybe more than one line)
 License: What license is it under?
 =======
