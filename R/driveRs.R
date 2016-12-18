@@ -48,14 +48,15 @@ driveRs <- function(
 #' @import limma
 
 driveRs.default <- function(
-  data=NA, # a dataset to be projected onto
+  data=NA, # the projected data set
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a matrix of continous values to be projected with unique rownames
+  Patterns=NA, # a projectoR object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ...){
 
+  if(length(Patterns)>1Patterns<-Patterns$projectionPatterns
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
   if(!is.na(AnnotionObj)){
@@ -302,48 +303,42 @@ driveRs.hclust <- function(
 #' @seealso
 #' @return
 #' @import limma
+#' @import MASS
 #' @examples \dontrun{
 #'   driveRs(data=D,Patterns=PCA,full=TRUE)
 #'}
 
+p.BMP4mesoTcdx2.log2
+
 driveRs.prcomp <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
+  projectedP=NA, # an prcomp object with a rotation matrix of genes by PCs
+  design=NA,
+  constrasts=NA,
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ...){
 
-  # to use in Carlo Version, make flag?
-  old.centers<-Patterns$center
+  require(MASS)
+  if(!is.na(NP)){x<-projectedP[,NP]}
+  EY<- x %*% ginv(t(x)%*%x) %*% t(x) %*% t(data)
 
-  data<-apply(data,1,function(x) x-mean(x))
+  # dif express Exp
+  require(limma)
+  fit <- lmFit(t(EY), design)
+  fit <- eBayes(fit)
 
-  Patterns<-Patterns$rotation
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
-
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-    uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-    rows1=match(uniEGids,rownames(data))
-    rnP<-rownames(data[rows1,])
-  }
-
-  projectionPatterns<- data %*% Patterns #head(X %*% PCA$rotation)
-
-  #calculate percent varience accoutned for by each PC in newdata
-  #Eigenvalues<-eigen(cov(t(projectionPatterns)))$values
-  #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
-  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(data,2,var)))
+  # makecontrast
+  cont.dif <- makeContrasts(constrasts,levels=design)
+  fit2 <- contrasts.fit(fit, cont.dif)
+  fit2 <- eBayes(fit2)
+  driverRs<-topTableF(fit2, n=dim(data)[1], ...)
+  driverRs<-driverRs[order(driverRs[,1],decreasing=TRUE),]
 
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, PercentVariance)
-      return(projectionFit)
+      driverRs <- list("driverRsFit"=fit2, "driverRs"=driverRs)
+      return(driverRs)
   }
-  else{return(projectionPatterns)}
+  else{return(driverRs)}
 
 }
