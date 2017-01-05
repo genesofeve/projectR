@@ -1,3 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+<<<<<<< HEAD
+=======
 import(limma)
 >>>>>>> bcb933b1ea8bebc64be858c01dcf49c69f3b8452
