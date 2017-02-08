@@ -57,28 +57,13 @@ projectR.default <- function(
   ...){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
-
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-    uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-    rows1=match(uniEGids,rownames(data))
-    rnP<-rownames(data[rows1,])
-  }
-
-  rows2=match(uniEGids,rownames(Patterns))
-  data <- as.matrix(data)
-  p2P <- as.matrix(data[rows1,])
-  rownames(p2P) <- rnP
-  As4P <- Patterns[rows2,]
-  colnames(As4P) <- paste('Pattern ',1:dim(As4P)[2],sep='') #make option to imput vector or change label
-  p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
-  print(dim(p4P))
-  Design <- model.matrix(~0 + As4P)
-  colnames(Design) <- colnames(As4P)
-  Projection <- lmFit(t(p4P),Design)
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]))
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]])
+  colnames(Design) <- colnames(dataM[[1]])
+  Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -117,27 +102,15 @@ projectR.CoGAPS <- function(
   if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-  uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-  rows1=match(uniEGids,rownames(data))
-  rnP<-rownames(data[rows1,])
-  }
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]]))
+  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
 
-  rows2=match(uniEGids,rownames(Patterns))
-  data <- as.matrix(data)
-  p2P <- as.matrix(data[rows1,])
-  rownames(p2P) <- rnP
-  As4P <- Patterns[rows2,]
-  colnames(As4P) <- paste('Pattern ',1:dim(As4P)[2],sep='') #make option to imput vector or change label
-  p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
-  print(dim(p4P))
-  Design <- model.matrix(~0 + As4P)
-  colnames(Design) <- colnames(As4P)
-  Projection <- lmFit(t(p4P),Design)
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]]])
+  colnames(Design) <- colnames(dataM[[1]])
+  Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -184,27 +157,15 @@ projectR.kmeans <- function(
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-    uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-    rows1=match(uniEGids,rownames(data))
-    rnP<-rownames(data[rows1,])
-  }
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]]))
+  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
 
-  rows2=match(uniEGids,rownames(Patterns))
-  data <- as.matrix(data)
-  p2P <- as.matrix(data[rows1,])
-  rownames(p2P) <- rnP
-  As4P <- Patterns[rows2,]
-  colnames(As4P) <- paste('Pattern ',1:dim(As4P)[2],sep='') #make option to imput vector or change label
-  p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
-  print(dim(p4P))
-  Design <- model.matrix(~0 + As4P)
-  colnames(Design) <- colnames(As4P)
-  Projection <- lmFit(t(p4P),Design)
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]]])
+  colnames(Design) <- colnames(dataM[[1]])
+  Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -251,27 +212,15 @@ projectR.hclust <- function(
   for(x in 1:NP) {tempP[cut==x,x]<-apply(D[cut==x,],1,cor,y=colMeans(D[cut==x,]))}
   Patterns<-tempP
 
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-    uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-    rows1=match(uniEGids,rownames(data))
-    rnP<-rownames(data[rows1,])
-  }
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]]))
+  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
 
-  rows2=match(uniEGids,rownames(Patterns))
-  data <- as.matrix(data)
-  p2P <- as.matrix(data[rows1,])
-  rownames(p2P) <- rnP
-  As4P <- Patterns[rows2,]
-  colnames(As4P) <- paste('Pattern ',1:dim(As4P)[2],sep='') #make option to imput vector or change label
-  p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
-  print(dim(p4P))
-  Design <- model.matrix(~0 + As4P)
-  colnames(Design) <- colnames(As4P)
-  Projection <- lmFit(t(p4P),Design)
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]]])
+  colnames(Design) <- colnames(dataM[[1]])
+  Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -306,34 +255,72 @@ projectR.prcomp <- function(
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ...){
 
-  # to use in Carlo Version, make flag?
-  #old.centers<-Patterns$center
+  Patterns<-Patterns$rotation
+  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]]))
+  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
+
+  # do projection
+  p2P<-apply(dataM[[2]]],1,function(x) x-mean(x))
+  projectionPatterns<- p2P %*% dataM[[1]]] #head(X %*% PCA$rotation)
+
+  #calculate percent varience accoutned for by each PC in newdata
+  #Eigenvalues<-eigen(cov(projectionPatterns))$values
+  #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
+  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
+
+  if(full==TRUE){
+      projectionFit <- list(projectionPatterns, PercentVariance)
+      return(projectionFit)
+  }
+  else{return(projectionPatterns)}
+
+}
+
+#######################################################################################################################################
+
+#' @title <Projection function (correlateR)>
+#'
+#' @description <for use with object of class prcomp>
+#' @param data a dataset to be projected onto
+#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#' @param Patterns an correlateR object 
+#' @param NP the number of clusters 
+#' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
+#' @examples \dontrun{
+#'   projectR(data=D,Patterns=PCA,full=TRUE)
+#'}
+#' @import limma
+
+
+projectR.correlateR <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
+  NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  ...){
 
   Patterns<-Patterns$rotation
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
-  if(!is.na(AnnotionObj)){
-    uniEGids=unique(AnnotionObj[,IDcol][AnnotionObj[,IDcol]%in%rownames(Patterns)])
-    rows1=match(uniEGids,AnnotionObj[,IDcol])
-    rnP<-AnnotionObj[rows1,IDcol]
-  } else {
-    uniEGids=unique(rownames(data)[rownames(data)%in%rownames(Patterns)])
-    rows1=match(uniEGids,rownames(data))
-    rnP<-rownames(data[rows1,])
-  }
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]]))
 
-  rows2=match(uniEGids,rownames(Patterns))
-  p2P <- as.matrix(data[rows1,])
-  rownames(p2P) <- rnP
-  As4P <- Patterns[rows2,]
-  p2P<-apply(p2P,1,function(x) x-mean(x))
-
-  projectionPatterns<- p2P %*% As4P #head(X %*% PCA$rotation)
+  # do projection
+  p2P<-apply(dataM[[2]]],1,function(x) x-mean(x))
+  projectionPatterns<- p2P %*% dataM[[1]]] #head(X %*% PCA$rotation)
 
   #calculate percent varience accoutned for by each PC in newdata
-  Eigenvalues<-eigen(cov(projectionPatterns))$values
-  PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
-  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
+  #Eigenvalues<-eigen(cov(projectionPatterns))$values
+  #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
+  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
 
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, PercentVariance)
