@@ -1,6 +1,6 @@
 #' @title correlateR
 #'
-#' @description finds genes highly correlated with a gene or reference expression pattern
+#' @description Function to extract genes highly correlated with a gene or reference expression pattern.
 #' @param 	genes  gene or character vector of genes for reference expression pattern
 #' @param 	dat matrix or data frame with  genes to be used for to calculate correlation
 #' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.

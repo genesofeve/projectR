@@ -1,4 +1,16 @@
 
+#' @title cluster2pattern
+#'
+#' @description Function to make patterns of continuous weights from clusters. 
+#' @param clusters an cluster object
+#' @param NP number of desired patterns
+#' @param Data data used to make clusters object
+#' @export
+#' @examples \dontrun{
+#'
+#'}
+
+
 cluster2pattern <- function(
   clusters=NA, # an cluster object
   NP=NA, # number of desired patterns
