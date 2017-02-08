@@ -5,7 +5,7 @@
 \title{<Projection function (PCA)>}
 \usage{
 \method{projectoR}{prcomp}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE, ...)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{a dataset to be projected onto}

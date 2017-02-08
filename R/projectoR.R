@@ -8,7 +8,6 @@
 #' @param Patterns a matrix of continous values with unique rownames to be projected
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ... additional inputs to class specific functions
 #' @examples \dontrun{
 #'    projectoR(data=D,Patterns=AP)
 #'}
@@ -23,8 +22,8 @@ projectoR <- function(
   IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA,#a matrix of continous values with unique rownames to be projected
   NP=NA,#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE,# logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  ){
   UseMethod("projectoR",Patterns)
 }
 
@@ -55,8 +54,8 @@ projectoR.default <- function(
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # a matrix of continous values to be projected with unique rownames
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
   #match genes in data sets
@@ -98,8 +97,8 @@ projectoR.CoGAPS <- function(
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # a CoGAPS object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  ){
 
   if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -121,26 +120,6 @@ projectoR.CoGAPS <- function(
   else{return(projectionPatterns)}
 }
 
-#######################################################################################################################################
-
-#' @title <Projection function (kmeans clustering)>
-#'
-#' @description <for use with object of class kmeans>
-#' @param data a dataset to be projected onto
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a kmeans object
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param PatternData data used to make kmeans object
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ... additional inputs for kmeans output
-#' @examples \dontrun{
-#'    projectoR(data=D,Patterns=cls,PatternData=D)
-#'}
-#' @import limma
-#' @import stats
-#' @export
-
 
 #######################################################################################################################################
 
@@ -153,7 +132,6 @@ projectoR.CoGAPS <- function(
 #' @param Patterns an Pclust object from the cluster2pattern function
 #' @param NP number of desired patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ... additional parameters for hclust output
 #' @examples \dontrun{
 #'    projectoR(data=D,Patterns=cls,PatternData=D)
 #'}
@@ -168,8 +146,8 @@ projectoR.pclust <- function(
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an Pclust object from the cluster2pattern function
   NP=NA, # number of desired patterns
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
@@ -215,8 +193,8 @@ projectoR.prcomp <- function(
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  ){
 
   Patterns<-Patterns$rotation
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -268,8 +246,8 @@ projectoR.correlateR <- function(
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-  ...){
+  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  ){
 
   Patterns<-Patterns$rotation
   if(!is.na(NP)){Patterns<-Patterns[,NP]}

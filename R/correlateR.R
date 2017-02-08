@@ -26,7 +26,7 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 	} else if(threshtype=="R" & threshold>1){
 		stop('Threshold must be between -1 and 1 for threshold type "R"')
 	}
-	cor2gene<-apply(dat, 1, function(G) cor(t(p[genes,]), G, ...))
+	cor2gene<-apply(dat, 1, function(G) cor(t(dat[genes,]), G, ...))
 	if(absR){
 		if(threshtype=="R"){
 			corGS<-list("PositiveCOR"=as.matrix(sort(cor2gene,decreasing=TRUE)[sort(cor2gene,decreasing=TRUE)>=threshold]),

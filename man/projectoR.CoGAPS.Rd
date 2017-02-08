@@ -5,7 +5,7 @@
 \title{<Projection function (CoGAPS NMF)>}
 \usage{
 \method{projectoR}{CoGAPS}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE, ...)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{a dataset to be projected onto}

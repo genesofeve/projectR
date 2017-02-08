@@ -3,11 +3,10 @@
 #'
 #' @description <full description>
 #' @param data a dataset to be projected onto
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Weights a matrix of continous values with unique rownames to be projected
+#' @param projectedP an prcomp object with a rotation matrix of genes by PCs
+#' @param design design matrix describing experiment
+#' @param contrasts a matrix of continous values with unique rownames to be projected
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param PatternData data used to make Patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ... additional arguements to topTable
 #' @export
@@ -39,7 +38,7 @@ driveRs <- function(
   fit2 <- contrasts.fit(fit, cont.dif)
   fit2 <- eBayes(fit2)
 
-  driveRs<-topTableF(fit2, n=dim(data)[1], ...)
+  driveRs<-topTableF(fit2, number=dim(data)[1], ...)
   driveRs<-driveRs[order(driveRs[,1],decreasing=TRUE),]
 
   if(full==TRUE){

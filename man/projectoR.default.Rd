@@ -5,7 +5,7 @@
 \title{<Projection function (default)>}
 \usage{
 \method{projectoR}{default}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE, ...)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{a dataset to be projected onto}

@@ -15,16 +15,16 @@ cluster2pattern.kmeans <- function(
   ){
 
   nD<-length(Patterns$size)
-  nG<-dim(PatternData)[1]
+  nG<-dim(Data)[1]
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
-  rownames(tempP)<-rownames(PatternData)
-  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(PatternData[Patterns$cluster==x,])}
-  for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-apply(D[Patterns$cluster==x,],1,cor,y=colMeans(D[Patterns$cluster==x,]))}
+  rownames(tempP)<-rownames(Data)
+  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(Data[Patterns$cluster==x,])}
+  for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-apply(Data[Patterns$cluster==x,],1,cor,y=colMeans(Data[Patterns$cluster==x,]))}
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust")
 }
 
-# hierarchical 
+# hierarchical
 cluster2pattern.hclust <- function(
   clusters=NA, # an hclust object
   NP=NA, # number of desired patterns

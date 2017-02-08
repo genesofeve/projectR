@@ -5,7 +5,7 @@
 \title{<Projection function (Base)>}
 \usage{
 projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-  Patterns = NA, NP = NA, full = FALSE, ...)
+  Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{a dataset to be projected onto}
@@ -19,8 +19,6 @@ projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
-
-\item{...}{additional inputs to class specific functions}
 }
 \description{
 <full description>
