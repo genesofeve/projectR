@@ -1,4 +1,14 @@
 
+#' @title geneMatchR
+#'
+#' @description Matches genes accross datasets. 
+#' @param data1 a dataset of genes by samples
+#' @param AnnotionObj an annotion object for data1. If NA, the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the rownames of data2
+#' @param data2 dataset with rownames to be matched
+#' @param merge logical indicating wether or not to merged data sets 
+#' @export
+
 geneMatchR<-function(
   data1=NA,# a dataset of genes by samples 
   AnnotionObj=NA,#an annotion object for data1. If NA, the rownames of data will be used.

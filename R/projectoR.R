@@ -202,7 +202,6 @@ projectoR.prcomp <- function(
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
-  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
   # do projection
   p2P<-apply(dataM[[2]],1,function(x) x-mean(x))

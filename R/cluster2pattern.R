@@ -37,7 +37,7 @@ cluster2pattern.hclust <- function(
   tempP<-matrix(data=rep(0,NP*nG),nrow = nG,ncol=NP)
   rownames(tempP)<-rownames(Data)
   #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(Data[cut==x,])}
-  for(x in 1:NP) {tempP[cut==x,x]<-apply(D[cut==x,],1,cor,y=colMeans(D[cut==x,]))}
+  for(x in 1:NP) {tempP[cut==x,x]<-apply(Data[cut==x,],1,cor,y=colMeans(Data[cut==x,]))}
   Patterns<-tempP
 
  class(Patterns)<-append(class(Patterns),"pclust")
