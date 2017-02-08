@@ -141,54 +141,17 @@ projectoR.CoGAPS <- function(
 #' @import stats
 #' @export
 
-projectoR.kmeans <- function(
-  data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a kmeans object
-  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  PatternData=NA, # data used to make kmeans object
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ...){
-
-  nD<-length(Patterns$size)
-  nG<-dim(PatternData)[1]
-  tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
-  rownames(tempP)<-rownames(PatternData)
-  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(PatternData[Patterns$cluster==x,])}
-  for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-apply(D[Patterns$cluster==x,],1,cor,y=colMeans(D[Patterns$cluster==x,]))}
-  Patterns<-tempP
-
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
-
-  #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]))
-  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
-
-  # do projection
-  Design <- model.matrix(~0 + dataM[[1]])
-  colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(t(dataM[[2]]),Design)
-  projectionPatterns <- t(Projection$coefficients)
-  if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
-      return(projectionFit)
-  }
-  else{return(projectionPatterns)}
-}
 
 #######################################################################################################################################
 
-#' @title <Projection function (hierachical clustering)>
+#' @title <Projection function (clustering)>
 #'
-#' @description <for use with object of class hclust>
+#' @description <for use with object of class Pclust>
 #' @param data a dataset to be projected onto
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an hclust object
+#' @param Patterns an Pclust object from the cluster2pattern function
 #' @param NP number of desired patterns
-#' @param PatternData data used to make hclust object
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ... additional parameters for hclust output
 #' @examples \dontrun{
@@ -199,24 +162,16 @@ projectoR.kmeans <- function(
 #' @export
 
 
-projectoR.hclust <- function(
+projectoR.Pclust <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an hclust object
+  Patterns=NA, # an Pclust object from the cluster2pattern function
   NP=NA, # number of desired patterns
-  PatternData=NA, # data used to make hclust object
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ...){
 
-#  if(is.na(PatternData)){stop("Data used to make hclust object must also be provided.")}
-  cut=cutree(Patterns,k=NP)
-  nG<-dim(PatternData)[1]
-  tempP<-matrix(data=rep(0,NP*nG),nrow = nG,ncol=NP)
-  rownames(tempP)<-rownames(PatternData)
-  #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(PatternData[cut==x,])}
-  for(x in 1:NP) {tempP[cut==x,x]<-apply(D[cut==x,],1,cor,y=colMeans(D[cut==x,]))}
-  Patterns<-tempP
+  if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
