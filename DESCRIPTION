@@ -27,3 +27,4 @@ Suggests:
     testthat,
     lintr
 LazyData: TRUE
+RoxygenNote: 6.0.0

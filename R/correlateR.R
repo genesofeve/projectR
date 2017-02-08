@@ -1,4 +1,4 @@
-#' @title <brief desc>
+#' @title correlateR
 #'
 #' @description <full description>
 #' @param 	genes  gene or character vector of genes for reference expression pattern
@@ -15,7 +15,6 @@
 #' @examples \dontrun{
 #' #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
 #'}
-
  
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern

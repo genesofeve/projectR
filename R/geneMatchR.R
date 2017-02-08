@@ -23,7 +23,7 @@ geneMatchR<-function(
   p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
   dataM<-list("data1"=As4P,"data2"=p4P)
   if(merge){
-    do.call(cbind,dataM)
-    return()
+    dataME<- do.call(cbind,dataM)
+    return(dataME)
   } else(return(dataM))
 }

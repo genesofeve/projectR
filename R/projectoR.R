@@ -9,10 +9,7 @@
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param PatternData data used to make Patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ...
-#' @export
-#' @seealso
-#' @return
+#' @param ... additional inputs to class specific functions
 #' @examples \dontrun{
 #'    projectR(data=D,Patterns=AP)
 #'}
@@ -43,12 +40,10 @@ projectR <- function(
 #' @param Patterns a matrix of continous values to be projected with unique rownames
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full
-#' @export
-#' @seealso
 #' @examples \dontrun{
 #'    projectR(data=D,Patterns=AP)
 #'}
-#' @return
+
 #' @import limma
 
 
@@ -104,9 +99,7 @@ projectR.default <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ...
-#' @export
-#' @seealso
-#' @return
+
 #' @examples \dontrun{
 #'    projectR(data=D,Patterns=AP,PatternData=D)
 #'}
@@ -165,10 +158,7 @@ projectR.CoGAPS <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param PatternData data used to make kmeans object
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ...
-#' @export
-#' @seealso
-#' @return
+#' @param ... additional inputs for kmeans output
 #' @examples \dontrun{
 #'    projectR(data=D,Patterns=cls,PatternData=D)
 #'}
@@ -235,10 +225,7 @@ projectR.kmeans <- function(
 #' @param NP number of desired patterns
 #' @param PatternData data used to make hclust object
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ...
-#' @export
-#' @seealso
-#' @return
+#' @param ... additional parameters for hclust output
 #' @examples \dontrun{
 #'    projectR(data=D,Patterns=cls,PatternData=D)
 #'}
@@ -304,10 +291,6 @@ projectR.hclust <- function(
 #' @param Patterns an prcomp object with a rotation matrix of genes by PCs
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-#' @param ...
-#' @export
-#' @seealso
-#' @return
 #' @examples \dontrun{
 #'   projectR(data=D,Patterns=PCA,full=TRUE)
 #'}
