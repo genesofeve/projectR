@@ -2,7 +2,7 @@
 % Please edit documentation in R/correlateR.R
 \name{correlateR}
 \alias{correlateR}
-\title{<brief desc>}
+\title{correlateR}
 \usage{
 correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7,
   absR = FALSE, ...)
@@ -21,10 +21,11 @@ correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7,
 \item{...}{addtion impdelta a vector of weights describing}
 }
 \description{
-<full description>
+finds genes highly correlated with a gene or reference expression pattern
 }
 \examples{
 \dontrun{
 #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
 }
 }
+

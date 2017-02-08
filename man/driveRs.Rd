@@ -14,6 +14,8 @@ driveRs(data = NA, projectedP = NA, design = NA, contrasts = NA,
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
+\item{...}{additional arguements to topTable}
+
 \item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
@@ -30,3 +32,7 @@ driveRs(data = NA, projectedP = NA, design = NA, contrasts = NA,
    project(data=D,Patterns=AP)
 }
 }
+\seealso{
+topTable, lmFit, eBayes
+}
+

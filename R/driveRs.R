@@ -9,10 +9,9 @@
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param PatternData data used to make Patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ...
+#' @param ... additional arguements to topTable
 #' @export
-#' @seealso
-#' @return
+#' @seealso topTable, lmFit, eBayes
 #' @import limma
 #' @import MASS
 #' @examples \dontrun{
@@ -28,12 +27,10 @@ driveRs <- function(
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ...){
 
-  require(MASS)
   if(!is.na(NP)){x<-projectedP[,NP]}
   EY<- x %*% ginv(t(x)%*%x) %*% t(x) %*% t(data)
 
   # dif express Exp
-  require(limma)
   fit <- lmFit(t(EY), design)
   fit <- eBayes(fit)
 

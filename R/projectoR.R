@@ -5,27 +5,27 @@
 #' @param data a dataset to be projected onto
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Weights a matrix of continous values with unique rownames to be projected
+#' @param Patterns a matrix of continous values with unique rownames to be projected
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param PatternData data used to make Patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ... additional inputs to class specific functions
 #' @examples \dontrun{
-#'    projectR(data=D,Patterns=AP)
+#'    projectoR(data=D,Patterns=AP)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
 
-projectR <- function(
+projectoR <- function(
   data=NA,#a dataset to be projected onto
   AnnotionObj=NA,#an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA,#a matrix of continous values with unique rownames to be projected
   NP=NA,#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  PatternData=NA, # data used to make Patterns
   full=FALSE,# logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ...){
-  UseMethod("projectR",Patterns)
+  UseMethod("projectoR",Patterns)
 }
 
 
@@ -39,15 +39,17 @@ projectR <- function(
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns a matrix of continous values to be projected with unique rownames
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'    projectR(data=D,Patterns=AP)
+#'    projectoR(data=D,Patterns=AP)
 #'}
 
 #' @import limma
+#' @import stats
+#' @export
 
 
-projectR.default <- function(
+projectoR.default <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -83,14 +85,14 @@ projectR.default <- function(
 #' @param Patterns a CoGAPS object
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param ...
-
 #' @examples \dontrun{
-#'    projectR(data=D,Patterns=AP,PatternData=D)
+#'    projectoR(data=D,Patterns=AP,PatternData=D)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
-projectR.CoGAPS <- function(
+projectoR.CoGAPS <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -104,11 +106,11 @@ projectR.CoGAPS <- function(
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]]))
-  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
   # do projection
-  Design <- model.matrix(~0 + dataM[[1]]])
+  Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
@@ -133,11 +135,13 @@ projectR.CoGAPS <- function(
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ... additional inputs for kmeans output
 #' @examples \dontrun{
-#'    projectR(data=D,Patterns=cls,PatternData=D)
+#'    projectoR(data=D,Patterns=cls,PatternData=D)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
-projectR.kmeans <- function(
+projectoR.kmeans <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -159,11 +163,11 @@ projectR.kmeans <- function(
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]]))
-  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
   # do projection
-  Design <- model.matrix(~0 + dataM[[1]]])
+  Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
@@ -188,12 +192,14 @@ projectR.kmeans <- function(
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param ... additional parameters for hclust output
 #' @examples \dontrun{
-#'    projectR(data=D,Patterns=cls,PatternData=D)
+#'    projectoR(data=D,Patterns=cls,PatternData=D)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
 
-projectR.hclust <- function(
+projectoR.hclust <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -214,11 +220,11 @@ projectR.hclust <- function(
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]]))
-  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
   # do projection
-  Design <- model.matrix(~0 + dataM[[1]]])
+  Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(t(dataM[[2]]),Design)
   projectionPatterns <- t(Projection$coefficients)
@@ -241,12 +247,14 @@ projectR.hclust <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectR(data=D,Patterns=PCA,full=TRUE)
+#'   projectoR(data=D,Patterns=PCA,full=TRUE)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
 
-projectR.prcomp <- function(
+projectoR.prcomp <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -260,12 +268,12 @@ projectR.prcomp <- function(
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]]))
-  colnames(dataM[[1]]]) <- paste('Pattern ',1:dim(dataM[[1]]])[2],sep='') #make option to imput vector or change label
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
   # do projection
-  p2P<-apply(dataM[[2]]],1,function(x) x-mean(x))
-  projectionPatterns<- p2P %*% dataM[[1]]] #head(X %*% PCA$rotation)
+  p2P<-apply(dataM[[2]],1,function(x) x-mean(x))
+  projectionPatterns<- p2P %*% dataM[[1]] #head(X %*% PCA$rotation)
 
   #calculate percent varience accoutned for by each PC in newdata
   #Eigenvalues<-eigen(cov(projectionPatterns))$values
@@ -288,16 +296,18 @@ projectR.prcomp <- function(
 #' @param data a dataset to be projected onto
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an correlateR object 
-#' @param NP the number of clusters 
+#' @param Patterns an correlateR object
+#' @param NP the number of clusters
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectR(data=D,Patterns=PCA,full=TRUE)
+#'   projectoR(data=D,Patterns=PCA,full=TRUE)
 #'}
 #' @import limma
+#' @import stats
+#' @export
 
 
-projectR.correlateR <- function(
+projectoR.correlateR <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -311,11 +321,11 @@ projectR.correlateR <- function(
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]]))
+  print(dim(dataM[[2]]))
 
   # do projection
-  p2P<-apply(dataM[[2]]],1,function(x) x-mean(x))
-  projectionPatterns<- p2P %*% dataM[[1]]] #head(X %*% PCA$rotation)
+  p2P<-apply(dataM[[2]],1,function(x) x-mean(x))
+  projectionPatterns<- p2P %*% dataM[[1]] #head(X %*% PCA$rotation)
 
   #calculate percent varience accoutned for by each PC in newdata
   #Eigenvalues<-eigen(cov(projectionPatterns))$values

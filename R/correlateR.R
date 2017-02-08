@@ -1,28 +1,25 @@
 #' @title correlateR
 #'
-#' @description finds genes highly correlated with a gene or reference expression pattern 
+#' @description finds genes highly correlated with a gene or reference expression pattern
 #' @param 	genes  gene or character vector of genes for reference expression pattern
 #' @param 	dat matrix or data frame with  genes to be used for to calculate correlation
-#' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off. 
+#' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.
 #' @param 	threshold numeric indicating value at which to make threshold
-#' @param 	absR logical indicating where to include both positive and negatively correlated genes  
+#' @param 	absR logical indicating where to include both positive and negatively correlated genes
 #' @param 	...  addtion impdelta a vector of weights describing
 #' @export
-#' @keywords
-#' @seealso
-#' @return
-#' @aliases
+#' @import stats
 #' @examples \dontrun{
 #' #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
 #'}
- 
+
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
 	dat=NA,
-	threshtype="R", #Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off. 
+	threshtype="R", #Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.
 	threshold=.7, # numeric indicating value at which to make threshold
-	absR=FALSE, # logical indicating where to include both positive and negatively correlated genes  
-	... # addtion imputs to cor, such as method 
+	absR=FALSE, # logical indicating where to include both positive and negatively correlated genes
+	... # addtion imputs to cor, such as method
 	){
 	if(threshtype=="N" & threshold<1){
 		stop('Threshold must be integer greater than 1 for threshold type "N"')
@@ -45,6 +42,7 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
 		}
 	}
+	class(corGS)<-append(class(corGS),"correlateR")
 	return(corGS)
 }
 
