@@ -1,6 +1,6 @@
 #' @title correlateR
 #'
-#' @description <full description>
+#' @description finds genes highly correlated with a gene or reference expression pattern 
 #' @param 	genes  gene or character vector of genes for reference expression pattern
 #' @param 	dat matrix or data frame with  genes to be used for to calculate correlation
 #' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off. 
@@ -32,17 +32,17 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 	cor2gene<-apply(dat, 1, function(G) cor(t(p[genes,]), G, ...))
 	if(absR){
 		if(threshtype=="R"){
-			corGS<-list("PositiveCOR"=sort(cor2gene,decreasing=TRUE)[sort(cor2gene,decreasing=TRUE)>=threshold],
-					"NegativeCOR"=rev(sort(cor2gene,decreasing=TRUE)[sort(cor2gene,decreasing=TRUE) <= -threshold]))
+			corGS<-list("PositiveCOR"=as.matrix(sort(cor2gene,decreasing=TRUE)[sort(cor2gene,decreasing=TRUE)>=threshold]),
+					"NegativeCOR"=as.matrix(rev(sort(cor2gene,decreasing=TRUE)[sort(cor2gene,decreasing=TRUE) <= -threshold])))
 		} else if(threshtype=="N"){
-			corGS<-list("PositiveCOR"=sort(cor2gene,decreasing=TRUE)[1:threshold],
-					"NegativeCOR"=sort(cor2gene,decreasing=TRUE)[dim(dat)[1]:(dim(dat)[1]-threshold)])
+			corGS<-list("PositiveCOR"=as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold]),
+					"NegativeCOR"=as.matrix(sort(cor2gene,decreasing=TRUE)[dim(dat)[1]:(dim(dat)[1]-threshold)]))
 		}
 	} else {
 		if(threshtype=="R"){
-			corGS<-sort(cor2gene,decreasing=TRUE)[which(sort(cor2gene,decreasing=TRUE)>=threshold)]
+			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[which(sort(cor2gene,decreasing=TRUE)>=threshold)])
 		} else if(threshtype=="N"){
-			corGS<-sort(cor2gene,decreasing=TRUE)[1:threshold]
+			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
 		}
 	}
 	return(corGS)
