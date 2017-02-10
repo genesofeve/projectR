@@ -23,7 +23,7 @@ geneMatchR<-function(
   } else {
     uniEGids=unique(rownames(data1)[rownames(data)%in%rownames(data2)])
     rows1=match(uniEGids,rownames(data1))
-    rnP<-rownames(data[rows1,])
+    rnP<-rownames(data1[rows1,])
   }
   rows2=match(uniEGids,rownames(data2))
   data <- as.matrix(data1)
