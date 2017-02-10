@@ -205,7 +205,7 @@ projectoR.prcomp <- function(
   print(dim(dataM[[2]]))
 
   # do projection
-  dat2P<-scale(dataM[[2]])
+  dat2P<-t(scale(dataM[[2]]))
   projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)
 
   if(full==TRUE){
