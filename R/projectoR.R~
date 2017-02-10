@@ -12,7 +12,6 @@
 #'    projectoR(data=D,Patterns=AP)
 #'}
 #' @import limma
-#' @importFrom limma lmFit
 #' @import stats
 #' @export
 
