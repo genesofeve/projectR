@@ -21,7 +21,7 @@ geneMatchR<-function(
     rows1=match(uniEGids,AnnotionObj[,IDcol])
     rnP<-AnnotionObj[rows1,IDcol]
   } else {
-    uniEGids=unique(rownames(data1)[rownames(data)%in%rownames(data2)])
+    uniEGids=unique(rownames(data1)[rownames(data1)%in%rownames(data2)])
     rows1=match(uniEGids,rownames(data1))
     rnP<-rownames(data1[rows1,])
   }
