@@ -12,7 +12,7 @@
 #' @export
 #' @seealso topTable, lmFit, eBayes
 #' @import limma
-#' @import MASS
+#' @importFrom MASS ginv
 #' @examples \dontrun{
 #'    project(data=D,Patterns=AP)
 #'}
@@ -26,7 +26,10 @@ driveRs <- function(
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ...){
 
-  if(!is.na(NP)){x<-projectedP[,NP]}
+  if(!is.na(NP)){
+    x<-projectedP[,NP]
+  }else{x<-projectedP}
+
   EY<- x %*% ginv(t(x)%*%x) %*% t(x) %*% t(data)
 
   # dif express Exp
