@@ -36,16 +36,11 @@ driveRs <- function(
   fit <- lmFit(t(EY), design)
   fit <- eBayes(fit)
 
-  # makecontrast
-  cont.dif <- makeContrasts(contrasts=contrasts,levels=design)
-  fit2 <- contrasts.fit(fit, cont.dif)
-  fit2 <- eBayes(fit2)
-
-  driveRs<-topTableF(fit2, number=dim(data)[1], ...)
+  driveRs<-topTableF(fit, number=dim(data)[1], ...)
   driveRs<-driveRs[order(driveRs[,1],decreasing=TRUE),]
 
   if(full==TRUE){
-      driveRs <- list("driveRsFit"=fit2, "driveRs"=driveRs)
+      driveRs <- list("driveRsFit"=fit, "driveRs"=driveRs)
       return(driveRs)
   } else{return(driveRs)}
 }
