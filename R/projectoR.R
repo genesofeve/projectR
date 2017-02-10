@@ -205,16 +205,14 @@ projectoR.prcomp <- function(
   print(dim(dataM[[2]]))
 
   # do projection
-  dat2P<-apply(dataM[[2]],1,function(x) x-mean(x))
+  dat2P<-scale(dataM[[2]])
   projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)
 
   if(full==TRUE){
   #calculate percent varience accoutned for by each PC in newdata
-    #Eigenvalues<-eigen(cov(projectionPatterns))$values
-    #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
+    Eigenvalues<-eigen(cov(projectionPatterns))$values
+    PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
     #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
-
-    tr()
 
     projectionFit <- list(projectionPatterns, PercentVariance)
     return(projectionFit)
