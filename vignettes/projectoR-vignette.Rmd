@@ -11,11 +11,59 @@ vignette: >
   %\usepackage[utf8]{inputenc} 
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(1234)
+```
+
+\newcommand{\btheta}{\ensuremath{\pmb{\theta}}}
+\newcommand{\bsigma}{\ensuremath{\pmb{\sigma}}}
+\newcommand{\yvec}{\pmb{y}}
+\newcommand{\zvec}{\pmb{z}}
+\newcommand{\Zvec}{\ensuremath{Z_1, \ldots, Z_n}}
+\newcommand{\ttheta}{\tilde{\theta}}
+\newcommand{\ty}{\tilde{Y}}
+\newcommand{\tz}{\tilde{z}}
+\newcommand{\tZ}{\tilde{Z}}
+\newcommand{\tyvec}{\tilde{\pmb{Y}}}
+
+
 # Introduction
 Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed ProjectoR, an R package for integrated analysis of high dimensional omic data. ProjectoR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, ProjectoR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the ProjectorR package can be used for *in silico* experiments, or additional information on the algorithm, see Stein-O'Brien, et al.
 
 # Getting started with ProjectoR 
 
+```{r 'getData'}
+## Determine the files to use and fix the names
+#files <- system.file('data', package = 'projectoR')
+library(projectoR)
+data(RNAseq6l3c3t)
+data(ESepiGen4c1l4)
+
+
+
+z.RNAseq6l3c3t<-scale(p.RNAseq6l3c3t, center = TRUE, scale = TRUE) #zscore data
+z.RNAseq6l3c3t[is.na(z.RNAseq6l3c3t)]<-0
+k.RNAseq6l3c3t<-kmeans(x=z.RNAseq6l3c3t,centers=4,iter.max=10000,nstart=100,alg="Lloyd")
+
+k.RNAseq6l3c3t
+
+glistK<-sapply(unique(k.RNAseq6l3c3t$cluster), function(x) names(k.RNAseq6l3c3t$cluster[k.RNAseq6l3c3t$cluster==x]))
+
+
+```
+
+
+
+```{r, fig.show='hold', fig.width=3.5, fig.height=5, echo=FALSE}
+#print(g_dist)
+#qqnorm(glucose); qqline(glucose)
+```
+
+```{r 'kmeans clustering'}
+p.RNAseq6l3c3t
+
+```
 
 
 
