@@ -1,116 +1,128 @@
-
-
 intersectoR<-function(
-	pSet1=NA, #a set of patterns 
-	pSet2=NA,
+	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
+	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+	pval=.05, # the maximum p-value considered significant
+	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+	k=NULL, #cut height for hclust objects 
 	plot=FALSE
-  ){
-  UseMethod("intersectoR",Patterns)
+){
+  UseMethod("intersectoR",pSet1,pSet2)
 }
 
 intersectoR.default <- function(
-		pSet1=NA, #a set of patterns 
-	pSet2=NA,
+	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
+	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+	pval=.05, # the maximum p-value considered significant
+	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+	k=NULL, #cut height for hclust objects 
 	plot=FALSE
-  ){
-overLPmtx=matrix(nrow=0,ncol=9)
-colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP","OverLap%1","OverLap%2","pval","pval.REV")
+){
 
+	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
+	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
+		"OverLap%1","OverLap%2","pval","pval.REV")
 
-for(i in length(pSet1)){
-	for(j in length(pSet2)){
-# overlap between genes in p1K cluster i and p2K cluster j
-	pvalOLP=phyper(
-		q=length(which(pSet1[[i]] %in% pSet2[[j]])), # q: # white balls drawn without replacement from an urn with both black and white balls.
-		m=length(pSet1[[i]]), # m: the number of white balls in the urn.
-		n=length(unlist(pSet1))-length(pSet1[[i]]), # n: the number of black balls in the urn.
-		k=length(pSet2[[j]]), # k: the number of balls drawn from the urn.
-		lower.tail = FALSE, log.p = FALSE) # lower.tail: logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
-	pvalOLP.rev=phyper(q=length(which(pSet2[[j]] %in% pSet1[[i]])), m=length(Set2[[j]]), 
-		n=length(unlist(pSet2))-length(pSet2[[j]]), k=length(pSet1[[i]]), lower.tail = FALSE, log.p = FALSE)
+#calculate overlaps and stats
+	for(i in 1:length(pSet1)){
+		for(j in 1:length(pSet2)){
+	# overlap between genes in p1K cluster i and p2K cluster j
+		pvalOLP=phyper(
+			q=length(which(pSet1[[i]] %in% pSet2[[j]])), # q: # white balls drawn without replacement from an urn with both black and white balls.
+			m=length(pSet1[[i]]), # m: the number of white balls in the urn.
+			n=length(unlist(pSet1))-length(pSet1[[i]]), # n: the number of black balls in the urn.
+			k=length(pSet2[[j]]), # k: the number of balls drawn from the urn.
+			lower.tail = FALSE, log.p = FALSE) # lower.tail: logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
+		pvalOLP.rev=phyper(q=length(which(pSet2[[j]] %in% pSet1[[i]])), m=length(pSet2[[j]]), 
+			n=length(unlist(pSet2))-length(pSet2[[j]]), k=length(pSet1[[i]]), lower.tail = FALSE, log.p = FALSE)
 
-	if(pvalOLP<=KoverLPpval){overLPmtx=rbind(overLPmtx,c(i,sum(pSet1$cluster==i),j,
-		sum(pSet2$cluster==j),sum(pSet1$cluster==i&pSet2$cluster==j),NA,NA,pvalOLP,pvalOLP.rev))}
+		if(pvalOLP<=pval){overLPmtx=rbind(overLPmtx,c(i,length(pSet1[[i]]),j,length(pSet2[[j]]),
+			length(which(pSet1[[i]] %in% pSet2[[j]])),
+			round(100*length(which(pSet1[[i]] %in% pSet2[[j]]))/length(pSet1[[i]]),2),
+			round(100*length(which(pSet1[[j]] %in% pSet1[[i]]))/length(pSet2[[j]]),2),
+			pvalOLP,pvalOLP.rev))}
+		}
 	}
-}
-
-if(dim(overLPmtx)[1]>=1){
-	overLPmtx[,"OverLap%1"]=round(100*((overLPmtx[,"NoverLP"])/(overLPmtx[,"Ncls1"])),1)
-	overLPmtx[,"OverLap%2"]=round(100*((overLPmtx[,"NoverLP"])/(overLPmtx[,"Ncls2"])),1)
-	print(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",KoverLPpval,":",sep=""))
-	# export signif cluster pair info
-	overLPmtx
-
-	overlaps<-cbind(pSet1$cluster[indxKoverLP],pSet2$cluster[indxKoverLP])
-}
-
+	if(full==FALSE){
+		return(overLPmtx) #return summary matrix 
+	} else if(full){
+		overLPindx<-overLPmtx[,c("pSet1","pSet2")] #indx of significantly overlapping sets
+		overLPsets<-cbind(pSet1[overLPindx],pSet2[overLPindx]) # mtx of significantly overlapping sets
+		colnames(overLPsets)<-c("pSet1","pSet2")
+		return(overLPmtx,overLPindx,overLPsets)
+	}
 }  	
 
-
 intersectoR.kmeans <- function(
-	pSet1=NA, #a set of patterns 
-	pSet2=NA,
-	plot=FALSE
+	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
+	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+	pval=.05, # the maximum p-value considered significant
+	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+	k=NULL #cut height for hclust objects 
   ){
+	overLPmtx=matrix(nrow=0,ncol=9)
+	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
+		"OverLap%1","OverLap%2","pval","pval.REV")
 
-# find all "significant" cluster pair overlaps + then cycle thru them in a loop inside a pdf call:
-overLPmtx=matrix(nrow=0,ncol=9)
-colnames(overLPmtx)=c("cls1","Ncls1","cls2","Ncls2","NoverLP","OverLap%1","OverLap%2","pval","pval.REV")
-cls1<-length(pSet1$cluster)
-cls2<-length(pSet2$cluster)
-
-cls2=sort(unique(KB2$cluster))
-cMNs2=matrix(ncol=dim(p2K)[2],nrow=length(cls2))
-meanRRs2=vector(length=length(cls2))
-for(i in cls2)
-{
-	if(sum(KB2$cluster==i)>1)
-	{
-	p2Kc=p2K[KB2$cluster==i,]
-	p2KcMN=colMeans(p2Kc)
-	cMNs2[i,]=p2KcMN
-	meanRRs2[i]=mean(apply(p2Kc,1,cor,y=p2KcMN))
+	for(i in sort(unique(pSet1$cluster))){
+		for(j in sort(unique(pSet2$cluster))){
+			pvalOLP=phyper(q=sum(pSet1$cluster==i&pSet2$cluster==j),m=sum(pSet1$cluster==i), 
+				n=sum(pSet1$cluster!=i), k=sum(pSet2$cluster==j),lower.tail = FALSE, log.p = FALSE) 
+			pvalOLP.rev=phyper(q=sum(pSet2$cluster==j&pSet1$cluster==i), m=sum(pSet2$cluster==j), 
+				n=sum(pSet2$cluster!=j), k=sum(pSet1$cluster==i), lower.tail = FALSE, log.p = FALSE)
+			if(pvalOLP<=pval){overLPmtx=rbind(overLPmtx,c(i,sum(pSet1$cluster==i),j,
+				sum(pSet2$cluster==j),sum(pSet1$cluster==i&pSet2$cluster==j),
+				round(100*sum(pSet1$cluster==i&pSet2$cluster==j)/sum(pSet1$cluster==i),2),
+				round(100*sum(pSet1$cluster==i&pSet2$cluster==j)/sum(pSet2$cluster==j),2),
+				pvalOLP,pvalOLP.rev))}
+		}
 	}
-	if(sum(KB2$cluster==i)==1){cMNs2[i,]=p2K[KB2$cluster==i,];meanRRs2[i]=1}
-	if(sum(KB2$cluster==i)==0){print("cluster error !")}
-}
-
-
-for(i in cls1){
-	for(j in cls2){
-# overlap between genes in p1K cluster i and p2K cluster j
-	pvalOLP=phyper(
-		q=sum($cluster==i&pSet2$cluster==j), # q: # white balls drawn without replacement from an urn with both black and white balls.
-		m=sum(pSet1$cluster==i), # m: the number of white balls in the urn.
-		n=sum(pSet1$cluster!=i), # n: the number of black balls in the urn.
-		k=sum(pSet2$cluster==j), # k: the number of balls drawn from the urn.
-		lower.tail = FALSE, log.p = FALSE) # lower.tail: logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
-	pvalOLP.rev=phyper(q=sum(pSet2$cluster==j&pSet1$cluster==i), m=sum(pSet2$cluster==j), 
-		n=sum(pSet2$cluster!=j), k=sum(pSet1$cluster==i), lower.tail = FALSE, log.p = FALSE)
-
-	if(pvalOLP<=KoverLPpval){overLPmtx=rbind(overLPmtx,c(i,sum(pSet1$cluster==i),j,
-		sum(pSet2$cluster==j),sum(pSet1$cluster==i&pSet2$cluster==j),NA,NA,pvalOLP,pvalOLP.rev))}
+	print(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",pval,":",sep=""))
+	if(full==FALSE){
+		return(overLPmtx)
+	} else if(full){
+		overLPindx<-overLPmtx[,c("pSet1","pSet2")] 
+		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
+			cbind("pSet1"=names(pSet1$cluster[pSet1$cluster==overLPindx[x,1]]),
+				"pSet2"=names(pSet2$cluster[pSet2$cluster==overLPindx[x,2]]))) 
+		return(overLPmtx,overLPindx,overLPsets)
 	}
-}
-
-if(dim(overLPmtx)[1]>=1){
-	overLPmtx[,"OverLap%1"]=round(100*((overLPmtx[,"NoverLP"])/(overLPmtx[,"Ncls1"])),1)
-	overLPmtx[,"OverLap%2"]=round(100*((overLPmtx[,"NoverLP"])/(overLPmtx[,"Ncls2"])),1)
-	print(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",KoverLPpval,":",sep=""))
-	# export signif cluster pair info
-	overLPmtx
-
-	overlaps<-cbind(pSet1$cluster[indxKoverLP],pSet2$cluster[indxKoverLP])
-}
-
 }
 
 
 intersectoR.hclust <- function(
-	pSet1=NA, #a set of patterns 
-	pSet2=NA,
-	plot=FALSE
+	pSet1=NA, #a hclust obj
+	pSet2=NA, #a second set hclust obj
+	pval=.05, # the maximum p-value considered significant
+	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+	k=NULL #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
   ){
+  	overLPmtx=matrix(nrow=0,ncol=9)
+  	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
+		"OverLap%1","OverLap%2","pval","pval.REV")
 
+	if(length(k)==1){cut1<-cutree(pSet1,k=k) ; cut2<-cutree(pSet2,k=k)}
+	if(length(k)==2){cut1<-cutree(pSet1,k=k[1]) ; cut2<-cutree(pSet2,k=k[2])}
+	for(i in sort(unique(cut1))){
+		for(j in sort(unique(cut2))){
+			pvalOLP=phyper(q=sum(cut1==i&cut2==j),m=sum(cut1==i),n=sum(cut1!=i), 
+				k=sum(cut2==j), lower.tail = FALSE, log.p = FALSE)
+			pvalOLP.rev=phyper(q=sum(cut2==j&cut1==i), m=sum(cut2==j), n=sum(cut2!=j), 
+				k=sum(cut1==i), lower.tail = FALSE, log.p = FALSE)
+			if(pvalOLP<=pval){overLPmtx=rbind(overLPmtx,c(i,sum(cut1==i),j,
+				sum(cut2==j),sum(cut1==i&cut2==j),sum(cut1==i&cut2==j)/sum(cut1==i),
+				sum(cut1==i&cut2==j)/sum(cut2==j),pvalOLP,pvalOLP.rev))}
+		}
+	}
+	print(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",pval,":",sep=""))
+	if(full==FALSE){
+		return(overLPmtx) #return summary matrix 
+	} else if(full){
+		overLPindx<-overLPmtx[,c("pSet1","pSet2")] 
+		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
+			cbind("pSet1"=names(cut1[cut1==overLPindx[x,1]]),
+				"pSet2"=names(cut2[cut2==overLPindx[x,2]]))) 
+		return(overLPmtx,overLPindx,overLPsets)
+	}
+}
 
- }
+ 
