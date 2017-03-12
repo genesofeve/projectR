@@ -1,21 +1,45 @@
+#' @title intersectoR (Base)
+#'
+#' @description 
+#' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pval the maximum p-value considered significant
+#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
+#' @examples \dontrun{
+#'
+#'}
+#' @export
+
 intersectoR<-function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, # the maximum p-value considered significant
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 	k=NULL, #cut height for hclust objects 
-	plot=FALSE
 ){
   UseMethod("intersectoR",pSet1,pSet2)
 }
+
+#' @title intersectoR (default)
+#'
+#' @description 
+#' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pval the maximum p-value considered significant
+#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param k cut height for hclust objects  
+#' @examples \dontrun{
+#'  intersector(pSet1, pSet2, pval=.05)
+#'}
+#' @export
 
 intersectoR.default <- function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, # the maximum p-value considered significant
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
-	k=NULL, #cut height for hclust objects 
-	plot=FALSE
+	k=NULL, #cut height for hclust objects, not used for default 
 ){
 
 	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
@@ -51,6 +75,19 @@ intersectoR.default <- function(
 		return(overLPmtx,overLPindx,overLPsets)
 	}
 }  	
+
+#' @title intersectoR (Kmeans)
+#'
+#' @description 
+#' @param pSet1 a kmeans object 
+#' @param pSet2 a second kmeans object
+#' @param pval the maximum p-value considered significant
+#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param k cut height for hclust objects, not used with kmeans   
+#' @examples \dontrun{
+#'  intersector(pSet1, pSet2, pval=.05)
+#'}
+#' @export
 
 intersectoR.kmeans <- function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
@@ -88,6 +125,18 @@ intersectoR.kmeans <- function(
 	}
 }
 
+#' @title intersectoR (hclust)
+#'
+#' @description 
+#' @param pSet1 a hclust object 
+#' @param pSet2 a second hclust object
+#' @param pval the maximum p-value considered significant
+#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
+#' @examples \dontrun{
+#'  intersector(pSet1, pSet2, pval=.05, k=c(3,4))
+#'}
+#' @export
 
 intersectoR.hclust <- function(
 	pSet1=NA, #a hclust obj
