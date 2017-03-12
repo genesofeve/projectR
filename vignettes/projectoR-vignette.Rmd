@@ -37,14 +37,13 @@ Technological advances continue to spur the exponential growth of biological dat
 ## Determine the files to use and fix the names
 #files <- system.file('data', package = 'projectoR')
 library(projectoR)
-library(CoGAPS)
 data(RNAseq6l3c3t)
 data(ESepiGen4c1l4)
 
-load("data/RNAseq6l3c3t.RData")
 # PCA
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 # CoGAPS
+library(CoGAPS)
 p.RNAseq6l3c3t<-as.matrix(p.RNAseq6l3c3t)
 D <- sweep(p.RNAseq6l3c3t, 1, apply(p.RNAseq6l3c3t,1,function(x){pmin(0,min(x))}))
 S <- pmax(.1*p.RNAseq6l3c3t, .1)
@@ -56,35 +55,15 @@ z.RNAseq6l3c3t[is.na(z.RNAseq6l3c3t)]<-0
 k.RNAseq6l3c3t<-kmeans(x=z.RNAseq6l3c3t,centers=4,iter.max=10000,nstart=100,alg="Lloyd")
 # hierarchical clustering 
 h.RNAseq6l3c3t<- hclust(dist(z.RNAseq6l3c3t), method = "complete")
-
-save(c.RNAseq6l3c3t,z.RNAseq6l3c3t,h.RNAseq6l3c3t,h.RNAseq6l3c3t,k.RNAseq6l3c3t,
-	file="data/Patterns.RNAseq6l3c3t.RData")
-
-
-
-
 ```
-apply(p.RNAseq6l3c3t,1,var)
-cindx<-names(sort(apply(p.RNAseq6l3c3t,1,sd)))[10:dim(p.RNAseq6l3c3t)[1]]
-p.RNAseq6l3c3t<-p.RNAseq6l3c3t[apply(p.RNAseq6l3c3t,1,max)>1,]
 
-apply(p.RNAseq6l3c3t,1,max)>1
 
-var
 ```{r, fig.show='hold', fig.width=3.5, fig.height=5, echo=FALSE}
 #print(g_dist)
 #qqnorm(glucose); qqline(glucose)
 ```
 
-```{r 'clustering'}
-str(p.RNAseq6l3c3t)
 
-h.RNAseq6l3c3t
-
-hc.RNAseq6l3c3t<-cutree(h.RNAseq6l3c3t,k=4)
-class(h.RNAseq6l3c3t)
-
-```
 
 
 
