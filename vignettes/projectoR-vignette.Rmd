@@ -33,21 +33,21 @@ Technological advances continue to spur the exponential growth of biological dat
 
 # Getting started with ProjectoR 
 
-```{r 'getData' , eval=FALSE}
+```{r 'getData'}
 ## Determine the files to use and fix the names
 #files <- system.file('data', package = 'projectoR')
 library(projectoR)
 data(RNAseq6l3c3t)
 data(ESepiGen4c1l4)
 
-# PCA
+```
+
+```{r 'get pca'}
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-# CoGAPS
-library(CoGAPS)
-p.RNAseq6l3c3t<-as.matrix(p.RNAseq6l3c3t)
-D <- sweep(p.RNAseq6l3c3t, 1, apply(p.RNAseq6l3c3t,1,function(x){pmin(0,min(x))}))
-S <- pmax(.1*p.RNAseq6l3c3t, .1)
-c.RNAseq6l3c3t<- gapsRun(D,S,nFactor=4,nEquil=50000,nSample=50000,numSnapshots=5000)
+
+```
+
+```{r 'get cluster'}
 # zscore for clustering 
 z.RNAseq6l3c3t<-scale(p.RNAseq6l3c3t, center = TRUE, scale = TRUE) #zscore data
 z.RNAseq6l3c3t[is.na(z.RNAseq6l3c3t)]<-0
@@ -55,16 +55,21 @@ z.RNAseq6l3c3t[is.na(z.RNAseq6l3c3t)]<-0
 k.RNAseq6l3c3t<-kmeans(x=z.RNAseq6l3c3t,centers=4,iter.max=10000,nstart=100,alg="Lloyd")
 # hierarchical clustering 
 h.RNAseq6l3c3t<- hclust(dist(z.RNAseq6l3c3t), method = "complete")
-```
 
-
-```{r, fig.show='hold', fig.width=3.5, fig.height=5, echo=FALSE}
-#print(g_dist)
-#qqnorm(glucose); qqline(glucose)
 ```
 
 
 
+```{r 'CoGAPS' , eval=FALSE}
+
+# get CoGAPS patterns 
+library(CoGAPS)
+p.RNAseq6l3c3t<-as.matrix(p.RNAseq6l3c3t)
+D <- sweep(p.RNAseq6l3c3t, 1, apply(p.RNAseq6l3c3t,1,function(x){pmin(0,min(x))}))
+S <- pmax(.1*p.RNAseq6l3c3t, .1)
+c.RNAseq6l3c3t<- gapsRun(D,S,nFactor=4,nEquil=50000,nSample=50000,numSnapshots=5000)
+
+```
 
 
 
@@ -82,8 +87,5 @@ funding here
 # Feedback
 Please send feedback to Genevieve L. Stein-O'Brien \texttt{gsteinobrien@jhmi.edu}.
 
-
-\bibliographystyle{plain}
-\bibliography{AppNote}
 
 

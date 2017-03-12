@@ -6,8 +6,7 @@ Version: 0.99.0
 Date: 2016-11-22
 Author: Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
-Description: Functions for the projection of weights from PCA, CoGAPS, NMF, 
-    correlation, and clustering.
+Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
 Imports:
     RColorBrewer (>= 1.0.5),
