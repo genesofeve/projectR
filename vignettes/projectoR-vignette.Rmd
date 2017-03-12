@@ -33,7 +33,7 @@ Technological advances continue to spur the exponential growth of biological dat
 
 # Getting started with ProjectoR 
 
-```{r 'getData' eval=FALSE}
+```{r 'getData' , eval=FALSE}
 ## Determine the files to use and fix the names
 #files <- system.file('data', package = 'projectoR')
 library(projectoR)
@@ -60,25 +60,7 @@ h.RNAseq6l3c3t<- hclust(dist(z.RNAseq6l3c3t), method = "complete")
 save(c.RNAseq6l3c3t,z.RNAseq6l3c3t,h.RNAseq6l3c3t,h.RNAseq6l3c3t,k.RNAseq6l3c3t,
 	file="data/Patterns.RNAseq6l3c3t.RData")
 
-load("data/ESepiGen4c1l4.RData")
-names(p.ESepiGen4c1l)
-# PCA
-pc.ESepiGen4c1l4<-prcomp(t(p.ESepiGen4c1l4))
-# CoGAPS
-p.ESepiGen4c1l4<-as.matrix(p.ESepiGen4c1l4)
-D <- sweep(p.ESepiGen4c1l4, 1, apply(p.ESepiGen4c1l4,1,function(x){pmin(0,min(x))}))
-S <- pmax(.1*p.ESepiGen4c1l4, .1)
-c.ESepiGen4c1l4<- gapsRun(D,S,nFactor=4,nEquil=5000,nSample=5000,numSnapshots=500)
-# zscore for clustering 
-z.ESepiGen4c1l4<-scale(p.ESepiGen4c1l4, center = TRUE, scale = TRUE) #zscore data
-z.ESepiGen4c1l4[is.na(z.ESepiGen4c1l4)]<-0
-# kmeans clustering 
-k.ESepiGen4c1l4<-kmeans(x=z.ESepiGen4c1l4,centers=4,iter.max=10000,nstart=100,alg="Lloyd")
-# hierarchical clustering 
-h.ESepiGen4c1l4<- hclust(dist(z.ESepiGen4c1l4), method = "complete")
 
-save(c.ESepiGen4c1l4,z.ESepiGen4c1l4,h.ESepiGen4c1l4,h.ESepiGen4c1l4,k.ESepiGen4c1l4,
-	file="data/Patterns.ESepiGen4c1l4.RData")
 
 
 ```
