@@ -16,7 +16,7 @@ intersectoR<-function(
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, # the maximum p-value considered significant
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
-	k=NULL, #cut height for hclust objects 
+	k=NULL #cut height for hclust objects 
 ){
   UseMethod("intersectoR",pSet1,pSet2)
 }
@@ -39,7 +39,7 @@ intersectoR.default <- function(
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, # the maximum p-value considered significant
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
-	k=NULL, #cut height for hclust objects, not used for default 
+	k=NULL #cut height for hclust objects, not used for default 
 ){
 
 	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
