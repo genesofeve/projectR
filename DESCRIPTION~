@@ -33,7 +33,8 @@ Suggests:
     lintr,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
