@@ -100,7 +100,7 @@ funding here
 
 
 # Session Info 
-`r #sessionInfo()`
+`r session_Info()`
 
 # Feedback
 Please send feedback to Genevieve L. Stein-O'Brien @ \texttt{gsteinobrien@jhmi.edu}.
