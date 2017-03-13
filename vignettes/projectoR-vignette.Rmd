@@ -78,12 +78,9 @@ data(c.RNAseq6l3c3t)
 
 hmc.RNAseq6l3c3t.A = Heatmap(t(c.RNAseq6l3c3t$Amean), name = "RNAseq6l3c3t As")
 hmc.RNAseq6l3c3t.P = Heatmap(c.RNAseq6l3c3t$Pmean, name = "RNAseq6l3c3t Ps")
-pdf(file="hmc.RNAseq6l3c3t.pdf",height=5, width=30)
-hmc.RNAseq6l3c3t.A + hmc.RNAseq6l3c3t.P
-dev.off()
 ```
 
-```{r, fig.show='hold', fig.width=3.5, fig.height=5, echo=FALSE}
+```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
 hmc.RNAseq6l3c3t.A + hmc.RNAseq6l3c3t.P
 ```
 
