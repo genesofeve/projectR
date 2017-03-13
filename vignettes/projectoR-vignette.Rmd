@@ -3,7 +3,6 @@ title: "ProjectoR vignette"
 author: "Genevieve L. Stein-O'Brien"
 date: "`r Sys.Date()`"
 output: BiocStyle::pdf_document
-bibliography: vignette.bib
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,6 +36,11 @@ Technological advances continue to spur the exponential growth of biological dat
 ## Determine the files to use and fix the names
 #files <- system.file('data', package = 'projectoR')
 library(projectoR)
+library(ggplot2)
+library(ComplexHeatmap)
+library(grid)
+library(gridExtra)
+
 data(RNAseq6l3c3t)
 data(ESepiGen4c1l4)
 
@@ -60,15 +64,27 @@ h.RNAseq6l3c3t<- hclust(dist(z.RNAseq6l3c3t), method = "complete")
 
 
 
-```{r 'CoGAPS', eval=FALSE}
-
+```{r 'get CoGAPS patterns', eval=FALSE}
 # get CoGAPS patterns 
 library(CoGAPS)
 p.RNAseq6l3c3t<-as.matrix(p.RNAseq6l3c3t)
 D <- sweep(p.RNAseq6l3c3t, 1, apply(p.RNAseq6l3c3t,1,function(x){pmin(0,min(x))}))
 S <- pmax(.1*p.RNAseq6l3c3t, .1)
 c.RNAseq6l3c3t<- gapsRun(D,S,nFactor=4,nEquil=50000,nSample=50000,numSnapshots=5000)
+```
 
+```{r 'CoGAPS'}
+data(c.RNAseq6l3c3t)
+
+hmc.RNAseq6l3c3t.A = Heatmap(t(c.RNAseq6l3c3t$Amean), name = "RNAseq6l3c3t As")
+hmc.RNAseq6l3c3t.P = Heatmap(c.RNAseq6l3c3t$Pmean, name = "RNAseq6l3c3t Ps")
+pdf(file="hmc.RNAseq6l3c3t.pdf",height=5, width=30)
+hmc.RNAseq6l3c3t.A + hmc.RNAseq6l3c3t.P
+dev.off()
+```
+
+```{r, fig.show='hold', fig.width=3.5, fig.height=5, echo=FALSE}
+hmc.RNAseq6l3c3t.A + hmc.RNAseq6l3c3t.P
 ```
 
 
@@ -84,10 +100,10 @@ funding here
 
 
 # Session Info 
-`r sessionInfo()`
+`r #sessionInfo()`
 
 # Feedback
-Please send feedback to Genevieve L. Stein-O'Brien \texttt{gsteinobrien@jhmi.edu}.
+Please send feedback to Genevieve L. Stein-O'Brien @ \texttt{gsteinobrien@jhmi.edu}.
 
 
 
