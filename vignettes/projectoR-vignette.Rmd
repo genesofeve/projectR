@@ -33,14 +33,13 @@ Technological advances continue to spur the exponential growth of biological dat
 # Getting started with ProjectoR 
 
 ```{r 'getData'}
-## Determine the files to use and fix the names
-#files <- system.file('data', package = 'projectoR')
+
 library(projectoR)
 library(ggplot2)
 library(ComplexHeatmap)
 library(grid)
 library(gridExtra)
-
+library(devtools)
 data(RNAseq6l3c3t)
 data(ESepiGen4c1l4)
 
@@ -97,7 +96,7 @@ funding here
 
 
 # Session Info 
-`r session_Info()`
+`r session_info()`
 
 # Feedback
 Please send feedback to Genevieve L. Stein-O'Brien @ \texttt{gsteinobrien@jhmi.edu}.

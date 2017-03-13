@@ -31,6 +31,7 @@ Imports:
 Suggests:
     BiocStyle,
     testthat,
+    devtools,
     lintr,
     knitr,
     rmarkdown,

@@ -23,6 +23,7 @@ Imports:
     iterators,
     parallel,
     ggplot2,
+    grid,
     reshape2,
     CoGAPS,
     limma,
