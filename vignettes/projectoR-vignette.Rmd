@@ -88,7 +88,7 @@ hmc.RNAseq6l3c3t.A + hmc.RNAseq6l3c3t.P
 If you use ProjectoR to analyze your experiments, please cite:
 
 ```{r eval=FALSE}
-#citation("projectoR")
+citation("projectoR")
 ```
 
 # Acknoledgements 
@@ -96,7 +96,7 @@ funding here
 
 
 # Session Info 
-`r session_info()`
+`r #sessionInfo()`
 
 # Feedback
 Please send feedback to Genevieve L. Stein-O'Brien @ \texttt{gsteinobrien@jhmi.edu}.

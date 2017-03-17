@@ -1,13 +1,13 @@
 #' @title intersectoR (Base)
 #'
-#' @description 
+#' @description a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. 
 #' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pval the maximum p-value considered significant
-#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @examples \dontrun{
-#'
+#'	 intersector(pSet1, pSet2, pval=.05)
 #'}
 #' @export
 
@@ -23,11 +23,11 @@ intersectoR<-function(
 
 #' @title intersectoR (default)
 #'
-#' @description 
+#' @description a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. 
 #' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pval the maximum p-value considered significant
-#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k cut height for hclust objects  
 #' @examples \dontrun{
 #'  intersector(pSet1, pSet2, pval=.05)
@@ -78,11 +78,11 @@ intersectoR.default <- function(
 
 #' @title intersectoR (Kmeans)
 #'
-#' @description 
+#' @description a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets. 
 #' @param pSet1 a kmeans object 
 #' @param pSet2 a second kmeans object
 #' @param pval the maximum p-value considered significant
-#' @param fulllogical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
+#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k cut height for hclust objects, not used with kmeans   
 #' @examples \dontrun{
 #'  intersector(pSet1, pSet2, pval=.05)
@@ -127,7 +127,7 @@ intersectoR.kmeans <- function(
 
 #' @title intersectoR (hclust)
 #'
-#' @description 
+#' @description a function to find and test the intersecting values of two hierarchial clustering objects, presumably the genes associated with clusters in two different datasets. 
 #' @param pSet1 a hclust object 
 #' @param pSet2 a second hclust object
 #' @param pval the maximum p-value considered significant
