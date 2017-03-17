@@ -7,7 +7,7 @@
 #' @param Data data used to make clusters object
 #' @export
 #' @examples \dontrun{
-#'
+#'  cluster2pattern(clusters,NP,Data)
 #'}
 
 

@@ -18,7 +18,7 @@ Function to make patterns of continuous weights from clusters.
 }
 \examples{
 \dontrun{
-
+ cluster2pattern(clusters,NP,Data)
 }
 }
 
