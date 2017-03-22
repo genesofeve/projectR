@@ -38,7 +38,7 @@ install_github("projectoR", "genesofeve")
 
 ## Methods
 
-Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function $\varphi(x)=y : \Re^{D} \mapsto  \Re^{d}$ s.t. $d \leq D$ for $x \in \Re^{D}, y  \in \Re^{d}$ \cite{Barbakh:2009bw}. The projectoR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual vignettes focussed on one specific method are included in the package. However, the general design of the projectoR function is the same reguardless. 
+Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function $\varphi(x)=y : \Re^{D} \mapsto  \Re^{d}$ s.t. $d \leq D$ for $x \in \Re^{D}, y  \in \Re^{d}$ \cite{Barbakh:2009bw}. The projectoR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual chapters focussing on one specific method are included in the vignette. However, the general design of the projectoR function is the same reguardless. 
 
 ## The base projectoR function
 
@@ -67,14 +67,22 @@ The \texttt{Patterns} arguement in the base projectoR function is suitable for u
 ### Output
 The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r Biocpkg('limma')`. 
 
-# Vignettes
+# PCA projection
 
-Following lists the vignettes for each :
 
-1. [**PCA projection**](v2.PCA_projection.html)
-
-2. [**CoGAPS projection**](v3.NMF&CoGAPS_projection.html)
+# CoGAPS projection
   
-3. [**Clustering projection**](v4.Clustering_projection.html)
+# Clustering projection
 
-4. [**Correlation based projection**](v5.Cor_projection.html)
+
+
+
+## The base projectoR function
+
+The base projectoR function is executed as follows:
+
+
+
+# Correlation based projection
+
+
