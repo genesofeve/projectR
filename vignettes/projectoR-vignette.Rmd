@@ -32,7 +32,7 @@ Technological advances continue to spur the exponential growth of biological dat
 
 # Getting started with ProjectoR 
 
-```{r 'getData'}
+```{r 'getData', results="hide"}
 
 library(projectoR)
 library(ggplot2)
@@ -40,15 +40,58 @@ library(ComplexHeatmap)
 library(grid)
 library(gridExtra)
 library(devtools)
+
+# RNAseq data from hPSC in 3 condition time course 
 data(RNAseq6l3c3t)
+
+# set plotting parameters for RNAseq6l3c3t
+setCOL <- scale_colour_manual(values = c("blue","black","red"), name="Condition:") #,guide = guide_legend(title.position = "top"))
+setFILL <- scale_fill_manual(values = c("blue","black","red"),guide = FALSE) #,guide = guide_legend(title.position = "top"))
+setPCH <- scale_shape_manual(values=c(23,22,25,25,21,24),name="Cell Line:")#
+
+# RNAseq and ChIPSeq data from hPSC at respresentative stage of development
 data(ESepiGen4c1l4)
 
+# set plotting parameters for ESepiGen4c1l4
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),guide = guide_legend(title="Lineage"))
+setEpiPCH <- scale_shape_manual(values = c(15,16,17,18,8,12), guide = FALSE)
+
 ```
 
-```{r 'get pca'}
+```{r 'pca'}
+# do PCA on RNAseq6l3c3t expression data 
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+pcVAR <- round(((pc.RNAseq6l3c3t$sdev)^2/sum(pc.RNAseq6l3c3t$sdev^2))*100,2)
+dPCA <- data.frame(cbind(pc.RNAseq6l3c3t$x,pd.RNAseq6l3c3t))
+
+#plot pca
+pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line, 
+        fill=ID.cond)) +
+        geom_point(aes(size=days),alpha=.6)+ 
+        setCOL + setPCH  + setFILL +
+        scale_size_area(breaks = c(2,4,6), name="Day") + 
+        theme(legend.position=c(0,0), legend.justification=c(0,0),
+              legend.direction = "horizontal",
+              panel.background = element_rect(fill = "transparent",colour=NA),
+              legend.background = element_rect(fill = "transparent",colour=NA),
+              plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
+        labs(title = "PCA of hPSC PolyA RNAseq", x=paste("PC1 (",pcVAR[1],"% of varience)",sep=""),
+          y=paste("PC2 (",pcVAR[2],"% of varience)",sep=""))
+
+# project PCA to Meisner Expression data 
+
+
+
+
 
 ```
+
+```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
+grid.arrange(pPCA, )
+```
+
+
+
 
 ```{r 'get cluster'}
 # zscore for clustering 
@@ -73,10 +116,36 @@ c.RNAseq6l3c3t<- gapsRun(D,S,nFactor=4,nEquil=50000,nSample=50000,numSnapshots=5
 ```
 
 ```{r 'CoGAPS'}
-data(c.RNAseq6l3c3t)
+HistoneMarks <- names(p.ESepiGen4c1l.CntWinSzRdsNrm.log2)
 
-hmc.RNAseq6l3c3t.A = Heatmap(t(c.RNAseq6l3c3t$Amean), name = "RNAseq6l3c3t As")
-hmc.RNAseq6l3c3t.P = Heatmap(c.RNAseq6l3c3t$Pmean, name = "RNAseq6l3c3t Ps")
+NMF2ESepiGen4c1l <- lapply(HistoneMarks, function(j) eval(parse(text=sprintf('
+  projectoR(p.ESepiGen4c1l$%s,Patterns=c.RNAseq6l3c3t,full=F, 
+    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")',j,j))))
+str(NMF2ESepiGen4c1l)
+names(NMF2ESepiGen4c1l)<-HistoneMarks
+
+dNMF2ESepiGen4c1l<-list()
+for(i in 1:length(NMF2ESepiGen4c1l)){
+  colnames(NMF2ESepiGen4c1l[[i]])<-sapply(colnames(NMF2ESepiGen4c1l[[i]]), function(x) strsplit(x,"_")[[1]][1])
+  dNMF2ESepiGen4c1l[[i]]<-rbind(colnames(NMF2ESepiGen4c1l[[i]]), rep(HistoneMarks[i],dim(NMF2ESepiGen4c1l[[i]])[2]),NMF2ESepiGen4c1l[[i]])
+  rownames(dNMF2ESepiGen4c1l[[i]])[1:2]<-c("Condition","Mark")
+}
+datMEpi<-data.frame(t(do.call(cbind,dNMF2ESepiGen4c1l)),stringsAsFactors=FALSE)
+datMEpi[,3:24]<-apply(datMEpi[,3:24],2,as.numeric)
+str(datMEpi)
+
+for(i in 1:22){eval(parse(text=sprintf('
+  pNMF2ESepiGen4c1l%d <- ggplot(datMEpi, aes(x=Mark, y=Pattern.%d, colour=Condition, shape=Mark)) + 
+  geom_point(size=5) +
+  theme(legend.position=c(0,1), legend.justification=c(0,1),
+        panel.background = element_rect(fill = "white"),
+        legend.title = element_blank(),
+        text=element_text(family="Helvetica-Narrow",size=16)) +
+  setEpiCOL + setEpiPCH +
+  labs(title="",x ="Data Type",y ="Projected Pattern %d")
+',i,i,i,i)))}
+
+pNMF2ESepiGen4c1l3
 ```
 
 ```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}

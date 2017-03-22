@@ -1,8 +1,8 @@
 
-#' @title <Projection function (Base)>
+#' @title Projection function (Base)
 #'
-#' @description <full description>
-#' @param data a dataset to be projected onto
+#' @description 
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns a matrix of continous values with unique rownames to be projected
@@ -31,10 +31,10 @@ projectoR <- function(
 
 #######################################################################################################################################
 
-#' @title <Projection function (default)>
+#' @title Projection function (default)
 #'
-#' @description <default version>
-#' @param data a dataset to be projected onto
+#' @description default version
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns a matrix of continous values to be projected with unique rownames
@@ -76,10 +76,10 @@ projectoR.default <- function(
 
 #######################################################################################################################################
 
-#' @title <Projection function (CoGAPS NMF)>
+#' @title Projection function (CoGAPS)
 #'
-#' @description <for use with object of class CoGAPS>
-#' @param data a dataset to be projected onto
+#' @description for use with object of class CoGAPS
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns a CoGAPS object
@@ -124,10 +124,10 @@ projectoR.CoGAPS <- function(
 
 #######################################################################################################################################
 
-#' @title <Projection function (clustering)>
+#' @title Projection function (clustering)
 #'
-#' @description <for use with object of class Pclust>
-#' @param data a dataset to be projected onto
+#' @description for use with object of class Pclust
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns an Pclust object from the cluster2pattern function
@@ -171,10 +171,10 @@ projectoR.pclust <- function(
 
 #######################################################################################################################################
 
-#' @title <Projection function (PCA)>
+#' @title Projection function (PCA)
 #'
-#' @description <for use with object of class prcomp>
-#' @param data a dataset to be projected onto
+#' @description for use with object of class prcomp
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns an prcomp object with a rotation matrix of genes by PCs
@@ -225,10 +225,10 @@ projectoR.prcomp <- function(
 
 #######################################################################################################################################
 
-#' @title <Projection function (correlateR)>
+#' @title Projection function (correlateR)
 #'
-#' @description <for use with object of class prcomp>
-#' @param data a dataset to be projected onto
+#' @description for use with object of class corR
+#' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns an correlateR object

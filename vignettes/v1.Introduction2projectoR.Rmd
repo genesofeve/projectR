@@ -1,0 +1,80 @@
+---
+title: "v1.Introduction2projectoR"
+author: "Genevieve L. Stein-O'Brien"
+date: "`r Sys.Date()`"
+output: BiocStyle::pdf_document
+bibliography: projectoR.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc} 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 1, digits = 2)
+set.seed(1234)
+```
+
+# Introduction
+Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed ProjectoR, an R package for integrated analysis of high dimensional omic data. ProjectoR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, ProjectoR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the ProjectorR package can be used for *in silico* experiments, or additional information on the algorithm, see Stein-O'Brien, et al.
+
+# Getting started with ProjectoR 
+
+## Installation Instructions
+
+For automatic Bioconductor package installation, start R, and run: 
+```{r install, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("projectoR")
+```
+
+For the current development level version, start R, and run:
+```{r git.install, eval=FALSE}
+library(devtools)
+install_github("projectoR", "genesofeve")
+```
+
+## Methods
+
+Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function $\varphi(x)=y : \Re^{D} \mapsto  \Re^{d}$ s.t. $d \leq D$ for $x \in \Re^{D}, y  \in \Re^{d}$ \cite{Barbakh:2009bw}. The projectoR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual vignettes focussed on one specific method are included in the package. However, the general design of the projectoR function is the same reguardless. 
+
+## The base projectoR function
+
+The base projectoR function is executed as follows:
+```{r base.projectoR, eval=FALSE}
+library(projectoR)
+projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+    Patterns = NA, NP = NA, full = FALSE)
+```
+
+### Input Arguments 
+The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the Patterns object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
+
+The arguments are as follows:
+\begin{description}
+\item[data]{a dataset to be projected into the pattern space}
+\item[AnnotionObj]{an annotion object for data. If NA the rownames of data will be used.}
+\item[IDcol]{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
+\item[Patterns]{a matrix of continous values with unique rownames to be projected}
+\item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
+\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+\end{description}
+
+The \texttt{Patterns} arguement in the base projectoR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
+
+### Output
+The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r Biocpkg('limma')`. 
+
+# Vignettes
+
+Following lists the vignettes for each :
+
+1. [**PCA projection**](v2.PCA_projection.html)
+
+2. [**CoGAPS projection**](v3.NMF&CoGAPS_projection.html)
+  
+3. [**Clustering projection**](v4.Clustering_projection.html)
+
+4. [**Correlation based projection**](v5.Cor_projection.html)
