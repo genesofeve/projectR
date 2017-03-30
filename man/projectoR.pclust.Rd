@@ -2,13 +2,13 @@
 % Please edit documentation in R/projectoR.R
 \name{projectoR.pclust}
 \alias{projectoR.pclust}
-\title{<Projection function (clustering)>}
+\title{Projection function (clustering)}
 \usage{
 \method{projectoR}{pclust}(data = NA, AnnotionObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
-\item{data}{a dataset to be projected onto}
+\item{data}{a dataset to be projected into the pattern space}
 
 \item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
 
@@ -21,7 +21,7 @@
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 }
 \description{
-<for use with object of class Pclust>
+for use with object of class Pclust
 }
 \examples{
 \dontrun{

@@ -1,15 +1,17 @@
+#' @title rotatoR
+#'
+#' @description a function for rotating two basis about a point or line in that plain
+#' @param x1  a value describing a the coordinate of a point in the first basis. If no values are provided for x2 
+#' @param y1  a value describing a the coordinate of a point in the second basis 
+#' @param x2  a value describing a the coordinate of the second point in the second basis 
+#' @param y2 a value describing a the coordinate of the second point in the second basis 
+#' @param basisSET the basis to be rotated 
+#' @export
 
-#EG:
-#x as PC1
-#y as PC2
-# where x1,y1 could be the center of a datatype cloud and
-#       x2,y2 could be the center of a second , the
-# line between which you want re-defined as (space rotatd to be) PC1
 
-rotatoR=function(x1,y1,x2,y2,rotaSTART)
-{
+rotatoR=function(x1,y1,x2,y2,basisSET){
 
-if(dim(rotaSTART)[2]!=2){print("rotaSTART must have 2 and only 2 columns in it for this function.");return()}
+if(dim(basisSET)[2]!=2){print("basisSET must have 2 and only 2 columns in it for this function.");return()}
 
 slp1=(y1-y2)/(x1-x2)
 slp2=1/(-slp1)
@@ -19,7 +21,7 @@ theta=(pi/2)-atan2.mn
 
 R=rbind(c(cos(theta),-sin(theta)),c(sin(theta),cos(theta)))
 
-rotaNEW=t(R%*%t(rotaSTART))
+rotaNEW=t(R%*%t(basisSET))
 
 class(rotaNEW) <- append(class(rotaNEW),"rotatoR")
 
@@ -32,5 +34,5 @@ return(rotaNEW)
 # dataCEN=sweep(data,1,pca$center,"-")
 # rotaXnew=(t(dataCEN))%*%rotaNEW
 
-R=rbind(c(cos(t),-sin(t)),c(sin(t),cos(t)))
+#R=rbind(c(cos(t),-sin(t)),c(sin(t),cos(t)))
 

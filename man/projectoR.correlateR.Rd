@@ -2,13 +2,13 @@
 % Please edit documentation in R/projectoR.R
 \name{projectoR.correlateR}
 \alias{projectoR.correlateR}
-\title{<Projection function (correlateR)>}
+\title{Projection function (correlateR)}
 \usage{
 \method{projectoR}{correlateR}(data = NA, AnnotionObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
-\item{data}{a dataset to be projected onto}
+\item{data}{a dataset to be projected into the pattern space}
 
 \item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
 
@@ -21,7 +21,7 @@
 \item{full}{logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.}
 }
 \description{
-<for use with object of class prcomp>
+for use with object of class corR
 }
 \examples{
 \dontrun{

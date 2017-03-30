@@ -1,7 +1,7 @@
 
 #' @title Projection function (Base)
 #'
-#' @description 
+#' @description a function for the projection of new data into a previously defined feature space
 #' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -234,7 +234,7 @@ projectoR.prcomp <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectoR(data=D,Patterns=PCA,full=TRUE)
+#'   projectoR(data=D,Patterns=rPCA,full=TRUE)
 #'}
 #' @import limma
 #' @import stats
