@@ -2,13 +2,13 @@
 % Please edit documentation in R/projectoR.R
 \name{projectoR}
 \alias{projectoR}
-\title{<Projection function (Base)>}
+\title{Projection function (Base)}
 \usage{
 projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE)
 }
 \arguments{
-\item{data}{a dataset to be projected onto}
+\item{data}{a dataset to be projected into the pattern space}
 
 \item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
 
@@ -21,7 +21,7 @@ projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 }
 \description{
-<full description>
+a function for the projection of new data into a previously defined feature space
 }
 \examples{
 \dontrun{
