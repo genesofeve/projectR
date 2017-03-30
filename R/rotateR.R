@@ -6,7 +6,7 @@
 #       x2,y2 could be the center of a second , the
 # line between which you want re-defined as (space rotatd to be) PC1
 
-rotaPCArota=function(x1,y1,x2,y2,rotaSTART)
+rotatoR=function(x1,y1,x2,y2,rotaSTART)
 {
 
 if(dim(rotaSTART)[2]!=2){print("rotaSTART must have 2 and only 2 columns in it for this function.");return()}
@@ -21,6 +21,8 @@ R=rbind(c(cos(theta),-sin(theta)),c(sin(theta),cos(theta)))
 
 rotaNEW=t(R%*%t(rotaSTART))
 
+class(rotaNEW) <- append(class(rotaNEW),"rotatoR")
+
 return(rotaNEW)
 }
 
@@ -29,3 +31,6 @@ return(rotaNEW)
 # to chk rotatin worked:
 # dataCEN=sweep(data,1,pca$center,"-")
 # rotaXnew=(t(dataCEN))%*%rotaNEW
+
+R=rbind(c(cos(t),-sin(t)),c(sin(t),cos(t)))
+

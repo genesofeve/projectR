@@ -224,6 +224,60 @@ projectoR.prcomp <- function(
 
 #######################################################################################################################################
 
+#' @title Projection function (rotatoR objects)
+#'
+#' @description for use with object of class rotatoR
+#' @param data a dataset to be projected into the pattern space
+#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#' @param Patterns an rotatoR object with a rotation matrix of genes by new PCs
+#' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
+#' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+#' @examples \dontrun{
+#'   projectoR(data=D,Patterns=PCA,full=TRUE)
+#'}
+#' @import limma
+#' @import stats
+#' @export
+
+
+projectoR.rotator <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
+  NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
+  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  ){
+
+  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]))
+
+  # do projection
+  dat2P<-apply(dataM[[2]],1,function(x) x-mean(x))
+  projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)
+
+  if(full==TRUE){
+  #calculate percent varience accoutned for by each PC in newdata
+  Eigenvalues<-eigen(cov(projectionPatterns))$values
+  PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
+  
+  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))  
+
+    projectionFit <- list(projectionPatterns, PercentVariance)
+    return(projectionFit)
+  }
+  else{return(projectionPatterns)}
+
+}
+
+
+
+#######################################################################################################################################
+
 #' @title Projection function (correlateR)
 #'
 #' @description for use with object of class corR
