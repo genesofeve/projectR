@@ -241,7 +241,7 @@ projectoR.prcomp <- function(
 #' @export
 
 
-projectoR.rotator <- function(
+projectoR.rotatoR <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
