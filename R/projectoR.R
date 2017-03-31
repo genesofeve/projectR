@@ -236,7 +236,6 @@ projectoR.prcomp <- function(
 #' @examples \dontrun{
 #'   projectoR(data=D,Patterns=rPCA,full=TRUE)
 #'}
-#' @import limma
 #' @import stats
 #' @export
 
