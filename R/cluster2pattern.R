@@ -19,7 +19,17 @@ cluster2pattern <- function(
 	UseMethod("cluster2pattern",clusters)
 }
 
-# kmeans
+#' @title cluster2pattern (kmeans)
+#'
+#' @description Function to make patterns of continuous weights from kmeans clusters. 
+#' @param clusters an kmeans cluster object
+#' @param NP number of desired patterns
+#' @param Data data used to make clusters object
+#' @export
+#' @examples \dontrun{
+#'  cluster2pattern(clusters,NP,Data)
+#'}
+
 cluster2pattern.kmeans <- function(
   clusters=NA, # an kmeans object
   NP=NA, # number of desired patterns
@@ -36,7 +46,17 @@ cluster2pattern.kmeans <- function(
   class(Patterns)<-append(class(Patterns),"pclust")
 }
 
-# hierarchical
+#' @title cluster2pattern (hclust)
+#'
+#' @description Function to make patterns of continuous weights from hierarchical clusters. 
+#' @param clusters an hclust object
+#' @param NP number of desired patterns
+#' @param Data data used to make clusters object
+#' @export
+#' @examples \dontrun{
+#'  cluster2pattern(clusters,NP,Data)
+#'}
+
 cluster2pattern.hclust <- function(
   clusters=NA, # an hclust object
   NP=NA, # number of desired patterns
