@@ -213,7 +213,7 @@ projectoR.prcomp <- function(
   #Eigenvalues<-eigen(cov(projectionPatterns))$values
   #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
   
-  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))  
+  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))  
 
     projectionFit <- list(projectionPatterns, PercentVariance)
     return(projectionFit)
