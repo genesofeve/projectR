@@ -44,6 +44,7 @@ cluster2pattern.kmeans <- function(
   for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-apply(Data[Patterns$cluster==x,],1,cor,y=colMeans(Data[Patterns$cluster==x,]))}
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust")
+  return(Patterns)
 }
 
 #' @title cluster2pattern (hclust)
@@ -71,7 +72,6 @@ cluster2pattern.hclust <- function(
   #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(Data[cut==x,])}
   for(x in 1:NP) {tempP[cut==x,x]<-apply(Data[cut==x,],1,cor,y=colMeans(Data[cut==x,]))}
   Patterns<-tempP
-
- class(Patterns)<-append(class(Patterns),"pclust")
-
+  class(Patterns)<-append(class(Patterns),"pclust")
+  return(Patterns)
 }
