@@ -317,7 +317,7 @@ projectoR.correlateR <- function(
 
 
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, PercentVariance)
+      projectionFit <- list(projectionPatterns)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
