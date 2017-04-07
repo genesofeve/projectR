@@ -18,7 +18,7 @@ intersectoR<-function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 	k=NULL #cut height for hclust objects 
 ){
-  UseMethod("intersectoR",pSet1,pSet2)
+  UseMethod("intersectoR",pSet1)
 }
 
 #' @title intersectoR (default)

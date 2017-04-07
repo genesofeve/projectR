@@ -23,7 +23,7 @@ a function to find and test the intersecting values of two hierarchial clusterin
 }
 \examples{
 \dontrun{
- intersector(pSet1, pSet2, pval=.05, k=c(3,4))
+ intersectoR(pSet1, pSet2, pval=.05, k=c(3,4))
 }
 }
 
