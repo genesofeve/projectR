@@ -7,7 +7,7 @@
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @examples \dontrun{
-#'	 intersector(pSet1, pSet2, pval=.05)
+#'	 intersectoR(pSet1, pSet2, pval=.05)
 #'}
 #' @export
 
@@ -30,7 +30,7 @@ intersectoR<-function(
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k cut height for hclust objects  
 #' @examples \dontrun{
-#'  intersector(pSet1, pSet2, pval=.05)
+#'  intersectoR(pSet1, pSet2, pval=.05)
 #'}
 #' @export
 
@@ -85,7 +85,7 @@ intersectoR.default <- function(
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k cut height for hclust objects, not used with kmeans   
 #' @examples \dontrun{
-#'  intersector(pSet1, pSet2, pval=.05)
+#'  intersectoR(pSet1, pSet2, pval=.05)
 #'}
 #' @export
 
@@ -134,7 +134,7 @@ intersectoR.kmeans <- function(
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 #' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @examples \dontrun{
-#'  intersector(pSet1, pSet2, pval=.05, k=c(3,4))
+#'  intersectoR(pSet1, pSet2, pval=.05, k=c(3,4))
 #'}
 #' @export
 
