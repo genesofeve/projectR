@@ -44,9 +44,11 @@ clusterPlotR.kmeans <- function(
 	annoIndx=NA, #vector indxing into subsets for plotting
   	... #additional parameters for plotting 
   ){
+print(NC)  	
 if(is.na(NC)){
-	cls1=sort(unique(cls$cluster))
+	cls1<-sort(unique(cls$cluster))
 } else(cls1<-NC)
+print(cls1)	
 cMNs1=matrix(ncol=dim(cData)[2],nrow=length(cls1))
 meanRRs1=vector(length=length(cls1))
 for(i in cls1){
@@ -59,8 +61,7 @@ for(i in cls1){
 	}
 	if(sum(cls$cluster==i)==1){cMNs1[i,]=pcData[cls$cluster==i,];meanRRs1[i]=1}
 	if(sum(cls$cluster==i)==0){print("cluster error !")}
-	}
-print(cls1)	
+	}	
 for(i in cls1){
 	plot(x,cMNs1[i,],type="n",main=paste("\nCluster ",i,", N = ",
 		sum(cls$cluster==i)," of ",length(cls$cluster)," total genes (",
