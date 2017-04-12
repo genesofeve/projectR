@@ -59,8 +59,7 @@ for(i in cls1){
 	}
 	if(sum(cls$cluster==i)==1){cMNs1[i,]=pcData[cls$cluster==i,];meanRRs1[i]=1}
 	if(sum(cls$cluster==i)==0){print("cluster error !")}
-}
-# plot Kmeans p1 cluster means - cMNs1
+	}
 for(i in cls1){
 	plot(x,cMNs1[i,],type="n",main=paste("\nCluster ",i,", N = ",
 		sum(cls$cluster==i)," of ",length(cls$cluster)," total genes (",
