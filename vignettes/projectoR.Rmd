@@ -1,7 +1,7 @@
 ---
-title: "v1.Introduction2projectoR"
+title: "projectoR Vignette"
 author: "Genevieve L. Stein-O'Brien"
-date: "`r Sys.Date()`"
+date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectoR.bib
 vignette: >
@@ -65,7 +65,7 @@ The arguments are as follows:
 The \texttt{Patterns} arguement in the base projectoR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
 
 ### Output
-The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r Biocpkg('limma')`. 
+The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
 
 # PCA projection
 
