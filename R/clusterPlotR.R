@@ -30,6 +30,7 @@ clusterPlotR <- function(
 #' @param x a vector of length equal to number of samples to use for plotting
 #' @param NC vector of integers indicating which clusters to use
 #' @param annoIndx vector indxing into subsets for plotting
+#' @param labels character vector to use for plotting text, defaults is NULL
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @export
 #' @examples \dontrun{
@@ -42,6 +43,7 @@ clusterPlotR.kmeans <- function(
 	x=NA, # a vector of length equal to number of samples to use for plotting
   	NC=NA,# vector of integers indicating which clusters to use 
 	annoIndx=NA, #vector indxing into subsets for plotting
+	label=NULL, #character vector to use for plotting text
   	... #additional parameters for plotting 
   ){ 	
 if(is.na(NC)){
@@ -69,8 +71,9 @@ for(i in cls1){
 	if(length(annoIndx)>0){for(j in unique(annoIndx)){
 		lines(x[annoIndx==j],cMNs1[i,annoIndx==j],...)}
 		}
-	points(x,cMNs1[i,],...)
-	text(x,cMNs1[i,],...)
+	if(is.null(label)){
+		points(x,cMNs1[i,],...)
+	} else (text(x,cMNs1[i,],labels=label, ...))
 	}
 }
 
@@ -119,7 +122,8 @@ for(i in cls1){
 	if(length(annoIndx)>0){
 		for(j in unique(annoIndx)){
 			lines(x[annoIndx==j],cMNs1[i,annoIndx==j],...)}}
+	if(is.null(label)){
 		points(x,cMNs1[i,],...)
-		text(x,cMNs1[i,],...)
+	} else (text(x,cMNs1[i,],labels=label, ...))
 	}
 }
