@@ -19,7 +19,7 @@ clusterPlotR <- function(
 	annoIndx=NA, #vector indxing into subsets for plotting#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   	... #additional parameters for plotting 
   ){
-  UseMethod("clusterPlotteR",cls)
+  UseMethod("clusterPlotR",cls)
 }
 
 #' @title clusterPlotR (kmeans)
@@ -48,7 +48,6 @@ print(NC)
 if(is.na(NC)){
 	cls1<-sort(unique(cls$cluster))
 } else(cls1<-NC)
-print(cls1)	
 cMNs1=matrix(ncol=dim(cData)[2],nrow=length(cls1))
 meanRRs1=vector(length=length(cls1))
 for(i in cls1){
