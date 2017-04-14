@@ -43,8 +43,7 @@ clusterPlotR.kmeans <- function(
   	NC=NA,# vector of integers indicating which clusters to use 
 	annoIndx=NA, #vector indxing into subsets for plotting
   	... #additional parameters for plotting 
-  ){
-print(NC)  	
+  ){ 	
 if(is.na(NC)){
 	cls1<-sort(unique(cls$cluster))
 } else(cls1<-NC)
