@@ -24,10 +24,10 @@ Imports:
     parallel,
     ggplot2,
     reshape2,
-    CoGAPS,
     limma,
     MASS
 Suggests:
+    CoGAPS,
     BiocStyle,
     gridExtra,
     grid,
