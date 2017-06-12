@@ -92,7 +92,7 @@ intersectoR.default <- function(
 intersectoR.kmeans <- function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-	pval=.05, # the maximum p-value considered significant
+	pval=.05, #the maximum p-value considered significant
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 	k=NULL #cut height for hclust objects 
   ){
