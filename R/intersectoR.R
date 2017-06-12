@@ -72,7 +72,7 @@ intersectoR.default <- function(
 		overLPindx<-overLPmtx[,c("pSet1","pSet2")] #indx of significantly overlapping sets
 		overLPsets<-cbind(pSet1[overLPindx],pSet2[overLPindx]) # mtx of significantly overlapping sets
 		colnames(overLPsets)<-c("pSet1","pSet2")
-		return(overLPmtx,overLPindx,overLPsets)
+		return(list(overLPmtx,overLPindx,overLPsets))
 	}
 }  	
 
@@ -121,7 +121,7 @@ intersectoR.kmeans <- function(
 		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
 			cbind("pSet1"=names(pSet1$cluster[pSet1$cluster==overLPindx[x,1]]),
 				"pSet2"=names(pSet2$cluster[pSet2$cluster==overLPindx[x,2]]))) 
-		return(overLPmtx,overLPindx,overLPsets)
+		return(list(overLPmtx,overLPindx,overLPsets))
 	}
 }
 
@@ -170,7 +170,7 @@ intersectoR.hclust <- function(
 		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
 			cbind("pSet1"=names(cut1[cut1==overLPindx[x,1]]),
 				"pSet2"=names(cut2[cut2==overLPindx[x,2]]))) 
-		return(overLPmtx,overLPindx,overLPsets)
+		return(list(overLPmtx,overLPindx,overLPsets))
 	}
 }
 
