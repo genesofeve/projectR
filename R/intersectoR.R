@@ -41,6 +41,10 @@ intersectoR.default <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 	k=NULL #cut height for hclust objects, not used for default 
 ){
+	indx1<-lapply(pSet1,function(x) names(x)%in%names(unlist(pSet2)))
+	indx2<-lapply(pSet2,function(x) names(x)%in%names(unlist(pSet1)))
+	pSet1<-sapply(1:length(pSet1),function(x) pSet1[[x]][indx1[[x]]])
+	pSet2<-sapply(1:length(pSet2),function(x) pSet2[[x]][indx2[[x]]])
 
 	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
 	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
@@ -96,6 +100,9 @@ intersectoR.kmeans <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix. 
 	k=NULL #cut height for hclust objects 
   ){
+	pSet1$cluster<-pSet1$cluster[names(pSet1$cluster)%in%names(pSet2$cluster)]
+	pSet2$cluster<-pSet2$cluster[names(pSet2$cluster)%in%names(pSet1$cluster)]
+
 	overLPmtx=matrix(nrow=0,ncol=9)
 	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
 		"OverLap%1","OverLap%2","pval","pval.REV")
@@ -151,6 +158,10 @@ intersectoR.hclust <- function(
 
 	if(length(k)==1){cut1<-cutree(pSet1,k=k) ; cut2<-cutree(pSet2,k=k)}
 	if(length(k)==2){cut1<-cutree(pSet1,k=k[1]) ; cut2<-cutree(pSet2,k=k[2])}
+
+	cut1<-cut1[names(cut1)%in%names(cut2)]
+	cut2<-cut2[names(cut2)%in%names(cut1)]
+
 	for(i in sort(unique(cut1))){
 		for(j in sort(unique(cut2))){
 			pvalOLP=phyper(q=sum(cut1==i&cut2==j),m=sum(cut1==i),n=sum(cut1!=i), 
