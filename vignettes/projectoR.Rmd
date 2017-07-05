@@ -65,13 +65,12 @@ The arguments are as follows:
 The \texttt{Patterns} arguement in the base projectoR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
 
 ### Output
-The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
 
 # PCA projection
-Projection of principle components is achieved by multiplying a new data set by previously generated eigenvectors, or gene loadings. The \texttt{projectoR} function has S3 method for class \texttt{prcomp}.  
+Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = ⟨v,v_i⟩$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectoR} function has S3 method for class \texttt{prcomp}.  
 
 ## Obtaining PCs to project. 
-
 ```{r prcomp, echo=FALSE}
 # data to define PCs
 data(RNAseq6l3c3t)
@@ -94,7 +93,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
         scale_size_area(breaks = c(2,4,6), name="Day") + 
         theme(legend.position=c(0,0), legend.justification=c(0,0),
               legend.direction = "horizontal",
-              panel.background = element_rect(fill = "transparent",colour=NA),
+              panel.background = element_rect(fill = "white",colour=NA),
               legend.background = element_rect(fill = "transparent",colour=NA),
               plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
         labs(title = "PCA of hPSC PolyA RNAseq",
@@ -103,7 +102,6 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ```
 
 ## Projecting prcomp objects 
-
 ```{r projectoR.prcomp, echo=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data 
 data(ESepiGen4c1l4)
@@ -112,26 +110,27 @@ library(projectoR)
 PCA2ESepi <- projectoR(p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=T, 
     AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
-str(dPCA2ESepi)
+pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
+pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
+names(pd.ESepiGen4c1l$color)<-pd.ESepiGen4c1l$Cond
 
-dPCA2ESepi<- data.frame(cbind(t(PCA2ESepi[[1]]),pd.ESepiGen4c1l.4cond))
+dPCA2ESepi<- data.frame(cbind(PCA2ESepi,pd.ESepiGen4c1l))
 
 #plot pca
 library(ggplot2)
-setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
-                                 guide = guide_legend(title="Lineage"))
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),                              guide = guide_legend(title="Lineage"))
 
 pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
       geom_point(size=5) + setEpiCOL + 
-      theme(legend.position=c(0,1), legend.justification=c(0,1),
+      theme(legend.position=c(0,0), legend.justification=c(0,0),
         panel.background = element_rect(fill = "white"),
-        legend.title = element_blank(),
-        text=element_text(family="Helvetica-Narrow",size=16)) +
+        legend.direction = "horizontal",
+        plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
       labs(title = "Encode RNAseq in target PC1 & PC2", 
           x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
           y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
-```
 
+```
 
 ```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
 library(gridExtra)
@@ -139,11 +138,100 @@ grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 ```
 
 # CoGAPS projection
+
+NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as columns, into two matrices, as $D ~ AP$. The pattern matrix P has rows associated with BPs in samples and the amplitude matrix A has columns indicating the relative association of a given gene, where the total number of BPs (k) is an input parameter. CoGAPS and GWCoGAPS seek a pattern matrix (${\bf{P}}$) and the corresponding distribution matrix of weights (${\bf{A}}$) whose product forms a mock data matrix (${\bf{M}}$) that represents the gene-wise data ${\bf{D}}$ within noise limits ($\boldsymbol{\varepsilon}$). That is, 
+\begin{equation}
+{\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}.
+\label{eq:matrixDecomp}
+\end{equation}
+The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm \cite{Ochs2006}, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in \cite{Sibisi1997}.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
+Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The \texttt{projectoR} function has S3 method for class \texttt{CoGAPS}. 
+
+```{r projectoR.CoGAPS, eval=FALSE}
+library(projectoR)
+projectoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+    Patterns = NA, NP = NA, full = FALSE)
+```
+
+### Input Arguments 
+The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the Patterns object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
+
+The arguments are as follows:
+\begin{description}
+\item[data]{a dataset to be projected into the pattern space}
+\item[AnnotionObj]{an annotion object for data. If NA the rownames of data will be used.}
+\item[IDcol]{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
+\item[Patterns]{a CoGAPS object}
+\item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
+\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+\end{description}
+
+### Output
+The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+ 
+## Obtaining CoGAPS patterns to project. 
+
+
+```{r CoGAPS, eval=FALSE}
+
+AP<-gapsRun(D=D, S=S, nFactor=nFactor,seed=nut[i],numSnapshots=numSnapshots)
+
+````
+
   
 # Clustering projection
 
 
 
 # Correlation based projection
+
+
+## Obtaining correlateR objects to project. 
+
+```{r correlateR} 
+# data to 
+data(RNAseq6l3c3t)
+
+# get genes correlated to T 
+library(projectoR)
+cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+
+### heatmap of genes more correlated to T 
+indx<-unlist(sapply(cor2T,rownames))
+colnames(p.RNAseq6l3c3t)<-pd.RNAseq6l3c3t$sampleX
+library(reshape2)
+pm.RNAseq6l3c3t<-melt(cbind(p.RNAseq6l3c3t[indx,],indx))
+
+library(gplots)
+library(ggplot2)
+library(viridis)
+pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) + 
+  geom_tile(colour="gray20", size=1.5, stat="identity") + 
+  scale_fill_viridis(option="B") +
+  xlab("") +  ylab("") +
+  scale_y_discrete(limits=indx) + 
+  ggtitle("Ten genes most highly pos & neg correlated with T") +
+  theme(
+    panel.background = element_rect(fill="gray20"),
+    panel.border = element_rect(fill=NA,color="gray20", size=0.5, linetype="solid"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_blank(),
+    axis.ticks = element_blank(), 
+    axis.text = element_text(size=rel(1),hjust=1),
+    axis.text.x = element_text(angle = 90,vjust=.5),
+    legend.text = element_text(color="white", size=rel(1)),
+    legend.background = element_rect(fill="gray20"),
+    legend.position = "bottom",
+    legend.title=element_blank()
+)
+
+```
+```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
+pCorT
+```
+
+## Projecting correlateR objects. 
+
 
 

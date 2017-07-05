@@ -28,4 +28,3 @@ for use with object of class corR
   projectoR(data=D,Patterns=PCA,full=TRUE)
 }
 }
-

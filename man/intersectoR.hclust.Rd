@@ -26,4 +26,3 @@ a function to find and test the intersecting values of two hierarchial clusterin
  intersectoR(pSet1, pSet2, pval=.05, k=c(3,4))
 }
 }
-

@@ -28,4 +28,3 @@ for use with object of class prcomp
   projectoR(data=D,Patterns=PCA,full=TRUE)
 }
 }
-

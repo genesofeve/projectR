@@ -2,6 +2,7 @@
 % Please edit documentation in R/rotateR.R, R/rotatoR.R
 \name{rotatoR}
 \alias{rotatoR}
+\alias{rotatoR}
 \title{rotatoR}
 \usage{
 rotatoR(x1, y1, x2, y2, basisSET)
@@ -34,4 +35,3 @@ a function for rotating two basis about a point or line in that plain
 
 a function for rotating two basis about a point or line in that plain
 }
-

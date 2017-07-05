@@ -28,4 +28,3 @@ plotting function for hclust clusters
  clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
 }
 }
-

@@ -28,4 +28,3 @@ a function for the projection of new data into a previously defined feature spac
    projectoR(data=D,Patterns=AP)
 }
 }
-

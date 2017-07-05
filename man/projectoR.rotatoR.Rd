@@ -28,4 +28,3 @@ for use with object of class rotatoR
   projectoR(data=D,Patterns=rPCA,full=TRUE)
 }
 }
-

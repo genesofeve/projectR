@@ -28,4 +28,3 @@ Function to extract genes highly correlated with a gene or reference expression 
 #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
 }
 }
-

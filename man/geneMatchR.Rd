@@ -21,4 +21,3 @@ geneMatchR(data1 = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \description{
 Matches genes accross datasets.
 }
-

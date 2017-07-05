@@ -33,4 +33,3 @@ driveRs(data = NA, projectedP = NA, design = NA, contrasts = NA,
 \seealso{
 topTable, lmFit, eBayes
 }
-

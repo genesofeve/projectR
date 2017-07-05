@@ -39,8 +39,8 @@ Suggests:
     testthat,
     ComplexHeatmap
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 biocViews: Software
 BugReports: https://support.bioconductor.org/t/projectoR/
-URL: https://github.com/genesofeve/projectoR
+URL: https://github.com/genesofeve/projectoR/
