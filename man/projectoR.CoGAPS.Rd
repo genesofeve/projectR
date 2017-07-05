@@ -28,4 +28,3 @@ for use with object of class CoGAPS
    projectoR(data=D,Patterns=AP,PatternData=D)
 }
 }
-

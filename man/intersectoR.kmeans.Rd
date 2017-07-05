@@ -26,4 +26,3 @@ a function to find and test the intersecting values of two sets of kmeans cluste
  intersectoR(pSet1, pSet2, pval=.05)
 }
 }
-

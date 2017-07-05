@@ -28,4 +28,3 @@ for use with object of class Pclust
    projectoR(data=D,Patterns=cls,PatternData=D)
 }
 }
-

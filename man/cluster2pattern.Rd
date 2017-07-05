@@ -21,4 +21,3 @@ Function to make patterns of continuous weights from clusters.
  cluster2pattern(clusters,NP,Data)
 }
 }
-

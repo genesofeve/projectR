@@ -28,4 +28,3 @@ default version
    projectoR(data=D,Patterns=AP)
 }
 }
-

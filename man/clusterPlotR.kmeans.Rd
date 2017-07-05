@@ -5,7 +5,7 @@
 \title{clusterPlotR (kmeans)}
 \usage{
 \method{clusterPlotR}{kmeans}(cData = NA, cls = NA, x = NA, NC = NA,
-  annoIndx = NA, ...)
+  annoIndx = NA, label = NULL, ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}
@@ -19,6 +19,8 @@
 \item{annoIndx}{vector indxing into subsets for plotting}
 
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
+
+\item{labels}{character vector to use for plotting text, defaults is NULL}
 }
 \description{
 plotting function for kmeans clusters
@@ -28,4 +30,3 @@ plotting function for kmeans clusters
  clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
 }
 }
-
