@@ -212,8 +212,8 @@ projectoR.prcomp <- function(
   #calculate percent varience accoutned for by each PC in newdata
   #Eigenvalues<-eigen(cov(projectionPatterns))$values
   #PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
-  
-  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))  
+
+  PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))
 
     projectionFit <- list(projectionPatterns, PercentVariance)
     return(projectionFit)
@@ -263,8 +263,8 @@ projectoR.rotatoR <- function(
   #calculate percent varience accoutned for by each PC in newdata
   Eigenvalues<-eigen(cov(projectionPatterns))$values
   PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
-  
-  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))  
+
+  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
 
     projectionFit <- list(projectionPatterns, PercentVariance)
     return(projectionFit)
@@ -298,8 +298,8 @@ projectoR.correlateR <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an correlateR object of correlated genes 
-  NP=NA, # 
+  Patterns=NA, # an correlateR object of correlated genes
+  NP=NA, #
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
@@ -313,13 +313,15 @@ projectoR.correlateR <- function(
   print(dim(dataM[[2]]))
 
   # do projection
-  p2P<-apply(dataM[[2]],1,function(x) x-mean(x))
-
-
-  if(full==TRUE){
-      projectionFit <- list(projectionPatterns)
+  Design <- model.matrix(~0 + dataM[[1]])
+  colnames(Design) <- colnames(dataM[[1]])
+  Projection <- lmFit(t(dataM[[2]]),Design)
+  projectionPatterns <- t(Projection$coefficients)
+    if(full==TRUE){
+      projectionFit <- list(projectionPatterns, Projection)
       return(projectionFit)
-  }
-  else{return(projectionPatterns)}
-
+    }
+    else{return(projectionPatterns)}
 }
+
+
