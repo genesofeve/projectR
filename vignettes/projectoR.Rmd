@@ -167,28 +167,111 @@ The arguments are as follows:
 \end{description}
 
 ### Output
-The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain teh \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
  
 ## Obtaining CoGAPS patterns to project. 
 
-
 ```{r CoGAPS, eval=FALSE}
+# get data 
+library(projectoR)
+data(RNAseq6l3c3t)
 
-AP<-gapsRun(D=D, S=S, nFactor=nFactor,seed=nut[i],numSnapshots=numSnapshots)
+# run CoGAPS 
+library(CoGAPS)
+AP<-gapsRun(D=p.RNAseq6l3c3t, S=t(apply(p.RNAseq6l3c3t,1,function(x) pmax(.1*x,.1))), nFactor=5)
 
+# heatmap of gene weights for CoGAPs patterns 
+library(gplots)
+pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+          distfun=function(c) as.dist(1-cor(t(c))) ,
+          cexCol=1,cexRow=.5,scale = "row", 
+          hclustfun=function(x) hclust(x, method="average"),
+      )
 ````
 
   
 # Clustering projection
 
+As cannonical projection is not defined for clustering objects, the projectoR package offers two transfer learning inspired methods to achieve the "projection" of clustering objects. These methods are defined by the function used to quantify and transfer the relationships which define each cluster in the original data set to the new dataset. Briefly, \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectoR}. Alternatively, the \texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. Both \texttt{cluster2pattern} and \texttt{intersectoR} methods are coded for a generic list structure with additional S3 class methods for kmeans and hclust objects. Further details and examples are provided in the followin respecitive sections. 
 
+## cluster2pattern
+
+\texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectoR}.
+
+
+```{r cluster2pattern-fn, eval=FALSE}
+library(projectoR)
+cluster2pattern(clusters = NA, NP = NA, Data = NA)
+```
+
+### Input Arguments 
+The inputs that must be set each time are the clusters and data. 
+
+The arguments are as follows:
+\begin{description}
+\item[clusters]{a clustering object}
+\item[NP]{either the number of clusters desired or the subset of clusters to use}
+\item[data]{data used to make clusters object}
+\end{description}
+
+### Output
+The output of the \texttt{cluster2pattern} function is a \texttt{pclust} class object; specifically, a matrix of genes (rows) by clusters (columns). A gene's value outside of its assigned cluster is zero. For the cluster containing a given gene, the gene's value is the corelation of the gene's expression to the mean of that cluster. 
+
+
+## intersectoR
+
+\texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S3 class methods for hclust and kmeans objects are also available. 
+
+```{r intersectoR-fn, eval=FALSE}
+library(projectoR)
+intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
+```
+
+### Input Arguments 
+The inputs that must be set each time are the clusters and data. 
+
+The arguments are as follows:
+\begin{description}
+\item[pSet1]{a list for a set of patterns where each entry is a set of genes associated with a single pattern}
+\item[pSet2]{a list for a second set of patterns where each entry is a set of genes associated with a single pattern}
+\item[pval]{the maximum p-value considered significant}
+\item[full]{logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.}
+\item[k]{numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order}
+\end{description}
+
+### Output
+The output of the \texttt{intersectoR} function is a summary matrix showing the sets with stastically significant overlap under the specified p-val threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of signigicantly overlapping sets will also be returned. 
 
 # Correlation based projection
 
+Correlation based projection requires a matrix of gene-wise correlation values to serve as the Pattern input to the  \texttt{projectoR} function. This matrix can be user-generated or the result of the \texttt{correlateR} function included in the ProjectoR package. User-generated matrixes with each row corresponding to an individual gene can be input to the generic  \texttt{projectoR} function. The \texttt{correlateR} function allows users to create a weight matrix for projection with values quantifying the within dataset correlation of each genes expression to the expression pattern of a particular gene or set of genes as follows. 
 
-## Obtaining correlateR objects to project. 
+## correlateR
 
-```{r correlateR} 
+```{r correlator-fn, eval=FALSE}
+library(projectoR)
+correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
+```
+
+### Input Arguments 
+The inputs that must be set each time are only the genes and data, with all other inputs having default values. 
+
+The arguments are as follows:
+\begin{description}
+\item[genes]{gene or character vector of genes for reference expression pattern dat}
+\item[data]{matrix or data frame with genes to be used for to calculate correlation}
+\item[threshtype]{Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.}
+\item[threshold]{numeric indicating value at which to make threshold}
+\item[absR]{logical indicating where to include both positive and negatively correlated genes}
+\item[...]{addtion imputes to the cor function}
+\end{description}
+
+### Output
+The output of the \texttt{correlateR} function is a \texttt{correlateR} class object. Specifically, a matrix of correlation values for those genes whose expression pattern pattern in the dataset is correlated (and anti-correlated if absR=TRUE) above the value given in as the threshold arguement. As this information may be useful in its own right, it is recommended that users inspect the \texttt{correlateR} object before using it as input to the \texttt{projectoR} function.
+
+## Obtaining and visualizing \texttt{correlateR} objects. 
+
+```{r correlateR-exp} 
 # data to 
 data(RNAseq6l3c3t)
 
@@ -232,6 +315,13 @@ pCorT
 ```
 
 ## Projecting correlateR objects. 
+```{r projectoR.correlaeR, eval=FALSE}
+# data to project into from RNAseq6l3c3t expression data 
+data(ESepiGen4c1l4)
 
+library(projectoR)
+cor2ESepi <- projectoR(p.ESepiGen4c1l$mRNA.Seq,Patterns=cor2T[[1]],full=FALSE, 
+    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
+```
 
