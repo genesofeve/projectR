@@ -68,11 +68,12 @@ The \texttt{Patterns} arguement in the base projectoR function is suitable for u
 The basic output of the base projectoR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectoR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectoR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
 
 # PCA projection
-Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = ⟨v,v_i⟩$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectoR} function has S3 method for class \texttt{prcomp}.  
+Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectoR} function has S3 method for class \texttt{prcomp}.  
 
 ## Obtaining PCs to project. 
-```{r prcomp, echo=FALSE}
+```{r prcomp, warning=FALSE}
 # data to define PCs
+library(projectoR)
 data(RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data 
@@ -102,7 +103,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ```
 
 ## Projecting prcomp objects 
-```{r projectoR.prcomp, echo=FALSE}
+```{r projectoR.prcomp, warning=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data 
 data(ESepiGen4c1l4)
 
@@ -132,7 +133,7 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
 
 ```
 
-```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
+```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE}
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 ```
@@ -180,6 +181,9 @@ data(RNAseq6l3c3t)
 library(CoGAPS)
 AP<-gapsRun(D=p.RNAseq6l3c3t, S=t(apply(p.RNAseq6l3c3t,1,function(x) pmax(.1*x,.1))), nFactor=5)
 
+class(AP)<-append(class(AP),"CoGAPS")
+save(AP,file="Patterns.RNAseq6l3c3t.RData")
+
 # heatmap of gene weights for CoGAPs patterns 
 library(gplots)
 pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
@@ -188,6 +192,36 @@ pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
           hclustfun=function(x) hclust(x, method="average"),
       )
 ````
+
+## Projecting CoGAPS objects 
+```{r projectoR.CoGAPSex,eval=FALSE, warning=FALSE}
+# data to project into PCs from RNAseq6l3c3t expression data 
+library(projectoR)
+data(ESepiGen4c1l4)
+data(Patterns.RNAseq6l3c3t)
+
+NMF2ESepi <- projectoR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=T, 
+    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+
+dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
+
+#plot pca
+library(ggplot2)
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),                              guide = guide_legend(title="Lineage"))
+
+pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
+      geom_point(size=5) + setEpiCOL + 
+      theme(legend.position=c(0,0), legend.justification=c(0,0),
+        panel.background = element_rect(fill = "white"),
+        legend.direction = "horizontal",
+        plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
+      labs(title = "Encode RNAseq in target PC1 & PC2", 
+          x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
+          y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
+
+
+```
+
 
   
 # Clustering projection
@@ -273,10 +307,10 @@ The output of the \texttt{correlateR} function is a \texttt{correlateR} class ob
 
 ```{r correlateR-exp} 
 # data to 
+library(projectoR)
 data(RNAseq6l3c3t)
 
 # get genes correlated to T 
-library(projectoR)
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
 
 ### heatmap of genes more correlated to T 
@@ -310,7 +344,7 @@ pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
 )
 
 ```
-```{r, fig.show='hold', fig.width=10, fig.height=3, echo=FALSE}
+```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE}
 pCorT
 ```
 
