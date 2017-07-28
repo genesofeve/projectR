@@ -23,22 +23,24 @@ Imports:
     iterators,
     parallel,
     ggplot2,
-    grid,
     reshape2,
-    CoGAPS,
     limma,
     MASS
 Suggests:
+    CoGAPS,
     BiocStyle,
+    gridExtra,
+    grid,
     testthat,
+    devtools,
     lintr,
     knitr,
     rmarkdown,
     testthat,
     ComplexHeatmap
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 biocViews: Software
 BugReports: https://support.bioconductor.org/t/projectoR/
-URL: https://github.com/genesofeve/projectoR
+URL: https://github.com/genesofeve/projectoR/
