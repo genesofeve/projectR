@@ -33,7 +33,6 @@ Suggests:
     grid,
     testthat,
     devtools,
-    lintr,
     knitr,
     rmarkdown,
     testthat,
