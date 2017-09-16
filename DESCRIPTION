@@ -1,8 +1,8 @@
-Package: projectoR
+Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 0.99.2
+Version: 0.99.3
 Date: 2016-11-22
 Author: Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
@@ -41,5 +41,5 @@ LazyData: TRUE
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 biocViews: Software
-BugReports: https://support.bioconductor.org/t/projectoR/
-URL: https://github.com/genesofeve/projectoR/
+BugReports: https://support.bioconductor.org/t/projectR/
+URL: https://github.com/genesofeve/projectR/

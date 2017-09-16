@@ -9,7 +9,7 @@
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'    projectoR(data=D,Patterns=AP)
+#'    projectR(data=D,Patterns=AP)
 #'}
 #' @import limma
 #' @importFrom limma lmFit
@@ -17,7 +17,7 @@
 #' @export
 
 
-projectoR <- function(
+projectR <- function(
   data=NA,#a dataset to be projected onto
   AnnotionObj=NA,#an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -25,7 +25,7 @@ projectoR <- function(
   NP=NA,#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
-  UseMethod("projectoR",Patterns)
+  UseMethod("projectR",Patterns)
 }
 
 
@@ -41,7 +41,7 @@ projectoR <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'    projectoR(data=D,Patterns=AP)
+#'    projectR(data=D,Patterns=AP)
 #'}
 
 #' @import limma
@@ -49,7 +49,7 @@ projectoR <- function(
 #' @export
 
 
-projectoR.default <- function(
+projectR.default <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -86,13 +86,13 @@ projectoR.default <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'    projectoR(data=D,Patterns=AP,PatternData=D)
+#'    projectR(data=D,Patterns=AP,PatternData=D)
 #'}
 #' @import limma
 #' @import stats
 #' @export
 
-projectoR.CoGAPS <- function(
+projectR.CoGAPS <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -134,14 +134,14 @@ projectoR.CoGAPS <- function(
 #' @param NP number of desired patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'    projectoR(data=D,Patterns=cls,PatternData=D)
+#'    projectR(data=D,Patterns=cls,PatternData=D)
 #'}
 #' @import limma
 #' @import stats
 #' @export
 
 
-projectoR.pclust <- function(
+projectR.pclust <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -181,14 +181,14 @@ projectoR.pclust <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectoR(data=D,Patterns=PCA,full=TRUE)
+#'   projectR(data=D,Patterns=PCA,full=TRUE)
 #'}
 #' @import limma
 #' @import stats
 #' @export
 
 
-projectoR.prcomp <- function(
+projectR.prcomp <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -234,13 +234,13 @@ projectoR.prcomp <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectoR(data=D,Patterns=rPCA,full=TRUE)
+#'   projectR(data=D,Patterns=rPCA,full=TRUE)
 #'}
 #' @import stats
 #' @export
 
 
-projectoR.rotatoR <- function(
+projectR.rotatoR <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -287,14 +287,14 @@ projectoR.rotatoR <- function(
 #' @param NP the number of clusters
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
 #' @examples \dontrun{
-#'   projectoR(data=D,Patterns=PCA,full=TRUE)
+#'   projectR(data=D,Patterns=PCA,full=TRUE)
 #'}
 #' @import limma
 #' @import stats
 #' @export
 
 
-projectoR.correlateR <- function(
+projectR.correlateR <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
