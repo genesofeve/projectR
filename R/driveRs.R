@@ -13,9 +13,9 @@
 #' @seealso topTable, lmFit, eBayes
 #' @import limma
 #' @importFrom MASS ginv
-#' @examples \dontrun{
-#'    project(data=D,Patterns=AP)
-#'}
+#' @examples
+#'  driveRs(data=NAprojectedP=NA, design=NA)
+#'
 
 driveRs <- function(
   data=NA, # a dataset to be projected onto

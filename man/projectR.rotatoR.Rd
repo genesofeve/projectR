@@ -23,8 +23,3 @@
 \description{
 for use with object of class rotatoR
 }
-\examples{
-\dontrun{
-  projectR(data=D,Patterns=rPCA,full=TRUE)
-}
-}

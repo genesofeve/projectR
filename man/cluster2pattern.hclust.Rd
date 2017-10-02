@@ -17,7 +17,8 @@
 Function to make patterns of continuous weights from hierarchical clusters.
 }
 \examples{
-\dontrun{
- cluster2pattern(clusters,NP,Data)
-}
+ data(RNAseq6l3c3t)
+ h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))
+ cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+
 }
