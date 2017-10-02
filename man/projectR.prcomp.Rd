@@ -23,8 +23,3 @@
 \description{
 for use with object of class prcomp
 }
-\examples{
-\dontrun{
-  projectR(data=D,Patterns=PCA,full=TRUE)
-}
-}

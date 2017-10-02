@@ -9,9 +9,10 @@
 #' @param 	...  addtion impdelta a vector of weights describing
 #' @export
 #' @import stats
-#' @examples \dontrun{
-#' #cor2T<-correlateR(genes="T", dat=p, threshtype="N", threshold=10, absR=TRUE)
-#'}
+#' @examples
+#' data(RNAseq6l3c3t)
+#' cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+#'
 
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern

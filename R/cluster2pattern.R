@@ -1,7 +1,7 @@
 
 #' @title cluster2pattern
 #'
-#' @description Function to make patterns of continuous weights from clusters. 
+#' @description Function to make patterns of continuous weights from clusters.
 #' @param clusters an cluster object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
@@ -21,14 +21,16 @@ cluster2pattern <- function(
 
 #' @title cluster2pattern (kmeans)
 #'
-#' @description Function to make patterns of continuous weights from kmeans clusters. 
+#' @description Function to make patterns of continuous weights from kmeans clusters.
 #' @param clusters an kmeans cluster object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
 #' @export
-#' @examples \dontrun{
-#'  cluster2pattern(clusters,NP,Data)
-#'}
+#' @examples
+#'  data(RNAseq6l3c3t)
+#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#'
 
 cluster2pattern.kmeans <- function(
   clusters=NA, # an kmeans object
@@ -49,14 +51,16 @@ cluster2pattern.kmeans <- function(
 
 #' @title cluster2pattern (hclust)
 #'
-#' @description Function to make patterns of continuous weights from hierarchical clusters. 
+#' @description Function to make patterns of continuous weights from hierarchical clusters.
 #' @param clusters an hclust object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
 #' @export
-#' @examples \dontrun{
-#'  cluster2pattern(clusters,NP,Data)
-#'}
+#' @examples
+#'  data(RNAseq6l3c3t)
+#'  h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))
+#'  cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#'
 
 cluster2pattern.hclust <- function(
   clusters=NA, # an hclust object

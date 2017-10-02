@@ -24,7 +24,7 @@
 default version
 }
 \examples{
-\dontrun{
-   projectR(data=D,Patterns=AP)
-}
+   data(Patterns.RNAseq6l3c3t)
+   data(ESepiGen4c1l4)
+   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP)
 }

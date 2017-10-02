@@ -23,8 +23,3 @@ projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \description{
 a function for the projection of new data into a previously defined feature space
 }
-\examples{
-\dontrun{
-   projectR(data=D,Patterns=AP)
-}
-}
