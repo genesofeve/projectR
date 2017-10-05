@@ -18,9 +18,9 @@
 
 \item{annoIndx}{vector indxing into subsets for plotting}
 
-\item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
+\item{label}{character vector to use for plotting text, defaults is NULL}
 
-\item{labels}{character vector to use for plotting text, defaults is NULL}
+\item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
 \description{
 plotting function for kmeans clusters

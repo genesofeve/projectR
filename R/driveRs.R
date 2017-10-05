@@ -14,7 +14,8 @@
 #' @import limma
 #' @importFrom MASS ginv
 #' @examples
-#'  driveRs(data=NAprojectedP=NA, design=NA)
+#'  
+#'  driveRs(data=NA,projectedP=NA, design=NA)
 #'
 
 driveRs <- function(
