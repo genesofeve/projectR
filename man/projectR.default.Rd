@@ -24,7 +24,5 @@
 default version
 }
 \examples{
-   data(Patterns.RNAseq6l3c3t)
-   data(ESepiGen4c1l4)
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP)
+   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
 }
