@@ -24,5 +24,6 @@
 for use with object of class CoGAPS
 }
 \examples{
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
+   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }

@@ -23,3 +23,7 @@ projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \description{
 a function for the projection of new data into a previously defined feature space
 }
+\examples{
+   projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+
+}

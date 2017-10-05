@@ -26,6 +26,7 @@ for use with object of class Pclust
 \examples{
  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
- k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t)
+ k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
+                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

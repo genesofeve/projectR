@@ -8,9 +8,7 @@
 #' @param data2 dataset with rownames to be matched
 #' @param merge logical indicating wether or not to merged data sets
 #' @examples
-#'  data(RNAseq6l3c3t)
-#'  data(ESepiGen4c1l4)
-#'  geneMatchR(data1=p.RNAseq6l3c3,AnnotionObj=map.ESepiGen4c1l,
+#'  geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 #' @export
 

@@ -23,3 +23,9 @@
 \description{
 for use with object of class prcomp
 }
+\examples{
+ pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+ pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
+                               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+
+}
