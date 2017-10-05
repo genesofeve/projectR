@@ -9,10 +9,8 @@
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'    data(Patterns.RNAseq6l3c3t) #pattern object
-#'    data(ESepiGen4c1l4) #new data to project
-#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP)
-#'}
+#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+#'
 #' @import limma
 #' @importFrom limma lmFit
 #' @import stats
@@ -43,9 +41,7 @@ projectR <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'    data(Patterns.RNAseq6l3c3t)
-#'    data(ESepiGen4c1l4)
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP)
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
 #' @import limma
 #' @import stats
 #' @export
@@ -88,9 +84,7 @@ projectR.default <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'    data(Patterns.RNAseq6l3c3t)
-#'    data(ESepiGen4c1l4)
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP)
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
 #' @import limma
 #' @import stats
 #' @export
@@ -137,10 +131,8 @@ projectR.CoGAPS <- function(
 #' @param NP number of desired patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'  data(ESepiGen4c1l4)
 #'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t)
 #'
 #' @import limma
@@ -188,10 +180,9 @@ projectR.pclust <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  data(ESepiGen4c1l4)
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t)}
+#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t)
+#' 
 #' @import limma
 #' @import stats
 #' @export
@@ -243,11 +234,10 @@ projectR.prcomp <- function(
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,p.RNAseq6l3c3t)
-#'  data(ESepiGen4c1l4)
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t)}
+#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t)
+#' 
 #' @import stats
 #' @export
 
@@ -299,10 +289,9 @@ projectR.rotatoR <- function(
 #' @param NP the number of clusters
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  data(ESepiGen4c1l4)
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t)}
+#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t)
+#' 
 #' @import limma
 #' @import stats
 #' @export
