@@ -30,7 +30,7 @@ clusterPlotR <- function(
 #' @param x a vector of length equal to number of samples to use for plotting
 #' @param NC vector of integers indicating which clusters to use
 #' @param annoIndx vector indxing into subsets for plotting
-#' @param labels character vector to use for plotting text, defaults is NULL
+#' @param label character vector to use for plotting text, defaults is NULL
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @export
 #' @examples \dontrun{

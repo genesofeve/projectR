@@ -21,3 +21,9 @@ geneMatchR(data1 = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \description{
 Matches genes accross datasets.
 }
+\examples{
+ data(RNAseq6l3c3t)
+ data(ESepiGen4c1l4)
+ geneMatchR(data1=p.RNAseq6l3c3,AnnotionObj=map.ESepiGen4c1l,
+                 IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
+}

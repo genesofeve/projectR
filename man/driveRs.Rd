@@ -26,9 +26,9 @@ driveRs(data = NA, projectedP = NA, design = NA, contrasts = NA,
 <full description>
 }
 \examples{
-\dontrun{
-   project(data=D,Patterns=AP)
-}
+ 
+ driveRs(data=NA,projectedP=NA, design=NA)
+
 }
 \seealso{
 topTable, lmFit, eBayes
