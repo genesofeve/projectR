@@ -41,7 +41,8 @@ projectR <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
 #' @export
@@ -84,7 +85,8 @@ projectR.default <- function(
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t)
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
 #' @export
@@ -133,7 +135,8 @@ projectR.CoGAPS <- function(
 #' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t)
+#'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
+#'                              AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import stats
@@ -181,7 +184,8 @@ projectR.pclust <- function(
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t)
+#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
+#'                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
 #' @import limma
 #' @import stats
@@ -236,7 +240,8 @@ projectR.prcomp <- function(
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,p.RNAseq6l3c3t)
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t)
+#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
+#'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
 #' @import stats
 #' @export
@@ -290,7 +295,8 @@ projectR.rotatoR <- function(
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
 #' @examples
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t)
+#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,
+#'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
 #' @import limma
 #' @import stats
@@ -302,14 +308,16 @@ projectR.correlateR <- function(
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an correlateR object of correlated genes
-  NP=NA, #
+  NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
-  #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
+  if(!is.na(NP)){Patterns<-Patterns[[NP]]}
 
-  Patterns<-Patterns$rotation
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
+  if(length(Patterns)>1){
+    do.call(rbind,Patterns)
+  }
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)

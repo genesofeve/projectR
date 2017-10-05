@@ -27,7 +27,6 @@ cluster2pattern <- function(
 #' @param Data data used to make clusters object
 #' @export
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'
@@ -38,12 +37,12 @@ cluster2pattern.kmeans <- function(
   Data=NA # data used to make clusters object
   ){
 
-  nD<-length(Patterns$size)
+  nD<-length(clusters$size)
   nG<-dim(Data)[1]
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
   rownames(tempP)<-rownames(Data)
   #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(Data[Patterns$cluster==x,])}
-  for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-apply(Data[Patterns$cluster==x,],1,cor,y=colMeans(Data[Patterns$cluster==x,]))}
+  for(x in 1:nD) {tempP[clusters$cluster==x,x]<-apply(Data[clusters$cluster==x,],1,cor,y=colMeans(Data[clusters$cluster==x,]))}
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust")
   return(Patterns)
@@ -57,7 +56,6 @@ cluster2pattern.kmeans <- function(
 #' @param Data data used to make clusters object
 #' @export
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))
 #'  cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'

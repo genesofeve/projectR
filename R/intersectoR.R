@@ -7,7 +7,6 @@
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @examples \dontrun{
-#'  data(RNAseq6l3c3t)
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
 #'	 intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)

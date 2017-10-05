@@ -7,7 +7,7 @@
 #' 
 #' @references
 #' 1. Gifford, C. A. et al. Transcriptional and epigenetic dynamics 
-#' during specification of human embryonic stem cells. Cell 153, 1149–1163 (2013).
+#' during specification of human embryonic stem cells. Cell 153, 1149-1163 (2013).
 #' 
 #' 
 #' @name p.ESepiGen4c1l 

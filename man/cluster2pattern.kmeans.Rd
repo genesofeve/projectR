@@ -17,7 +17,6 @@
 Function to make patterns of continuous weights from kmeans clusters.
 }
 \examples{
- data(RNAseq6l3c3t)
  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 

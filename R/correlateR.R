@@ -10,7 +10,6 @@
 #' @export
 #' @import stats
 #' @examples
-#' data(RNAseq6l3c3t)
 #' cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
 #'
 
