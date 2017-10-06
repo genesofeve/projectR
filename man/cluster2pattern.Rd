@@ -17,7 +17,7 @@ cluster2pattern(clusters = NA, NP = NA, Data = NA)
 Function to make patterns of continuous weights from clusters.
 }
 \examples{
-\dontrun{
- cluster2pattern(clusters,NP,Data)
-}
+ k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+ cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)  
+
 }

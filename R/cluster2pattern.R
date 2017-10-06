@@ -6,9 +6,10 @@
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
 #' @export
-#' @examples \dontrun{
-#'  cluster2pattern(clusters,NP,Data)
-#'}
+#' @examples 
+#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)  
+#'
 
 
 cluster2pattern <- function(
