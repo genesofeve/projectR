@@ -5,7 +5,7 @@
 \title{clusterPlotR (base)}
 \usage{
 clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
-  ...)
+  label = NULL, ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}
@@ -18,13 +18,10 @@ clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
 
 \item{annoIndx}{vector indxing into subsets for plotting}
 
+\item{label}{character vector to use for plotting text, defaults is NULL}
+
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
 \description{
 plotting function for clustering objects
-}
-\examples{
-\dontrun{
- clusterPlotR(cData, cls, x)
-}
 }
