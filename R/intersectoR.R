@@ -9,7 +9,7 @@
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
-#'	intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
+#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @export
 
 intersectoR<-function(
@@ -99,7 +99,7 @@ intersectoR.default <- function(
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
-#'	intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
+#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @export
 
 intersectoR.kmeans <- function(
@@ -109,6 +109,8 @@ intersectoR.kmeans <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #cut height for hclust objects
   ){
+	if(class(pSet2)!="kmeans"){stop("pSet2 must also be a kmeans object")}
+
 	#match gene order
 	gns=unique(names(pSet1$cluster)[names(pSet1$cluster)%in%names(pSet2$cluster)])
 	ord01=match(gns,names(pSet1$cluster))
@@ -172,6 +174,8 @@ intersectoR.hclust <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
   ){
+  	if(class(pSet2)!="hclust"){stop("pSet2 must also be a hclust object")}
+
   	overLPmtx=matrix(nrow=0,ncol=9)
   	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
 		"OverLap%1","OverLap%2","pval","pval.REV")
@@ -181,7 +185,7 @@ intersectoR.hclust <- function(
 
 	#cut1<-cut1[names(cut1)%in%names(cut2)]
 	#cut2<-cut2[names(cut2)%in%names(cut1)]
-	gns=unique(names(cut1)[names(pcut1)%in%names(cut2)])
+	gns=unique(names(cut1)[names(cut1)%in%names(cut2)])
 	ord01=match(gns,names(cut1))
 	ord02=match(gns,names(cut2))
 	cut1<-cut1[ord01]

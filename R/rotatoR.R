@@ -7,9 +7,8 @@
 #' @param y2 a value describing a the coordinate of the second point in the second basis
 #' @param basisSET the basis to be rotated
 #' @examples
-#'  data(RNAseq6l3c3t)
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,p.RNAseq6l3c3t)
+#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
 #' @export
 
 

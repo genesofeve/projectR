@@ -21,7 +21,6 @@ rotatoR(x1, y1, x2, y2, basisSET)
 a function for rotating two basis about a point or line in that plain
 }
 \examples{
- data(RNAseq6l3c3t)
  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
- r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,p.RNAseq6l3c3t)
+ r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
 }
