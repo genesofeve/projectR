@@ -239,7 +239,7 @@ projectR.prcomp <- function(
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,p.RNAseq6l3c3t)
+#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
 #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
 #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
@@ -291,11 +291,11 @@ projectR.rotatoR <- function(
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns an correlateR object
-#' @param NP the number of clusters
+#' @param NP can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
 #' @examples
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,
+#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
 #'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
 #' @import limma
@@ -315,7 +315,7 @@ projectR.correlateR <- function(
   if(!is.na(NP)){Patterns<-Patterns[[NP]]}
 
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
-  if(length(Patterns)>1){
+  if(length(Patterns)==2){
     do.call(rbind,Patterns)
   }
 
