@@ -9,12 +9,11 @@
 #' @param label character vector to use for plotting text, defaults is NULL
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @export
-#' @examples 
 #' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, 
 #' 			NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#'}
+#'
 clusterPlotR <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a cluster object

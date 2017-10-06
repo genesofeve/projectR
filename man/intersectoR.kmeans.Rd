@@ -22,7 +22,7 @@
 a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets.
 }
 \examples{
-\dontrun{
- intersectoR(pSet1, pSet2, pval=.05)
-}
+ k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+ k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
 }

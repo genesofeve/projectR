@@ -22,7 +22,8 @@
 a function to find and test the intersecting values of two hierarchial clustering objects, presumably the genes associated with clusters in two different datasets.
 }
 \examples{
-\dontrun{
- intersectoR(pSet1, pSet2, pval=.05, k=c(3,4))
-}
+	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
+	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(p.ESepiGen4c1l$mRNA.Seq)))))
+ intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
+
 }

@@ -6,11 +6,10 @@
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
-#' @examples \dontrun{
+#' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
-#'	 intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
-#'}
+#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+#'	intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
 #' @export
 
 intersectoR<-function(
@@ -43,8 +42,9 @@ intersectoR.default <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #cut height for hclust objects, not used for default
 ){
-	indx1<-lapply(pSet1,function(x) names(x)%in%names(unlist(pSet2)))
-	indx2<-lapply(pSet2,function(x) names(x)%in%names(unlist(pSet1)))
+	gns<-lapply(pSet1,function(x) unique(names(x)%in%names(unlist(pSet2))))
+	indx1<-lapply(pSet1,function(x) match(gns,names(x)))
+	indx2<-lapply(pSet2,function(x)match(gns,names(x)))
 	pSet1<-sapply(1:length(pSet1),function(x) pSet1[[x]][indx1[[x]]])
 	pSet2<-sapply(1:length(pSet2),function(x) pSet2[[x]][indx2[[x]]])
 
@@ -76,9 +76,15 @@ intersectoR.default <- function(
 		return(overLPmtx) #return summary matrix
 	} else if(full){
 		overLPindx<-overLPmtx[,c("pSet1","pSet2")] #indx of significantly overlapping sets
-		overLPsets<-cbind(pSet1[overLPindx],pSet2[overLPindx]) # mtx of significantly overlapping sets
-		colnames(overLPsets)<-c("pSet1","pSet2")
-		return(list(overLPmtx,overLPindx,overLPsets))
+		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
+			cbind("pSet1"=sort(names(pSet1[pSet1==overLPindx[x,1]&pSet2==overLPindx[x,2]])),
+				"pSet2"=sort(names(pSet2[pSet2==overLPindx[x,2]&pSet1==overLPindx[x,1]]))))
+		overLPall=cbind(pSet1,pSet2)
+		colnames(overLPall)=c("pSet1","pSet2")
+		rownames(overLPall)=names(pSet1)
+		ord03=order(pSet1,pSet2)
+		overLPall=overLPall[ord03,]
+		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
 	}
 }
 
@@ -90,9 +96,10 @@ intersectoR.default <- function(
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k cut height for hclust objects, not used with kmeans
-#' @examples \dontrun{
-#'  intersectoR(pSet1, pSet2, pval=.05)
-#'}
+#' @examples 
+#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+#'	intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
 #' @export
 
 intersectoR.kmeans <- function(
@@ -102,8 +109,12 @@ intersectoR.kmeans <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #cut height for hclust objects
   ){
-	pSet1$cluster<-pSet1$cluster[names(pSet1$cluster)%in%names(pSet2$cluster)]
-	pSet2$cluster<-pSet2$cluster[names(pSet2$cluster)%in%names(pSet1$cluster)]
+	#match gene order
+	gns=unique(names(pSet1$cluster)[names(pSet1$cluster)%in%names(pSet2$cluster)])
+	ord01=match(gns,names(pSet1$cluster))
+	ord02=match(gns,names(pSet2$cluster))
+	pSet1$cluster<-pSet1$cluster[ord01]
+	pSet2$cluster<-pSet2$cluster[ord02]
 
 	overLPmtx=matrix(nrow=0,ncol=9)
 	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
@@ -128,9 +139,14 @@ intersectoR.kmeans <- function(
 	} else if(full){
 		overLPindx<-overLPmtx[,c("pSet1","pSet2")]
 		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
-			cbind("pSet1"=names(pSet1$cluster[pSet1$cluster==overLPindx[x,1]]),
-				"pSet2"=names(pSet2$cluster[pSet2$cluster==overLPindx[x,2]])))
-		return(list(overLPmtx,overLPindx,overLPsets))
+			cbind("pSet1"=sort(names(pSet1$cluster[pSet1$cluster==overLPindx[x,1]&pSet2$cluster==overLPindx[x,2]])),
+				"pSet2"=sort(names(pSet2$cluster[pSet2$cluster==overLPindx[x,2]&pSet1$cluster==overLPindx[x,1]]))))
+		overLPall=cbind(pSet1$cluster,pSet2$cluster)
+		colnames(overLPall)=c("pSet1","pSet2")
+		rownames(overLPall)=names(pSet1$cluster)
+		ord03=order(pSet1$cluster,pSet2$cluster)
+		overLPall=overLPall[ord03,]
+		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
 	}
 }
 
@@ -142,9 +158,11 @@ intersectoR.kmeans <- function(
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
-#' @examples \dontrun{
-#'  intersectoR(pSet1, pSet2, pval=.05, k=c(3,4))
-#'}
+#' @examples 
+#' 	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
+#' 	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(p.ESepiGen4c1l$mRNA.Seq)))))
+#'  intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
+#'
 #' @export
 
 intersectoR.hclust <- function(
@@ -161,8 +179,13 @@ intersectoR.hclust <- function(
 	if(length(k)==1){cut1<-cutree(pSet1,k=k) ; cut2<-cutree(pSet2,k=k)}
 	if(length(k)==2){cut1<-cutree(pSet1,k=k[1]) ; cut2<-cutree(pSet2,k=k[2])}
 
-	cut1<-cut1[names(cut1)%in%names(cut2)]
-	cut2<-cut2[names(cut2)%in%names(cut1)]
+	#cut1<-cut1[names(cut1)%in%names(cut2)]
+	#cut2<-cut2[names(cut2)%in%names(cut1)]
+	gns=unique(names(cut1)[names(pcut1)%in%names(cut2)])
+	ord01=match(gns,names(cut1))
+	ord02=match(gns,names(cut2))
+	cut1<-cut1[ord01]
+	cut2<-cut2[ord02]
 
 	for(i in sort(unique(cut1))){
 		for(j in sort(unique(cut2))){
@@ -181,9 +204,15 @@ intersectoR.hclust <- function(
 	} else if(full){
 		overLPindx<-overLPmtx[,c("pSet1","pSet2")]
 		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
-			cbind("pSet1"=names(cut1[cut1==overLPindx[x,1]]),
-				"pSet2"=names(cut2[cut2==overLPindx[x,2]])))
-		return(list(overLPmtx,overLPindx,overLPsets))
+			cbind("pSet1"=sort(names(cut1[cut1==overLPindx[x,1]&cut1==overLPindx[x,2]])),
+				"pSet2"=sort(names(cut2[cut2==overLPindx[x,2]&cut2==overLPindx[x,1]]))))
+		overLPall=cbind(cut1,cut2)
+		colnames(overLPall)=c("pSet1","pSet2")
+		rownames(overLPall)=names(cut1)
+		ord03=order(cut1,cut2)
+		overLPall=overLPall[ord03,]
+		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
+
 	}
 }
 
