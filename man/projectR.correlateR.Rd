@@ -16,7 +16,7 @@
 
 \item{Patterns}{an correlateR object}
 
-\item{NP}{the number of clusters}
+\item{NP}{can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA}
 
 \item{full}{logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.}
 }
@@ -25,7 +25,7 @@ for use with object of class corR
 }
 \examples{
  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
- pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,
+ cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }
