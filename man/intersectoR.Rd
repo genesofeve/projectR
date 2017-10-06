@@ -22,9 +22,7 @@ intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE,
 a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets.
 }
 \examples{
-\dontrun{
  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
- h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
- intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
-}
+ k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+intersectoR(k.RNAseq6l3c3t, h.RNAseq6l3c3t, pval=.05)
 }
