@@ -5,6 +5,7 @@
 #' @param clusters an cluster object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
+#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
 #' @export
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
@@ -26,6 +27,7 @@ cluster2pattern <- function(
 #' @param clusters an kmeans cluster object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
+#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
 #' @export
 #' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
@@ -55,6 +57,7 @@ cluster2pattern.kmeans <- function(
 #' @param clusters an hclust object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
+#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
 #' @export
 #' @examples
 #'  h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))

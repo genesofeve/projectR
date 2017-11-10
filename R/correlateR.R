@@ -7,6 +7,7 @@
 #' @param 	threshold numeric indicating value at which to make threshold
 #' @param 	absR logical indicating where to include both positive and negatively correlated genes
 #' @param 	...  addtion impdelta a vector of weights describing
+#' @return 	An object of class corGS.
 #' @export
 #' @import stats
 #' @examples

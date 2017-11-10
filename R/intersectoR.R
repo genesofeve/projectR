@@ -6,6 +6,7 @@
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
+#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
@@ -30,6 +31,7 @@ intersectoR<-function(
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k cut height for hclust objects
+#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @examples \dontrun{
 #'  intersectoR(pSet1, pSet2, pval=.05)
 #'}
@@ -96,6 +98,7 @@ intersectoR.default <- function(
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k cut height for hclust objects, not used with kmeans
+#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
@@ -160,6 +163,7 @@ intersectoR.kmeans <- function(
 #' @param pval the maximum p-value considered significant
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
+#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @examples 
 #' 	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
 #' 	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(p.ESepiGen4c1l$mRNA.Seq)))))

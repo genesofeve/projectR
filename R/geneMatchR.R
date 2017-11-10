@@ -7,6 +7,7 @@
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the rownames of data2
 #' @param data2 dataset with rownames to be matched
 #' @param merge logical indicating wether or not to merged data sets
+#' @return A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns merged data.)
 #' @examples
 #'  geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
