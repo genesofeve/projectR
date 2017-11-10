@@ -18,6 +18,9 @@ geneMatchR(data1 = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 
 \item{merge}{logical indicating wether or not to merged data sets}
 }
+\value{
+A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns merged data.)
+}
 \description{
 Matches genes accross datasets.
 }

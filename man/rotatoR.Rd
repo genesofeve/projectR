@@ -17,6 +17,9 @@ rotatoR(x1, y1, x2, y2, basisSET)
 
 \item{basisSET}{the basis to be rotated}
 }
+\value{
+An object of class rotatoR.
+}
 \description{
 a function for rotating two basis about a point or line in that plain
 }

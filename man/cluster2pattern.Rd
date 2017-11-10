@@ -13,6 +13,9 @@ cluster2pattern(clusters = NA, NP = NA, Data = NA)
 
 \item{Data}{data used to make clusters object}
 }
+\value{
+An object of class 'pclust' containing pattern weights corresponding for each cluster.
+}
 \description{
 Function to make patterns of continuous weights from clusters.
 }

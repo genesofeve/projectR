@@ -18,6 +18,9 @@
 
 \item{k}{cut height for hclust objects, not used with kmeans}
 }
+\value{
+A list containing: Overlap matrix, overlap index, and overlapping sets.
+}
 \description{
 a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets.
 }
