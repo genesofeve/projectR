@@ -9,19 +9,13 @@ Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
 Imports:
-    RColorBrewer (>= 1.0.5),
     gplots (>= 2.8.0),
     graphics,
     grDevices,
     methods,
     cluster,
-    shiny,
     stats,
     utils,
-    doParallel,
-    foreach,
-    iterators,
-    parallel,
     ggplot2,
     reshape2,
     limma,
