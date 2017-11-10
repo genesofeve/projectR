@@ -5,7 +5,7 @@
 \title{clusterPlotR (hclust)}
 \usage{
 \method{clusterPlotR}{hclust}(cData = NA, cls = NA, x = NA, NC = NA,
-  annoIndx = NA, label = NULL, ...)
+  annoIndx = NA, ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}
@@ -18,17 +18,13 @@
 
 \item{annoIndx}{vector indxing into subsets for plotting}
 
-\item{label}{character vector to use for plotting text, defaults is NULL}
-
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
 \description{
 plotting function for hclust clusters
 }
 \examples{
- h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))
- clusterPlotR(p.RNAseq6l3c3t, cls=h.RNAseq6l3c3t, NC=2,
-						x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-
-
+\dontrun{
+ clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
+}
 }
