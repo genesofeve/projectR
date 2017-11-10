@@ -9,12 +9,10 @@
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @return A plot of the mean behavior for each cluster
 #' @export
-#' @import graphics
-#' @examples \dontrun{
+#' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=2,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#' }
-
+#'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
+#'
 clusterPlotR <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a cluster object
@@ -38,10 +36,10 @@ clusterPlotR <- function(
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @return A plot of the mean behavior for each cluster
 #' @export
-#' @examples \dontrun{
+#' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#' }
+
 clusterPlotR.kmeans <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a kmeans object
@@ -64,7 +62,7 @@ for(i in cls1){
 	cMNs1[i,]=p1KcMN
 	meanRRs1[i]=mean(apply(p1Kc,1,cor,y=p1KcMN))
 	}
-	if(sum(cls$cluster==i)==1){cMNs1[i,]=cData[cls$cluster==i,];meanRRs1[i]=1}
+	if(sum(cls$cluster==i)==1){cMNs1[i,]=pcData[cls$cluster==i,];meanRRs1[i]=1}
 	if(sum(cls$cluster==i)==0){print("cluster error !")}
 	}
 for(i in cls1){
