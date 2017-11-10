@@ -1,2 +1,2 @@
 library('testthat')
-test_check('projectoR')
+test_check('projectR')
