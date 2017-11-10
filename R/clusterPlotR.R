@@ -4,22 +4,22 @@
 #' @param cData data used to get clusters
 #' @param cls  an clustering object
 #' @param x a vector of length equal to number of samples to use for plotting
-#' @param NC number of clusters to cut dendrogram into 
+#' @param NC number of clusters to cut dendrogram into
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
-#' @return A plot of the mean behavior for each cluster 
+#' @return A plot of the mean behavior for each cluster
 #' @export
 #' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#'}
+#'
 clusterPlotR <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a cluster object
   	x=NA, # a vector of length equal to number of samples to use for plotting
-  	NC=NA,# vector of integers indicating which clusters to use 
+  	NC=NA,# vector of integers indicating which clusters to use
 	annoIndx=NA, #vector indxing into subsets for plotting#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  	... #additional parameters for plotting 
+  	... #additional parameters for plotting
   ){
   UseMethod("clusterPlotR",cls)
 }
@@ -34,9 +34,9 @@ clusterPlotR <- function(
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param label character vector to use for plotting text, defaults is NULL
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
-#' @return A plot of the mean behavior for each cluster 
+#' @return A plot of the mean behavior for each cluster
 #' @export
-#' @examples 
+#' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
 
@@ -44,11 +44,11 @@ clusterPlotR.kmeans <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a kmeans object
 	x=NA, # a vector of length equal to number of samples to use for plotting
-  	NC=NA,# vector of integers indicating which clusters to use 
+  	NC=NA,# vector of integers indicating which clusters to use
 	annoIndx=NA, #vector indxing into subsets for plotting
 	label=NULL, #character vector to use for plotting text
-  	... #additional parameters for plotting 
-  ){ 	
+  	... #additional parameters for plotting
+  ){
 if(is.na(NC)){
 	cls1<-sort(unique(cls$cluster))
 } else(cls1<-NC)
@@ -64,7 +64,7 @@ for(i in cls1){
 	}
 	if(sum(cls$cluster==i)==1){cMNs1[i,]=pcData[cls$cluster==i,];meanRRs1[i]=1}
 	if(sum(cls$cluster==i)==0){print("cluster error !")}
-	}	
+	}
 for(i in cls1){
 	plot(x,cMNs1[i,],type="n",main=paste("\nCluster ",i,", N = ",
 		sum(cls$cluster==i)," of ",length(cls$cluster)," total genes (",
@@ -87,11 +87,11 @@ for(i in cls1){
 #' @param cData data used to get clusters
 #' @param cls  an hclust object
 #' @param x a vector of length equal to number of samples to use for plotting
-#' @param NC number of clusters to cut dendrogram into 
+#' @param NC number of clusters to cut dendrogram into
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @export
-#' @return A plot of the mean behavior for each cluster 
+#' @return A plot of the mean behavior for each cluster
 #' @examples \dontrun{
 #'  clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
 #'}
@@ -102,9 +102,9 @@ clusterPlotR.hclust <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # an hclust object
 	x=NA, # a vector of length equal to number of samples to use for plotting
-  	NC=NA,  # number of clusters to cut dendrogram into 
+  	NC=NA,  # number of clusters to cut dendrogram into
   	annoIndx=NA, #vector indxing into subsets for plotting
-  	... #additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc. 
+  	... #additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
   ){
 cut1=cutree(cls,k=NC)
 cls1=sort(unique(cut1))
