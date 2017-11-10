@@ -20,6 +20,9 @@
 
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
+\value{
+A plot of the mean behavior for each cluster
+}
 \description{
 plotting function for hclust clusters
 }

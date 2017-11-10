@@ -20,6 +20,9 @@ correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7,
 
 \item{...}{addtion impdelta a vector of weights describing}
 }
+\value{
+An object of class corGS.
+}
 \description{
 Function to extract genes highly correlated with a gene or reference expression pattern.
 }

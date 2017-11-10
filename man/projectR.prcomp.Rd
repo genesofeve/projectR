@@ -20,6 +20,9 @@
 
 \item{full}{logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.}
 }
+\value{
+A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+}
 \description{
 for use with object of class prcomp
 }

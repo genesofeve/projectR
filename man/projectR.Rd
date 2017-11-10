@@ -20,6 +20,9 @@ projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 }
+\value{
+A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+}
 \description{
 a function for the projection of new data into a previously defined feature space
 }

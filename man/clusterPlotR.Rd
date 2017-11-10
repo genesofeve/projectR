@@ -20,6 +20,9 @@ clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
 
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
+\value{
+A plot of the mean behavior for each cluster
+}
 \description{
 plotting function for clustering objects
 }

@@ -18,6 +18,9 @@ intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE,
 
 \item{k}{numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order}
 }
+\value{
+A list containing: Overlap matrix, overlap index, and overlapping sets.
+}
 \description{
 a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets.
 }

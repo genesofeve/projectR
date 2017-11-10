@@ -18,6 +18,9 @@
 
 \item{k}{#numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order}
 }
+\value{
+A list containing: Overlap matrix, overlap index, and overlapping sets.
+}
 \description{
 a function to find and test the intersecting values of two hierarchial clustering objects, presumably the genes associated with clusters in two different datasets.
 }
