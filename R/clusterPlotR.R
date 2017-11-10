@@ -7,6 +7,7 @@
 #' @param NC number of clusters to cut dendrogram into 
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
+#' @return A plot of the mean behavior for each cluster 
 #' @export
 #' @examples 
 #' @examples
@@ -34,6 +35,7 @@ clusterPlotR <- function(
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param label character vector to use for plotting text, defaults is NULL
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
+#' @return A plot of the mean behavior for each cluster 
 #' @export
 #' @examples 
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
@@ -90,6 +92,7 @@ for(i in cls1){
 #' @param annoIndx vector indxing into subsets for plotting
 #' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
 #' @export
+#' @return A plot of the mean behavior for each cluster 
 #' @examples \dontrun{
 #'  clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
 #'}
