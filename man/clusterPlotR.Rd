@@ -5,7 +5,7 @@
 \title{clusterPlotR (base)}
 \usage{
 clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
-  label = NULL, ...)
+  ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}
@@ -18,16 +18,8 @@ clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
 
 \item{annoIndx}{vector indxing into subsets for plotting}
 
-\item{label}{character vector to use for plotting text, defaults is NULL}
-
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
 \description{
 plotting function for clustering objects
-}
-\examples{
- k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-	clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=22,
-			x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-
 }
