@@ -11,7 +11,7 @@ vignette: >
   %\usepackage[utf8]{inputenc} 
 ---
 
-```{r setup, include=FALSE}
+```
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
@@ -25,13 +25,13 @@ Technological advances continue to spur the exponential growth of biological dat
 ## Installation Instructions
 
 For automatic Bioconductor package installation, start R, and run: 
-```{r install, eval=FALSE}
+```
 source("https://bioconductor.org/biocLite.R")
 biocLite("projectR")
 ```
 
 For the current development level version, start R, and run:
-```{r git.install, eval=FALSE}
+```
 library(devtools)
 install_github("projectR", "genesofeve")
 ```
@@ -43,7 +43,7 @@ Projection can roughly be defined as a mapping or transformation of points from 
 ## The base projectR function
 
 The base projectR function is executed as follows:
-```{r base.projectR, eval=FALSE}
+```
 library(projectR)
 projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
     Patterns = NA, NP = NA, full = FALSE)
@@ -108,7 +108,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 data(ESepiGen4c1l4)
 
 library(projectR)
-PCA2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=T, 
+PCA2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, 
     AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
@@ -148,7 +148,7 @@ NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as co
 The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm \cite{Ochs2006}, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in \cite{Sibisi1997}.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
 Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The \texttt{projectR} function has S3 method for class \texttt{CoGAPS}. 
 
-```{r projectR.CoGAPS, eval=FALSE}
+```
 library(projectR)
 projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
     Patterns = NA, NP = NA, full = FALSE)
@@ -172,7 +172,7 @@ The basic output of the base projectR function, i.e. \texttt{full=FALSE}, return
  
 ## Obtaining CoGAPS patterns to project. 
 
-```{r CoGAPS, eval=FALSE}
+```
 # get data 
 library(projectR)
 data(RNAseq6l3c3t)
@@ -194,13 +194,13 @@ pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
 ````
 
 ## Projecting CoGAPS objects 
-```{r projectR.CoGAPSex,eval=FALSE, warning=FALSE}
+```
 # data to project into PCs from RNAseq6l3c3t expression data 
 library(projectR)
 data(ESepiGen4c1l4)
 data(Patterns.RNAseq6l3c3t)
 
-NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=T, 
+NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=TRUE, 
     AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
@@ -233,7 +233,7 @@ As cannonical projection is not defined for clustering objects, the projectR pac
 \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectR}.
 
 
-```{r cluster2pattern-fn, eval=FALSE}
+```
 library(projectR)
 cluster2pattern(clusters = NA, NP = NA, Data = NA)
 ```
@@ -256,7 +256,7 @@ The output of the \texttt{cluster2pattern} function is a \texttt{pclust} class o
 
 \texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S3 class methods for hclust and kmeans objects are also available. 
 
-```{r intersectoR-fn, eval=FALSE}
+```
 library(projectR)
 intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
 ```
@@ -282,7 +282,7 @@ Correlation based projection requires a matrix of gene-wise correlation values t
 
 ## correlateR
 
-```{r correlator-fn, eval=FALSE}
+```
 library(projectR)
 correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
 ```
@@ -349,7 +349,7 @@ pCorT
 ```
 
 ## Projecting correlateR objects. 
-```{r projectR.correlaeR, eval=FALSE}
+```
 # data to project into from RNAseq6l3c3t expression data 
 data(ESepiGen4c1l4)
 
