@@ -15,6 +15,9 @@
 #' @import limma
 #' @importFrom limma lmFit
 #' @import stats
+#' @import grDevices
+#' @import methods
+#' @import utils
 #' @export
 
 
@@ -143,6 +146,7 @@ projectR.CoGAPS <- function(
 #'                              AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
+#' @import cluster
 #' @import stats
 #' @export
 
@@ -191,9 +195,10 @@ projectR.pclust <- function(
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
 #'                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' 
+#'
 #' @import limma
 #' @import stats
+#' @import MASS
 #' @export
 
 
@@ -248,7 +253,7 @@ projectR.prcomp <- function(
 #'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
 #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
 #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' 
+#'
 #' @import stats
 #' @export
 
@@ -304,7 +309,7 @@ projectR.rotatoR <- function(
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
 #'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
 #'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' 
+#'
 #' @import limma
 #' @import stats
 #' @export
