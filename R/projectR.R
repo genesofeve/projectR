@@ -69,7 +69,7 @@ projectR.default <- function(
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(t(dataM[[2]]),Design)
+  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -117,7 +117,7 @@ projectR.CoGAPS <- function(
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(t(dataM[[2]]),Design)
+  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -170,7 +170,7 @@ projectR.pclust <- function(
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(t(dataM[[2]]),Design)
+  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
@@ -278,7 +278,7 @@ projectR.rotatoR <- function(
   projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)
 
   if(full==TRUE){
-  #calculate percent varience accoutned for by each PC in newdata
+  #calculate percent varience accounted for by each PC in newdata
   Eigenvalues<-eigen(cov(projectionPatterns))$values
   PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
 
@@ -338,7 +338,7 @@ projectR.correlateR <- function(
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(t(dataM[[2]]),Design)
+  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
     if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
