@@ -30,8 +30,8 @@ geneMatchR<-function(
     rnP<-rownames(data1[rows1,])
   }
   rows2=match(uniEGids,rownames(data2))
-  data <- as.matrix(data1)
-  p2P <- as.matrix(data[rows1,])
+  data <- data1
+  p2P <- data[rows1,]
   rownames(p2P) <- rnP
   As4P <- data2[rows2,]
   p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
