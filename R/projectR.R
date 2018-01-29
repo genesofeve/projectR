@@ -8,6 +8,7 @@
 #' @param Patterns a matrix of continous values with unique rownames to be projected
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
@@ -45,6 +46,7 @@ projectR <- function(
 #' @param Patterns a matrix of continous values to be projected with unique rownames
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
@@ -91,12 +93,14 @@ projectR.default <- function(
 #' @param Patterns a CoGAPS object
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
+#' @import NMF
 #' @export
 
 projectR.CoGAPS <- function(
@@ -146,6 +150,7 @@ projectR.CoGAPS <- function(
 #' @param Patterns an Pclust object from the cluster2pattern function
 #' @param NP number of desired patterns
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
@@ -199,6 +204,7 @@ projectR.pclust <- function(
 #' @param Patterns an prcomp object with a rotation matrix of genes by PCs
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -257,6 +263,7 @@ projectR.prcomp <- function(
 #' @param Patterns an rotatoR object with a rotation matrix of genes by new PCs
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -315,6 +322,7 @@ projectR.rotatoR <- function(
 #' @param Patterns an correlateR object
 #' @param NP can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
 #' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
