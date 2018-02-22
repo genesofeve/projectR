@@ -4,7 +4,7 @@
 \alias{cluster2pattern}
 \title{cluster2pattern}
 \usage{
-cluster2pattern(clusters = NA, NP = NA, Data = NA)
+cluster2pattern(clusters, NP, Data)
 }
 \arguments{
 \item{clusters}{an cluster object}
