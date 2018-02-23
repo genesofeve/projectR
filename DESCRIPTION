@@ -19,7 +19,8 @@ Imports:
     MASS,
     ggplot2,
     reshape2,
-    NMF
+    NMF,
+    VGAM
 Suggests:
     CoGAPS,
     BiocStyle,
