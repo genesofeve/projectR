@@ -125,9 +125,9 @@ projectR.CoGAPS <- function(
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
 
-  if(model=="NonNegative"){
+  if(model="NonNegative"){
     Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
-  } else{
+  }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   }
   projectionPatterns <- t(Projection$coefficients)

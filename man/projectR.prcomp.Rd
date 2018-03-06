@@ -5,7 +5,8 @@
 \title{Projection function (PCA)}
 \usage{
 \method{projectR}{prcomp}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
+  model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -19,6 +20,8 @@
 \item{NP}{range of PCs to project. The default of NP = NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.}
+
+\item{model}{# optional arguements to choose method for projection}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)

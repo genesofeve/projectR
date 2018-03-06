@@ -5,7 +5,8 @@
 \title{Projection function (correlateR)}
 \usage{
 \method{projectR}{correlateR}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
+  model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -19,6 +20,8 @@
 \item{NP}{can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA}
 
 \item{full}{logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.}
+
+\item{model}{# optional arguements to choose method for projection}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
