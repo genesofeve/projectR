@@ -1,3 +1,6 @@
+#' @importFrom stats hclust kmeans
+setOldClass("kmeans")
+setOldClass("hclust")
 
 #' @title cluster2pattern
 #'
@@ -12,14 +15,7 @@
 #'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)  
 #'
 
-
-cluster2pattern <- function(
-  clusters=NA, # an cluster object
-  NP=NA, # number of desired patterns
-  Data=NA # data used to make clusters object
-  ){
-	UseMethod("cluster2pattern",clusters)
-}
+setGeneric("cluster2pattern", function(clusters, NP, Data) standardGeneric("cluster2pattern"))
 
 #' @title cluster2pattern (kmeans)
 #'
@@ -34,8 +30,8 @@ cluster2pattern <- function(
 #'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'
 
-cluster2pattern.kmeans <- function(
-  clusters=NA, # an kmeans object
+setMethod("cluster2pattern", signature(clusters="kmeans"), function(
+  clusters, # a kmeans object
   NP=NA, # number of desired patterns
   Data=NA # data used to make clusters object
   ){
@@ -49,7 +45,7 @@ cluster2pattern.kmeans <- function(
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust")
   return(Patterns)
-}
+})
 
 #' @title cluster2pattern (hclust)
 #'
@@ -64,8 +60,8 @@ cluster2pattern.kmeans <- function(
 #'  cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'
 
-cluster2pattern.hclust <- function(
-  clusters=NA, # an hclust object
+setMethod("cluster2pattern", signature(clusters="hclust"), function(
+  clusters, # an hclust object
   NP=NA, # number of desired patterns
   Data=NA # data used to make hclust object
   ){
@@ -80,4 +76,4 @@ cluster2pattern.hclust <- function(
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust")
   return(Patterns)
-}
+})
