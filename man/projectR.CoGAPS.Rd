@@ -5,7 +5,8 @@
 \title{Projection function (CoGAPS)}
 \usage{
 \method{projectR}{CoGAPS}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
+  model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -19,6 +20,8 @@
 \item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+
+\item{model}{# optional arguements to choose method for projection}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
