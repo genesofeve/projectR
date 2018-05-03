@@ -1,40 +1,3 @@
-
-#' @title Projection function (Base)
-#'
-#' @description a function for the projection of new data into a previously defined feature space
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a matrix of continous values with unique rownames to be projected
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
-#'
-#' @import limma
-#' @importFrom limma lmFit
-#' @import stats
-#' @import grDevices
-#' @import methods
-#' @import utils
-#' @export
-
-
-projectR <- function(
-  data=NA,#a dataset to be projected onto
-  AnnotionObj=NA,#an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA,#a matrix of continous values with unique rownames to be projected
-  NP=NA,#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA 
-  ){
-  UseMethod("projectR",Patterns)
-}
-
-
 #######################################################################################################################################
 
 #' @title Projection function (default)
@@ -53,7 +16,7 @@ projectR <- function(
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
-#' @export
+
 
 
 projectR.default <- function(
@@ -63,7 +26,7 @@ projectR.default <- function(
   Patterns=NA, # a matrix of continous values to be projected with unique rownames
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA 
+  model=NA
   ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -82,6 +45,7 @@ projectR.default <- function(
   else{return(projectionPatterns)}
 }
 
+setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default)
 #######################################################################################################################################
 
 #' @title Projection function (CoGAPS)
@@ -99,9 +63,10 @@ projectR.default <- function(
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
+#' @import CoGAPS
 #' @import stats
 #' @import NMF
-#' @export
+
 
 projectR.CoGAPS <- function(
   data=NA, # a dataset to be projected onto
@@ -138,7 +103,7 @@ projectR.CoGAPS <- function(
   else{return(projectionPatterns)}
 }
 
-
+setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
 #######################################################################################################################################
 
 #' @title Projection function (clustering)
@@ -161,7 +126,7 @@ projectR.CoGAPS <- function(
 #' @import limma
 #' @import cluster
 #' @import stats
-#' @export
+
 
 
 projectR.pclust <- function(
@@ -171,7 +136,7 @@ projectR.pclust <- function(
   Patterns=NA, # an Pclust object from the cluster2pattern function
   NP=NA, # number of desired patterns
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA 
+  model=NA
   ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -214,7 +179,7 @@ projectR.pclust <- function(
 #' @import limma
 #' @import stats
 #' @import MASS
-#' @export
+
 
 
 projectR.prcomp <- function(
@@ -224,7 +189,7 @@ projectR.prcomp <- function(
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-  model=NA 
+  model=NA
   ){
 
   Patterns<-Patterns$rotation
@@ -252,6 +217,7 @@ projectR.prcomp <- function(
 
 }
 
+setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 #######################################################################################################################################
 
 #' @title Projection function (rotatoR objects)
@@ -272,7 +238,6 @@ projectR.prcomp <- function(
 #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import stats
-#' @export
 
 
 projectR.rotatoR <- function(
@@ -282,7 +247,7 @@ projectR.rotatoR <- function(
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-  model=NA 
+  model=NA
   ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -331,8 +296,6 @@ projectR.rotatoR <- function(
 #'
 #' @import limma
 #' @import stats
-#' @export
-
 
 projectR.correlateR <- function(
   data=NA, # a dataset to be projected onto
@@ -341,7 +304,7 @@ projectR.correlateR <- function(
   Patterns=NA, # an correlateR object of correlated genes
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-  model=NA 
+  model=NA
   ){
 
   if(!is.na(NP)){Patterns<-Patterns[[NP]]}
