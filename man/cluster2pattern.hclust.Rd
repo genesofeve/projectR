@@ -4,7 +4,7 @@
 \alias{cluster2pattern.hclust}
 \title{cluster2pattern (hclust)}
 \usage{
-\method{cluster2pattern}{hclust}(clusters = NA, NP = NA, Data = NA)
+cluster2pattern.hclust(clusters = NA, NP = NA, Data = NA)
 }
 \arguments{
 \item{clusters}{an hclust object}

@@ -4,7 +4,7 @@
 \alias{cluster2pattern.kmeans}
 \title{cluster2pattern (kmeans)}
 \usage{
-\method{cluster2pattern}{kmeans}(clusters = NA, NP = NA, Data = NA)
+cluster2pattern.kmeans(clusters = NA, NP = NA, Data = NA)
 }
 \arguments{
 \item{clusters}{an kmeans cluster object}

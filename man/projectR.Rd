@@ -11,7 +11,7 @@ projectR(data, Patterns, ...)
 
 \item{Patterns}{Patterns learned from source dataset}
 
-\item{...}{}
+\item{...}{Additional arguments to projectR}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
