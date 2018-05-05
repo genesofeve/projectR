@@ -22,7 +22,6 @@ Imports:
     NMF,
     VGAM
 Suggests:
-    CoGAPS,
     BiocStyle,
     gridExtra,
     grid,

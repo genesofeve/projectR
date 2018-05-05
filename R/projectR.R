@@ -46,8 +46,9 @@ projectR.default <- function(
 }
 
 setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default)
-#######################################################################################################################################
 
+
+#######################################################################################################################################
 #' @title Projection function (CoGAPS)
 #'
 #' @description for use with object of class CoGAPS
@@ -61,9 +62,8 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols",model="NonNegative")
 #' @import limma
-#' @import CoGAPS
 #' @import stats
 #' @import NMF
 
@@ -103,9 +103,10 @@ projectR.CoGAPS <- function(
   else{return(projectionPatterns)}
 }
 
-setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
-#######################################################################################################################################
+setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 
+
+#######################################################################################################################################
 #' @title Projection function (clustering)
 #'
 #' @description for use with object of class Pclust
@@ -158,6 +159,7 @@ projectR.pclust <- function(
   else{return(projectionPatterns)}
 }
 
+setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #######################################################################################################################################
 
 #' @title Projection function (PCA)

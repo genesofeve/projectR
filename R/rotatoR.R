@@ -16,7 +16,7 @@
 #' @export
 
 
-rotatoR=function(x1,y1,x2,y2,basisSET){
+rotatoR <- function(x1,y1,x2,y2,basisSET){
 
 if(dim(basisSET)[2]!=2){print("basisSET must have 2 and only 2 columns in it for this function.");return()}
 

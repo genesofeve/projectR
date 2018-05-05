@@ -50,7 +50,7 @@ projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 ```
 
 ### Input Arguments 
-The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the Patterns object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
+The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, incongruities between gene names--rownames of the Patterns object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
 
 The arguments are as follows:
 \begin{description}

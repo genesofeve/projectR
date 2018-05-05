@@ -11,9 +11,8 @@
 #' @examples
 #'  geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
-#' @export
 
-geneMatchR<-function(
+geneMatchR.default<-function(
   data1=NA,# a dataset of genes by samples
   AnnotionObj=NA,#an annotion object for data1. If NA, the rownames of data will be used.
   IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the rownames of data2
@@ -41,3 +40,6 @@ geneMatchR<-function(
     return(dataME)
   } else(return(dataM))
 }
+
+setMethod("geneMatchR",signature(data1="data.frame",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
+setMethod("geneMatchR",signature(data1="matrix",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
