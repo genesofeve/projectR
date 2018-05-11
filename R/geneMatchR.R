@@ -1,4 +1,3 @@
-
 #' @title geneMatchR
 #'
 #' @description Matches genes accross datasets.
@@ -41,5 +40,5 @@ geneMatchR.default<-function(
   } else(return(dataM))
 }
 
-setMethod("geneMatchR",signature(data1="data.frame",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
-setMethod("geneMatchR",signature(data1="matrix",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
+#setMethod("geneMatchR",signature(data1="data.frame",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
+setMethod("geneMatchR",signature(data1="ANY",AnnotionObj="ANY",IDcol="ANY",data2="ANY"),geneMatchR.default)
