@@ -42,6 +42,8 @@ projectR.default <- function(
   projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
 
   pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
+  colnames(pval.matrix)<-colnames(projectionPatterns)
+  rownames(pval.matrix)<-rownames(projectionPatterns)
 
   if(full==TRUE){
       projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
