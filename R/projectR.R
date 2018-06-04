@@ -45,7 +45,7 @@ projectR.default <- function(
   #For VGAM
   #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
   #For limma
-  pval.matrix<-2*pnorm(-abs(projection$coefficients))
+  pval.matrix<-2*pnorm(-abs(projectionPatterns))
   #colnames(pval.matrix)<-colnames(projectionPatterns)
   #rownames(pval.matrix)<-rownames(projectionPatterns)
 
