@@ -5,7 +5,8 @@
 \title{Projection function (CoGAPS)}
 \usage{
 projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-  Patterns = NA, NP = NA, full = FALSE, model = NA)
+  Patterns = NA, NP = NA, full = FALSE, model = NA,
+  family = "gaussianff")
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -21,6 +22,8 @@ projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{model}{# optional arguements to choose method for projection}
+
+\item{family}{# VGAM family function for model fitting (default: "gaussianff")}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)

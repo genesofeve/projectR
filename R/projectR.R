@@ -15,7 +15,8 @@
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' @import VGAM
+# @import VGAM
+#' @import limma
 #' @import stats
 
 projectR.default <- function(
@@ -36,17 +37,21 @@ projectR.default <- function(
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
-  #Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
-  #projectionPatterns <- t(Projection$coefficients)
-  projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
-  projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
+  projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
+  projectionPatterns <- t(projection$coefficients)
+  #projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
+  #projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
 
-  pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
-  colnames(pval.matrix)<-colnames(projectionPatterns)
-  rownames(pval.matrix)<-rownames(projectionPatterns)
+  #For VGAM
+  #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
+  #For limma
+  pval.matrix<-2*pnorm(-abs(projection$coefficients))
+  #colnames(pval.matrix)<-colnames(projectionPatterns)
+  #rownames(pval.matrix)<-rownames(projectionPatterns)
 
   if(full==TRUE){
-      projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
+      #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
