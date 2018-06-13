@@ -39,13 +39,16 @@ projectR.default <- function(
   colnames(Design) <- colnames(dataM[[1]])
   projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(projection$coefficients)
+  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
+
   #projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
   #projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
 
   #For VGAM
   #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
+
   #For limma
-  pval.matrix<-2*pnorm(-abs(projectionPatterns))
+  pval.matrix<-2*pnorm(-abs(projection.ts))
   #colnames(pval.matrix)<-colnames(projectionPatterns)
   #rownames(pval.matrix)<-rownames(projectionPatterns)
 
