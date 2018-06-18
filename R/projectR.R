@@ -1,3 +1,11 @@
+#' @importFrom stats hclust kmeans prcomp
+setOldClass("kmeans")
+setOldClass("hclust")
+setOldClass("prcomp")
+#' @importFrom CoGAPS CoGAPS
+setOldClass("CoGAPS")
+#' @importFrom limma lmFit
+
 
 #' @title Projection function (Base)
 #'
@@ -10,30 +18,12 @@
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @export
 #' @examples
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
-#' @import limma
-#' @importFrom limma lmFit
-#' @import stats
-#' @import grDevices
-#' @import methods
-#' @import utils
-#' @export
 
-
-projectR <- function(
-  data=NA,#a dataset to be projected onto
-  AnnotionObj=NA,#an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol",#the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA,#a matrix of continous values with unique rownames to be projected
-  NP=NA,#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA 
-  ){
-  UseMethod("projectR",Patterns)
-}
-
+setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full, model=NA), standardGeneric("projectR"))
 
 #######################################################################################################################################
 
@@ -51,8 +41,6 @@ projectR <- function(
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' @import limma
-#' @import stats
 #' @export
 
 
