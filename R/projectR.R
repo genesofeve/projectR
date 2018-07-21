@@ -23,7 +23,7 @@ setOldClass("CoGAPS")
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
 
-setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full, model=NA), standardGeneric("projectR"))
+setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
 
 #######################################################################################################################################
 
