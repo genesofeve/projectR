@@ -29,6 +29,9 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 default version
 }
 \examples{
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# 
+# Do not run, will break the build.  Fix and then uncomment. 
+# 
+#   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }

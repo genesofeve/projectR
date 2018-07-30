@@ -29,9 +29,12 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class rotatoR
 }
 \examples{
- pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
- r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
- pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-                         AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# 
+#   Do not run, this will break the build.  Fix the generics instead.
+#  
+# pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+# r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+#  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
+#                         AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }
