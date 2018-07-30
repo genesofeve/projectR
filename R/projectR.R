@@ -2,8 +2,10 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
+
 #' @importFrom CoGAPS CoGAPS
 setOldClass("CoGAPS")
+
 #' @importFrom limma lmFit
 
 
@@ -18,12 +20,13 @@ setOldClass("CoGAPS")
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @export
 #' @examples
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
-
-setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
+#' @export
+setGeneric("projectR", 
+           function(data, AnnotionObj, IDcol, Patterns, NP, full, model=NA) 
+           standardGeneric("projectR"))
 
 #######################################################################################################################################
 
