@@ -4,7 +4,7 @@
 \alias{projectR.correlateR}
 \title{Projection function (correlateR)}
 \usage{
-\method{projectR}{correlateR}(data = NA, AnnotionObj = NA,
+projectR.correlateR(data = NA, AnnotionObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
   model = NA)
 }
