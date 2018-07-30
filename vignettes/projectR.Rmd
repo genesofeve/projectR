@@ -24,16 +24,10 @@ Technological advances continue to spur the exponential growth of biological dat
 
 ## Installation Instructions
 
-For automatic Bioconductor package installation, start R, and run: 
+For the current development version, start R, and run:
 ```
-source("https://bioconductor.org/biocLite.R")
-biocLite("projectR")
-```
-
-For the current development level version, start R, and run:
-```
-library(devtools)
-install_github("projectR", "genesofeve")
+library(BiocManager)
+BiocManager::install("genesofeve/projectR")
 ```
 
 ## Methods
