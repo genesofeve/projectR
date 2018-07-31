@@ -4,9 +4,14 @@
 \alias{projectR.pclust}
 \title{Projection function (clustering)}
 \usage{
+<<<<<<< HEAD
 \method{projectR}{pclust}(data = NA, AnnotionObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
   model = NA)
+=======
+projectR.pclust(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}

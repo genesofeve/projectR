@@ -4,9 +4,15 @@
 \alias{projectR.CoGAPS}
 \title{Projection function (CoGAPS)}
 \usage{
+<<<<<<< HEAD
 \method{projectR}{CoGAPS}(data = NA, AnnotionObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
   model = NA)
+=======
+projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA,
+  family = "gaussianff")
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -22,6 +28,11 @@
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{model}{# optional arguements to choose method for projection}
+<<<<<<< HEAD
+=======
+
+\item{family}{# VGAM family function for model fitting (default: "gaussianff")}
+>>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -31,5 +42,5 @@ for use with object of class CoGAPS
 }
 \examples{
    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols",model="NonNegative")
 }
