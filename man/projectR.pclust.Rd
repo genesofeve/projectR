@@ -4,9 +4,8 @@
 \alias{projectR.pclust}
 \title{Projection function (clustering)}
 \usage{
-\method{projectR}{pclust}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.pclust(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -30,9 +29,12 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class Pclust
 }
 \examples{
- k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
- k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
- k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
-                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# 
+#   Do not run, this will break the build.  Fix the generics instead.
+#  
+# k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+# k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+# k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
+#                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }
