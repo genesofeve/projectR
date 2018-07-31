@@ -1,3 +1,6 @@
+#TODO: Define rotatoR S4 class here or make rotatoR a generic function
+
+
 #' @title rotatoR
 #'
 #' @description a function for rotating two basis about a point or line in that plain
@@ -13,7 +16,7 @@
 #' @export
 
 
-rotatoR=function(x1,y1,x2,y2,basisSET){
+rotatoR <- function(x1,y1,x2,y2,basisSET){
 
 if(dim(basisSET)[2]!=2){print("basisSET must have 2 and only 2 columns in it for this function.");return()}
 
@@ -27,7 +30,7 @@ R=rbind(c(cos(theta),-sin(theta)),c(sin(theta),cos(theta)))
 
 rotaNEW=t(R%*%t(basisSET))
 
-class(rotaNEW) <- append(class(rotaNEW),"rotatoR")
+class(rotaNEW) <- append(class(rotaNEW),"rotatoR") #Can't do this directly with S4 withouth a class definition.
 
 return(rotaNEW)
 }

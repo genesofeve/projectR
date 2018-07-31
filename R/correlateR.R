@@ -1,3 +1,5 @@
+#TODO: Define correlateR S4 object or make correlateR a generic.
+
 #' @title correlateR
 #'
 #' @description Function to extract genes highly correlated with a gene or reference expression pattern.
@@ -43,7 +45,7 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
 		}
 	}
-	class(corGS)<-append(class(corGS),"correlateR")
+	class(corGS)<-append(class(corGS),"correlateR")  #Can't do this directly with S4 withouth a class definition.
 	return(corGS)
 }
 
