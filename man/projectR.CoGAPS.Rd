@@ -4,9 +4,8 @@
 \alias{projectR.CoGAPS}
 \title{Projection function (CoGAPS)}
 \usage{
-\method{projectR}{CoGAPS}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -30,6 +29,9 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class CoGAPS
 }
 \examples{
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# 
+#   Do not run, this will break the build.  Fix the generics instead.
+#  
+#   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }

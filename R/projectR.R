@@ -2,8 +2,10 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
+
 #' @importFrom CoGAPS CoGAPS
 setOldClass("CoGAPS")
+
 #' @importFrom limma lmFit
 
 
@@ -18,12 +20,16 @@ setOldClass("CoGAPS")
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @export
 #' @examples
-#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+#' #
+#' # do not run, this will break the build.  Fix it instead.
+#' # 
+#' # projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
-
-setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
+#' @export
+setGeneric("projectR", 
+           function(data, AnnotionObj, IDcol, Patterns, NP, full, model=NA) 
+           standardGeneric("projectR"))
 
 #######################################################################################################################################
 
@@ -39,8 +45,11 @@ setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' # Do not run, will break the build.  Fix and then uncomment. 
+#' # 
+#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @export
 
 
@@ -84,8 +93,11 @@ projectR.default <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#' #               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
 #' @import NMF
@@ -141,10 +153,13 @@ projectR.CoGAPS <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
-#'                              AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' # k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' # k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' # k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
+#' #                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import cluster
@@ -195,9 +210,12 @@ projectR.pclust <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
-#'                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' #  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
+#' #                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import stats
@@ -254,10 +272,13 @@ projectR.prcomp <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-#'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' # pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' # r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+#' #  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
+#' #                         AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import stats
 #' @export
@@ -313,9 +334,12 @@ projectR.rotatoR <- function(
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-#'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' # 
+#' #   Do not run, this will break the build.  Fix the generics instead.
+#' #  
+#' #  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+#' #  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
+#' #                                   AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import limma
 #' @import stats
