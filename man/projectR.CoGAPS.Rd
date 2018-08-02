@@ -21,12 +21,7 @@ projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{model}{# optional arguements to choose method for projection}
-<<<<<<< HEAD
-=======
 
-\item{family}{# VGAM family function for model fitting (default: "gaussianff")}
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
-}
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 }

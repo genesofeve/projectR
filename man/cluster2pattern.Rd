@@ -4,11 +4,7 @@
 \alias{cluster2pattern}
 \title{cluster2pattern}
 \usage{
-<<<<<<< HEAD
-cluster2pattern(clusters, NP, Data)
-=======
 cluster2pattern(clusters, NP, Data, ...)
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 }
 \arguments{
 \item{clusters}{an cluster object}

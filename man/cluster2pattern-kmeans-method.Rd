@@ -5,12 +5,11 @@
 \alias{cluster2pattern,kmeans-method}
 \title{cluster2pattern (kmeans)}
 \usage{
-<<<<<<< HEAD:man/cluster2pattern-kmeans-method.Rd
+
 \S4method{cluster2pattern}{kmeans}(clusters, NP = NA, Data = NA)
-=======
 cluster2pattern.kmeans(clusters = NA, NP = NA, Data = NA)
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f:man/cluster2pattern.kmeans.Rd
 }
+
 \arguments{
 \item{clusters}{an kmeans cluster object}
 
