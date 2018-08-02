@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #' @importFrom stats hclust kmeans prcomp
 setOldClass("kmeans")
 setOldClass("hclust")
@@ -32,8 +32,7 @@ setGeneric("projectR",
            function(data, AnnotionObj, IDcol, Patterns, NP, full, model=NA) 
            standardGeneric("projectR"))
 
-=======
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
+
 #######################################################################################################################################
 
 #' @title Projection function (default)
@@ -49,24 +48,19 @@ setGeneric("projectR",
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-<<<<<<< HEAD
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-<<<<<<< HEAD
-=======
 #' # 
 #' # Do not run, will break the build.  Fix and then uncomment. 
 #' # 
 #' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
->>>>>>> master
-#' @export
 
-=======
+#' @export
 # @import VGAM
 #' @import limma
 #' @import stats
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
+
 
 projectR.default <- function(
   data=NA, # a dataset to be projected onto
@@ -126,18 +120,12 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-<<<<<<< HEAD
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols",model="NonNegative")
-#' @import VGAM
-=======
 #' # 
 #' #   Do not run, this will break the build.  Fix the generics instead.
 #' #  
 #' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #' #               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
->>>>>>> master
 #' @import stats
 #' @import NMF
 
@@ -165,15 +153,9 @@ projectR.CoGAPS <- function(
   colnames(Design) <- colnames(dataM[[1]])
 
   if(model=="NonNegative"){
-<<<<<<< HEAD
     Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
   }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
-=======
-    projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
-  } else{
-    projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
   }
   projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
   if(full==TRUE){
