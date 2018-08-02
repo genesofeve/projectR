@@ -24,7 +24,6 @@ Imports:
     stats,
     limma,
     MASS,
-<<<<<<< HEAD
     ggplot2,
     reshape2,
     NMF,
@@ -32,11 +31,9 @@ Imports:
 Suggests:
     BiocStyle,
     gridExtra,
-=======
     NMF
 Suggests:
     knitr,
->>>>>>> master
     grid,
     testthat,
     rmarkdown,

@@ -18,20 +18,6 @@ setOldClass("hclust")
 
 setGeneric("cluster2pattern", function(clusters, NP, Data) standardGeneric("cluster2pattern"))
 
-=======
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
-#' @title cluster2pattern (kmeans)
-#'
-#' @description Function to make patterns of continuous weights from kmeans clusters.
-#' @param clusters an kmeans cluster object
-#' @param NP number of desired patterns
-#' @param Data data used to make clusters object
-#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
-#'
-#' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'
 
 setMethod("cluster2pattern", signature(clusters="kmeans"), function(
   clusters, # a kmeans object
@@ -81,10 +67,7 @@ setMethod("cluster2pattern", signature(clusters="hclust"), function(
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust") # Can't/shouldn't do this in S4
   return(Patterns)
-<<<<<<< HEAD
-})
-=======
 }
 
 setMethod("cluster2pattern",signature(clusters="hclust"),cluster2pattern.hclust)
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
+
