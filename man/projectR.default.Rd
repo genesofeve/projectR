@@ -4,20 +4,8 @@
 \alias{projectR.default}
 \title{Projection function (default)}
 \usage{
-<<<<<<< HEAD
-<<<<<<< HEAD
-\method{projectR}{default}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
-=======
-projectR.default(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-  Patterns = NA, NP = NA, full = FALSE, model = NA,
-  family = "gaussianff")
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
-=======
 projectR.default(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA)
->>>>>>> master
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -46,14 +34,9 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 default version
 }
 \examples{
-<<<<<<< HEAD
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-=======
 # 
 # Do not run, will break the build.  Fix and then uncomment. 
 # 
 #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
->>>>>>> master
 }
