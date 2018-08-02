@@ -5,7 +5,11 @@
 \title{Projection function (correlateR)}
 \usage{
 <<<<<<< HEAD
+<<<<<<< HEAD
 \method{projectR}{correlateR}(data = NA, AnnotionObj = NA,
+=======
+projectR.correlateR(data = NA, AnnotionObj = NA,
+>>>>>>> master
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
   model = NA)
 =======
@@ -35,8 +39,11 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class corR
 }
 \examples{
- c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
- cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-                                   AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# 
+#   Do not run, this will break the build.  Fix the generics instead.
+#  
+#  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+#  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
+#                                   AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

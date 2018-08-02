@@ -11,7 +11,14 @@ export(correlateR)
 export(geneMatchR)
 export(intersectoR)
 export(projectR)
+export(projectR.CoGAPS)
+export(projectR.correlateR)
+export(projectR.default)
+export(projectR.pclust)
+export(projectR.prcomp)
+export(projectR.rotatoR)
 export(rotatoR)
+exportMethods(cluster2pattern)
 import(MASS)
 import(NMF)
 <<<<<<< HEAD
@@ -26,6 +33,7 @@ import(limma)
 import(reshape2)
 import(stats)
 <<<<<<< HEAD
+<<<<<<< HEAD
 import(utils)
 importFrom(limma,lmFit)
 importFrom(stats,hclust)
@@ -33,3 +41,10 @@ importFrom(stats,kmeans)
 =======
 importClassesFrom(SingleCellExperiment,LinearEmbeddingMatrix)
 >>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
+=======
+importFrom(CoGAPS,CoGAPS)
+importFrom(limma,lmFit)
+importFrom(stats,hclust)
+importFrom(stats,kmeans)
+importFrom(stats,prcomp)
+>>>>>>> master

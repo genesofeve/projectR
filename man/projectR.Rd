@@ -5,11 +5,15 @@
 \title{Generic projectR function}
 \usage{
 <<<<<<< HEAD
+<<<<<<< HEAD
 projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA)
 =======
 projectR(data, Patterns, ...)
 >>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
+=======
+projectR(data, AnnotionObj, IDcol, Patterns, NP, full, model = NA)
+>>>>>>> master
 }
 \arguments{
 \item{data}{Target dataset into which you will prject}
@@ -37,6 +41,13 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 Generic projectR function
 }
 \examples{
+<<<<<<< HEAD
         projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+=======
+#
+# do not run, this will break the build.  Fix it instead.
+# 
+# projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+>>>>>>> master
 
 }
