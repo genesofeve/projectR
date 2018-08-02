@@ -24,16 +24,10 @@ Technological advances continue to spur the exponential growth of biological dat
 
 ## Installation Instructions
 
-For automatic Bioconductor package installation, start R, and run: 
+For the current development version, start R, and run:
 ```
-source("https://bioconductor.org/biocLite.R")
-biocLite("projectR")
-```
-
-For the current development level version, start R, and run:
-```
-library(devtools)
-install_github("projectR", "genesofeve")
+library(BiocManager)
+BiocManager::install("genesofeve/projectR")
 ```
 
 ## Methods
@@ -103,13 +97,18 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ```
 
 ## Projecting prcomp objects 
-```{r projectR.prcomp, warning=FALSE}
+```{r projectR.prcomp, warning=FALSE, eval=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
-
 library(projectR)
-PCA2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+data(map.ESepiGen4c1l)
+data(p.ESepiGen4c1l) 
+data(pd.ESepiGen4c1l) 
+
+PCA2ESepi <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,
+                      AnnotionObj=map.ESepiGen4c1l, 
+                      IDcol="GeneSymbols",
+                      Patterns=pc.RNAseq6l3c3t,
+                      full=TRUE) 
 
 pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
 pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
@@ -133,7 +132,7 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
 
 ```
 
-```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE}
+```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE, eval=FALSE}
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 ```
