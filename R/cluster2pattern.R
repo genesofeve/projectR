@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #' @importFrom stats hclust kmeans
 setOldClass("kmeans")
 setOldClass("hclust")
