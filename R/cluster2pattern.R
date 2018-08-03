@@ -11,15 +11,15 @@ setOldClass("hclust")
 #' @param Data data used to make clusters object
 #' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
 #' @export
-#' @examples 
+#' @examples
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)  
+#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'
 
 setGeneric("cluster2pattern", function(clusters, NP, Data) standardGeneric("cluster2pattern"))
 
 
-setMethod("cluster2pattern", signature(clusters="kmeans"), function(
+cluster2pattern.kmeans<- function(
   clusters, # a kmeans object
   NP=NA, # number of desired patterns
   Data=NA # data used to make clusters object
@@ -34,7 +34,7 @@ setMethod("cluster2pattern", signature(clusters="kmeans"), function(
   Patterns<-tempP
   class(Patterns)<-append(class(Patterns),"pclust") # Can't/shouldn't do this in S4
   return(Patterns)
-})
+}
 
 setMethod("cluster2pattern",signature(clusters="kmeans"),cluster2pattern.kmeans)
 
@@ -51,7 +51,7 @@ setMethod("cluster2pattern",signature(clusters="kmeans"),cluster2pattern.kmeans)
 #'  cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 #'
 
-setMethod("cluster2pattern", signature(clusters="hclust"), function(
+cluster2pattern.hclust<-function(
   clusters, # an hclust object
   NP=NA, # number of desired patterns
   Data=NA # data used to make hclust object

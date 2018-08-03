@@ -24,7 +24,7 @@ setOldClass("CoGAPS")
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
 
-setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
+#setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
 
 
 #######################################################################################################################################
@@ -42,19 +42,13 @@ setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-<<<<<<< HEAD
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' # 
-#' # Do not run, will break the build.  Fix and then uncomment. 
-#' # 
+#' #
+#' # Do not run, will break the build.  Fix and then uncomment.
+#' #
 #' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-
-=======
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
->>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
 #' @export
 # @import VGAM
 #' @import limma
