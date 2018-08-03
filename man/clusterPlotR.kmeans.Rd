@@ -4,8 +4,8 @@
 \alias{clusterPlotR.kmeans}
 \title{clusterPlotR (kmeans)}
 \usage{
-\method{clusterPlotR}{kmeans}(cData = NA, cls = NA, x = NA,
-  NC = NA, annoIndx = NA, label = NULL, ...)
+\method{clusterPlotR}{kmeans}(cData = NA, cls = NA, x = NA, NC = NA,
+  annoIndx = NA, label = NULL, ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}

@@ -4,8 +4,8 @@
 \alias{clusterPlotR}
 \title{clusterPlotR (base)}
 \usage{
-clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA,
-  annoIndx = NA, ...)
+clusterPlotR(cData = NA, cls = NA, x = NA, NC = NA, annoIndx = NA,
+  ...)
 }
 \arguments{
 \item{cData}{data used to get clusters}

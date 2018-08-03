@@ -4,7 +4,8 @@
 \alias{projectR}
 \title{Generic projectR function}
 \usage{
-projectR(data, AnnotionObj, IDcol, Patterns, NP, full, model = NA)
+projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{Target dataset into which you will prject}
@@ -29,9 +30,6 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 Generic projectR function
 }
 \examples{
-#
-# do not run, this will break the build.  Fix it instead.
-# 
-# projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+   projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 
 }
