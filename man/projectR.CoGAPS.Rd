@@ -4,9 +4,9 @@
 \alias{projectR.CoGAPS}
 \title{Projection function (CoGAPS)}
 \usage{
-\method{projectR}{CoGAPS}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA,
+  family = "gaussianff")
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
@@ -23,6 +23,8 @@
 
 \item{model}{# optional arguements to choose method for projection}
 
+\item{family}{# VGAM family function for model fitting (default: "gaussianff")}
+}
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 }
@@ -30,16 +32,6 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class CoGAPS
 }
 \examples{
-<<<<<<< HEAD
-
-# 
-#   Do not run, this will break the build.  Fix the generics instead.
-#  
-#   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-
-=======
    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
->>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
 }

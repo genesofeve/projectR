@@ -24,6 +24,7 @@ setOldClass("CoGAPS")
 #'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 #'
 
+#Generic is now defined in AllGenerics.R
 #setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
 
 
@@ -50,7 +51,6 @@ setOldClass("CoGAPS")
 #' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
 #' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @export
-# @import VGAM
 #' @import limma
 #' @import stats
 
@@ -271,7 +271,9 @@ projectR.pclust <- function(
   else{return(projectionPatterns)}
 }
 
-setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
+#TODO: LG -I'm currently unsure where class 'pclust' is defined.  This is causing warning in build because of no definition.  So hiding the method currently.
+
+#setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #######################################################################################################################################
 
 #' @title Projection function (PCA)

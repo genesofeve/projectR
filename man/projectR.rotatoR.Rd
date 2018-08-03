@@ -4,9 +4,8 @@
 \alias{projectR.rotatoR}
 \title{Projection function (rotatoR objects)}
 \usage{
-\method{projectR}{rotatoR}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.rotatoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
