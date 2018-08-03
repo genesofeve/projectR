@@ -2,12 +2,22 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
+<<<<<<< HEAD
 Version: 0.99.6
 Date: 2018-07-30
+=======
+<<<<<<< HEAD
+Version: 0.99.15
+=======
+Version: 0.99.2
+>>>>>>> c912b1435ae1facab7451cde7ab18127e0ed5c15
+Date: 2016-11-22
+>>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
 Author: Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
+<<<<<<< HEAD
 Depends:
     CoGAPS,
     gplots,
@@ -22,10 +32,20 @@ Depends:
 Imports:
     cluster,
     stats,
+=======
+Imports:
+    graphics,
+    grDevices,
+    methods,
+    cluster,
+    stats,
+    utils,
+>>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
     limma,
     MASS,
     ggplot2,
     reshape2,
+<<<<<<< HEAD
     NMF,
     VGAM
 Suggests:
@@ -44,6 +64,22 @@ Suggests:
     NNLM
 LazyData: TRUE
 RoxygenNote: 6.1.0
+=======
+    NMF
+Suggests:
+    CoGAPS,
+    BiocStyle,
+    gridExtra,
+    grid,
+    testthat,
+    devtools,
+    knitr,
+    rmarkdown,
+    testthat,
+    ComplexHeatmap
+LazyData: TRUE
+RoxygenNote: 6.0.1
+>>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
 BugReports: https://support.bioconductor.org/t/projectR/

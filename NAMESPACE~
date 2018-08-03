@@ -18,32 +18,21 @@ export(geneMatchR)
 export(intersectoR)
 export(projectR)
 export(rotatoR)
+<<<<<<< HEAD
 import(MASS)
 import(NMF)
-import(SingleCellExperiment)
-import(VGAM)
 import(cluster)
 import(ggplot2)
 import(grDevices)
 import(graphics)
+=======
+exportMethods(cluster2pattern)
+>>>>>>> c912b1435ae1facab7451cde7ab18127e0ed5c15
 import(limma)
 import(methods)
 import(reshape2)
 import(stats)
 import(utils)
-<<<<<<< HEAD
 importFrom(limma,lmFit)
 importFrom(stats,hclust)
 importFrom(stats,kmeans)
-importClassesFrom(SingleCellExperiment,LinearEmbeddingMatrix)
-importFrom(CoGAPS,CoGAPS)
-importFrom(limma,lmFit)
-importFrom(stats,hclust)
-importFrom(stats,kmeans)
-importFrom(stats,prcomp)
-
-=======
-importFrom(limma,lmFit)
-importFrom(stats,hclust)
-importFrom(stats,kmeans)
->>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
