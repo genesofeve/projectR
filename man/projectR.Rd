@@ -4,24 +4,14 @@
 \alias{projectR}
 \title{Generic projectR function}
 \usage{
-projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-  Patterns = NA, NP = NA, full = FALSE, model = NA)
+projectR(data, Patterns, ...)
 }
 \arguments{
 \item{data}{Target dataset into which you will prject}
 
-\item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
+\item{Patterns}{Patterns learned from source dataset}
 
-\item{Patterns}{a matrix of continous values with unique rownames to be projected}
-
-\item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
-
-\item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
-
-\item{model}{# optional arguements to choose method for projection}
-=======
 \item{...}{Additional arguments to projectR}
->>>>>>> 68e7dc7b88caed3ca6bf64468c75fe11aef8577f
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -30,6 +20,6 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 Generic projectR function
 }
 \examples{
-   projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+        projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
 
 }

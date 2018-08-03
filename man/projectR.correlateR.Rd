@@ -4,9 +4,8 @@
 \alias{projectR.correlateR}
 \title{Projection function (correlateR)}
 \usage{
-\method{projectR}{correlateR}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.correlateR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}

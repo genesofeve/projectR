@@ -2,13 +2,29 @@
 % Please edit documentation in R/projectR.R
 \name{projectR.default}
 \alias{projectR.default}
-\title{Projection function (default)}
+\title{Projection function (Base)}
 \usage{
-\method{projectR}{default}(data = NA, AnnotionObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+projectR.default(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+  Patterns = NA, NP = NA, full = FALSE, model = NA,
+  family = "gaussianff")
 }
 \arguments{
+\item{data}{a dataset to be projected into the pattern space}
+
+\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+
+\item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
+
+\item{Patterns}{a matrix of continous values with unique rownames to be projected}
+
+\item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
+
+\item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+
+\item{model}{# optional arguements to choose method for projection}
+
+\item{family}{# VGAM family function for model fitting (default: "gaussianff")}
+
 \item{data}{a dataset to be projected into the pattern space}
 
 \item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
@@ -22,14 +38,25 @@
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{model}{# optional arguements to choose method for projection}
-
+}
 \value{
+A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 }
 \description{
+a function for the projection of new data into a previously defined feature space
+
 default version
 }
 \examples{
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+   projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+
+   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#
+# Do not run, will break the build.  Fix and then uncomment.
+#
+#   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }
