@@ -31,7 +31,6 @@ import(methods)
 import(reshape2)
 import(stats)
 import(utils)
-<<<<<<< HEAD
 importFrom(limma,lmFit)
 importFrom(stats,hclust)
 importFrom(stats,kmeans)
@@ -42,8 +41,3 @@ importFrom(stats,hclust)
 importFrom(stats,kmeans)
 importFrom(stats,prcomp)
 
-=======
-importFrom(limma,lmFit)
-importFrom(stats,hclust)
-importFrom(stats,kmeans)
->>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master

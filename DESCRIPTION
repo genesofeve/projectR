@@ -19,14 +19,6 @@ Imports:
     MASS,
     ggplot2,
     reshape2,
-<<<<<<< HEAD
-    NMF,
-    VGAM
-Suggests:
-    BiocStyle,
-    gridExtra,
-=======
->>>>>>> parent of 9d9868f... Merge pull request #4 from trichelab/master
     NMF
 Suggests:
     CoGAPS,
