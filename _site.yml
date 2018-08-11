@@ -1,0 +1,29 @@
+name: projectR-website
+navbar:
+  title: ProjectR
+  left:
+  - text: Home
+    href: index.html
+  - text: Latent Spaces
+    href: latent.html
+  - text: Projection
+    href: projection.html
+  - text: Vignette
+    href: vignette.html
+  - text: Tutorials
+    href: tutorials.html
+  - text: Resources
+    href: resources.html
+  - text: Tools
+    href: tools.html
+  - text: About
+    href: about.html
+output_dir: _site
+output:
+  html_document:
+    lib_dir: site_libs
+    theme: cosmo
+    highlight: textmate
+    self_contained: no
+    css: styles.css
+
