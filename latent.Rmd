@@ -2,3 +2,4 @@
 title: "What is a latent space"
 ---
 
+![](images/latent_lenses.png)
