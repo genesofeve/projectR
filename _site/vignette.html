@@ -11,7 +11,7 @@
 
 <meta name="author" content="Genevieve L. Stein-O’Brien" />
 
-<meta name="date" content="2018-08-11" />
+<meta name="date" content="2018-08-12" />
 
 <title>Vignette</title>
 
@@ -283,14 +283,11 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Vignette</h1>
 <h4 class="author"><em>Genevieve L. Stein-O’Brien</em></h4>
-<h4 class="date"><em>11 August 2018</em></h4>
+<h4 class="date"><em>12 August 2018</em></h4>
 
 </div>
 
 
-<pre><code>knitr::opts_chunk$set(echo = TRUE)
-options(scipen = 1, digits = 2)
-set.seed(1234)</code></pre>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed projectR, an R package for integrated analysis of high dimensional omic data. projectR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, projectR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the projectRR package can be used for <em>in silico</em> experiments, or additional information on the algorithm, see Stein-O’Brien, et al.</p>
@@ -300,29 +297,36 @@ set.seed(1234)</code></pre>
 <div id="installation-instructions" class="section level2">
 <h2>Installation Instructions</h2>
 <p>For automatic Bioconductor package installation, start R, and run:</p>
-<pre><code>source(&quot;https://bioconductor.org/biocLite.R&quot;)
-biocLite(&quot;projectR&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;https://bioconductor.org/biocLite.R&quot;</span>)
+<span class="kw">biocLite</span>(<span class="st">&quot;projectR&quot;</span>)</code></pre></div>
 <p>For the current development level version, start R, and run:</p>
-<pre><code>library(devtools)
-install_github(&quot;projectR&quot;, &quot;genesofeve&quot;)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
+<span class="kw">install_github</span>(<span class="st">&quot;projectR&quot;</span>, <span class="st">&quot;genesofeve&quot;</span>)</code></pre></div>
 </div>
 <div id="the-base-projectr-function" class="section level2">
 <h2>The base projectR function</h2>
 <p>These functions can be the product of any one of several methods common to “omic” analyses including regression, PCA, NMF, clustering. Individual chapters focussing on one specific method are included in the vignette. However, the general design of the projectR function is the same reguardless.</p>
 <p>The base projectR function is executed as follows:</p>
-<pre><code>library(projectR)
-projectR(data = NA, AnnotionObj = NA, IDcol = &quot;GeneSymbol&quot;,
-    Patterns = NA, NP = NA, full = FALSE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(projectR)
+<span class="kw">projectR</span>(<span class="dt">data =</span> <span class="ot">NA</span>, <span class="dt">AnnotionObj =</span> <span class="ot">NA</span>, <span class="dt">IDcol =</span> <span class="st">&quot;GeneSymbol&quot;</span>,
+    <span class="dt">Patterns =</span> <span class="ot">NA</span>, <span class="dt">NP =</span> <span class="ot">NA</span>, <span class="dt">full =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <div id="input-arguments" class="section level3">
 <h3>Input Arguments</h3>
 <p>The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, incongruities between gene names–rownames of the Patterns object and either rownames of the data object or the values in the “IDcol” of a corresponding annotation object for the data–will throw errors and, subsequently, should be checked before running.</p>
-The arguments are as follows:
-
-<p>The  arguement in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).</p>
+<p>The arguments are as follows:</p>
+<ul>
+<li>***<a href="data:***" class="uri">data:***</a> a dataset to be projected into the pattern space</li>
+<li><strong><em>AnnotionObj:</em></strong> an annotion object for data. If NA the rownames of data will be used.</li>
+<li><strong><em>IDcol:</em></strong> the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights</li>
+<li><strong><em>Patterns:</em></strong> a matrix of continous values with unique rownames to be projected</li>
+<li><strong><em>NP:</em></strong> vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.</li>
+<li><strong><em>full:</em></strong> logical indicating whether to return the full model solution. By default only the new pattern object is returned.</li>
+</ul>
+<p>The <strong><em>Patterns</em></strong> argument in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).</p>
 </div>
 <div id="output" class="section level3">
 <h3>Output</h3>
-<p>The basic output of the base projectR function, i.e. , returns  representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. , returns , a list containing  and . The  object contains additional information from the proceedure used to obtain the . For the the the base projectR function,  is the full lmFit model from the .</p>
+<p>The basic output of the base projectR function, i.e. <em>full=FALSE</em>, returns <em>projectionPatterns</em> representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. <em>full=TRUE</em>, returns <em>projectionFit</em>, a list containing <em>projectionPatterns</em> and <em>Projection</em>. The <em>Projection</em> object contains additional information from the proceedure used to obtain the <em>projectionPatterns</em>. For the the the base projectR function, <em>Projection</em> is the full lmFit model from the .</p>
 </div>
 </div>
 </div>
@@ -582,7 +586,7 @@ pm.RNAseq6l3c3t&lt;-<span class="kw">melt</span>(<span class="kw">cbind</span>(p
     <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,
     <span class="dt">legend.title=</span><span class="kw">element_blank</span>()
 )</code></pre></div>
-<p><img src="vignette_files/figure-html/unnamed-chunk-2-1.png" width="960" /></p>
+<p><img src="vignette_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
 </div>
 <div id="projecting-correlater-objects." class="section level2">
 <h2>Projecting correlateR objects.</h2>

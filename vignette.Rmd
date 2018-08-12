@@ -2,9 +2,10 @@
 title: "Vignette"
 author: "Genevieve L. Stein-O'Brien"
 date: "`r BiocStyle::doc_date()`"
+bibliography: projectR.bib
 ---
 
-```
+```{r echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
@@ -18,13 +19,13 @@ Technological advances continue to spur the exponential growth of biological dat
 ## Installation Instructions
 
 For automatic Bioconductor package installation, start R, and run: 
-```
+```{r eval=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("projectR")
 ```
 
 For the current development level version, start R, and run:
-```
+```{r eval=FALSE}
 library(devtools)
 install_github("projectR", "genesofeve")
 ```
@@ -33,7 +34,7 @@ install_github("projectR", "genesofeve")
 These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual chapters focussing on one specific method are included in the vignette. However, the general design of the projectR function is the same reguardless. 
 
 The base projectR function is executed as follows:
-```
+```{r eval=FALSE}
 library(projectR)
 projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
     Patterns = NA, NP = NA, full = FALSE)
@@ -43,19 +44,19 @@ projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, incongruities between gene names--rownames of the Patterns object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
 
 The arguments are as follows:
-\begin{description}
-\item[data]{a dataset to be projected into the pattern space}
-\item[AnnotionObj]{an annotion object for data. If NA the rownames of data will be used.}
-\item[IDcol]{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
-\item[Patterns]{a matrix of continous values with unique rownames to be projected}
-\item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
-\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
-\end{description}
 
-The \texttt{Patterns} arguement in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
+- ***data:*** a dataset to be projected into the pattern space
+- ***AnnotionObj:*** an annotion object for data. If NA the rownames of data will be used.
+- ***IDcol:*** the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+- ***Patterns:*** a matrix of continous values with unique rownames to be projected
+- ***NP:*** vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+- ***full:*** logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+
+
+The ***Patterns*** argument in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
 
 ### Output
-The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+The basic output of the base projectR function, i.e. _full=FALSE_, returns _projectionPatterns_ representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. _full=TRUE_, returns _projectionFit_, a list containing _projectionPatterns_ and _Projection_. The _Projection_ object contains additional information from the proceedure used to obtain the _projectionPatterns_. For the the the base projectR function,  _Projection_ is the full lmFit model from the `r #Biocpkg('limma')`. 
 
 # PCA projection
 Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectR} function has S3 method for class \texttt{prcomp}.  
