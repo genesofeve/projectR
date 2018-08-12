@@ -1,0 +1,20 @@
+---
+title: "Getting Started"
+---
+
+## Installation
+
+ProjectR can be installed in several ways.  To install the current release version (from [R/Bioconductor](http://www.bioconductor.org/)):
+```{r, eval=FALSE}
+source('http://www.bioconductor.org/biocLite.R')
+biocLite('ProjectR')
+```
+
+You may also install the developmental version of ProjectR directly from the Github repo:
+```{r, eval=FALSE}
+require(devtools)
+devtools::install_github('genesofeve/projectR')
+```
+
+
+## Data objects

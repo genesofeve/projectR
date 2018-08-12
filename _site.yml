@@ -3,27 +3,40 @@ navbar:
   title: ProjectR
   left:
   - text: Home
+    icon: glyphicon-home
     href: index.html
+  - text: Getting Started
+    href: get_started.html
+  - text: Vignette
+    icon: fa-book-open
+    href: vignette.html
   - text: Latent Spaces
+    icon: fa-fulcrum
     href: latent.html
   - text: Projection
+    icon: fa-exchange-alt
     href: projection.html
-  - text: Vignette
-    href: vignette.html
   - text: Tutorials
-    href: tutorials.html
+    menu:
+      - text: Tutorial 1
+        href: tutorial_01.html
+      - text: Tutorial 2
+        href: tutorial_02.html
+      - text: Tutorial 3
+        href: tutorial_03.html
   - text: Resources
     href: resources.html
   - text: Tools
     href: tools.html
   - text: About
+    icon: fa-info
     href: about.html
 output_dir: _site
 output:
   html_document:
     lib_dir: site_libs
     theme: cosmo
-    highlight: textmate
+    highlight: pygments
     self_contained: no
     css: styles.css
 

@@ -9,7 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Genevieve L. Stein-O’Brien" />
 
+<meta name="date" content="2018-08-11" />
 
 <title>Vignette</title>
 
@@ -20,25 +22,52 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -179,19 +208,53 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="glyphicon glyphicon-home"></span>
+     
+    Home
+  </a>
 </li>
 <li>
-  <a href="latent.html">Latent Spaces</a>
+  <a href="get_started.html">Getting Started</a>
 </li>
 <li>
-  <a href="projection.html">Projection</a>
+  <a href="vignette.html">
+    <span class="fa fa-book-open"></span>
+     
+    Vignette
+  </a>
 </li>
 <li>
-  <a href="vignette.html">Vignette</a>
+  <a href="latent.html">
+    <span class="fa fa-fulcrum"></span>
+     
+    Latent Spaces
+  </a>
 </li>
 <li>
-  <a href="tutorials.html">Tutorials</a>
+  <a href="projection.html">
+    <span class="fa fa-exchange-alt"></span>
+     
+    Projection
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="tutorial_01.html">Tutorial 1</a>
+    </li>
+    <li>
+      <a href="tutorial_02.html">Tutorial 2</a>
+    </li>
+    <li>
+      <a href="tutorial_03.html">Tutorial 3</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="resources.html">Resources</a>
@@ -200,7 +263,11 @@ $(document).ready(function () {
   <a href="tools.html">Tools</a>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="about.html">
+    <span class="fa fa-info"></span>
+     
+    About
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -215,11 +282,319 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Vignette</h1>
+<h4 class="author"><em>Genevieve L. Stein-O’Brien</em></h4>
+<h4 class="date"><em>11 August 2018</em></h4>
 
 </div>
 
 
-<p>Pretty vignette…</p>
+<pre><code>knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 1, digits = 2)
+set.seed(1234)</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed projectR, an R package for integrated analysis of high dimensional omic data. projectR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, projectR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the projectRR package can be used for <em>in silico</em> experiments, or additional information on the algorithm, see Stein-O’Brien, et al.</p>
+</div>
+<div id="getting-started-with-projectr" class="section level1">
+<h1>Getting started with projectR</h1>
+<div id="installation-instructions" class="section level2">
+<h2>Installation Instructions</h2>
+<p>For automatic Bioconductor package installation, start R, and run:</p>
+<pre><code>source(&quot;https://bioconductor.org/biocLite.R&quot;)
+biocLite(&quot;projectR&quot;)</code></pre>
+<p>For the current development level version, start R, and run:</p>
+<pre><code>library(devtools)
+install_github(&quot;projectR&quot;, &quot;genesofeve&quot;)</code></pre>
+</div>
+<div id="the-base-projectr-function" class="section level2">
+<h2>The base projectR function</h2>
+<p>These functions can be the product of any one of several methods common to “omic” analyses including regression, PCA, NMF, clustering. Individual chapters focussing on one specific method are included in the vignette. However, the general design of the projectR function is the same reguardless.</p>
+<p>The base projectR function is executed as follows:</p>
+<pre><code>library(projectR)
+projectR(data = NA, AnnotionObj = NA, IDcol = &quot;GeneSymbol&quot;,
+    Patterns = NA, NP = NA, full = FALSE)</code></pre>
+<div id="input-arguments" class="section level3">
+<h3>Input Arguments</h3>
+<p>The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, incongruities between gene names–rownames of the Patterns object and either rownames of the data object or the values in the “IDcol” of a corresponding annotation object for the data–will throw errors and, subsequently, should be checked before running.</p>
+The arguments are as follows:
+
+<p>The  arguement in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).</p>
+</div>
+<div id="output" class="section level3">
+<h3>Output</h3>
+<p>The basic output of the base projectR function, i.e. , returns  representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. , returns , a list containing  and . The  object contains additional information from the proceedure used to obtain the . For the the the base projectR function,  is the full lmFit model from the .</p>
+</div>
+</div>
+</div>
+<div id="pca-projection" class="section level1">
+<h1>PCA projection</h1>
+<p>Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, <span class="math inline">\(V\)</span>, and <span class="math inline">\(\Re^n\)</span> which preserves inner products. If <span class="math inline">\(V\)</span> is an inner product space over <span class="math inline">\(\Re\)</span> with orthonormal basis <span class="math inline">\(B = v_1,...,v_n\)</span> and <span class="math inline">\(v \epsilon V s.t [v]_B = (r_1,...,r_n)\)</span>, then finding the coordinate of <span class="math inline">\(v_i\)</span> in <span class="math inline">\(v\)</span> is precisely the inner product of <span class="math inline">\(v\)</span> with <span class="math inline">\(v_i\)</span>, i.e. <span class="math inline">\(r_i = \langle v,v_i \rangle\)</span>. This formulation is implemented for only those genes belonging to both the new data and the PC space. The  function has S3 method for class .</p>
+<div id="obtaining-pcs-to-project." class="section level2">
+<h2>Obtaining PCs to project.</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data to define PCs</span>
+<span class="kw">library</span>(projectR)
+<span class="kw">data</span>(RNAseq6l3c3t)
+
+<span class="co"># do PCA on RNAseq6l3c3t expression data </span>
+pc.RNAseq6l3c3t&lt;-<span class="kw">prcomp</span>(<span class="kw">t</span>(p.RNAseq6l3c3t))
+pcVAR &lt;-<span class="st"> </span><span class="kw">round</span>(((pc.RNAseq6l3c3t<span class="op">$</span>sdev)<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="kw">sum</span>(pc.RNAseq6l3c3t<span class="op">$</span>sdev<span class="op">^</span><span class="dv">2</span>))<span class="op">*</span><span class="dv">100</span>,<span class="dv">2</span>)
+dPCA &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(pc.RNAseq6l3c3t<span class="op">$</span>x,pd.RNAseq6l3c3t))
+
+<span class="co">#plot pca</span>
+<span class="kw">library</span>(ggplot2)
+setCOL &lt;-<span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>), <span class="dt">name=</span><span class="st">&quot;Condition:&quot;</span>) 
+setFILL &lt;-<span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>,<span class="st">&quot;red&quot;</span>),<span class="dt">guide =</span> <span class="ot">FALSE</span>) 
+setPCH &lt;-<span class="st"> </span><span class="kw">scale_shape_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="dv">23</span>,<span class="dv">22</span>,<span class="dv">25</span>,<span class="dv">25</span>,<span class="dv">21</span>,<span class="dv">24</span>),<span class="dt">name=</span><span class="st">&quot;Cell Line:&quot;</span>)
+
+pPCA &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dPCA, <span class="kw">aes</span>(<span class="dt">x=</span>PC1, <span class="dt">y=</span>PC2, <span class="dt">colour=</span>ID.cond, <span class="dt">shape=</span>ID.line, 
+        <span class="dt">fill=</span>ID.cond)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size=</span>days),<span class="dt">alpha=</span>.<span class="dv">6</span>)<span class="op">+</span><span class="st"> </span>
+<span class="st">        </span>setCOL <span class="op">+</span><span class="st"> </span>setPCH  <span class="op">+</span><span class="st"> </span>setFILL <span class="op">+</span>
+<span class="st">        </span><span class="kw">scale_size_area</span>(<span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>), <span class="dt">name=</span><span class="st">&quot;Day&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">legend.justification=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
+              <span class="dt">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,
+              <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,<span class="dt">colour=</span><span class="ot">NA</span>),
+              <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;transparent&quot;</span>,<span class="dt">colour=</span><span class="ot">NA</span>),
+              <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">vjust =</span> <span class="dv">0</span>,<span class="dt">hjust=</span><span class="dv">0</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;PCA of hPSC PolyA RNAseq&quot;</span>,
+            <span class="dt">x=</span><span class="kw">paste</span>(<span class="st">&quot;PC1 (&quot;</span>,pcVAR[<span class="dv">1</span>],<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),
+            <span class="dt">y=</span><span class="kw">paste</span>(<span class="st">&quot;PC2 (&quot;</span>,pcVAR[<span class="dv">2</span>],<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</code></pre></div>
+</div>
+<div id="projecting-prcomp-objects" class="section level2">
+<h2>Projecting prcomp objects</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data to project into PCs from RNAseq6l3c3t expression data </span>
+<span class="kw">data</span>(ESepiGen4c1l4)
+
+<span class="kw">library</span>(projectR)
+PCA2ESepi &lt;-<span class="st"> </span><span class="kw">projectR</span>(p.ESepiGen4c1l<span class="op">$</span>mRNA.Seq,<span class="dt">Patterns=</span>pc.RNAseq6l3c3t,<span class="dt">full=</span><span class="ot">TRUE</span>, 
+    <span class="dt">AnnotionObj=</span>map.ESepiGen4c1l, <span class="dt">IDcol=</span><span class="st">&quot;GeneSymbols&quot;</span>)
+
+pd.ESepiGen4c1l&lt;-<span class="kw">data.frame</span>(<span class="dt">Condition=</span><span class="kw">sapply</span>(<span class="kw">colnames</span>(p.ESepiGen4c1l<span class="op">$</span>mRNA.Seq), <span class="cf">function</span>(x) <span class="kw">unlist</span>(<span class="kw">strsplit</span>(x,<span class="st">&#39;_&#39;</span>))[<span class="dv">1</span>]),<span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>)
+pd.ESepiGen4c1l<span class="op">$</span>color&lt;-<span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>,<span class="st">&quot;black&quot;</span>)
+<span class="kw">names</span>(pd.ESepiGen4c1l<span class="op">$</span>color)&lt;-pd.ESepiGen4c1l<span class="op">$</span>Cond
+
+dPCA2ESepi&lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(PCA2ESepi,pd.ESepiGen4c1l))
+
+<span class="co">#plot pca</span>
+<span class="kw">library</span>(ggplot2)
+setEpiCOL &lt;-<span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>),                              <span class="dt">guide =</span> <span class="kw">guide_legend</span>(<span class="dt">title=</span><span class="st">&quot;Lineage&quot;</span>))
+
+pPC2ESepiGen4c1l &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dPCA2ESepi, <span class="kw">aes</span>(<span class="dt">x=</span>PC1, <span class="dt">y=</span>PC2, <span class="dt">colour=</span>Condition)) <span class="op">+</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>setEpiCOL <span class="op">+</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">legend.justification=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
+        <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>),
+        <span class="dt">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">vjust =</span> <span class="dv">0</span>,<span class="dt">hjust=</span><span class="dv">0</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>)) <span class="op">+</span>
+<span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Encode RNAseq in target PC1 &amp; PC2&quot;</span>, 
+          <span class="dt">x=</span><span class="kw">paste</span>(<span class="st">&quot;Projected PC1 (&quot;</span>,<span class="kw">round</span>(PCA2ESepi[[<span class="dv">2</span>]][<span class="dv">1</span>],<span class="dv">2</span>),<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),
+          <span class="dt">y=</span><span class="kw">paste</span>(<span class="st">&quot;Projected PC2 (&quot;</span>,<span class="kw">round</span>(PCA2ESepi[[<span class="dv">2</span>]][<span class="dv">2</span>],<span class="dv">2</span>),<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</code></pre></div>
+</div>
+</div>
+<div id="cogaps-projection" class="section level1">
+<h1>CoGAPS projection</h1>
+NMF decomposes a data matrix of <span class="math inline">\(D\)</span> with <span class="math inline">\(N\)</span> genes as rows and <span class="math inline">\(M\)</span> samples as columns, into two matrices, as <span class="math inline">\(D ~ AP\)</span>. The pattern matrix P has rows associated with BPs in samples and the amplitude matrix A has columns indicating the relative association of a given gene, where the total number of BPs (k) is an input parameter. CoGAPS and GWCoGAPS seek a pattern matrix (<span class="math inline">\({\bf{P}}\)</span>) and the corresponding distribution matrix of weights (<span class="math inline">\({\bf{A}}\)</span>) whose product forms a mock data matrix (<span class="math inline">\({\bf{M}}\)</span>) that represents the gene-wise data <span class="math inline">\({\bf{D}}\)</span> within noise limits (<span class="math inline">\(\boldsymbol{\varepsilon}\)</span>). That is,
+<span class="math display">\[\begin{equation}
+{\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}.
+\label{eq:matrixDecomp}
+\end{equation}\]</span>
+<p>The number of rows in <span class="math inline">\({\bf{P}}\)</span> (columns in <span class="math inline">\({\bf{A}}\)</span>) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space. As in the Bayesian Decomposition algorithm , the matrices <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span> in CoGAPS are assumed to have the atomic prior described in . In the CoGAPS/GWCoGAPS implementation, <span class="math inline">\(\alpha_{A}\)</span> and <span class="math inline">\(\alpha_{P}\)</span> are corresponding parameters for the expected number of atoms which map to each matrix element in <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span>, respectively. The corresponding matrices <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span> are found by MCMC sampling. Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in  for the new data matrix where <span class="math inline">\({\bf{A}}\)</span> is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns <span class="math inline">\({\bf{P}}\)</span> in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The  function has S3 method for class .</p>
+<pre><code>library(projectR)
+projectR(data = NA, AnnotionObj = NA, IDcol = &quot;GeneSymbol&quot;,
+    Patterns = NA, NP = NA, full = FALSE)</code></pre>
+<div id="input-arguments-1" class="section level3">
+<h3>Input Arguments</h3>
+<p>The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, inconguities between gene names–rownames of the Patterns object and either rownames of the data object or the values in the “IDcol” of a corresponding annotation object for the data–will throw errors and, subsequently, should be checked before running.</p>
+The arguments are as follows:
+
+</div>
+<div id="output-1" class="section level3">
+<h3>Output</h3>
+<p>The basic output of the base projectR function, i.e. , returns  representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. , returns , a list containing  and . The  object contains additional information from the proceedure used to obtain the . For the the the base projectR function,  is the full lmFit model from the .</p>
+</div>
+<div id="obtaining-cogaps-patterns-to-project." class="section level2">
+<h2>Obtaining CoGAPS patterns to project.</h2>
+<pre><code># get data 
+library(projectR)
+data(RNAseq6l3c3t)
+
+# run CoGAPS 
+library(CoGAPS)
+AP&lt;-gapsRun(D=p.RNAseq6l3c3t, S=t(apply(p.RNAseq6l3c3t,1,function(x) pmax(.1*x,.1))), nFactor=5)
+
+class(AP)&lt;-append(class(AP),&quot;CoGAPS&quot;)
+save(AP,file=&quot;Patterns.RNAseq6l3c3t.RData&quot;)
+
+# heatmap of gene weights for CoGAPs patterns 
+library(gplots)
+pNMF&lt;-heatmap.2(as.matrix(AP$Amean),col=bluered, trace=&#39;none&#39;,
+          distfun=function(c) as.dist(1-cor(t(c))) ,
+          cexCol=1,cexRow=.5,scale = &quot;row&quot;, 
+          hclustfun=function(x) hclust(x, method=&quot;average&quot;),
+      )</code></pre>
+</div>
+<div id="projecting-cogaps-objects" class="section level2">
+<h2>Projecting CoGAPS objects</h2>
+<pre><code># data to project into PCs from RNAseq6l3c3t expression data 
+library(projectR)
+data(ESepiGen4c1l4)
+data(Patterns.RNAseq6l3c3t)
+
+NMF2ESepi &lt;- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=TRUE, 
+    AnnotionObj=map.ESepiGen4c1l, IDcol=&quot;GeneSymbols&quot;)
+
+dNMF2ESepi&lt;- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
+
+#plot pca
+library(ggplot2)
+setEpiCOL &lt;- scale_colour_manual(values = c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;black&quot;),                              guide = guide_legend(title=&quot;Lineage&quot;))
+
+pNMF2ESepiGen4c1l &lt;- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
+      geom_point(size=5) + setEpiCOL + 
+      theme(legend.position=c(0,0), legend.justification=c(0,0),
+        panel.background = element_rect(fill = &quot;white&quot;),
+        legend.direction = &quot;horizontal&quot;,
+        plot.title = element_text(vjust = 0,hjust=0,face=&quot;bold&quot;)) +
+      labs(title = &quot;Encode RNAseq in target PC1 &amp; PC2&quot;, 
+          x=paste(&quot;Projected PC1 (&quot;,round(PCA2ESepi[[2]][1],2),&quot;% of varience)&quot;,sep=&quot;&quot;),
+          y=paste(&quot;Projected PC2 (&quot;,round(PCA2ESepi[[2]][2],2),&quot;% of varience)&quot;,sep=&quot;&quot;))
+
+</code></pre>
+</div>
+</div>
+<div id="clustering-projection" class="section level1">
+<h1>Clustering projection</h1>
+<p>As cannonical projection is not defined for clustering objects, the projectR package offers two transfer learning inspired methods to achieve the “projection” of clustering objects. These methods are defined by the function used to quantify and transfer the relationships which define each cluster in the original data set to the new dataset. Briefly,  uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to . Alternatively, the  function can be used to test for significant overlap between two clustering objects. Both  and  methods are coded for a generic list structure with additional S3 class methods for kmeans and hclust objects. Further details and examples are provided in the followin respecitive sections.</p>
+<div id="cluster2pattern" class="section level2">
+<h2>cluster2pattern</h2>
+<p> uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to .</p>
+<pre><code>library(projectR)
+cluster2pattern(clusters = NA, NP = NA, Data = NA)</code></pre>
+<div id="input-arguments-2" class="section level3">
+<h3>Input Arguments</h3>
+<p>The inputs that must be set each time are the clusters and data.</p>
+The arguments are as follows:
+
+</div>
+<div id="output-2" class="section level3">
+<h3>Output</h3>
+<p>The output of the  function is a  class object; specifically, a matrix of genes (rows) by clusters (columns). A gene’s value outside of its assigned cluster is zero. For the cluster containing a given gene, the gene’s value is the corelation of the gene’s expression to the mean of that cluster.</p>
+</div>
+</div>
+<div id="intersector" class="section level2">
+<h2>intersectoR</h2>
+<p> function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S3 class methods for hclust and kmeans objects are also available.</p>
+<pre><code>library(projectR)
+intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)</code></pre>
+<div id="input-arguments-3" class="section level3">
+<h3>Input Arguments</h3>
+<p>The inputs that must be set each time are the clusters and data.</p>
+The arguments are as follows:
+
+</div>
+<div id="output-3" class="section level3">
+<h3>Output</h3>
+<p>The output of the  function is a summary matrix showing the sets with stastically significant overlap under the specified p-val threshold based on a hypergeometric test. If  the full data frame of signigicantly overlapping sets will also be returned.</p>
+</div>
+</div>
+</div>
+<div id="correlation-based-projection" class="section level1">
+<h1>Correlation based projection</h1>
+<p>Correlation based projection requires a matrix of gene-wise correlation values to serve as the Pattern input to the  function. This matrix can be user-generated or the result of the  function included in the projectR package. User-generated matrixes with each row corresponding to an individual gene can be input to the generic  function. The  function allows users to create a weight matrix for projection with values quantifying the within dataset correlation of each genes expression to the expression pattern of a particular gene or set of genes as follows.</p>
+<div id="correlater" class="section level2">
+<h2>correlateR</h2>
+<pre><code>library(projectR)
+correlateR(genes = NA, dat = NA, threshtype = &quot;R&quot;, threshold = 0.7, absR = FALSE, ...)</code></pre>
+<div id="input-arguments-4" class="section level3">
+<h3>Input Arguments</h3>
+<p>The inputs that must be set each time are only the genes and data, with all other inputs having default values.</p>
+The arguments are as follows:
+
+</div>
+<div id="output-4" class="section level3">
+<h3>Output</h3>
+<p>The output of the  function is a  class object. Specifically, a matrix of correlation values for those genes whose expression pattern pattern in the dataset is correlated (and anti-correlated if absR=TRUE) above the value given in as the threshold arguement. As this information may be useful in its own right, it is recommended that users inspect the  object before using it as input to the  function.</p>
+</div>
+</div>
+<div id="obtaining-and-visualizing-objects." class="section level2">
+<h2>Obtaining and visualizing  objects.</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data to </span>
+<span class="kw">library</span>(projectR)</code></pre></div>
+<pre><code>## Warning: replacing previous import &#39;NMF::plot&#39; by &#39;graphics::plot&#39; when
+## loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::coefficients&#39; by
+## &#39;stats::coefficients&#39; when loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::fitted&#39; by &#39;stats::fitted&#39; when
+## loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::predict&#39; by &#39;stats::predict&#39; when
+## loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::loadings&#39; by &#39;stats::loadings&#39;
+## when loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::deviance&#39; by &#39;stats::deviance&#39;
+## when loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::coef&#39; by &#39;stats::coef&#39; when
+## loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::residuals&#39; by &#39;stats::residuals&#39;
+## when loading &#39;projectR&#39;</code></pre>
+<pre><code>## Warning: replacing previous import &#39;NMF::offset&#39; by &#39;stats::offset&#39; when
+## loading &#39;projectR&#39;</code></pre>
+<pre><code>## 
+## Attaching package: &#39;projectR&#39;</code></pre>
+<pre><code>## The following objects are masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     projectR, projectR.default</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(RNAseq6l3c3t)</code></pre></div>
+<pre><code>## Warning in data(RNAseq6l3c3t): data set &#39;RNAseq6l3c3t&#39; not found</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get genes correlated to T </span>
+cor2T&lt;-<span class="kw">correlateR</span>(<span class="dt">genes=</span><span class="st">&quot;T&quot;</span>, <span class="dt">dat=</span>p.RNAseq6l3c3t, <span class="dt">threshtype=</span><span class="st">&quot;N&quot;</span>, <span class="dt">threshold=</span><span class="dv">10</span>, <span class="dt">absR=</span><span class="ot">TRUE</span>)
+
+### heatmap of genes more correlated to T 
+indx&lt;-<span class="kw">unlist</span>(<span class="kw">sapply</span>(cor2T,rownames))
+<span class="kw">colnames</span>(p.RNAseq6l3c3t)&lt;-pd.RNAseq6l3c3t<span class="op">$</span>sampleX
+<span class="kw">library</span>(reshape2)
+pm.RNAseq6l3c3t&lt;-<span class="kw">melt</span>(<span class="kw">cbind</span>(p.RNAseq6l3c3t[indx,],indx))</code></pre></div>
+<pre><code>## Using indx as id variables</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gplots)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(viridis)</code></pre></div>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pCorT&lt;-<span class="kw">ggplot</span>(pm.RNAseq6l3c3t, <span class="kw">aes</span>(variable, indx, <span class="dt">fill =</span> value)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_tile</span>(<span class="dt">colour=</span><span class="st">&quot;gray20&quot;</span>, <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">scale_fill_viridis</span>(<span class="dt">option=</span><span class="st">&quot;B&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">limits=</span>indx) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Ten genes most highly pos &amp; neg correlated with T&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(
+    <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;gray20&quot;</span>),
+    <span class="dt">panel.border =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="ot">NA</span>,<span class="dt">color=</span><span class="st">&quot;gray20&quot;</span>, <span class="dt">size=</span><span class="fl">0.5</span>, <span class="dt">linetype=</span><span class="st">&quot;solid&quot;</span>),
+    <span class="dt">panel.grid.major =</span> <span class="kw">element_blank</span>(),
+    <span class="dt">panel.grid.minor =</span> <span class="kw">element_blank</span>(),
+    <span class="dt">axis.line =</span> <span class="kw">element_blank</span>(),
+    <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>(), 
+    <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="kw">rel</span>(<span class="dv">1</span>),<span class="dt">hjust=</span><span class="dv">1</span>),
+    <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>,<span class="dt">vjust=</span>.<span class="dv">5</span>),
+    <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">size=</span><span class="kw">rel</span>(<span class="dv">1</span>)),
+    <span class="dt">legend.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;gray20&quot;</span>),
+    <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,
+    <span class="dt">legend.title=</span><span class="kw">element_blank</span>()
+)</code></pre></div>
+<p><img src="vignette_files/figure-html/unnamed-chunk-2-1.png" width="960" /></p>
+</div>
+<div id="projecting-correlater-objects." class="section level2">
+<h2>Projecting correlateR objects.</h2>
+<pre><code># data to project into from RNAseq6l3c3t expression data 
+data(ESepiGen4c1l4)
+
+library(projectR)
+cor2ESepi &lt;- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=cor2T[[1]],full=FALSE, 
+    AnnotionObj=map.ESepiGen4c1l, IDcol=&quot;GeneSymbols&quot;)
+</code></pre>
+</div>
+</div>
 
 
 

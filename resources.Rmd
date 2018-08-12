@@ -2,9 +2,9 @@
 title: "Resources"
 ---
 
-# Reference Dataset
+## Reference Dataset
 
-# Feature Maps
+## Feature Maps
 
-# Latent Spaces
+## Latent Spaces
 Here is a collection of some useful latent spaces
