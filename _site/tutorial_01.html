@@ -23,6 +23,49 @@
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -164,37 +207,43 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="glyphicon glyphicon-home"></span>
+    <span class="fa fa fa fa-home"></span>
      
     Home
   </a>
 </li>
 <li>
-  <a href="get_started.html">Getting Started</a>
+  <a href="get_started.html">
+    <span class="fa fa fa fa-play-circle"></span>
+     
+    Getting Started
+  </a>
 </li>
 <li>
   <a href="vignette.html">
-    <span class="fa fa-book-open"></span>
+    <span class="fa fa fa fa-book"></span>
      
     Vignette
   </a>
 </li>
 <li>
   <a href="latent.html">
-    <span class="fa fa-fulcrum"></span>
+    <span class="fa fa fa fa-th"></span>
      
     Latent Spaces
   </a>
 </li>
 <li>
   <a href="projection.html">
-    <span class="fa fa-exchange-alt"></span>
+    <span class="glyphicon glyphicon glyphicon glyphicon-blackboard"></span>
      
     Projection
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa fa fa-graduation-cap"></span>
+     
     Tutorials
      
     <span class="caret"></span>
@@ -212,10 +261,18 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="resources.html">Resources</a>
+  <a href="resources.html">
+    <span class="fa fa-download"></span>
+     
+    Resources
+  </a>
 </li>
 <li>
-  <a href="tools.html">Tools</a>
+  <a href="tools.html">
+    <span class="glyphicon glyphicon glyphicon glyphicon-wrench"></span>
+     
+    Tools
+  </a>
 </li>
 <li>
   <a href="about.html">
@@ -243,6 +300,32 @@ $(document).ready(function () {
 
 <div id="lets-project-some-stuff" class="section level2">
 <h2>Lets project some stuff…</h2>
+<div id="session-information" class="section level4">
+<h4>Session information:</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.5.0 (2018-04-23)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS High Sierra 10.13.5
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] colorout_1.2-0
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_3.5.0  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
+##  [5] tools_3.5.0     htmltools_0.3.6 yaml_2.1.19     Rcpp_0.12.17   
+##  [9] stringi_1.2.2   rmarkdown_1.9   knitr_1.20      stringr_1.3.1  
+## [13] digest_0.6.15   evaluate_0.10.1</code></pre>
+</div>
 </div>
 
 

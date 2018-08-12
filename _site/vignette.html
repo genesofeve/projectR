@@ -209,37 +209,43 @@ $(document).ready(function () {
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="glyphicon glyphicon-home"></span>
+    <span class="fa fa fa fa-home"></span>
      
     Home
   </a>
 </li>
 <li>
-  <a href="get_started.html">Getting Started</a>
+  <a href="get_started.html">
+    <span class="fa fa fa fa-play-circle"></span>
+     
+    Getting Started
+  </a>
 </li>
 <li>
   <a href="vignette.html">
-    <span class="fa fa-book-open"></span>
+    <span class="fa fa fa fa-book"></span>
      
     Vignette
   </a>
 </li>
 <li>
   <a href="latent.html">
-    <span class="fa fa-fulcrum"></span>
+    <span class="fa fa fa fa-th"></span>
      
     Latent Spaces
   </a>
 </li>
 <li>
   <a href="projection.html">
-    <span class="fa fa-exchange-alt"></span>
+    <span class="glyphicon glyphicon glyphicon glyphicon-blackboard"></span>
      
     Projection
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa fa fa-graduation-cap"></span>
+     
     Tutorials
      
     <span class="caret"></span>
@@ -257,10 +263,18 @@ $(document).ready(function () {
   </ul>
 </li>
 <li>
-  <a href="resources.html">Resources</a>
+  <a href="resources.html">
+    <span class="fa fa-download"></span>
+     
+    Resources
+  </a>
 </li>
 <li>
-  <a href="tools.html">Tools</a>
+  <a href="tools.html">
+    <span class="glyphicon glyphicon glyphicon glyphicon-wrench"></span>
+     
+    Tools
+  </a>
 </li>
 <li>
   <a href="about.html">
@@ -315,12 +329,12 @@ $(document).ready(function () {
 <p>The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, incongruities between gene names–rownames of the Patterns object and either rownames of the data object or the values in the “IDcol” of a corresponding annotation object for the data–will throw errors and, subsequently, should be checked before running.</p>
 <p>The arguments are as follows:</p>
 <ul>
-<li>***<a href="data:***" class="uri">data:***</a> a dataset to be projected into the pattern space</li>
-<li><strong><em>AnnotionObj:</em></strong> an annotion object for data. If NA the rownames of data will be used.</li>
-<li><strong><em>IDcol:</em></strong> the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights</li>
-<li><strong><em>Patterns:</em></strong> a matrix of continous values with unique rownames to be projected</li>
-<li><strong><em>NP:</em></strong> vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.</li>
-<li><strong><em>full:</em></strong> logical indicating whether to return the full model solution. By default only the new pattern object is returned.</li>
+<li><strong><em>data</em></strong>: a dataset to be projected into the pattern space</li>
+<li><strong><em>AnnotionObj</em></strong>: a lookup table and annotion object for data. Can be used in establishing a feature map as a lookup table between the two datasets. If <code>NA</code> the rownames of data will be used.</li>
+<li><strong><em>IDcol</em></strong>: the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights</li>
+<li><strong><em>Patterns</em></strong>: a matrix of continous values with unique rownames to be projected</li>
+<li><strong><em>NP</em></strong>: vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.</li>
+<li><strong><em>full</em></strong>: logical indicating whether to return the full model solution. By default only the new pattern object is returned.</li>
 </ul>
 <p>The <strong><em>Patterns</em></strong> argument in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).</p>
 </div>
@@ -402,9 +416,9 @@ NMF decomposes a data matrix of <span class="math inline">\(D\)</span> with <spa
 \label{eq:matrixDecomp}
 \end{equation}\]</span>
 <p>The number of rows in <span class="math inline">\({\bf{P}}\)</span> (columns in <span class="math inline">\({\bf{A}}\)</span>) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space. As in the Bayesian Decomposition algorithm , the matrices <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span> in CoGAPS are assumed to have the atomic prior described in . In the CoGAPS/GWCoGAPS implementation, <span class="math inline">\(\alpha_{A}\)</span> and <span class="math inline">\(\alpha_{P}\)</span> are corresponding parameters for the expected number of atoms which map to each matrix element in <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span>, respectively. The corresponding matrices <span class="math inline">\({\bf{A}}\)</span> and <span class="math inline">\({\bf{P}}\)</span> are found by MCMC sampling. Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in  for the new data matrix where <span class="math inline">\({\bf{A}}\)</span> is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns <span class="math inline">\({\bf{P}}\)</span> in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The  function has S3 method for class .</p>
-<pre><code>library(projectR)
-projectR(data = NA, AnnotionObj = NA, IDcol = &quot;GeneSymbol&quot;,
-    Patterns = NA, NP = NA, full = FALSE)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(projectR)
+<span class="kw">projectR</span>(<span class="dt">data =</span> <span class="ot">NA</span>, <span class="dt">AnnotionObj =</span> <span class="ot">NA</span>, <span class="dt">IDcol =</span> <span class="st">&quot;GeneSymbol&quot;</span>,
+    <span class="dt">Patterns =</span> <span class="ot">NA</span>, <span class="dt">NP =</span> <span class="ot">NA</span>, <span class="dt">full =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <div id="input-arguments-1" class="section level3">
 <h3>Input Arguments</h3>
 <p>The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, inconguities between gene names–rownames of the Patterns object and either rownames of the data object or the values in the “IDcol” of a corresponding annotation object for the data–will throw errors and, subsequently, should be checked before running.</p>
@@ -417,52 +431,50 @@ The arguments are as follows:
 </div>
 <div id="obtaining-cogaps-patterns-to-project." class="section level2">
 <h2>Obtaining CoGAPS patterns to project.</h2>
-<pre><code># get data 
-library(projectR)
-data(RNAseq6l3c3t)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get data </span>
+<span class="kw">library</span>(projectR)
+<span class="kw">data</span>(RNAseq6l3c3t)
 
-# run CoGAPS 
-library(CoGAPS)
-AP&lt;-gapsRun(D=p.RNAseq6l3c3t, S=t(apply(p.RNAseq6l3c3t,1,function(x) pmax(.1*x,.1))), nFactor=5)
+<span class="co"># run CoGAPS </span>
+<span class="kw">library</span>(CoGAPS)
+AP&lt;-<span class="kw">gapsRun</span>(<span class="dt">D=</span>p.RNAseq6l3c3t, <span class="dt">S=</span><span class="kw">t</span>(<span class="kw">apply</span>(p.RNAseq6l3c3t,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">pmax</span>(.<span class="dv">1</span><span class="op">*</span>x,.<span class="dv">1</span>))), <span class="dt">nFactor=</span><span class="dv">5</span>)
 
-class(AP)&lt;-append(class(AP),&quot;CoGAPS&quot;)
-save(AP,file=&quot;Patterns.RNAseq6l3c3t.RData&quot;)
+<span class="kw">class</span>(AP)&lt;-<span class="kw">append</span>(<span class="kw">class</span>(AP),<span class="st">&quot;CoGAPS&quot;</span>)
+<span class="kw">save</span>(AP,<span class="dt">file=</span><span class="st">&quot;Patterns.RNAseq6l3c3t.RData&quot;</span>)
 
-# heatmap of gene weights for CoGAPs patterns 
-library(gplots)
-pNMF&lt;-heatmap.2(as.matrix(AP$Amean),col=bluered, trace=&#39;none&#39;,
-          distfun=function(c) as.dist(1-cor(t(c))) ,
-          cexCol=1,cexRow=.5,scale = &quot;row&quot;, 
-          hclustfun=function(x) hclust(x, method=&quot;average&quot;),
-      )</code></pre>
+<span class="co"># heatmap of gene weights for CoGAPs patterns </span>
+<span class="kw">library</span>(gplots)
+pNMF&lt;-<span class="kw">heatmap.2</span>(<span class="kw">as.matrix</span>(AP<span class="op">$</span>Amean),<span class="dt">col=</span>bluered, <span class="dt">trace=</span><span class="st">&#39;none&#39;</span>,
+          <span class="dt">distfun=</span><span class="cf">function</span>(c) <span class="kw">as.dist</span>(<span class="dv">1</span><span class="op">-</span><span class="kw">cor</span>(<span class="kw">t</span>(c))) ,
+          <span class="dt">cexCol=</span><span class="dv">1</span>,<span class="dt">cexRow=</span>.<span class="dv">5</span>,<span class="dt">scale =</span> <span class="st">&quot;row&quot;</span>, 
+          <span class="dt">hclustfun=</span><span class="cf">function</span>(x){<span class="kw">hclust</span>(x, <span class="dt">method=</span><span class="st">&quot;average&quot;</span>)},
+      )</code></pre></div>
 </div>
 <div id="projecting-cogaps-objects" class="section level2">
 <h2>Projecting CoGAPS objects</h2>
-<pre><code># data to project into PCs from RNAseq6l3c3t expression data 
-library(projectR)
-data(ESepiGen4c1l4)
-data(Patterns.RNAseq6l3c3t)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data to project into PCs from RNAseq6l3c3t expression data </span>
+<span class="kw">library</span>(projectR)
+<span class="kw">data</span>(ESepiGen4c1l4)
+<span class="kw">data</span>(Patterns.RNAseq6l3c3t)
 
-NMF2ESepi &lt;- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=TRUE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol=&quot;GeneSymbols&quot;)
+NMF2ESepi &lt;-<span class="st"> </span><span class="kw">projectR</span>(p.ESepiGen4c1l<span class="op">$</span>mRNA.Seq,<span class="dt">Patterns=</span>AP,<span class="dt">full=</span><span class="ot">TRUE</span>, 
+    <span class="dt">AnnotionObj=</span>map.ESepiGen4c1l, <span class="dt">IDcol=</span><span class="st">&quot;GeneSymbols&quot;</span>)
 
-dNMF2ESepi&lt;- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
+dNMF2ESepi&lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="kw">t</span>(NMF2ESepi),pd.ESepiGen4c1l))
 
-#plot pca
-library(ggplot2)
-setEpiCOL &lt;- scale_colour_manual(values = c(&quot;red&quot;,&quot;green&quot;,&quot;blue&quot;,&quot;black&quot;),                              guide = guide_legend(title=&quot;Lineage&quot;))
+<span class="co">#plot pca</span>
+<span class="kw">library</span>(ggplot2)
+setEpiCOL &lt;-<span class="st"> </span><span class="kw">scale_colour_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;black&quot;</span>),                              <span class="dt">guide =</span> <span class="kw">guide_legend</span>(<span class="dt">title=</span><span class="st">&quot;Lineage&quot;</span>))
 
-pNMF2ESepiGen4c1l &lt;- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
-      geom_point(size=5) + setEpiCOL + 
-      theme(legend.position=c(0,0), legend.justification=c(0,0),
-        panel.background = element_rect(fill = &quot;white&quot;),
-        legend.direction = &quot;horizontal&quot;,
-        plot.title = element_text(vjust = 0,hjust=0,face=&quot;bold&quot;)) +
-      labs(title = &quot;Encode RNAseq in target PC1 &amp; PC2&quot;, 
-          x=paste(&quot;Projected PC1 (&quot;,round(PCA2ESepi[[2]][1],2),&quot;% of varience)&quot;,sep=&quot;&quot;),
-          y=paste(&quot;Projected PC2 (&quot;,round(PCA2ESepi[[2]][2],2),&quot;% of varience)&quot;,sep=&quot;&quot;))
-
-</code></pre>
+pNMF2ESepiGen4c1l &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dNMF2ESepi, <span class="kw">aes</span>(<span class="dt">x=</span>PC1, <span class="dt">y=</span>PC2, <span class="dt">colour=</span>Condition)) <span class="op">+</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>) <span class="op">+</span><span class="st"> </span>setEpiCOL <span class="op">+</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">legend.justification=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),
+        <span class="dt">panel.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>),
+        <span class="dt">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">vjust =</span> <span class="dv">0</span>,<span class="dt">hjust=</span><span class="dv">0</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>)) <span class="op">+</span>
+<span class="st">      </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Encode RNAseq in target PC1 &amp; PC2&quot;</span>, 
+          <span class="dt">x=</span><span class="kw">paste</span>(<span class="st">&quot;Projected PC1 (&quot;</span>,<span class="kw">round</span>(PCA2ESepi[[<span class="dv">2</span>]][<span class="dv">1</span>],<span class="dv">2</span>),<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),
+          <span class="dt">y=</span><span class="kw">paste</span>(<span class="st">&quot;Projected PC2 (&quot;</span>,<span class="kw">round</span>(PCA2ESepi[[<span class="dv">2</span>]][<span class="dv">2</span>],<span class="dv">2</span>),<span class="st">&quot;% of varience)&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>))</code></pre></div>
 </div>
 </div>
 <div id="clustering-projection" class="section level1">
@@ -471,8 +483,8 @@ pNMF2ESepiGen4c1l &lt;- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) 
 <div id="cluster2pattern" class="section level2">
 <h2>cluster2pattern</h2>
 <p> uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to .</p>
-<pre><code>library(projectR)
-cluster2pattern(clusters = NA, NP = NA, Data = NA)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(projectR)
+<span class="kw">cluster2pattern</span>(<span class="dt">clusters =</span> <span class="ot">NA</span>, <span class="dt">NP =</span> <span class="ot">NA</span>, <span class="dt">Data =</span> <span class="ot">NA</span>)</code></pre></div>
 <div id="input-arguments-2" class="section level3">
 <h3>Input Arguments</h3>
 <p>The inputs that must be set each time are the clusters and data.</p>
@@ -487,8 +499,8 @@ The arguments are as follows:
 <div id="intersector" class="section level2">
 <h2>intersectoR</h2>
 <p> function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S3 class methods for hclust and kmeans objects are also available.</p>
-<pre><code>library(projectR)
-intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(projectR)
+<span class="kw">intersectoR</span>(<span class="dt">pSet1 =</span> <span class="ot">NA</span>, <span class="dt">pSet2 =</span> <span class="ot">NA</span>, <span class="dt">pval =</span> <span class="fl">0.05</span>, <span class="dt">full =</span> <span class="ot">FALSE</span>, <span class="dt">k =</span> <span class="ot">NULL</span>)</code></pre></div>
 <div id="input-arguments-3" class="section level3">
 <h3>Input Arguments</h3>
 <p>The inputs that must be set each time are the clusters and data.</p>
@@ -506,13 +518,20 @@ The arguments are as follows:
 <p>Correlation based projection requires a matrix of gene-wise correlation values to serve as the Pattern input to the  function. This matrix can be user-generated or the result of the  function included in the projectR package. User-generated matrixes with each row corresponding to an individual gene can be input to the generic  function. The  function allows users to create a weight matrix for projection with values quantifying the within dataset correlation of each genes expression to the expression pattern of a particular gene or set of genes as follows.</p>
 <div id="correlater" class="section level2">
 <h2>correlateR</h2>
-<pre><code>library(projectR)
-correlateR(genes = NA, dat = NA, threshtype = &quot;R&quot;, threshold = 0.7, absR = FALSE, ...)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(projectR)
+<span class="kw">correlateR</span>(<span class="dt">genes =</span> <span class="ot">NA</span>, <span class="dt">dat =</span> <span class="ot">NA</span>, <span class="dt">threshtype =</span> <span class="st">&quot;R&quot;</span>, <span class="dt">threshold =</span> <span class="fl">0.7</span>, <span class="dt">absR =</span> <span class="ot">FALSE</span>, ...)</code></pre></div>
 <div id="input-arguments-4" class="section level3">
 <h3>Input Arguments</h3>
 <p>The inputs that must be set each time are only the genes and data, with all other inputs having default values.</p>
-The arguments are as follows:
-
+<p>The arguments are as follows:</p>
+<ul>
+<li><strong><em>genes</em></strong> gene or character vector of genes for reference expression pattern dat</li>
+<li><strong><em>data</em></strong> matrix or data frame with genes to be used for to calculate correlation</li>
+<li><strong><em>threshtype</em></strong> Default “R” indicates thresholding by R value or equivalent. Alternatively, “N” indicates a numerical cut off.</li>
+<li><strong><em>threshold</em></strong> numeric indicating value at which to make threshold</li>
+<li><strong><em>absR</em></strong> logical indicating where to include both positive and negatively correlated genes</li>
+<li><strong><em>…</em></strong> addtion imputes to the cor function</li>
+</ul>
 </div>
 <div id="output-4" class="section level3">
 <h3>Output</h3>
@@ -586,17 +605,77 @@ pm.RNAseq6l3c3t&lt;-<span class="kw">melt</span>(<span class="kw">cbind</span>(p
     <span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,
     <span class="dt">legend.title=</span><span class="kw">element_blank</span>()
 )</code></pre></div>
-<p><img src="vignette_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
+<p><img src="vignette_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
 </div>
 <div id="projecting-correlater-objects." class="section level2">
 <h2>Projecting correlateR objects.</h2>
-<pre><code># data to project into from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># data to project into from RNAseq6l3c3t expression data </span>
+<span class="kw">data</span>(ESepiGen4c1l4)
 
-library(projectR)
-cor2ESepi &lt;- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=cor2T[[1]],full=FALSE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol=&quot;GeneSymbols&quot;)
-</code></pre>
+<span class="kw">library</span>(projectR)
+cor2ESepi &lt;-<span class="st"> </span><span class="kw">projectR</span>(p.ESepiGen4c1l<span class="op">$</span>mRNA.Seq,<span class="dt">Patterns=</span>cor2T[[<span class="dv">1</span>]],<span class="dt">full=</span><span class="ot">FALSE</span>, 
+    <span class="dt">AnnotionObj=</span>map.ESepiGen4c1l, <span class="dt">IDcol=</span><span class="st">&quot;GeneSymbols&quot;</span>)</code></pre></div>
+<div id="session-information" class="section level4">
+<h4>Session information:</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.5.0 (2018-04-23)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS High Sierra 10.13.5
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] viridis_0.5.1       viridisLite_0.3.0   ggplot2_2.2.1      
+## [4] gplots_3.0.1        reshape2_1.4.3      projectR_0.99.2    
+## [7] Biobase_2.40.0      BiocGenerics_0.26.0 colorout_1.2-0     
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.17                lattice_0.20-35            
+##  [3] gtools_3.8.1                rprojroot_1.3-2            
+##  [5] digest_0.6.15               foreach_1.4.4              
+##  [7] SingleCellExperiment_1.2.0  gridBase_0.4-7             
+##  [9] mime_0.5                    R6_2.2.2                   
+## [11] GenomeInfoDb_1.16.0         plyr_1.8.4                 
+## [13] backports_1.1.2             CoGAPS_3.0.2               
+## [15] stats4_3.5.0                evaluate_0.10.1            
+## [17] pillar_1.2.3                zlibbioc_1.26.0            
+## [19] rlang_0.2.1                 lazyeval_0.2.1             
+## [21] gdata_2.18.0                S4Vectors_0.18.2           
+## [23] Matrix_1.2-14               rmarkdown_1.9              
+## [25] labeling_0.3                BiocParallel_1.14.1        
+## [27] stringr_1.3.1               RCurl_1.95-4.10            
+## [29] munsell_0.4.3               shiny_1.1.0                
+## [31] DelayedArray_0.6.0          compiler_3.5.0             
+## [33] httpuv_1.4.5                pkgmaker_0.27              
+## [35] htmltools_0.3.6             SummarizedExperiment_1.10.1
+## [37] gridExtra_2.3               tibble_1.4.2               
+## [39] GenomeInfoDbData_1.1.0      IRanges_2.14.10            
+## [41] codetools_0.2-15            matrixStats_0.53.1         
+## [43] withr_2.1.2                 later_0.7.3                
+## [45] MASS_7.3-50                 bitops_1.0-6               
+## [47] grid_3.5.0                  xtable_1.8-2               
+## [49] gtable_0.2.0                registry_0.5               
+## [51] magrittr_1.5                scales_0.5.0               
+## [53] KernSmooth_2.23-15          bibtex_0.4.2               
+## [55] stringi_1.2.2               XVector_0.20.0             
+## [57] promises_1.0.1              doParallel_1.0.11          
+## [59] limma_3.36.1                BiocStyle_2.8.2            
+## [61] RColorBrewer_1.1-2          NMF_0.21.0                 
+## [63] iterators_1.0.9             tools_3.5.0                
+## [65] rngtools_1.3.1              yaml_2.1.19                
+## [67] colorspace_1.3-2            cluster_2.0.7-1            
+## [69] caTools_1.17.1.1            GenomicRanges_1.32.3       
+## [71] knitr_1.20</code></pre>
+</div>
 </div>
 </div>
 

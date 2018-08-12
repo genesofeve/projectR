@@ -3,3 +3,7 @@ title: "Tutorial 1"
 ---
 
 ## Lets project some stuff...
+
+
+```{r, child="_session_info.Rmd"}
+```

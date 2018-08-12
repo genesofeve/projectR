@@ -3,30 +3,34 @@ navbar:
   title: ProjectR
   left:
   - text: Home
-    icon: glyphicon-home
+    icon: fa fa-home
     href: index.html
   - text: Getting Started
+    icon: fa fa-play-circle
     href: get_started.html
   - text: Vignette
-    icon: fa-book-open
+    icon: fa fa-book
     href: vignette.html
   - text: Latent Spaces
-    icon: fa-fulcrum
+    icon: fa fa-th
     href: latent.html
   - text: Projection
-    icon: fa-exchange-alt
+    icon: glyphicon glyphicon-blackboard
     href: projection.html
   - text: Tutorials
+    icon: fa fa-graduation-cap
     menu:
-      - text: Tutorial 1
-        href: tutorial_01.html
-      - text: Tutorial 2
-        href: tutorial_02.html
-      - text: Tutorial 3
-        href: tutorial_03.html
+    - text: Tutorial 1
+      href: tutorial_01.html
+    - text: Tutorial 2
+      href: tutorial_02.html
+    - text: Tutorial 3
+      href: tutorial_03.html
   - text: Resources
+    icon: fa-download
     href: resources.html
   - text: Tools
+    icon: glyphicon glyphicon-wrench
     href: tools.html
   - text: About
     icon: fa-info
@@ -34,9 +38,9 @@ navbar:
 output_dir: _site
 output:
   html_document:
-    lib_dir: site_libs
     theme: cosmo
     highlight: pygments
-    self_contained: no
     css: styles.css
+    lib_dir: site_libs
+    self_contained: no
 

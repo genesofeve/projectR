@@ -3,3 +3,5 @@ title: "What is a latent space"
 ---
 
 ![](images/latent_lenses.png)
+
+A latent space is a compressed representation of a data object/set. We use this term to describe any property of a biological dataset that can be used to explore a coordinated process, identify technical or biological variation, or describe a comparison across conditions (e.g. differential expression).
