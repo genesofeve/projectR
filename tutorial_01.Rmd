@@ -1,8 +1,29 @@
 ---
-title: "Tutorial 1"
+title: "Finding Shared Features in single cell RNA-Seq with ProjectR"
 ---
 
-## Lets project some stuff...
+# Objective
+
+## Import Data
+
+### Latent Spaces
+
+### Target Dataset
+
+### Feature Mapping
+
+## Projection with ProjectR
+
+### Projection Summary
+
+### Projection Significance
+
+#### Wald Test
+
+#### Bootstrap Test
+
+# Transfering Annotations
+
 
 
 ```{r, child="_session_info.Rmd"}

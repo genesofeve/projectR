@@ -20,11 +20,11 @@ navbar:
   - text: Tutorials
     icon: fa fa-graduation-cap
     menu:
-    - text: Tutorial 1
+    - text: Single Cell Analysis
       href: tutorial_01.html
-    - text: Tutorial 2
+    - text: Multi-omic Analysis
       href: tutorial_02.html
-    - text: Tutorial 3
+    - text: De novo Annotation
       href: tutorial_03.html
   - text: Resources
     icon: fa-download
