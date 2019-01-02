@@ -62,8 +62,8 @@ projectR.default <- function(
   Patterns=NA, # a matrix of continous values to be projected with unique rownames
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA,
-  family="gaussianff"
+  model=NA, # optional arguements to choose method for projection
+  family="gaussianff"  # VGAM family function (default: "gaussianff")
   ){
 
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
@@ -142,7 +142,7 @@ projectR.CoGAPS <- function(
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
 
-  if(model=="NonNegative"){
+  if(!is.na(model) && model=="NonNegative"){
     Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
   }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
@@ -178,43 +178,43 @@ setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 #' @import stats
 #' @import NMF
 
-projectR.LEM<- function(
-  data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a LinearEmbeddingMatrix object
-  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA # optional arguements to choose method for projection
-){
+# projectR.LEM<- function(
+#   data=NA, # a dataset to be projected onto
+#   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
+#   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#   Patterns=NA, # a LinearEmbeddingMatrix object
+#   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+#   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#   model=NA # optional arguements to choose method for projection
+# ){
 
-  #if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
-  #if(!is.na(NP)){Patterns<-Patterns[,NP]}
+#   #if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
+#   #if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
-  #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=featureLoadings(Patterns)[,NP], merge=FALSE)
-  print(dim(dataM[[2]]))
-  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
+#   #match genes in data sets
+#   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=featureLoadings(Patterns)[,NP], merge=FALSE)
+#   print(dim(dataM[[2]]))
+#   colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
-  # do projection
-  Design <- model.matrix(~0 + dataM[[1]])
-  colnames(Design) <- colnames(dataM[[1]])
+#   # do projection
+#   Design <- model.matrix(~0 + dataM[[1]])
+#   colnames(Design) <- colnames(dataM[[1]])
 
-  if(model=="NonNegative"){
-    projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
-  } else{
-    projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
-    projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
-  }
+#   if(model=="NonNegative"){
+#     projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
+#   } else{
+#     projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
+#     projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
+#   }
 
-  if(full==TRUE){
-    projectionFit <- list(projectionPatterns, projection)
-    return(projectionFit)
-  }
-  else{return(projectionPatterns)}
-}
+#   if(full==TRUE){
+#     projectionFit <- list(projectionPatterns, projection)
+#     return(projectionFit)
+#   }
+#   else{return(projectionPatterns)}
+# }
 
-setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
+# setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 
 
 
