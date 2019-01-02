@@ -30,7 +30,7 @@ R=rbind(c(cos(theta),-sin(theta)),c(sin(theta),cos(theta)))
 
 rotaNEW=t(R%*%t(basisSET))
 
-class(rotaNEW) <- append(class(rotaNEW),"rotatoR") #Can't do this directly with S4 withouth a class definition.
+class(rotaNEW) <- append(class(rotaNEW),"rotatoR") #Can't do this directly with S4 without a class definition.
 
 return(rotaNEW)
 }
