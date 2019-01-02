@@ -147,7 +147,7 @@ projectR.CoGAPS <- function(
   }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   }
-  projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
+  projectionPatterns<-coefvlm(Projection,matrix.out=TRUE)
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, projection)
       return(projectionFit)
@@ -204,7 +204,7 @@ setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 #     projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
 #   } else{
 #     projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
-#     projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
+#     projectionPatterns<-coefvlm(Projection,matrix.out=TRUE)
 #   }
 
 #   if(full==TRUE){
