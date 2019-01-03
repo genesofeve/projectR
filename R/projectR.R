@@ -147,7 +147,9 @@ projectR.CoGAPS <- function(
   }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   }
-  projectionPatterns<-coefvlm(Projection,matrix.out=TRUE)
+  #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
+  projectionPatterns <- t(Projection$coefficients)
+
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, projection)
       return(projectionFit)
