@@ -100,7 +100,7 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 
 
 #######################################################################################################################################
-#' @title Projection function (CoGAPS)
+#' @title Projection function (CogapsResult)
 #'
 #' @description for use with object of class CoGAPS
 #' @param data a dataset to be projected into the pattern space
@@ -119,7 +119,7 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @import stats
 #' @import NMF
 
-projectR.CoGAPS <- function(
+projectR.CogapsResult <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
@@ -157,7 +157,68 @@ projectR.CoGAPS <- function(
   else{return(projectionPatterns)}
 }
 
-setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
+setMethod("projectR",signature(data="matrix",Patterns="CogapsResult"),projectR.CogapsResult)
+
+#######################################################################################################################################
+#' @title Projection function (CoGAPS)
+#'
+#' @description for use with object of class CoGAPS
+#' @param data a dataset to be projected into the pattern space
+#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#' @param Patterns a CoGAPS object
+#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
+#' @param family # VGAM family function for model fitting (default: "gaussianff")
+#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @examples
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' @import limma
+#' @import stats
+#' @import NMF
+
+projectR.CoGAPS <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # a CoGAPS object
+  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  model=NA, # optional arguements to choose method for projection
+  family="gaussianff" # VGAM family function (default: "gaussianff")
+  ){
+
+  if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
+  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  print("*******/n Called the cogaps method *********/n")
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
+
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]])
+  colnames(Design) <- colnames(dataM[[1]])
+
+  if(!is.na(model) && model=="NonNegative"){
+    Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
+  }else{
+    Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
+  }
+  #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
+  projectionPatterns <- t(Projection$coefficients)
+
+  if(full==TRUE){
+      projectionFit <- list(projectionPatterns, projection)
+      return(projectionFit)
+  }
+  else{return(projectionPatterns)}
+}
+
+setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
+
 
 #######################################################################################################################################
 #' @title Projection function (LEM)
@@ -241,8 +302,6 @@ setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
 #' @import limma
 #' @import cluster
 #' @import stats
-
-
 
 projectR.pclust <- function(
   data=NA, # a dataset to be projected onto
