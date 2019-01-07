@@ -1,8 +1,10 @@
+#' @importFrom stats hclust kmeans
+setOldClass("kmeans")
+setOldClass("hclust")
+
 ####################
 # Classes
-#
-# Author:
-#
+# Author
 ####################
 
 # setClass("ProjectionSet"),
@@ -49,3 +51,77 @@
 # 			#######
 # 		}
 # )
+
+
+#' pclust
+#' @export
+#'
+#' @slot pattern pattern found from clusters using cluster2pattern
+#' @description parent class of plcustKmeans and plcusltHclust
+
+setClass("pclust", slots=c(
+	pattern = "matrix"      
+))
+
+#' Constructor for pclust
+#' @param .Object pclust object
+#' @param hclust hclust object passed to cluster2pattern function
+#' @param kmeans kmeans object passed to cluster2pattern function
+#' @return initialized plclust object
+
+#' @importFrom methods callNextMethod
+
+setMethod("initialize", "pclust",
+function(.Object, pattern, ... )
+{
+	.Object <- callNextMethod(.Object, ...)
+	.Object@pattern <- pattern
+    .Object
+})
+
+# setValidity("hclust",
+#     function(object)
+#     {    }
+# )    
+
+#' pclustKmeans
+#' @export
+#' @slot kmeans kmeans input to cluster2pattern
+#' @description defines class of cluster2pattern with kmeans input
+setClass("pclustKmeans", slots=c(
+	kmeans = "kmeans"	      
+),contains = "pclust")
+
+#' Constructor for pclustKmeans
+#' @param .Object pclustKmeans object
+#' @return initialized plclustKmeans object
+#' @importFrom methods callNextMethod
+setMethod("initialize", "pclustKmeans",
+function(.Object, kmeans, ... )
+{
+	.Object <- callNextMethod(.Object, ...)
+	.Object@kmeans <- kmeans
+    .Object
+})
+
+#' pclustHclust
+#' @export
+#' @slot hclust hclust input to cluster2pattern
+#' @description defines class of cluster2pattern with hclust input
+setClass("pclustHclust", slots=c(
+	hclust = "hclust"	      
+),contains = "pclust")
+
+#' Constructor for pclust
+#' @param .Object pclust object
+#' @param hclust hclust object passed to cluster2pattern function
+#' @return initialized plclustHclust object
+#' @importFrom methods callNextMethod
+setMethod("initialize", "pclustHclust",
+function(.Object, hclust, ... )
+{
+	.Object <- callNextMethod(.Object, ...)
+	.Object@hclust <- hclust
+    .Object
+})
+
