@@ -60,7 +60,7 @@ setOldClass("hclust")
 #' @description parent class of plcustKmeans and plcusltHclust
 
 setClass("pclust", slots=c(
-	pattern = "matrix"      
+	patterns = "matrix"      
 ))
 
 #' Constructor for pclust
@@ -72,10 +72,10 @@ setClass("pclust", slots=c(
 #' @importFrom methods callNextMethod
 
 setMethod("initialize", "pclust",
-function(.Object, pattern, ... )
+function(.Object, patterns, ... )
 {
 	.Object <- callNextMethod(.Object, ...)
-	.Object@pattern <- pattern
+	.Object@patterns <- patterns
     .Object
 })
 
