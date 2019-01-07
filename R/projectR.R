@@ -289,7 +289,7 @@ setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
 #' @param Patterns an Pclust object from the cluster2pattern function
-#' @param NP number of desired patterns
+#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -313,7 +313,10 @@ projectR.pclust <- function(
   model=NA
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  Patterns <- Patterns@patterns
+  if(!is.na(NP)){
+    Patterns<-Patterns[,NP]
+  }
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -332,9 +335,7 @@ projectR.pclust <- function(
   else{return(projectionPatterns)}
 }
 
-#TODO: LG -I'm currently unsure where class 'pclust' is defined.  This is causing warning in build because of no definition.  So hiding the method currently.
-
-#setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
+setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #######################################################################################################################################
 
 #' @title Projection function (PCA)

@@ -131,4 +131,4 @@ geneMatchR.CoGAPS<-function(
 }
 
 #setMethod("geneMatchR",signature(data1="data.frame",AnnotionObj="data.frame",IDcol="character",data2="matrix"),geneMatchR.default)
-setMethod("geneMatchR",signature(data1="ANY",AnnotionObj="ANY",IDcol="ANY",data2="CoGAPS"),geneMatchR.CoGAPS)
+#setMethod("geneMatchR",signature(data1="ANY",AnnotionObj="ANY",IDcol="ANY",data2="CoGAPS"),geneMatchR.CoGAPS)
