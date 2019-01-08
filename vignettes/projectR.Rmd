@@ -306,14 +306,14 @@ The output of the \texttt{correlateR} function is a \texttt{correlateR} class ob
 ## Obtaining and visualizing \texttt{correlateR} objects. 
 
 ```{r correlateR-exp} 
-# data to 
+# data to
 library(projectR)
 data(RNAseq6l3c3t)
 
-# get genes correlated to T 
+# get genes correlated to T
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-
-### heatmap of genes more correlated to T 
+cor2T <- cor2T@corM
+### heatmap of genes more correlated to T
 indx<-unlist(sapply(cor2T,rownames))
 colnames(p.RNAseq6l3c3t)<-pd.RNAseq6l3c3t$sampleX
 library(reshape2)
@@ -322,11 +322,11 @@ pm.RNAseq6l3c3t<-melt(cbind(p.RNAseq6l3c3t[indx,],indx))
 library(gplots)
 library(ggplot2)
 library(viridis)
-pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) + 
-  geom_tile(colour="gray20", size=1.5, stat="identity") + 
+pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
+  geom_tile(colour="gray20", size=1.5, stat="identity") +
   scale_fill_viridis(option="B") +
   xlab("") +  ylab("") +
-  scale_y_discrete(limits=indx) + 
+  scale_y_discrete(limits=indx) +
   ggtitle("Ten genes most highly pos & neg correlated with T") +
   theme(
     panel.background = element_rect(fill="gray20"),
@@ -334,7 +334,7 @@ pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     axis.line = element_blank(),
-    axis.ticks = element_blank(), 
+    axis.ticks = element_blank(),
     axis.text = element_text(size=rel(1),hjust=1),
     axis.text.x = element_text(angle = 90,vjust=.5),
     legend.text = element_text(color="white", size=rel(1)),
