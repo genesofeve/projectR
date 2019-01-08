@@ -128,7 +128,7 @@ function(.Object, hclust, ... )
 #' rotatoR
 #' @export
 #'
-#' @slot pattern pattern found from clusters using cluster2pattern
+#' @slot rotatedM rotated matrix from rotatoR function
 #' @description class of function roatoR's output
 
 setClass("rotatoR", slots=c(
@@ -147,5 +147,30 @@ function(.Object, rotatedM, ... )
 {
 	.Object <- callNextMethod(.Object, ...)
 	.Object@rotatedM <- rotatedM
+    .Object
+})
+
+#' correlateR
+#' @export
+#'
+#' @slot corM correlation matrix obtained from correlateR
+#' @description class of correlateR output
+
+setClass("correlateR", slots=c(
+	corM = "list"      
+))
+
+#' Constructor for correlateR
+#' @param .Object correlateR object
+#' @param corM correlation matrix obtained from correlateR
+#' @return initialized correlateR object
+
+#' @importFrom methods callNextMethod
+
+setMethod("initialize", "correlateR",
+function(.Object, corM, ... )
+{
+	.Object <- callNextMethod(.Object, ...)
+	.Object@corM <- corM
     .Object
 })
