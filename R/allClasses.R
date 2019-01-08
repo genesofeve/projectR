@@ -125,3 +125,27 @@ function(.Object, hclust, ... )
     .Object
 })
 
+#' rotatoR
+#' @export
+#'
+#' @slot pattern pattern found from clusters using cluster2pattern
+#' @description class of function roatoR's output
+
+setClass("rotatoR", slots=c(
+	rotatedM = "matrix"      
+))
+
+#' Constructor for rotatoR
+#' @param .Object rotatoR object
+#' @param rotatedM rotated matrix from rotatoR function
+#' @return initialized rotatoR object
+
+#' @importFrom methods callNextMethod
+
+setMethod("initialize", "rotatoR",
+function(.Object, rotatedM, ... )
+{
+	.Object <- callNextMethod(.Object, ...)
+	.Object@rotatedM <- rotatedM
+    .Object
+})

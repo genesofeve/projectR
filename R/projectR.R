@@ -130,7 +130,7 @@ projectR.CogapsResult <- function(
   family="gaussianff" # VGAM family function (default: "gaussianff")
   ){
 
-  if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
+  Patterns<-Patterns@featureLoadings
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
   #match genes in data sets
@@ -337,7 +337,6 @@ projectR.pclust <- function(
 
 setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #######################################################################################################################################
-
 #' @title Projection function (PCA)
 #'
 #' @description for use with object of class prcomp
@@ -370,7 +369,7 @@ projectR.prcomp <- function(
   model=NA
   ){
 
-  Patterns<-Patterns$rotation
+  Patterns<-Patterns$x
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
   #match genes in data sets
@@ -391,7 +390,7 @@ projectR.prcomp <- function(
     projectionFit <- list(projectionPatterns, PercentVariance)
     return(projectionFit)
   }
-  else{return(projectionPatterns)}
+  else{return(t(projectionPatterns))}
 
 }
 
@@ -428,6 +427,7 @@ projectR.rotatoR <- function(
   model=NA
   ){
 
+  Patterns <- Patterns@rotatedM
   if(!is.na(NP)){Patterns<-Patterns[,NP]}
 
   #match genes in data sets
@@ -452,7 +452,7 @@ projectR.rotatoR <- function(
 
 }
 
-
+setMethod("projectR",signature(data="matrix",Patterns="rotatoR"),projectR.rotatoR)
 
 #######################################################################################################################################
 
@@ -507,5 +507,3 @@ projectR.correlateR <- function(
     }
     else{return(projectionPatterns)}
 }
-
-
