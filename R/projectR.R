@@ -485,11 +485,12 @@ projectR.correlateR <- function(
   model=NA
   ){
 
+  Patterns <- Patterns@corM
   if(!is.na(NP)){Patterns<-Patterns[[NP]]}
 
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(Patterns)==2){
-    do.call(rbind,Patterns)
+    Patterns <- do.call(rbind,Patterns)
   }
 
   #match genes in data sets
@@ -507,3 +508,4 @@ projectR.correlateR <- function(
     }
     else{return(projectionPatterns)}
 }
+setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.correlateR)

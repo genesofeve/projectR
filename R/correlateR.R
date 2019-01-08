@@ -9,7 +9,7 @@
 #' @param 	threshold numeric indicating value at which to make threshold
 #' @param 	absR logical indicating where to include both positive and negatively correlated genes
 #' @param 	...  addtion impdelta a vector of weights describing
-#' @return 	An object of class corGS.
+#' @return 	An object of class correlateR.
 #' @export
 #' @import stats
 #' @examples
@@ -45,8 +45,8 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
 		}
 	}
-	class(corGS)<-append(class(corGS),"correlateR")  #Can't do this directly with S4 withouth a class definition.
-	return(corGS)
+	corR <- new("correlateR",corM = corGS)
+	return(corR)
 }
 
 
