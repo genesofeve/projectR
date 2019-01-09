@@ -132,7 +132,7 @@ projectR.CogapsResult <- function(
   ){
 
   Patterns<-Patterns@featureLoadings
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -192,7 +192,7 @@ projectR.CoGAPS <- function(
   ){
 
   if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
   print("*******/n Called the cogaps method *********/n")
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -371,7 +371,7 @@ projectR.prcomp <- function(
   ){
 
   Patterns<-Patterns$x
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -429,7 +429,7 @@ projectR.rotatoR <- function(
   ){
 
   Patterns <- Patterns@rotatedM
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -487,7 +487,7 @@ projectR.correlateR <- function(
   ){
 
   Patterns <- Patterns@corM
-  if(!is.na(NP)){Patterns<-Patterns[[NP]]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
 
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(Patterns)==2){
