@@ -66,7 +66,7 @@ projectR.default <- function(
   family="gaussianff"  # VGAM family function (default: "gaussianff")
   ){
 
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
   #if(!is.na(NP)){Patterns<-Patterns[,NP]} was giving warning with subset of patterns
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -132,7 +132,7 @@ projectR.CogapsResult <- function(
   ){
 
   Patterns<-Patterns@featureLoadings
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -192,7 +192,7 @@ projectR.CoGAPS <- function(
   ){
 
   if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
   print("*******/n Called the cogaps method *********/n")
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -371,7 +371,7 @@ projectR.prcomp <- function(
   ){
 
   Patterns<-Patterns$x
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -429,7 +429,7 @@ projectR.rotatoR <- function(
   ){
 
   Patterns <- Patterns@rotatedM
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -487,7 +487,7 @@ projectR.correlateR <- function(
   ){
 
   Patterns <- Patterns@corM
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(Patterns)==2){
