@@ -315,9 +315,7 @@ projectR.pclust <- function(
   ){
 
   Patterns <- Patterns@patterns
-  if(!is.na(NP)){
-    Patterns<-Patterns[,NP]
-  }
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
@@ -370,7 +368,7 @@ projectR.prcomp <- function(
   model=NA
   ){
 
-  Patterns<-Patterns$x
+  Patterns<-Patterns$rotation
   ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
@@ -388,7 +386,7 @@ projectR.prcomp <- function(
 
   PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))
 
-    projectionFit <- list(projectionPatterns, PercentVariance)
+    projectionFit <- list(projectionPatterns, PercentVariance) #also need to change this to transpose
     return(projectionFit)
   }
   else{return(t(projectionPatterns))}
