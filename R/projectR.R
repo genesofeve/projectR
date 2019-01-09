@@ -66,7 +66,8 @@ projectR.default <- function(
   family="gaussianff"  # VGAM family function (default: "gaussianff")
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP])
+  #if(!is.na(NP)){Patterns<-Patterns[,NP]} was giving warning with subset of patterns
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
