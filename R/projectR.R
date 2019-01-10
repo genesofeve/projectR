@@ -386,7 +386,7 @@ projectR.prcomp <- function(
 
   PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))
 
-    projectionFit <- list(projectionPatterns, PercentVariance) #also need to change this to transpose
+    projectionFit <- list(t(projectionPatterns), PercentVariance) #also need to change this to transpose
     return(projectionFit)
   }
   else{return(t(projectionPatterns))}
