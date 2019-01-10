@@ -444,10 +444,10 @@ projectR.rotatoR <- function(
 
   #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
 
-    projectionFit <- list(projectionPatterns, PercentVariance)
+    projectionFit <- list(t(projectionPatterns), PercentVariance)
     return(projectionFit)
   }
-  else{return(projectionPatterns)}
+  else{return(t(projectionPatterns))}
 
 }
 

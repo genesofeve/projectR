@@ -1,6 +1,3 @@
-#TODO: Define rotatoR S4 class here or make rotatoR a generic function
-
-
 #' @title rotatoR
 #'
 #' @description a function for rotating two basis about a point or line in that plane
