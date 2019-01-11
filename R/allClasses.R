@@ -2,61 +2,10 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 
-####################
-# Classes
-# Author
-####################
-
-# setClass("ProjectionSet"),
-# 	representation( targetData="matrix",
-# 					sourcePatterns="matrix",
-# 					AnnotionObj="data.frame",
-# 					IDcol="character"
-# 					)
-# 	)
-#
-# setMethod("initialize","ProjectionSet",
-# 			function(.Object,
-# 					targetData,
-# 					sourcePatterns,
-# 					AnnotationObj=NA,
-# 					IDcol=NA,
-# 					idField,
-# 					... ){
-# 				.Object<-callNextMethod(.Object,
-# 						targetData = targetData,
-# 						sourcePatterns = sourcePatterns,
-# 						AnnotationObj = AnnotationObj,
-# 						IDcol = IDcol,
-# 						...)
-# 		}
-# )
-#
-# setValidity("ProjectionSet",function(object){
-# 		TRUE
-# 		}
-# )
-#
-# ################
-# #Class Methods
-# ################
-# setMethod("show","ProjectionSet",
-# 		function(object){
-# 			#######
-# 		}
-# )
-#
-# setMethod("dim","ProjectionSet",
-# 		function(x){
-# 			#######
-# 		}
-# )
-
-
 #' pclust
 #' @export
 #'
-#' @slot pattern pattern found from clusters using cluster2pattern
+#' @slot patterns patterns found from clusters (either hclust or kmeans object) using cluster2pattern
 #' @description parent class of plcustKmeans and plcusltHclust
 
 setClass("pclust", slots=c(
@@ -65,8 +14,7 @@ setClass("pclust", slots=c(
 
 #' Constructor for pclust
 #' @param .Object pclust object
-#' @param hclust hclust object passed to cluster2pattern function
-#' @param kmeans kmeans object passed to cluster2pattern function
+#' @param patterns patterns found from clusters (either hclust or kmeans object)) using cluster2pattern
 #' @return initialized plclust object
 
 #' @importFrom methods callNextMethod
@@ -78,16 +26,12 @@ function(.Object, patterns, ... )
 	.Object@patterns <- patterns
     .Object
 })
-
-# setValidity("hclust",
-#     function(object)
-#     {    }
-# )    
+  
 
 #' pclustKmeans
 #' @export
-#' @slot kmeans kmeans input to cluster2pattern
-#' @description defines class of cluster2pattern with kmeans input
+#' @slot kmeans kmeans object used as input to cluster2pattern
+#' @description defines class of cluster2pattern output with kmeans input
 setClass("pclustKmeans", slots=c(
 	kmeans = "kmeans"	      
 ),contains = "pclust")
@@ -107,7 +51,7 @@ function(.Object, kmeans, ... )
 #' pclustHclust
 #' @export
 #' @slot hclust hclust input to cluster2pattern
-#' @description defines class of cluster2pattern with hclust input
+#' @description defines class of cluster2pattern output with hclust input
 setClass("pclustHclust", slots=c(
 	hclust = "hclust"	      
 ),contains = "pclust")
@@ -128,8 +72,8 @@ function(.Object, hclust, ... )
 #' rotatoR
 #' @export
 #'
-#' @slot rotatedM rotated matrix from rotatoR function
-#' @description class of function roatoR's output
+#' @slot rotatedM rotated matrix that is output of rotatoR function
+#' @description class of rotatoR output
 
 setClass("rotatoR", slots=c(
 	rotatedM = "matrix"      

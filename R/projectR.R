@@ -1,4 +1,3 @@
-
 #' @importFrom stats hclust kmeans prcomp
 setOldClass("kmeans")
 setOldClass("hclust")
@@ -21,7 +20,7 @@ setOldClass("CoGAPS")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @export
 #' @examples
-#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 
 #Generic is now defined in AllGenerics.R
@@ -45,11 +44,7 @@ setOldClass("CoGAPS")
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' #
-#' # Do not run, will break the build.  Fix and then uncomment.
-#' #
-#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' 
 #' @export
 #' @import limma
 #' @import stats
@@ -114,8 +109,8 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t,params = new("CogapsParams",nPatterns=5))
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
 #' @import NMF
@@ -124,7 +119,7 @@ projectR.CogapsResult <- function(
   data=NA, # a dataset to be projected onto
   AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CoGAPS object
+  Patterns=NA, # a CogapsResult object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
@@ -402,14 +397,14 @@ setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 #' @param data a dataset to be projected into the pattern space
 #' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an rotatoR object with a rotation matrix of genes by new PCs
+#' @param Patterns an rotatoR object
 #' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
 #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
 #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
