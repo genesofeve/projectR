@@ -32,7 +32,7 @@ setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #' @examples
 #'       geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
-setGeneric("geneMatchR",function(data1,AnnotionObj,IDcol="GeneSymbol",data2,...) standardGeneric("geneMatchR"))
+setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,...) standardGeneric("geneMatchR"))
 
 #' Generic cluster2pattern function
 #'

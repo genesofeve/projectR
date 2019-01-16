@@ -20,7 +20,7 @@ setOldClass("CoGAPS")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @export
 #' @examples
-#'    projectR(data=p.RNAseq6l3c3t$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 
 #Generic is now defined in AllGenerics.R
@@ -503,3 +503,41 @@ projectR.correlateR <- function(
     else{return(projectionPatterns)}
 }
 setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.correlateR)
+#######################################################################################################################################
+
+#' @title Projection function (list for CoGAPS)
+#'
+#' @description for use with object of class corR
+#' @param data a dataset to be projected into the pattern space
+#' @param AnnotationObj an annotion object for data. If NA the rownames of data will be used.
+#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+#' @param Patterns an CoGAPS object
+#' @param NP can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
+#' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
+#' @param model  # optional arguements to choose method for projection
+#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @examples
+#'  projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
+#'                AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'
+#' @import limma
+#' @import stats
+
+projectR.list <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotationObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # a CoGAPS object
+  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  model=NA # optional arguements to choose method for projection
+  ){
+
+  if("CoGAPS" %in% class(Patterns)){
+    return(projectR.CoGAPS(data = data, AnnotationObj = AnnotationObj, IDcol = IDcol, Patterns = Patterns, NP = NP, full = full, model = model))
+  }
+  else{
+    stop("Invalid object type Patterns. Should be from - matrix, pclust, CogapsResult, CoGAPS, correlateR, rotatoR or prcomp")
+  }
+}
+setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.list)
