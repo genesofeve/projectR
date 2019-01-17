@@ -48,3 +48,17 @@ setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,..
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("cluster2pattern"))
+
+#' Generic clusterPlotR function
+#'
+#' @param cData data used to get clusters
+#' @param cls  a cluster (kmeans or hclust) object 
+#' @param x a vector of length equal to number of samples to use for plotting
+#' @param NC vector of integers indicating which clusters to use
+#' @return A plot of the mean behavior for each cluster
+#' @export
+#' @examples \dontrun{
+#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
+#' }
+setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clusterPlotR"))

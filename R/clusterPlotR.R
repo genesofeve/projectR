@@ -17,17 +17,6 @@
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=2,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
 #' }
 
-clusterPlotR <- function(
-	cData=NA, # data used to get clusters
-	cls=NA, # a cluster object
-  	x=NA, # a vector of length equal to number of samples to use for plotting
-  	NC=NA,# vector of integers indicating which clusters to use
-	annoIndx=NA, #vector indxing into subsets for plotting#vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
-  	... #additional parameters for plotting
-  ){
-  UseMethod("clusterPlotR",cls)
-}
-
 #' @title clusterPlotR (kmeans)
 #'
 #' @description plotting function for kmeans clusters
@@ -84,6 +73,7 @@ for(i in cls1){
 	}
 }
 
+setMethod("clusterPlotR",signature(cls = "kmeans"),clusterPlotR.kmeans)
 
 #' @title clusterPlotR (hclust)
 #'
@@ -137,3 +127,5 @@ for(i in cls1){
 	} else (text(x,cMNs1[i,],labels=label, ...))
 	}
 }
+
+setMethod("clusterPlotR",signature(cls = "hclust"),clusterPlotR.hclust)
