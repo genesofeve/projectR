@@ -13,15 +13,15 @@
 #'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @export
 
-intersectoR<-function(
-	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
-	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-	pval=.05, # the maximum p-value considered significant
-	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-	k=NULL #cut height for hclust objects
-){
-  UseMethod("intersectoR",pSet1)
-}
+# intersectoR<-function(
+# 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
+# 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+# 	pval=.05, # the maximum p-value considered significant
+# 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
+# 	k=NULL #cut height for hclust objects
+# ){
+#   UseMethod("intersectoR",pSet1)
+# }
 
 #' @title intersectoR (default)
 #'
@@ -90,6 +90,7 @@ intersectoR.default <- function(
 	}
 }
 
+
 #' @title intersectoR (Kmeans)
 #'
 #' @description a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets.
@@ -154,6 +155,8 @@ intersectoR.kmeans <- function(
 		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
 	}
 }
+
+setMethod("intersectoR",signature(pSet2 = "kmeans"),intersectoR.kmeans)
 
 #' @title intersectoR (hclust)
 #'
@@ -224,3 +227,4 @@ intersectoR.hclust <- function(
 	}
 }
 
+setMethod("intersectoR",signature(pSet2 = "hclust"),intersectoR.hclust)

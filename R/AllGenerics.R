@@ -62,3 +62,20 @@ setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("clu
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
 #' }
 setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clusterPlotR"))
+
+#' @title Generic intersectoR function
+#'
+#' @description a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets.
+#' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+#' @param pval the maximum p-value considered significant
+#' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
+#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
+#' @export
+#' @examples 
+#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
+#' 
+
+setGeneric("intersectoR",function(pSet1,pSet2,pval,k,...) standardGeneric("intersectoR"))
