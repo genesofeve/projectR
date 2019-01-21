@@ -188,7 +188,6 @@ projectR.CoGAPS <- function(
 
   if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
   ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
-  print("*******/n Called the cogaps method *********/n")
   #match genes in data sets
   dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))

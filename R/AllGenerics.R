@@ -78,4 +78,4 @@ setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clus
 #'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' 
 
-setGeneric("intersectoR",function(pSet1,pSet2,pval,k,...) standardGeneric("intersectoR"))
+setGeneric("intersectoR",function(pSet1,pSet2,pval,...) standardGeneric("intersectoR"))
