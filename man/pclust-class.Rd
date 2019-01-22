@@ -10,6 +10,6 @@ parent class of plcustKmeans and plcusltHclust
 \section{Slots}{
 
 \describe{
-\item{\code{pattern}}{pattern found from clusters using cluster2pattern}
+\item{\code{patterns}}{patterns found from clusters (either hclust or kmeans object) using cluster2pattern}
 }}
 

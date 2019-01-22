@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster2pattern.R
 \name{cluster2pattern.hclust}
 \alias{cluster2pattern.hclust}
-\title{cluster2pattern (hclust)}
+\title{cluster2pattern function (hclust)}
 \usage{
 cluster2pattern.hclust(clusters, NP = NA, Data = NA)
 }
@@ -17,10 +17,10 @@ cluster2pattern.hclust(clusters, NP = NA, Data = NA)
 An object of class 'pclust' containing pattern weights corresponding for each cluster.
 }
 \description{
-Function to make patterns of continuous weights from hierarchical clusters.
+Function to make patterns of continuous weights from clusters.
 }
 \examples{
- h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t),use="pairwise.complete.obs"))))
- cluster2pattern(clusters=h.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-
+ distp <- dist(p.RNAseq6l3c3t)
+ hc.RNAseq6l3c3t <- hclust(distp)
+ cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 }

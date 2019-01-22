@@ -4,17 +4,17 @@
 \alias{projectR.rotatoR}
 \title{Projection function (rotatoR objects)}
 \usage{
-projectR.rotatoR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR.rotatoR(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
-\item{Patterns}{an rotatoR object with a rotation matrix of genes by new PCs}
+\item{Patterns}{an rotatoR object}
 
 \item{NP}{range of PCs to project. The default of NP = NA will use entire matrix.}
 
@@ -30,8 +30,8 @@ for use with object of class rotatoR
 }
 \examples{
  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
- r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+ r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-                         AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+                         AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

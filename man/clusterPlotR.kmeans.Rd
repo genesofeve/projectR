@@ -2,12 +2,26 @@
 % Please edit documentation in R/clusterPlotR.R
 \name{clusterPlotR.kmeans}
 \alias{clusterPlotR.kmeans}
-\title{clusterPlotR (kmeans)}
+\title{clusterPlotR (base)}
 \usage{
-\method{clusterPlotR}{kmeans}(cData = NA, cls = NA, x = NA, NC = NA,
+clusterPlotR.kmeans(cData = NA, cls = NA, x = NA, NC = NA,
   annoIndx = NA, label = NULL, ...)
 }
 \arguments{
+\item{cData}{data used to get clusters}
+
+\item{cls}{an clustering object}
+
+\item{x}{a vector of length equal to number of samples to use for plotting}
+
+\item{NC}{number of clusters to cut dendrogram into}
+
+\item{annoIndx}{vector indxing into subsets for plotting}
+
+\item{label}{character vector to use for plotting text, defaults is NULL}
+
+\item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
+
 \item{cData}{data used to get clusters}
 
 \item{cls}{a kmeans object}
@@ -18,17 +32,23 @@
 
 \item{annoIndx}{vector indxing into subsets for plotting}
 
-\item{label}{character vector to use for plotting text, defaults is NULL}
-
 \item{...}{additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.}
 }
 \value{
 A plot of the mean behavior for each cluster
+
+A plot of the mean behavior for each cluster
 }
 \description{
+plotting function for clustering objects
+
 plotting function for kmeans clusters
 }
 \examples{
+\dontrun{
+ k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+ clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=2,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
+}
 \dontrun{
  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)

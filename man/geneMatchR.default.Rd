@@ -4,15 +4,15 @@
 \alias{geneMatchR.default}
 \title{geneMatchR}
 \usage{
-geneMatchR.default(data1 = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-  data2 = NA, merge = FALSE)
+geneMatchR.default(data1 = NA, AnnotationObj = NA,
+  IDcol = "GeneSymbol", data2 = NA, merge = FALSE)
 }
 \arguments{
 \item{data1}{a dataset of genes by samples}
 
-\item{AnnotionObj}{an annotion object for data1. If NA, the rownames of data will be used.}
+\item{AnnotationObj}{an annotataion object for data1. If NA, the rownames of data will be used.}
 
-\item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the rownames of data2}
+\item{IDcol}{the column of AnnotationData object corresponding to identifiers matching the rownames of data2}
 
 \item{data2}{dataset with rownames to be matched}
 
@@ -25,6 +25,5 @@ A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns 
 Matches genes accross datasets.
 }
 \examples{
- geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
-                 IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
+ geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 }

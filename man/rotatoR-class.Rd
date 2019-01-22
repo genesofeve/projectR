@@ -5,11 +5,11 @@
 \alias{rotatoR-class}
 \title{rotatoR}
 \description{
-class of function roatoR's output
+class of rotatoR output
 }
 \section{Slots}{
 
 \describe{
-\item{\code{rotatedM}}{rotated matrix from rotatoR function}
+\item{\code{rotatedM}}{rotated matrix that is output of rotatoR function}
 }}
 

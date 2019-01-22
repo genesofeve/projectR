@@ -10,9 +10,7 @@
 \arguments{
 \item{.Object}{pclust object}
 
-\item{hclust}{hclust object passed to cluster2pattern function}
-
-\item{kmeans}{kmeans object passed to cluster2pattern function}
+\item{patterns}{patterns found from clusters (either hclust or kmeans object)) using cluster2pattern}
 }
 \value{
 initialized plclust object

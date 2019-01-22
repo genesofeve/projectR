@@ -7,7 +7,7 @@
 projectR(data, Patterns, ...)
 }
 \arguments{
-\item{data}{Target dataset into which you will prject}
+\item{data}{Target dataset into which you will project}
 
 \item{Patterns}{Patterns learned from source dataset}
 
@@ -20,6 +20,6 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 Generic projectR function
 }
 \examples{
-        projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+        projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t) #not working rn
 
 }

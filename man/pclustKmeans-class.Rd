@@ -5,11 +5,11 @@
 \alias{pclustKmeans-class}
 \title{pclustKmeans}
 \description{
-defines class of cluster2pattern with kmeans input
+defines class of cluster2pattern output with kmeans input
 }
 \section{Slots}{
 
 \describe{
-\item{\code{kmeans}}{kmeans input to cluster2pattern}
+\item{\code{kmeans}}{kmeans object used as input to cluster2pattern}
 }}
 

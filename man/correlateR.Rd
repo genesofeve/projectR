@@ -18,10 +18,10 @@ correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7,
 
 \item{absR}{logical indicating where to include both positive and negatively correlated genes}
 
-\item{...}{addtion impdelta a vector of weights describing}
+\item{...}{addtion inputs to cor, such as method}
 }
 \value{
-An object of class corGS.
+An object of class correlateR.
 }
 \description{
 Function to extract genes highly correlated with a gene or reference expression pattern.

@@ -5,7 +5,7 @@
 \alias{pclustHclust-class}
 \title{pclustHclust}
 \description{
-defines class of cluster2pattern with hclust input
+defines class of cluster2pattern output with hclust input
 }
 \section{Slots}{
 

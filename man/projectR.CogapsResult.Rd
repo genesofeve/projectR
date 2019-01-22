@@ -4,18 +4,18 @@
 \alias{projectR.CogapsResult}
 \title{Projection function (CogapsResult)}
 \usage{
-projectR.CogapsResult(data = NA, AnnotionObj = NA,
+projectR.CogapsResult(data = NA, AnnotationObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
   model = NA, family = "gaussianff")
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
-\item{Patterns}{a CoGAPS object}
+\item{Patterns}{a CogapsResult object}
 
 \item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 
@@ -32,6 +32,7 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 for use with object of class CoGAPS
 }
 \examples{
-   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+library("CoGAPS")
+CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t,params = new("CogapsParams",nPatterns=5))
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }

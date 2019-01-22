@@ -4,14 +4,14 @@
 \alias{projectR.default}
 \title{Projection function (Base)}
 \usage{
-projectR.default(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR.default(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA,
   family = "gaussianff")
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
@@ -27,7 +27,7 @@ projectR.default(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
 
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
@@ -50,13 +50,9 @@ a function for the projection of new data into a previously defined feature spac
 default version
 }
 \examples{
-   projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#
-# Do not run, will break the build.  Fix and then uncomment.
-#
-#   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+               AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+
 }

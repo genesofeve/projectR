@@ -4,13 +4,13 @@
 \alias{projectR.prcomp}
 \title{Projection function (PCA)}
 \usage{
-projectR.prcomp(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR.prcomp(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
@@ -31,6 +31,6 @@ for use with object of class prcomp
 \examples{
  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
-                               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+                               AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

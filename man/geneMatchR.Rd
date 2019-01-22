@@ -4,18 +4,18 @@
 \alias{geneMatchR}
 \title{Generic geneMatchR function}
 \usage{
-geneMatchR(data1, AnnotionObj, IDcol = "GeneSymbol", data2, ...)
+geneMatchR(data1, AnnotationObj, IDcol = "GeneSymbol", data2, ...)
 }
 \arguments{
 \item{data1}{a dataset of genes by samples}
-
-\item{AnnotionObj}{an annotion object for data1. If NA, the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the rownames of data2}
 
 \item{data2}{dataset with rownames to be matched}
 
 \item{...}{Additional arguments to geneMatchR}
+
+\item{AnnotionObj}{an annotion object for data1. If NA, the rownames of data will be used.}
 }
 \value{
 A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns merged data.)

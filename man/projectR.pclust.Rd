@@ -4,19 +4,19 @@
 \alias{projectR.pclust}
 \title{Projection function (clustering)}
 \usage{
-projectR.pclust(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR.pclust(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA)
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
 \item{Patterns}{an Pclust object from the cluster2pattern function}
 
-\item{NP}{number of desired patterns}
+\item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
@@ -32,6 +32,6 @@ for use with object of class Pclust
  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
-                             AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+                             AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

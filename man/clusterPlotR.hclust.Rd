@@ -4,7 +4,7 @@
 \alias{clusterPlotR.hclust}
 \title{clusterPlotR (hclust)}
 \usage{
-\method{clusterPlotR}{hclust}(cData = NA, cls = NA, x = NA, NC = NA,
+clusterPlotR.hclust(cData = NA, cls = NA, x = NA, NC = NA,
   annoIndx = NA, ...)
 }
 \arguments{

@@ -4,8 +4,8 @@
 \alias{intersectoR.kmeans}
 \title{intersectoR (Kmeans)}
 \usage{
-\method{intersectoR}{kmeans}(pSet1 = NA, pSet2 = NA, pval = 0.05,
-  full = FALSE, k = NULL)
+intersectoR.kmeans(pSet1 = NA, pSet2 = NA, pval = 0.05,
+  full = FALSE)
 }
 \arguments{
 \item{pSet1}{a kmeans object}
@@ -25,7 +25,9 @@ A list containing: Overlap matrix, overlap index, and overlapping sets.
 a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets.
 }
 \examples{
- k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
- k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
 intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 }

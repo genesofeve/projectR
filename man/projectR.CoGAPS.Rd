@@ -4,14 +4,14 @@
 \alias{projectR.CoGAPS}
 \title{Projection function (CoGAPS)}
 \usage{
-projectR.CoGAPS(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR.CoGAPS(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
   Patterns = NA, NP = NA, full = FALSE, model = NA,
   family = "gaussianff")
 }
 \arguments{
 \item{data}{a dataset to be projected into the pattern space}
 
-\item{AnnotionObj}{an annotion object for data. If NA the rownames of data will be used.}
+\item{AnnotationObj}{an annotion object for data. If NA the rownames of data will be used.}
 
 \item{IDcol}{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 
@@ -33,5 +33,5 @@ for use with object of class CoGAPS
 }
 \examples{
    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+               AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 }
