@@ -536,7 +536,7 @@ projectR.list <- function(
     return(projectR.CoGAPS(data = data, AnnotationObj = AnnotationObj, IDcol = IDcol, Patterns = Patterns, NP = NP, full = full, model = model))
   }
   else{
-    stop("Invalid object type Patterns. Should be from - matrix, pclust, CogapsResult, CoGAPS, correlateR, rotatoR or prcomp")
+    stop("Invalid object type Patterns. Patterns be from class matrix, pclust, CogapsResult, CoGAPS, correlateR, rotatoR or prcomp")
   }
 }
 setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.list)
