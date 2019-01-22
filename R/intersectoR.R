@@ -7,9 +7,11 @@
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples 
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+#' @examples
+#'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+#'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#'	k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'	k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
 #'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @export
 
@@ -22,6 +24,7 @@
 # ){
 #   UseMethod("intersectoR",pSet1)
 # }
+#######################################################################################################################################
 
 #' @title intersectoR (default)
 #'
@@ -90,6 +93,7 @@ intersectoR.default <- function(
 	}
 }
 
+#######################################################################################################################################
 
 #' @title intersectoR (Kmeans)
 #'
@@ -100,9 +104,11 @@ intersectoR.default <- function(
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @param k cut height for hclust objects, not used with kmeans
 #' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples 
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
+#' @examples
+#'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+#'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#'	k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#'	k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
 #'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @export
 
@@ -110,8 +116,7 @@ intersectoR.kmeans <- function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, #the maximum p-value considered significant
-	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-	k=NULL #cut height for hclust objects
+	full=FALSE #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
   ){
 	#if(class(pSet2)!="kmeans"){stop("pSet2 must also be a kmeans object")}
 
@@ -156,7 +161,8 @@ intersectoR.kmeans <- function(
 	}
 }
 
-setMethod("intersectoR",signature(pSet2 = "kmeans"),intersectoR.kmeans)
+setMethod("intersectoR",signature(pSet1 = "kmeans",pSet2 = "kmeans"),intersectoR.kmeans)
+#######################################################################################################################################
 
 #' @title intersectoR (hclust)
 #'
@@ -168,9 +174,11 @@ setMethod("intersectoR",signature(pSet2 = "kmeans"),intersectoR.kmeans)
 #' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
 #' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @examples 
-#' 	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
-#' 	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(p.ESepiGen4c1l$mRNA.Seq)))))
-#'  intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
+#'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+#'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#'	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
+#'	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(ESepiGen4c1lmRNASeq)))))
+#'	intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
 #'
 #' @export
 
@@ -227,4 +235,4 @@ intersectoR.hclust <- function(
 	}
 }
 
-setMethod("intersectoR",signature(pSet2 = "hclust"),intersectoR.hclust)
+setMethod("intersectoR",signature(pSet1 = "hclust",pSet2 = "hclust"),intersectoR.hclust)
