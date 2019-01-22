@@ -2,7 +2,8 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
-#setOldClass("CoGAPS")
+#' @importFrom CoGAPS CoGAPS
+setOldClass("CoGAPS")
 #' @importFrom limma lmFit
 
 
@@ -147,7 +148,7 @@ projectR.CogapsResult <- function(
   projectionPatterns <- t(Projection$coefficients)
 
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, projection)
+      projectionFit <- list(projectionPatterns, Projection)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
@@ -206,7 +207,7 @@ projectR.CoGAPS <- function(
   projectionPatterns <- t(Projection$coefficients)
 
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, projection)
+      projectionFit <- list(projectionPatterns, Projection)
       return(projectionFit)
   }
   else{return(projectionPatterns)}

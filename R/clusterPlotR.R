@@ -98,11 +98,12 @@ clusterPlotR.hclust <- function(
 	x=NA, # a vector of length equal to number of samples to use for plotting
   	NC=NA,  # number of clusters to cut dendrogram into
   	annoIndx=NA, #vector indxing into subsets for plotting
-  	... #additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
+  	label=NULL,
+  	... #additional parameters for plotting. ex. pch,cex,col,xlab, etc.
   ){
 cut1=cutree(cls,k=NC)
 cls1=sort(unique(cut1))
-cMNs1=matrix(ncol=dim(p1K)[2],nrow=length(cls1))
+cMNs1=matrix(ncol=dim(cData)[2],nrow=length(cls1))
 meanRRs1=vector(length=length(cls1))
 for(i in cls1){
 	if(sum(cut1==i)>1){
@@ -111,7 +112,7 @@ for(i in cls1){
 	cMNs1[i,]=p1KcMN
 	meanRRs1[i]=mean(apply(p1Kc,1,cor,y=p1KcMN))
 	}
-	if(sum(cut1==i)==1){cMNs1[i,]=p1K[cut1==i,];meanRRs1[i]=1}
+	if(sum(cut1==i)==1){cMNs1[i,]=cData[cut1==i,];meanRRs1[i]=1}
 	if(sum(cut1==i)==0){print("cluster error !")}
 }
 for(i in cls1){
@@ -124,7 +125,7 @@ for(i in cls1){
 			lines(x[annoIndx==j],cMNs1[i,annoIndx==j],...)}}
 	if(is.null(label)){
 		points(x,cMNs1[i,],...)
-	} else (text(x,cMNs1[i,],labels=label, ...))
+	} else (text(x,cMNs1[i,], ...))
 	}
 }
 
