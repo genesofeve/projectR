@@ -118,7 +118,7 @@ intersectoR.kmeans <- function(
 	pval=.05, #the maximum p-value considered significant
 	full=FALSE #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
   ){
-	#if(class(pSet2)!="kmeans"){stop("pSet2 must also be a kmeans object")}
+	
 
 	#match gene order
 	gns=unique(names(pSet1$cluster)[names(pSet1$cluster)%in%names(pSet2$cluster)])
@@ -189,8 +189,6 @@ intersectoR.hclust <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
   ){
-  	#if(class(pSet2)!="hclust"){stop("pSet2 must also be a hclust object")}
-
   	overLPmtx=matrix(nrow=0,ncol=9)
   	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
 		"OverLap%1","OverLap%2","pval","pval.REV")
