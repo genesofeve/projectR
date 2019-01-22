@@ -19,7 +19,8 @@ Imports:
     MASS,
     ggplot2,
     reshape2,
-    NMF
+    NMF,
+    ROCR
 Suggests:
     CoGAPS,
     BiocStyle,
@@ -32,7 +33,7 @@ Suggests:
     testthat,
     ComplexHeatmap
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
 BugReports: https://support.bioconductor.org/t/projectR/
