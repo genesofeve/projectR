@@ -19,7 +19,7 @@ auc_mat<-function(labels=NA, weights=NA){
   colnames(auc_matrix) = colnames(results)
   for (i in 1:dim(weights)[1]) {
     for (j in 1:dim(results)[2]) {
-      auc_matrix[i,j] = performance(prediction(weights[i,], results[,j]), measure='auc')@"y.values"[[1]]
+      auc_matrix[i,j] = ROCR::performance(ROCR::prediction(weights[i,], results[,j]), measure='auc')@"y.values"[[1]]
     }
   }
   colnames(auc_matrix) = sort(unique(labels))
