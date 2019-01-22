@@ -20,9 +20,9 @@ Imports:
     ggplot2,
     reshape2,
     NMF,
-    ROCR
+    ROCR,
+    CoGAPS
 Suggests:
-    CoGAPS,
     BiocStyle,
     gridExtra,
     grid,
@@ -30,7 +30,6 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    testthat,
     ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 6.1.1
