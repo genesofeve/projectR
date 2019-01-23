@@ -21,7 +21,9 @@ Imports:
     reshape2,
     NMF,
     ROCR,
-    CoGAPS
+    CoGAPS,
+    dplyr,
+    tidyverse
 Suggests:
     BiocStyle,
     gridExtra,
