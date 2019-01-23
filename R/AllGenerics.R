@@ -21,8 +21,8 @@ setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #' Generic geneMatchR function
 #'
 #' @param data1 a dataset of genes by samples
-#' @param AnnotionObj an annotion object for data1. If NA, the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the rownames of data2
+#' @param AnnotationObj an annotation object for data1. If NA, the rownames of data will be used.
+#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the rownames of data2
 #' @param data2 dataset with rownames to be matched
 #' @param ... Additional arguments to geneMatchR
 #'
@@ -30,7 +30,7 @@ setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #' @export
 #'
 #' @examples
-#'       geneMatchR(data1=p.RNAseq6l3c3t,AnnotionObj=map.ESepiGen4c1l,
+#'       geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,...) standardGeneric("geneMatchR"))
 
