@@ -1,13 +1,13 @@
 #' @title alluvial_mat
 #'
 #' @description Function to compute alluvial matrix
-#' @param   new.projections  
-#' @param   ct_anno 
+#' @param   new.projections #class?
+#' @param   ct_anno Cell type annotation 
 #' @return  A matrix
-#' @export
-#' @import dplyr reshape2 tidyverse
-#' @examples
 #' 
+#' @import dplyr reshape2 tidyverse
+# #' @examples
+#' @export
 
 
 alluvial_mat<-function(new.projections=NA, ct_anno=NA){
@@ -40,4 +40,3 @@ alluvial_mat<-function(new.projections=NA, ct_anno=NA){
     mutate(pattern_prop=nCells/nCells_per_pattern)
   return(DM.summary)
 }
-

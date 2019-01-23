@@ -3,10 +3,11 @@ setOldClass("kmeans")
 setOldClass("hclust")
 
 #' pclust
-#' @export
 #'
 #' @slot patterns patterns found from clusters (either hclust or kmeans object) using cluster2pattern
 #' @description parent class of plcustKmeans and plcusltHclust
+#' @export
+
 
 setClass("pclust", slots=c(
 	patterns = "matrix"      
@@ -29,9 +30,9 @@ function(.Object, patterns, ... )
   
 
 #' pclustKmeans
-#' @export
 #' @slot kmeans kmeans object used as input to cluster2pattern
 #' @description defines class of cluster2pattern output with kmeans input
+#' @export
 setClass("pclustKmeans", slots=c(
 	kmeans = "kmeans"	      
 ),contains = "pclust")
@@ -49,9 +50,9 @@ function(.Object, kmeans, ... )
 })
 
 #' pclustHclust
-#' @export
 #' @slot hclust hclust input to cluster2pattern
 #' @description defines class of cluster2pattern output with hclust input
+#' @export
 setClass("pclustHclust", slots=c(
 	hclust = "hclust"	      
 ),contains = "pclust")
