@@ -418,8 +418,13 @@ projectR.correlateR <- function(
   ){
 
   Patterns <- Patterns@corM
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
-
+  if(!is.na(NP)){
+    Patterns<-as.matrix(Patterns[[NP]])
+    colnames(Patterns) <- NP
+  }
+  else {
+  Patterns<-Patterns
+}
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(Patterns)==2){
     Patterns <- do.call(rbind,Patterns)
