@@ -19,9 +19,10 @@ setOldClass("CoGAPS")
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @export
+#' @rdname projectR
 #' @examples
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#'
+
 
 #Generic is now defined in AllGenerics.R
 #setGeneric("projectR", function(data,AnnotationObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
@@ -45,6 +46,7 @@ setOldClass("CoGAPS")
 #'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
 #'                AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' 
+#' @rdname projectR
 #' @export
 #' @import limma
 #' @import stats
@@ -108,6 +110,7 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @param model  # optional arguements to choose method for projection
 #' @param family # VGAM family function for model fitting (default: "gaussianff")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @rdname projectR
 #' @examples
 #' library("CoGAPS")
 #' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t,params = new("CogapsParams",nPatterns=5))
@@ -475,7 +478,6 @@ projectR.list <- function(
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA # optional arguements to choose method for projection
   ){
-
   if("CoGAPS" %in% class(Patterns)){
     return(projectR.CoGAPS(data = data, AnnotationObj = AnnotationObj, IDcol = IDcol, Patterns = Patterns, NP = NP, full = full, model = model))
   }
