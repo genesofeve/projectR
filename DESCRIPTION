@@ -31,7 +31,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    ComplexHeatmap
+    ComplexHeatmap,
+    viridis
 LazyData: TRUE
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
