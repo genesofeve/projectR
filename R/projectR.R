@@ -102,9 +102,9 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #'
 #' @description for use with object of class CoGAPS
 #' @param data a dataset to be projected into the pattern space
+#' @param Patterns a CogapsResult object
 #' @param AnnotationObj an annotation object for data. If NA the rownames of data will be used.
 #' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a CogapsResult object
 #' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model  # optional arguements to choose method for projection
@@ -473,14 +473,16 @@ setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.cor
 #' @import stats
 
 projectR.list <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # a CoGAPS object
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CoGAPS object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA # optional arguements to choose method for projection
   ){
+  print(class(Patterns))
+  print(Patterns)
   if("CoGAPS" %in% class(Patterns)){
     return(projectR.CoGAPS(data = data, AnnotationObj = AnnotationObj, IDcol = IDcol, Patterns = Patterns, NP = NP, full = full, model = model))
   }
