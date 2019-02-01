@@ -31,7 +31,5 @@ for use with object of class corR
 }
 \examples{
  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
- cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-                                   AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

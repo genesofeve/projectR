@@ -20,6 +20,7 @@ A matrix of sample weights for each input pattern. (if full=TRUE, full model sol
 Generic projectR function
 }
 \examples{
-        projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+        projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
+               AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 }

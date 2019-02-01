@@ -21,7 +21,8 @@ setOldClass("CoGAPS")
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @export
 #' @examples
-#'    projectR(data=p.RNAseq6l3c3t,Patterns=AP.RNAseq6l3c3t)
+#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
+#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 
 #Generic is now defined in AllGenerics.R
@@ -289,10 +290,10 @@ setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 #' @param model  # optional arguements to choose method for projection
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-#'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+# #'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+# #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
+# #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @import stats
 
@@ -348,8 +349,8 @@ projectR.rotatoR <- function(
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @examples
 #'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-#'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-#'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+# #'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
+# #'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols") #not functional in master
 #'
 #' @import limma
 #' @import stats

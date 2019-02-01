@@ -20,7 +20,6 @@ Imports:
     ggplot2,
     reshape2,
     NMF,
-    SingleCellExperiment,
     CoGAPS
 Suggests:
     BiocStyle,
