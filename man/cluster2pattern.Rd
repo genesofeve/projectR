@@ -2,7 +2,6 @@
 % Please edit documentation in R/AllGenerics.R, R/cluster2pattern.R
 \name{cluster2pattern}
 \alias{cluster2pattern}
-\alias{cluster2pattern}
 \title{cluster2pattern}
 \usage{
 cluster2pattern(clusters, NP, Data)
