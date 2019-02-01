@@ -13,9 +13,9 @@
 #' @export
 #'
 #' @examples
-#'  projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'  projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
+#' @rdname projectR
 setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 
 
