@@ -263,8 +263,10 @@ projectR.pclust <- function(
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
+  pval.matrix<-2*pnorm(-abs(projection.ts))
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
@@ -442,8 +444,9 @@ projectR.correlateR <- function(
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
     if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
     }
     else{return(projectionPatterns)}
