@@ -30,7 +30,6 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    testthat,
     ComplexHeatmap,
     viridis
 LazyData: TRUE
