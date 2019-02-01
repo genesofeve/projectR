@@ -22,7 +22,6 @@ Imports:
     NMF,
     SingleCellExperiment
 Suggests:
-    CoGAPS,
     BiocStyle,
     gridExtra,
     grid,
