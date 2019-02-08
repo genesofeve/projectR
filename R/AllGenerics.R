@@ -19,22 +19,25 @@
 setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #######################################################################################################################################
 
-
 #' Generic geneMatchR function
-#'
+#' @docType methods
+#' @rdname geneMatchR-methods
+#'	
+#' @description Matches genes accross datasets
 #' @param data1 a dataset of genes by samples
 #' @param AnnotationObj an annotation object for data1. If NA, the rownames of data will be used.
 #' @param IDcol the column of AnnotationData object corresponding to identifiers matching the rownames of data2
 #' @param data2 dataset with rownames to be matched
+#' @param merge logical indicating wether or not to merged data sets
 #' @param ... Additional arguments to geneMatchR
 #'
 #' @return A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns merged data.)
 #' @export
 #'
 #' @examples
-#'       geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,
-#'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
-setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,...) standardGeneric("geneMatchR"))
+#' geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
+
+setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,merge,...) standardGeneric("geneMatchR"))
 #######################################################################################################################################
 
 #' Generic cluster2pattern function
