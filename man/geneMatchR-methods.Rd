@@ -6,7 +6,8 @@
 \alias{geneMatchR,ANY-method}
 \title{Generic geneMatchR function}
 \usage{
-geneMatchR(data1, AnnotationObj, IDcol = "GeneSymbol", data2, merge, ...)
+geneMatchR(data1, AnnotationObj, IDcol = "GeneSymbol", data2,
+  merge = FALSE, ...)
 
 \S4method{geneMatchR}{ANY}(data1 = NA, AnnotationObj = NA,
   IDcol = "GeneSymbol", data2 = NA, merge = FALSE)

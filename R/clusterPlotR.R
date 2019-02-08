@@ -1,38 +1,3 @@
-#' @title clusterPlotR (base)
-#'
-#' @description plotting function for clustering objects
-#' @param cData data used to get clusters
-#' @param cls  an clustering object
-#' @param x a vector of length equal to number of samples to use for plotting
-#' @param NC number of clusters to cut dendrogram into
-#' @param annoIndx vector indxing into subsets for plotting
-#' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
-#' @return A plot of the mean behavior for each cluster
-#' @export
-#' @import graphics
-#' @import ggplot2
-#' @import reshape2
-#' @examples \dontrun{
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=2,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#' }
-
-#' @title clusterPlotR (kmeans)
-#'
-#' @description plotting function for kmeans clusters
-#' @param cData data used to get clusters
-#' @param cls  a kmeans object
-#' @param x a vector of length equal to number of samples to use for plotting
-#' @param NC vector of integers indicating which clusters to use
-#' @param annoIndx vector indxing into subsets for plotting
-#' @param label character vector to use for plotting text, defaults is NULL
-#' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
-#' @return A plot of the mean behavior for each cluster
-#' @export
-#' @examples \dontrun{
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
-#' }
 clusterPlotR.kmeans <- function(
 	cData=NA, # data used to get clusters
 	cls=NA, # a kmeans object
@@ -73,24 +38,12 @@ for(i in cls1){
 	}
 }
 
+#' @param annoIndx vector indexing into subsets for plotting
+#' @param label character vector to use for plotting text, defaults is NULL
+#' @rdname clusterPlotR-methods
+#' @aliases clusterPlotR
 setMethod("clusterPlotR",signature(cls = "kmeans"),clusterPlotR.kmeans)
-
-#' @title clusterPlotR (hclust)
-#'
-#' @description plotting function for hclust clusters
-#' @param cData data used to get clusters
-#' @param cls  an hclust object
-#' @param x a vector of length equal to number of samples to use for plotting
-#' @param NC number of clusters to cut dendrogram into
-#' @param annoIndx vector indxing into subsets for plotting
-#' @param ... additional parameters for plotting. ex. pch,cex,col,labels, xlab, etc.
-#' @export
-#' @return A plot of the mean behavior for each cluster
-#' @examples \dontrun{
-#'  clusterPlotR(cData=p, cls=pk, x=jitter(pd$days), col=pd$colors)
-#'}
-
-
+#######################################################################################################################################
 
 clusterPlotR.hclust <- function(
 	cData=NA, # data used to get clusters
@@ -129,4 +82,6 @@ for(i in cls1){
 	}
 }
 
+#' @rdname clusterPlotR-methods
+#' @aliases clusterPlotR
 setMethod("clusterPlotR",signature(cls = "hclust"),clusterPlotR.hclust)
