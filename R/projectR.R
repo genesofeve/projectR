@@ -292,7 +292,6 @@ setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #'
 #' @import limma
 #' @import stats
-#' @import MASS
 
 
 

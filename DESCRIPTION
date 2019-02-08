@@ -16,7 +16,6 @@ Imports:
     stats,
     utils,
     limma,
-    MASS,
     ggplot2,
     reshape2,
     ROCR,
