@@ -3,8 +3,6 @@
 export(alluvial_mat)
 export(auc_mat)
 export(cluster2pattern)
-export(cluster2pattern.hclust)
-export(cluster2pattern.kmeans)
 export(clusterPlotR)
 export(clusterPlotR.hclust)
 export(clusterPlotR.kmeans)

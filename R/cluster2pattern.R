@@ -3,42 +3,10 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 
-#' @title cluste2pattern function (Base)
-#'
-#' @description Function to make patterns of continuous weights from clusters.
-#' @param clusters an cluster object which could be either an hclust or a kmeans object
-#' @param NP number of desired patterns
-#' @param Data data used to make clusters object
-#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
-#' @export
-#' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#' 
-#' distp <- dist(p.RNAseq6l3c3t)
-#' hc.RNAseq6l3c3t <- hclust(distp)
-#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'
-
 #######################################################################################################################################
-
-#' @title cluster2pattern function (kmeans)
-#'
-#' @description Function to make patterns of continuous weights from clusters.
-#' @param clusters a kmeans object
-#' @param NP number of desired patterns
-#' @param Data data used to make clusters object
-#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
-#' @export
-#' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'
-
 
 cluster2pattern.kmeans<- function(
   clusters, # a kmeans object
-  NP=NA, # number of desired patterns
   Data=NA # data used to make clusters object
   ){
 
@@ -53,21 +21,11 @@ cluster2pattern.kmeans<- function(
   return(pclustObj)
 }
 
+#' @rdname cluster2pattern-methods
+#' @aliases cluster2pattern
 setMethod("cluster2pattern",signature(clusters="kmeans"),cluster2pattern.kmeans)
 
 #######################################################################################################################################
-#' @title cluster2pattern function (hclust)
-#'
-#' @description Function to make patterns of continuous weights from clusters.
-#' @param clusters an hclust object
-#' @param NP number of desired patterns
-#' @param Data data used to make clusters object
-#' @return An object of class 'pclust' containing pattern weights corresponding for each cluster.
-#' @export
-#' @examples
-#'  distp <- dist(p.RNAseq6l3c3t)
-#'  hc.RNAseq6l3c3t <- hclust(distp)
-#'  cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
 
 cluster2pattern.hclust<-function(
   clusters, # an hclust object
@@ -87,5 +45,7 @@ cluster2pattern.hclust<-function(
   return(pclustObj)
 }
 
+#' @rdname cluster2pattern-methods
+#' @aliases cluster2pattern
 setMethod("cluster2pattern",signature(clusters="hclust"),cluster2pattern.hclust)
 

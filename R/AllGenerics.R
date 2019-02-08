@@ -17,6 +17,7 @@
 #'
 #' @rdname projectR
 setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
+#######################################################################################################################################
 
 
 #' Generic geneMatchR function
@@ -34,21 +35,30 @@ setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #'       geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,
 #'                  IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 setGeneric("geneMatchR",function(data1,AnnotationObj,IDcol="GeneSymbol",data2,...) standardGeneric("geneMatchR"))
+#######################################################################################################################################
 
 #' Generic cluster2pattern function
+#' @docType methods
+#' @rdname cluster2pattern-methods
 #'
 #' @description Function to make patterns of continuous weights from clusters.
 #'
-#' @param clusters an cluster object
+#' @param clusters a cluster object which could be either an hclust or a kmeans object
 #' @param NP number of desired patterns
 #' @param Data data used to make clusters object
 #' @param ... Additional arguments to cluster2pattern
 #' @return An object of class pclust containing pattern weights corresponding for each cluster.
 #' @export
 #' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' 
+#' distp <- dist(p.RNAseq6l3c3t)
+#' hc.RNAseq6l3c3t <- hclust(distp)
+#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+
 setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("cluster2pattern"))
+#######################################################################################################################################
 
 #' Generic clusterPlotR function
 #'
@@ -63,6 +73,7 @@ setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("clu
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t, NC=1,x=pd.RNAseq6l3c3t$days, col=pd.RNAseq6l3c3t$color)
 #' }
 setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clusterPlotR"))
+#######################################################################################################################################
 
 #' @title Generic intersectoR function
 #'
