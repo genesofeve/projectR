@@ -5,7 +5,8 @@
 #' @param   ct_anno Cell type annotation 
 #' @return  A matrix
 #' 
-#' @import dplyr reshape2 tidyverse
+#' @rawNamespace import(dplyr, except = c(filter,lag))
+#' @import reshape2 tidyverse
 # #' @examples
 #' @export
 
@@ -27,7 +28,7 @@ alluvial_mat<-function(new.projections=NA, ct_anno=NA){
     dplyr::select(celltype,starts_with("Pattern")) %>%
     melt(id.vars=c('celltype'))
   DM.summary$value<-as.numeric(DM.summary$value)
-  DM.summary<- as.tibble(DM.summary) %>%
+  DM.summary<- as_tibble(DM.summary) %>%
     group_by(celltype,variable) %>%
     summarize(nCells=sum(value,na.rm=T))
   DM.summary<-merge(DM.summary,celltype_cells,by.x='celltype',by.y='celltype')
