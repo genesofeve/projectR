@@ -9,11 +9,8 @@
 # #' @examples
 #' @export
 
-
+#plot logical to ask if the plot should be generated or not
 alluvial_mat<-function(new.projections=NA, ct_anno=NA){
-  require(dplyr)
-  require(reshape2)
-  require(tidyverse)
   sigPatternIdx<-apply(new.projections$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
   new.projections$qval<-t(apply(new.projections$pval,1,function(x){p.adjust(x,method="BH")}))
   sigPatternIdx<-apply(new.projections$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
