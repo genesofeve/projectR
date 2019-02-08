@@ -117,7 +117,7 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
-#' @import NMF
+#' @importFrom NMF fcnnls
 
 projectR.CogapsResult <- function(
   data=NA, # a dataset to be projected onto
@@ -177,7 +177,7 @@ setMethod("projectR",signature(data="matrix",Patterns="CogapsResult"),projectR.C
 #'                AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
-#' @import NMF
+#' @importFrom NMF fcnnls
 
 projectR.CoGAPS <- function(
   data=NA, # a dataset to be projected onto
