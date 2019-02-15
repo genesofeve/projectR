@@ -24,9 +24,9 @@ intersectoR(pSet1, pSet2, pval, ...)
 
 \item{...}{additional parameters depending on input object}
 
-\item{k}{Numeric giving cut height for hclust objects, if a vector is given arguments will be applied to pSet1 and pSet2 in that order}
+\item{full}{logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.}
 
-\item{full=FALSE}{logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.}
+\item{k}{Numeric giving cut height for hclust objects, if a vector is given arguments will be applied to pSet1 and pSet2 in that order}
 }
 \value{
 A list containing: Overlap matrix, overlap index, and overlapping sets.

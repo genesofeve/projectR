@@ -106,7 +106,7 @@ intersectoR.kmeans <- function(
 }
 
 
-#' @param full=FALSE logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
+#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @examples
 #' ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
 #' rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
