@@ -17,11 +17,11 @@
 #' @export
 #'
 #' @examples
-#'  projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @details 
 #' \code{Patterns} can belong to one of several classes depending on upstream
-#' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}
+#' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
 #' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
 #' and \code{correlateR}.
 setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
