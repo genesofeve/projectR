@@ -9,6 +9,10 @@
 }
 \arguments{
 \item{.Object}{pclustKmeans object}
+
+\item{kmeans}{kmeans object passed to \code{cluster2pattern} generic}
+
+\item{...}{Additional arguments to \code{cluster2pattern} generic}
 }
 \value{
 initialized plclustKmeans object

@@ -11,6 +11,8 @@
 \item{.Object}{correlateR object}
 
 \item{corM}{correlation matrix obtained from correlateR}
+
+\item{...}{additional arguments to intialize correlateR}
 }
 \value{
 initialized correlateR object

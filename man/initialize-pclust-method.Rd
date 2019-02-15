@@ -11,6 +11,8 @@
 \item{.Object}{pclust object}
 
 \item{patterns}{patterns found from clusters (either hclust or kmeans object)) using cluster2pattern}
+
+\item{...}{Additional arguments to initalize pclust}
 }
 \value{
 initialized plclust object

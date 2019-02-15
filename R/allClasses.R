@@ -16,6 +16,7 @@ setClass("pclust", slots=c(
 #' Constructor for pclust
 #' @param .Object pclust object
 #' @param patterns patterns found from clusters (either hclust or kmeans object)) using cluster2pattern
+#' @param ... Additional arguments to initalize pclust 
 #' @return initialized plclust object
 
 #' @importFrom methods callNextMethod
@@ -39,6 +40,8 @@ setClass("pclustKmeans", slots=c(
 
 #' Constructor for pclustKmeans
 #' @param .Object pclustKmeans object
+#' @param kmeans kmeans object passed to \code{cluster2pattern} generic
+#' @param ... Additional arguments to \code{cluster2pattern} generic
 #' @return initialized plclustKmeans object
 #' @importFrom methods callNextMethod
 setMethod("initialize", "pclustKmeans",
@@ -83,6 +86,7 @@ setClass("rotatoR", slots=c(
 #' Constructor for rotatoR
 #' @param .Object rotatoR object
 #' @param rotatedM rotated matrix from rotatoR function
+#' @param ... additional arguments to intialize rotatoR
 #' @return initialized rotatoR object
 
 #' @importFrom methods callNextMethod
@@ -108,6 +112,7 @@ setClass("correlateR", slots=c(
 #' Constructor for correlateR
 #' @param .Object correlateR object
 #' @param corM correlation matrix obtained from correlateR
+#' @param ... additional arguments to intialize correlateR
 #' @return initialized correlateR object
 
 #' @importFrom methods callNextMethod

@@ -7,7 +7,7 @@ setOldClass("hclust")
 
 cluster2pattern.kmeans<- function(
   clusters, # a kmeans object
-  Data=NA # data used to make clusters object
+  Data # data used to make clusters object
   ){
 
   nD<-length(clusters$size)
@@ -29,7 +29,7 @@ setMethod("cluster2pattern",signature(clusters="kmeans"),cluster2pattern.kmeans)
 
 cluster2pattern.hclust<-function(
   clusters, # an hclust object
-  NP=NA, # number of desired patterns
+  NP, # number of desired patterns
   Data=NA # data used to make hclust object
   ){
 

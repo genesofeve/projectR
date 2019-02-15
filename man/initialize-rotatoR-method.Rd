@@ -11,6 +11,8 @@
 \item{.Object}{rotatoR object}
 
 \item{rotatedM}{rotated matrix from rotatoR function}
+
+\item{...}{additional arguments to intialize rotatoR}
 }
 \value{
 initialized rotatoR object
