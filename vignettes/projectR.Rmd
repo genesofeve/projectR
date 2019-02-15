@@ -184,6 +184,7 @@ class(AP)<-append(class(AP),"CoGAPS")
 save(AP,file="Patterns.RNAseq6l3c3t.RData")
 
 # heatmap of gene weights for CoGAPs patterns 
+io9
 library(gplots)
 pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
           distfun=function(c) as.dist(1-cor(t(c))) ,
@@ -206,7 +207,8 @@ dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
 
 #plot pca
 library(ggplot2)
-setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),                              guide = guide_legend(title="Lineage"))
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
+guide = guide_legend(title="Lineage"))
 
 pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
       geom_point(size=5) + setEpiCOL + 
