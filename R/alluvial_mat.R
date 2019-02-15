@@ -25,7 +25,7 @@ alluvial_mat<-function(new.projections=NA, ct_anno){
   colnames(pattern_cells)<-c("nCells_per_pattern")
 
   DM.summary<- DM %>%
-    dplyr::select(celltype,starts_with("Pattern")) %>%
+    dplyr::select("celltype",starts_with("Pattern")) %>%
     melt(id.vars=c('celltype'))
   DM.summary$value<-as.numeric(DM.summary$value)
   DM.summary<- as_tibble(DM.summary) %>%
