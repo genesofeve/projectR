@@ -22,6 +22,8 @@ intersectoR(pSet1, pSet2, pval, ...)
 
 \item{pval}{the maximum p-value considered significant}
 
+\item{...}{additional parameters depending on input object}
+
 \item{k}{Numeric giving cut height for hclust objects, if a vector is given arguments will be applied to pSet1 and pSet2 in that order}
 }
 \value{

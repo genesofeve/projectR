@@ -106,13 +106,14 @@ intersectoR.kmeans <- function(
 }
 
 
+#'  @param full=FALSE #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 #' @examples
-#'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
-#'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#' ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+#' rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
 #'
-#'	k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'	k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
-#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
+#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
+#' intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
 #' @rdname intersectoR-methods
 #' @aliases intersectoR
 

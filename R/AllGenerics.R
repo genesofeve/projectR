@@ -101,6 +101,7 @@ setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clus
 #' @param pSet1 an object for a set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pSet2 an object for a second set of patterns where each entry is a set of genes associated with a single pattern
 #' @param pval the maximum p-value considered significant
+#' @param ... additional parameters depending on input object
 #' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
 #' @export
 

@@ -63,6 +63,7 @@ setClass("pclustHclust", slots=c(
 #' Constructor for pclust
 #' @param .Object pclust object
 #' @param hclust hclust object passed to cluster2pattern function
+#' @param ... additional arguments to intialize pclust
 #' @return initialized plclustHclust object
 #' @importFrom methods callNextMethod
 setMethod("initialize", "pclustHclust",

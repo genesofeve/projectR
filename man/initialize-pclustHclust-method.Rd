@@ -11,6 +11,8 @@
 \item{.Object}{pclust object}
 
 \item{hclust}{hclust object passed to cluster2pattern function}
+
+\item{...}{additional arguments to intialize pclust}
 }
 \value{
 initialized plclustHclust object

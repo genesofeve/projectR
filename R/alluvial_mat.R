@@ -1,7 +1,7 @@
 #' @title alluvial_mat
 #'
 #' @description Function to compute alluvial matrix
-#' @param   new.projections #class?
+#' @param   new.projections new projection to visualize
 #' @param   ct_anno Cell type annotation 
 #' @return  A matrix
 #' 
