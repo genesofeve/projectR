@@ -1,5 +1,3 @@
-#TODO: Define correlateR S4 object or make correlateR a generic.
-
 #' @title correlateR
 #'
 #' @description Function to extract genes highly correlated with a gene or reference expression pattern.
@@ -8,8 +6,8 @@
 #' @param 	threshtype Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.
 #' @param 	threshold numeric indicating value at which to make threshold
 #' @param 	absR logical indicating where to include both positive and negatively correlated genes
-#' @param 	...  addtion impdelta a vector of weights describing
-#' @return 	An object of class corGS.
+#' @param 	...  addtion inputs to cor, such as method
+#' @return 	An object of class correlateR.
 #' @export
 #' @import stats
 #' @examples
@@ -18,11 +16,11 @@
 
 
 correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
-	dat=NA,
+	dat=NA, #matrix or data frame with  genes to be used for to calculate correlation
 	threshtype="R", #Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.
 	threshold=.7, # numeric indicating value at which to make threshold
 	absR=FALSE, # logical indicating where to include both positive and negatively correlated genes
-	... # addtion imputs to cor, such as method
+	... # addtion inputs to cor, such as method
 	){
 	if(threshtype=="N" & threshold<1){
 		stop('Threshold must be integer greater than 1 for threshold type "N"')
@@ -45,8 +43,8 @@ correlateR<-function(genes=NA, #gene or character vector of genes for reference 
 			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
 		}
 	}
-	class(corGS)<-append(class(corGS),"correlateR")  #Can't do this directly with S4 withouth a class definition.
-	return(corGS)
+	corR <- new("correlateR",corM = corGS)
+	return(corR)
 }
 
 

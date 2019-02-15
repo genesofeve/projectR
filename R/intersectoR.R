@@ -1,118 +1,68 @@
-#' @title intersectoR (Base)
-#'
-#' @description a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets.
-#' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
-#' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-#' @param pval the maximum p-value considered significant
-#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-#' @param k numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
-#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples 
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
-#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
-#' @export
+#######################################################################################################################################
 
-intersectoR<-function(
-	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
-	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-	pval=.05, # the maximum p-value considered significant
-	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-	k=NULL #cut height for hclust objects
-){
-  UseMethod("intersectoR",pSet1)
-}
 
-#' @title intersectoR (default)
-#'
-#' @description a function to find and test the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets.
-#' @param pSet1 a list for a set of patterns where each entry is a set of genes associated with a single pattern
-#' @param pSet2 a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-#' @param pval the maximum p-value considered significant
-#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-#' @param k cut height for hclust objects
-#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples \dontrun{
-#'  intersectoR(pSet1, pSet2, pval=.05)
-#'}
-#' @export
+# intersectoR.default <- function(
+# 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
+# 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
+# 	pval=.05, # the maximum p-value considered significant
+# 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
+# 	k=NULL #cut height for hclust objects, not used for default
+# ){
+# 	gns<-lapply(pSet1,function(x) unique(names(x)%in%names(unlist(pSet2))))
+# 	indx1<-lapply(pSet1,function(x) match(gns,names(x)))
+# 	indx2<-lapply(pSet2,function(x)match(gns,names(x)))
+# 	pSet1<-sapply(1:length(pSet1),function(x) pSet1[[x]][indx1[[x]]])
+# 	pSet2<-sapply(1:length(pSet2),function(x) pSet2[[x]][indx2[[x]]])
 
-intersectoR.default <- function(
-	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
-	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
-	pval=.05, # the maximum p-value considered significant
-	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-	k=NULL #cut height for hclust objects, not used for default
-){
-	gns<-lapply(pSet1,function(x) unique(names(x)%in%names(unlist(pSet2))))
-	indx1<-lapply(pSet1,function(x) match(gns,names(x)))
-	indx2<-lapply(pSet2,function(x)match(gns,names(x)))
-	pSet1<-sapply(1:length(pSet1),function(x) pSet1[[x]][indx1[[x]]])
-	pSet2<-sapply(1:length(pSet2),function(x) pSet2[[x]][indx2[[x]]])
+# 	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
+# 	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
+# 		"OverLap%1","OverLap%2","pval","pval.REV")
 
-	overLPmtx=matrix(nrow=0,ncol=9) #intialize matrix
-	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
-		"OverLap%1","OverLap%2","pval","pval.REV")
+# #calculate overlaps and stats
+# 	for(i in 1:length(pSet1)){
+# 		for(j in 1:length(pSet2)){
+# 	# overlap between genes in p1K cluster i and p2K cluster j
+# 		pvalOLP=phyper(
+# 			q=length(which(pSet1[[i]] %in% pSet2[[j]])), # q: # white balls drawn without replacement from an urn with both black and white balls.
+# 			m=length(pSet1[[i]]), # m: the number of white balls in the urn.
+# 			n=length(unlist(pSet1))-length(pSet1[[i]]), # n: the number of black balls in the urn.
+# 			k=length(pSet2[[j]]), # k: the number of balls drawn from the urn.
+# 			lower.tail = FALSE, log.p = FALSE) # lower.tail: logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
+# 		pvalOLP.rev=phyper(q=length(which(pSet2[[j]] %in% pSet1[[i]])), m=length(pSet2[[j]]),
+# 			n=length(unlist(pSet2))-length(pSet2[[j]]), k=length(pSet1[[i]]), lower.tail = FALSE, log.p = FALSE)
 
-#calculate overlaps and stats
-	for(i in 1:length(pSet1)){
-		for(j in 1:length(pSet2)){
-	# overlap between genes in p1K cluster i and p2K cluster j
-		pvalOLP=phyper(
-			q=length(which(pSet1[[i]] %in% pSet2[[j]])), # q: # white balls drawn without replacement from an urn with both black and white balls.
-			m=length(pSet1[[i]]), # m: the number of white balls in the urn.
-			n=length(unlist(pSet1))-length(pSet1[[i]]), # n: the number of black balls in the urn.
-			k=length(pSet2[[j]]), # k: the number of balls drawn from the urn.
-			lower.tail = FALSE, log.p = FALSE) # lower.tail: logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
-		pvalOLP.rev=phyper(q=length(which(pSet2[[j]] %in% pSet1[[i]])), m=length(pSet2[[j]]),
-			n=length(unlist(pSet2))-length(pSet2[[j]]), k=length(pSet1[[i]]), lower.tail = FALSE, log.p = FALSE)
+# 		if(pvalOLP<=pval){overLPmtx=rbind(overLPmtx,c(i,length(pSet1[[i]]),j,length(pSet2[[j]]),
+# 			length(which(pSet1[[i]] %in% pSet2[[j]])),
+# 			round(100*length(which(pSet1[[i]] %in% pSet2[[j]]))/length(pSet1[[i]]),2),
+# 			round(100*length(which(pSet1[[j]] %in% pSet1[[i]]))/length(pSet2[[j]]),2),
+# 			pvalOLP,pvalOLP.rev))}
+# 		}
+# 	}
+# 	if(full==FALSE){
+# 		return(overLPmtx) #return summary matrix
+# 	} else if(full){
+# 		overLPindx<-overLPmtx[,c("pSet1","pSet2")] #indx of significantly overlapping sets
+# 		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
+# 			cbind("pSet1"=sort(names(pSet1[pSet1==overLPindx[x,1]&pSet2==overLPindx[x,2]])),
+# 				"pSet2"=sort(names(pSet2[pSet2==overLPindx[x,2]&pSet1==overLPindx[x,1]]))))
+# 		overLPall=cbind(pSet1,pSet2)
+# 		colnames(overLPall)=c("pSet1","pSet2")
+# 		rownames(overLPall)=names(pSet1)
+# 		ord03=order(pSet1,pSet2)
+# 		overLPall=overLPall[ord03,]
+# 		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
+# 	}
+# }
 
-		if(pvalOLP<=pval){overLPmtx=rbind(overLPmtx,c(i,length(pSet1[[i]]),j,length(pSet2[[j]]),
-			length(which(pSet1[[i]] %in% pSet2[[j]])),
-			round(100*length(which(pSet1[[i]] %in% pSet2[[j]]))/length(pSet1[[i]]),2),
-			round(100*length(which(pSet1[[j]] %in% pSet1[[i]]))/length(pSet2[[j]]),2),
-			pvalOLP,pvalOLP.rev))}
-		}
-	}
-	if(full==FALSE){
-		return(overLPmtx) #return summary matrix
-	} else if(full){
-		overLPindx<-overLPmtx[,c("pSet1","pSet2")] #indx of significantly overlapping sets
-		overLPsets<-sapply(1:dim(overLPmtx)[1],function(x)
-			cbind("pSet1"=sort(names(pSet1[pSet1==overLPindx[x,1]&pSet2==overLPindx[x,2]])),
-				"pSet2"=sort(names(pSet2[pSet2==overLPindx[x,2]&pSet1==overLPindx[x,1]]))))
-		overLPall=cbind(pSet1,pSet2)
-		colnames(overLPall)=c("pSet1","pSet2")
-		rownames(overLPall)=names(pSet1)
-		ord03=order(pSet1,pSet2)
-		overLPall=overLPall[ord03,]
-		return(list(overLPmtx=overLPmtx,overLPindx=overLPindx,overLPsets=overLPsets,overLPall=overLPall))
-	}
-}
-
-#' @title intersectoR (Kmeans)
-#'
-#' @description a function to find and test the intersecting values of two sets of kmeans clusters, presumably the genes associated with clusters in two different datasets.
-#' @param pSet1 a kmeans object
-#' @param pSet2 a second kmeans object
-#' @param pval the maximum p-value considered significant
-#' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-#' @param k cut height for hclust objects, not used with kmeans
-#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples 
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.ESepiGen4c1l<-kmeans(p.ESepiGen4c1l$mRNA.Seq,10)
-#'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
-#' @export
+#######################################################################################################################################
 
 intersectoR.kmeans <- function(
 	pSet1=NA, #a list for a set of patterns where each entry is a set of genes associated with a single pattern
 	pSet2=NA, #a list for a second set of patterns where each entry is a set of genes associated with a single pattern
 	pval=.05, #the maximum p-value considered significant
-	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-	k=NULL #cut height for hclust objects
+	full=FALSE #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
   ){
-	if(class(pSet2)!="kmeans"){stop("pSet2 must also be a kmeans object")}
+	
 
 	#match gene order
 	gns=unique(names(pSet1$cluster)[names(pSet1$cluster)%in%names(pSet2$cluster)])
@@ -155,21 +105,21 @@ intersectoR.kmeans <- function(
 	}
 }
 
-#' @title intersectoR (hclust)
-#'
-#' @description a function to find and test the intersecting values of two hierarchial clustering objects, presumably the genes associated with clusters in two different datasets.
-#' @param pSet1 a hclust object
-#' @param pSet2 a second hclust object
-#' @param pval the maximum p-value considered significant
+
 #' @param full logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
-#' @param k #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
-#' @return A list containing: Overlap matrix, overlap index, and overlapping sets.
-#' @examples 
-#' 	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
-#' 	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(p.ESepiGen4c1l$mRNA.Seq)))))
-#'  intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
+#' @examples
+#' ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
+#' rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
 #'
-#' @export
+#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
+#' intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
+#' @rdname intersectoR-methods
+#' @aliases intersectoR
+
+setMethod("intersectoR",signature(pSet1 = "kmeans",pSet2 = "kmeans"),intersectoR.kmeans)
+#######################################################################################################################################
+
 
 intersectoR.hclust <- function(
 	pSet1=NA, #a hclust obj
@@ -178,8 +128,6 @@ intersectoR.hclust <- function(
 	full=FALSE, #logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.
 	k=NULL #numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order
   ){
-  	if(class(pSet2)!="hclust"){stop("pSet2 must also be a hclust object")}
-
   	overLPmtx=matrix(nrow=0,ncol=9)
   	colnames(overLPmtx)=c("pSet1","NpSet1","pSet2","NpSet2","NoverLP",
 		"OverLap%1","OverLap%2","pval","pval.REV")
@@ -224,3 +172,14 @@ intersectoR.hclust <- function(
 	}
 }
 
+#' @param k Numeric giving cut height for hclust objects, if a vector is given arguments will be applied to pSet1 and pSet2 in that order
+#' @examples 
+#'	
+#'	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
+#'	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(ESepiGen4c1lmRNASeq)))))
+#'	intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
+#'
+#' @rdname intersectoR-methods
+#' @aliases intersectoR
+
+setMethod("intersectoR",signature(pSet1 = "hclust",pSet2 = "hclust"),intersectoR.hclust)

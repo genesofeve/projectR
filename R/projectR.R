@@ -1,4 +1,3 @@
-
 #' @importFrom stats hclust kmeans prcomp
 setOldClass("kmeans")
 setOldClass("hclust")
@@ -8,68 +7,26 @@ setOldClass("CoGAPS")
 #' @importFrom limma lmFit
 
 
-#' @title Projection function (Base)
-#'
-#' @description a function for the projection of new data into a previously defined feature space
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a matrix of continous values with unique rownames to be projected
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @export
-#' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#'
-
-#Generic is now defined in AllGenerics.R
-#setGeneric("projectR", function(data,AnnotionObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
-
-
 #######################################################################################################################################
-
-#' @title Projection function (default)
-#'
-#' @description default version
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a matrix of continous values to be projected with unique rownames
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @param family # VGAM family function for model fitting (default: "gaussianff")
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' #
-#' # Do not run, will break the build.  Fix and then uncomment.
-#' #
-#' #   projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#' #            AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' @export
 #' @import limma
 #' @import stats
 
 
 projectR.default <- function(
-  data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a matrix of continous values to be projected with unique rownames
+  data, # a dataset to be projected onto
+  Patterns, # a matrix of continous values to be projected with unique rownames
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA,
-  family="gaussianff"
+  model=NA, # optional arguements to choose method for projection
+  family="gaussianff"  # VGAM family function (default: "gaussianff")
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  #if(!is.na(NP)){Patterns<-Patterns[,NP]} was giving warning with subset of patterns
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
@@ -97,45 +54,38 @@ projectR.default <- function(
   else{return(projectionPatterns)}
 }
 
+#' @param AnnotationObj an annotation object for data. If NA (default) the rownames of data will be used.
+#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model Optional arguements to choose method for projection
+#' @param family VGAM family function for model fitting (default: "gaussianff")
+#' @rdname projectR-methods
+#' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default)
 
 
 #######################################################################################################################################
-#' @title Projection function (CoGAPS)
-#'
-#' @description for use with object of class CoGAPS
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a CoGAPS object
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @param family # VGAM family function for model fitting (default: "gaussianff")
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,
-#'                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
-#' @import NMF
+#' @importFrom NMF fcnnls
 
-projectR.CoGAPS <- function(
+projectR.CogapsResult <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CoGAPS object
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # a CogapsResult object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
   family="gaussianff" # VGAM family function (default: "gaussianff")
   ){
 
-  if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  Patterns<-Patterns@featureLoadings
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
   colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
@@ -148,56 +98,98 @@ projectR.CoGAPS <- function(
   }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   }
+
+  #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
   projectionPatterns <- t(Projection$coefficients)
+
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, projection)
+      projectionFit <- list(projectionPatterns, Projection)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
 }
 
-setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.CoGAPS)
-
-
+#' @examples
+#' library("CoGAPS")
+#' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",nPatterns=5))
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
+setMethod("projectR",signature(data="matrix",Patterns="CogapsResult"),projectR.CogapsResult)
 
 #######################################################################################################################################
-#' @title Projection function (clustering)
-#'
-#' @description for use with object of class Pclust
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an Pclust object from the cluster2pattern function
-#' @param NP number of desired patterns
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+
+#' @import limma
+#' @import stats
+#' @importFrom NMF fcnnls
+
+projectR.CoGAPS <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # a CoGAPS object
+  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  model=NA, # optional arguements to choose method for projection
+  family="gaussianff" # VGAM family function (default: "gaussianff")
+  ){
+
+  if(is.null(dim(Patterns))){Patterns<-Patterns$Amean}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  #match genes in data sets
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  print(dim(dataM[[2]]))
+  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
+
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]])
+  colnames(Design) <- colnames(dataM[[1]])
+
+  if(!is.na(model) && model=="NonNegative"){
+    Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
+  }else{
+    Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
+  }
+  #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
+  projectionPatterns <- t(Projection$coefficients)
+
+  if(full==TRUE){
+      projectionFit <- list(projectionPatterns, Projection)
+      return(projectionFit)
+  }
+  else{return(projectionPatterns)}
+}
+
 #' @examples
-#'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#'  k.RNAseq6l3c3t<-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
-#'  k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=k.RNAseq6l3c3t,
-#'                              AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#'
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=AP.RNAseq6l3c3t,
+#' AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+#' 
+#' @rdname projectR-methods
+#' @aliases projectR
+setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
+
+#######################################################################################################################################
+
 #' @import limma
 #' @import cluster
 #' @import stats
 
-
-
 projectR.pclust <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an Pclust object from the cluster2pattern function
   NP=NA, # number of desired patterns
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  Patterns <- Patterns@patterns
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
   colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
 
@@ -206,44 +198,35 @@ projectR.pclust <- function(
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
+  pval.matrix<-2*pnorm(-abs(projection.ts))
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
 }
 
-#TODO: LG -I'm currently unsure where class 'pclust' is defined.  This is causing warning in build because of no definition.  So hiding the method currently.
+#' @examples
+#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
+#' k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
 
-#setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
+setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 #######################################################################################################################################
 
-#' @title Projection function (PCA)
-#'
-#' @description for use with object of class prcomp
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an prcomp object with a rotation matrix of genes by PCs
-#' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=pca.RNAseq6l3c3t,
-#'                                AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#'
 #' @import limma
 #' @import stats
-#' @import MASS
 
 
 
 projectR.prcomp <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
@@ -251,10 +234,10 @@ projectR.prcomp <- function(
   ){
 
   Patterns<-Patterns$rotation
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -268,50 +251,40 @@ projectR.prcomp <- function(
 
   PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(projectionPatterns,2,var)))
 
-    projectionFit <- list(projectionPatterns, PercentVariance)
+    projectionFit <- list(t(projectionPatterns), PercentVariance) #also need to change this to transpose
     return(projectionFit)
   }
-  else{return(projectionPatterns)}
+  else{return(t(projectionPatterns))}
 
 }
 
+#' @examples
+#' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=pca.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 #######################################################################################################################################
 
-#' @title Projection function (rotatoR objects)
-#'
-#' @description for use with object of class rotatoR
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an rotatoR object with a rotation matrix of genes by new PCs
-#' @param NP range of PCs to project. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-# #'  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-# #'  r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
-# #'  pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=r.RNAseq6l3c3t,
-# #'                          AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#'
 #' @import stats
 
 
 projectR.rotatoR <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   model=NA
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[,NP]}
+  Patterns <- Patterns@rotatedM
+  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -325,55 +298,53 @@ projectR.rotatoR <- function(
 
   #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
 
-    projectionFit <- list(projectionPatterns, PercentVariance)
+    projectionFit <- list(t(projectionPatterns), PercentVariance)
     return(projectionFit)
   }
-  else{return(projectionPatterns)}
+  else{return(t(projectionPatterns))}
 
 }
 
+#' @examples
+#' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
+#' r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
 
+setMethod("projectR",signature(data="matrix",Patterns="rotatoR"),projectR.rotatoR)
 
 #######################################################################################################################################
 
-#' @title Projection function (correlateR)
-#'
-#' @description for use with object of class corR
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotionObj an annotion object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns an correlateR object
-#' @param NP can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
-#' @param full logical indicating whether to return the full clustering information.  By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'  c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-# #'  cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=c.RNAseq6l3c3t,NP="PositiveCOR",
-# #'                                    AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols") #not functional in master
-#'
 #' @import limma
 #' @import stats
 
 projectR.correlateR <- function(
   data=NA, # a dataset to be projected onto
-  AnnotionObj=NA, # an annotion object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
   Patterns=NA, # an correlateR object of correlated genes
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   model=NA
   ){
 
-  if(!is.na(NP)){Patterns<-Patterns[[NP]]}
-
+  Patterns <- Patterns@corM
+  if(!is.na(NP)){
+    Patterns<-as.matrix(Patterns[[NP]])
+    colnames(Patterns) <- NP
+  }
+  else {
+  Patterns<-Patterns
+}
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(Patterns)==2){
-    do.call(rbind,Patterns)
+    Patterns <- do.call(rbind,Patterns)
   }
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotionObj=AnnotionObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -381,11 +352,44 @@ projectR.correlateR <- function(
   colnames(Design) <- colnames(dataM[[1]])
   Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
     if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
     }
     else{return(projectionPatterns)}
 }
+#' @examples
+#' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
+#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=c.RNAseq6l3c3t, NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
+setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.correlateR)
+#######################################################################################################################################
 
+#' @import limma
+#' @import stats
 
+projectR.list <- function(
+  data, # a dataset to be projected onto
+  Patterns, # a CoGAPS object
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  model=NA # optional arguements to choose method for projection
+  ){
+  print(class(Patterns))
+  print(Patterns)
+  if("CoGAPS" %in% class(Patterns)){
+    return(projectR.CoGAPS(data = data, AnnotationObj = AnnotationObj, IDcol = IDcol, Patterns = Patterns, NP = NP, full = full, model = model))
+  }
+  else{
+    stop("Invalid object type Patterns. Patterns be from class matrix, pclust, CogapsResult, CoGAPS, correlateR, rotatoR or prcomp")
+  }
+}
+
+#' @rdname projectR-methods
+#' @aliases projectR
+setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.list)

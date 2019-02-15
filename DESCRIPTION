@@ -2,9 +2,9 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 0.99.2
+Version: 0.99.510
 Date: 2016-11-22
-Author: Genevieve Stein-O'Brien
+Author: Genevieve Stein-O'Brien, Gaurav Sharma
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
@@ -12,15 +12,17 @@ Imports:
     graphics,
     grDevices,
     methods,
+    dplyr,
     cluster,
     stats,
     utils,
     limma,
-    MASS,
     ggplot2,
     reshape2,
-    NMF,
-    CoGAPS
+    ROCR,
+    CoGAPS,
+    tidyverse,
+    NMF
 Suggests:
     BiocStyle,
     gridExtra,

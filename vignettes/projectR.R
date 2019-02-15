@@ -33,18 +33,17 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 data(ESepiGen4c1l4)
 
 library(projectR)
-PCA2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
 pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
 names(pd.ESepiGen4c1l$color)<-pd.ESepiGen4c1l$Cond
 
-dPCA2ESepi<- data.frame(cbind(PCA2ESepi,pd.ESepiGen4c1l))
+dPCA2ESepi<- data.frame(cbind(t(PCA2ESepi[[1]]),pd.ESepiGen4c1l))
 
 #plot pca
 library(ggplot2)
-setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),                              guide = guide_legend(title="Lineage"))
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),guide = guide_legend(title="Lineage"))
 
 pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
       geom_point(size=5) + setEpiCOL + 
@@ -62,14 +61,14 @@ library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 
 ## ----correlateR-exp--------------------------------------------------------
-# data to 
+# data to
 library(projectR)
 data(RNAseq6l3c3t)
 
-# get genes correlated to T 
+# get genes correlated to T
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-
-### heatmap of genes more correlated to T 
+cor2T <- cor2T@corM
+### heatmap of genes more correlated to T
 indx<-unlist(sapply(cor2T,rownames))
 colnames(p.RNAseq6l3c3t)<-pd.RNAseq6l3c3t$sampleX
 library(reshape2)
@@ -78,11 +77,11 @@ pm.RNAseq6l3c3t<-melt(cbind(p.RNAseq6l3c3t[indx,],indx))
 library(gplots)
 library(ggplot2)
 library(viridis)
-pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) + 
-  geom_tile(colour="gray20", size=1.5, stat="identity") + 
+pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
+  geom_tile(colour="gray20", size=1.5, stat="identity") +
   scale_fill_viridis(option="B") +
   xlab("") +  ylab("") +
-  scale_y_discrete(limits=indx) + 
+  scale_y_discrete(limits=indx) +
   ggtitle("Ten genes most highly pos & neg correlated with T") +
   theme(
     panel.background = element_rect(fill="gray20"),
@@ -90,7 +89,7 @@ pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     axis.line = element_blank(),
-    axis.ticks = element_blank(), 
+    axis.ticks = element_blank(),
     axis.text = element_text(size=rel(1),hjust=1),
     axis.text.x = element_text(angle = 90,vjust=.5),
     legend.text = element_text(color="white", size=rel(1)),

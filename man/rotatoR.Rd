@@ -21,9 +21,9 @@ rotatoR(x1, y1, x2, y2, basisSET)
 An object of class rotatoR.
 }
 \description{
-a function for rotating two basis about a point or line in that plain
+a function for rotating two basis about a point or line in that plane
 }
 \examples{
  pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
- r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$x[,1:2])
+ r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
 }
