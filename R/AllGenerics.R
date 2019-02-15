@@ -4,9 +4,13 @@
 
 
 #' Generic projectR function
+#' @docType methods
+#' @rdname projectR-methods
 #'
-#' @param data Target dataset into which you will project
-#' @param Patterns Patterns learned from source dataset
+#' @description A function for the projection of new data into a previously defined 
+#' feature space. 
+#' @param data Target dataset into which you will project. It must of type matrix.
+#' @param Patterns Patterns learned from source dataset. 
 #' @param ... Additional arguments to projectR
 #'
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -15,7 +19,11 @@
 #' @examples
 #'  projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
-#' @rdname projectR
+#' @details 
+#' \code{Patterns} can belong to one of several classes depending on upstream
+#' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}
+#' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
+#' and \code{correlateR}.
 setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
 #######################################################################################################################################
 

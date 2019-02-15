@@ -7,56 +7,16 @@ setOldClass("CoGAPS")
 #' @importFrom limma lmFit
 
 
-#' @title Projection function (Base)
-#'
-#' @description a function for the projection of new data into a previously defined feature space
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotationObj an annotation object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a matrix of continous values with unique rownames to be projected
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @export
-#' @rdname projectR
-#' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-
-
-#Generic is now defined in AllGenerics.R
-#setGeneric("projectR", function(data,AnnotationObj,IDcol,Patterns,NP,full,model=NA), standardGeneric("projectR"))
-
-
 #######################################################################################################################################
-
-#' @title Projection function (default)
-#'
-#' @description default version
-#' @param data a dataset to be projected into the pattern space
-#' @param AnnotationObj an annotation object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-#' @param Patterns a matrix of continous values to be projected with unique rownames
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @param family # VGAM family function for model fitting (default: "gaussianff")
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @examples
-#'    projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,
-#'                AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
-#' 
-#' @rdname projectR
-#' @export
 #' @import limma
 #' @import stats
 
 
 projectR.default <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # a matrix of continous values to be projected with unique rownames
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a matrix of continous values to be projected with unique rownames
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
@@ -94,27 +54,18 @@ projectR.default <- function(
   else{return(projectionPatterns)}
 }
 
+#' @param AnnotationObj an annotation object for data. If NA (default) the rownames of data will be used.
+#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model Optional arguements to choose method for projection
+#' @param family VGAM family function for model fitting (default: "gaussianff")
+#' @rdname projectR-methods
+#' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default)
 
 
 #######################################################################################################################################
-#' @title Projection function (CogapsResult)
-#'
-#' @description for use with object of class CoGAPS
-#' @param data a dataset to be projected into the pattern space
-#' @param Patterns a CogapsResult object
-#' @param AnnotationObj an annotation object for data. If NA the rownames of data will be used.
-#' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
-#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-#' @param model  # optional arguements to choose method for projection
-#' @param family # VGAM family function for model fitting (default: "gaussianff")
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
-#' @rdname projectR
-#' @examples
-#' library("CoGAPS")
-#' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t,params = new("CogapsParams",nPatterns=5))
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #' @import limma
 #' @import stats
 #' @importFrom NMF fcnnls
@@ -157,6 +108,12 @@ projectR.CogapsResult <- function(
   else{return(projectionPatterns)}
 }
 
+#' @examples
+#' library("CoGAPS")
+#' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t,params = new("CogapsParams",nPatterns=5))
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' @rdname projectR-methods
+#' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="CogapsResult"),projectR.CogapsResult)
 
 #######################################################################################################################################
