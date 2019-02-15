@@ -3,7 +3,7 @@
 #' @description Function to compute alluvial matrix
 #' @param   new.projections new projection to visualize
 #' @param   ct_anno Cell type annotation 
-#' @return  A matrix
+#' @return  A dataframe that can be used to plot an alluvial
 #' 
 #' @rawNamespace import(dplyr, except = c(filter,lag))
 #' @import reshape2 tidyverse
@@ -11,7 +11,7 @@
 #' @export
 
 #plot logical to ask if the plot should be generated or not
-alluvial_mat<-function(new.projections=NA, ct_anno=NA){
+alluvial_mat<-function(new.projections=NA, ct_anno){
   sigPatternIdx<-apply(new.projections$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
   new.projections$qval<-t(apply(new.projections$pval,1,function(x){p.adjust(x,method="BH")}))
   sigPatternIdx<-apply(new.projections$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
@@ -29,7 +29,7 @@ alluvial_mat<-function(new.projections=NA, ct_anno=NA){
     melt(id.vars=c('celltype'))
   DM.summary$value<-as.numeric(DM.summary$value)
   DM.summary<- as_tibble(DM.summary) %>%
-    group_by(celltype,variable) %>%
+    group_by('celltype',variable) %>%
     summarize(nCells=sum(value,na.rm=T))
   DM.summary<-merge(DM.summary,celltype_cells,by.x='celltype',by.y='celltype')
   DM.summary<-mutate(DM.summary,prop=nCells/nCells_per_type)
