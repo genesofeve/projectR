@@ -109,6 +109,7 @@ intersectoR.kmeans <- function(
 #' @examples
 #'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
 #'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#'
 #'	k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'	k.ESepiGen4c1l<-kmeans(ESepiGen4c1lmRNASeq,10)
 #'	intersectoR(k.RNAseq6l3c3t, k.ESepiGen4c1l, pval=.05)
@@ -172,8 +173,7 @@ intersectoR.hclust <- function(
 
 #' @param k Numeric giving cut height for hclust objects, if a vector is given arguments will be applied to pSet1 and pSet2 in that order
 #' @examples 
-#'	ESepiGen4c1lmRNASeq <- p.ESepiGen4c1l$mRNA.Seq
-#'	rownames(ESepiGen4c1lmRNASeq) <- map.ESepiGen4c1l$GeneSymbols
+#'	
 #'	h.RNAseq6l3c3t<-hclust(as.dist(1-(cor(t(p.RNAseq6l3c3t)))))
 #'	h.ESepiGen4c1l<-hclust(as.dist(1-(cor(t(ESepiGen4c1lmRNASeq)))))
 #'	intersectoR(pSet1=h.ESepiGen4c1l, pSet2=h.RNAseq6l3c3t, pval=.05, k=c(3,4))
