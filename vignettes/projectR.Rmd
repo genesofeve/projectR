@@ -5,10 +5,9 @@ date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectR.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{projectR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  %\usepackage[utf8]{inputenc} 
 ---
 
 ```
