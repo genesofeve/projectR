@@ -32,6 +32,6 @@ A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns 
 Matches genes accross datasets
 }
 \examples{
-geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols"
-,data2=p.ESepiGen4c1l$mRNA.Seq)
+geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,
+IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 }

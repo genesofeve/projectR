@@ -1,7 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  31 JAN 2019 22:16
 =======
 This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.1)  1 FEB 2019 12:38
+>>>>>>> fixes
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.2.1)  22 FEB 2019 14:13
 >>>>>>> fixes
 entering extended mode
  restricted \write18 enabled.
@@ -1700,8 +1704,13 @@ File: ts1fvm.fd 2004/09/07 scalable font definitions for TS1/fvm.
 LaTeX Font Info:    Font shape `TS1/fvm/m/n' will be
 (Font)              scaled to size 7.98004pt on input line 331.
 [4]
+<<<<<<< HEAD
 <projectR_files/figure-latex/unnamed-chunk-1-1.pdf, id=148, 722.7pt x 361.35pt>
 
+>>>>>>> fixes
+=======
+<projectR_files/figure-latex/unnamed-chunk-1-1.pdf, id=148, 707.64375pt x 350.3
+0875pt>
 >>>>>>> fixes
 File: projectR_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
 
@@ -1723,7 +1732,7 @@ LaTeX Warning: Citation `Sibisi1997' on page 6 undefined on input line 390.
 Overfull \hbox (83.0704pt too wide) in paragraph at lines 466--466
 =======
 d on input line 368.
-(pdftex.def)             Requested size: 341.43344pt x 170.71672pt.
+(pdftex.def)             Requested size: 341.43597pt x 169.0229pt.
 [5 <./projectR_files/figure-latex/unnamed-chunk-1-1.pdf>]
 
 LaTeX Warning: Citation `Ochs2006' on page 6 undefined on input line 390.
@@ -1793,8 +1802,13 @@ pt>
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
 (Font)              scaled to size 11.49124pt on input line 633.
 [10]
+<<<<<<< HEAD
 <projectR_files/figure-latex/unnamed-chunk-2-1.pdf, id=197, 722.7pt x 361.35pt>
 
+>>>>>>> fixes
+=======
+<projectR_files/figure-latex/unnamed-chunk-2-1.pdf, id=199, 698.61pt x 351.3125
+pt>
 >>>>>>> fixes
 File: projectR_files/figure-latex/unnamed-chunk-2-1.pdf Graphic file (type pdf)
 
@@ -1850,7 +1864,7 @@ PDF statistics:
  8347 words of extra memory for PDF output out of 10000 (max. 10000000)
 =======
 d on input line 689.
-(pdftex.def)             Requested size: 341.43344pt x 170.71672pt.
+(pdftex.def)             Requested size: 341.43712pt x 171.69969pt.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 703.
 [11 <./projectR_files/figure-latex/unnamed-chunk-2-1.pdf>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 703.
@@ -1870,7 +1884,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 703.
 Here is how much of TeX's memory you used:
  11847 strings out of 494562
  182856 string characters out of 6175998
- 291995 words of memory out of 5000000
+ 291997 words of memory out of 5000000
  15183 multiletter control sequences out of 15000+600000
  61612 words of font info for 63 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -1902,10 +1916,10 @@ AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmssbo10.pfb><c:/Users
 c:/Users/Gaurav/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsso1
 0.pfb><c:/Users/Gaurav/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm
 /lmsy10.pfb>
-Output written on projectR.pdf (11 pages, 294403 bytes).
+Output written on projectR.pdf (11 pages, 295474 bytes).
 PDF statistics:
- 455 PDF objects out of 1000 (max. 8388607)
- 234 compressed objects within 3 object streams
+ 459 PDF objects out of 1000 (max. 8388607)
+ 236 compressed objects within 3 object streams
  41 named destinations out of 1000 (max. 500000)
  155 words of extra memory for PDF output out of 10000 (max. 10000000)
 >>>>>>> fixes
