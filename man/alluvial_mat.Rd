@@ -17,3 +17,9 @@ A matrix
 \description{
 Function to compute alluvial matrix
 }
+\examples{
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
+AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols",full = TRUE)
+alluvial_mat(pr,ct_anno = c(rep('hESC_Ectoderm',2),rep('hESC_Endoderm',3),
+rep('hESC_Mesoderm',2),rep('hESC_Cntrl',2)))
+}

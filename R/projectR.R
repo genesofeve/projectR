@@ -100,9 +100,11 @@ projectR.CogapsResult <- function(
   }
   #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
+  pval.matrix<-2*pnorm(-abs(projection.ts))
 
   if(full==TRUE){
-      projectionFit <- list(projectionPatterns, Projection)
+      projectionFit <- list('projection' = projectionPatterns, 'pval' = pval.matrix)
       return(projectionFit)
   }
   else{return(projectionPatterns)}
@@ -152,6 +154,7 @@ projectR.CoGAPS <- function(
   }
   #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
   projectionPatterns <- t(Projection$coefficients)
+  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
 
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)
