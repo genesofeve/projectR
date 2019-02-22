@@ -79,11 +79,14 @@ analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
 and \code{correlateR}.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t, 
+AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 library("CoGAPS")
-CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",nPatterns=5))
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
+nPatterns=5))
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,
+AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=AP.RNAseq6l3c3t,
 AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
@@ -93,13 +96,17 @@ k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l
 k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=pca.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+Patterns=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+Patterns=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
-c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
-cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=c.RNAseq6l3c3t, NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
+threshold=10, absR=TRUE)
+cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=c.RNAseq6l3c3t, 
+NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 }

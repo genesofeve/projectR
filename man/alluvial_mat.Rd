@@ -4,7 +4,7 @@
 \alias{alluvial_mat}
 \title{alluvial_mat}
 \usage{
-alluvial_mat(new.projections = NA, ct_anno = NA)
+alluvial_mat(new.projections = NA, ct_anno)
 }
 \arguments{
 \item{new.projections}{new projection to visualize}
@@ -12,7 +12,7 @@ alluvial_mat(new.projections = NA, ct_anno = NA)
 \item{ct_anno}{Cell type annotation}
 }
 \value{
-A matrix
+A dataframe that can be used to plot an alluvial
 }
 \description{
 Function to compute alluvial matrix
