@@ -11,7 +11,7 @@
 #' @export
 
 #plot logical to ask if the plot should be generated or not
-alluvial_mat<-function(new.projections=NA, ct_anno){
+alluvial_mat<-function(new.projections, ct_anno){
   sigPatternIdx<-apply(new.projections$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
   new.projections$qval<-t(apply(new.projections$pval,1,function(x){p.adjust(x,method="BH")}))
   sigPatternIdx<-apply(new.projections$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
@@ -25,7 +25,7 @@ alluvial_mat<-function(new.projections=NA, ct_anno){
   colnames(pattern_cells)<-c("nCells_per_pattern")
 
   DM.summary<- DM %>%
-    dplyr::select('celltype',starts_with("Pattern")) %>%
+    dplyr::select("celltype",starts_with("Patt")) %>%
     melt(id.vars=c('celltype'))
   DM.summary$value<-as.numeric(DM.summary$value)
   DM.summary<- as_tibble(DM.summary) %>%
