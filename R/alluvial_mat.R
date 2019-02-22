@@ -8,7 +8,7 @@
 #' @rawNamespace import(dplyr, except = c(filter,lag))
 #' @import reshape2 tidyverse
 #' @examples
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
+#' pr <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
 #' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols",full = TRUE)
 #' alluvial_mat(pr,ct_anno = c(rep('hESC_Ectoderm',2),rep('hESC_Endoderm',3),
 #' rep('hESC_Mesoderm',2),rep('hESC_Cntrl',2)))
@@ -18,7 +18,7 @@
 alluvial_mat<-function(new.projections, ct_anno){
   sigPatternIdx<-apply(new.projections$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
   new.projections$qval<-t(apply(new.projections$pval,1,function(x){p.adjust(x,method="BH")}))
-  sigPatternIdx<-apply(new.projections$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
+  sigPatternIdx<-apply(new.projections$qval,1,function(x){if(min(x,na.rm=TRUE)<=0.01){return(TRUE)} else{return(FALSE)}})
   sig<-as.data.frame(t(new.projections$qval[sigPatternIdx,]<=0.01))
   DM<-as.data.frame(cbind("celltype"=ct_anno,sig))
 
@@ -34,7 +34,7 @@ alluvial_mat<-function(new.projections, ct_anno){
   DM.summary$value<-as.numeric(DM.summary$value)
   DM.summary<- as_tibble(DM.summary) %>%
     group_by('celltype',variable) %>%
-    summarize(nCells=sum(value,na.rm=T))
+    summarize(nCells=sum(value,na.rm=TRUE))
   DM.summary<-merge(DM.summary,celltype_cells,by.x='celltype',by.y='celltype')
   DM.summary<-mutate(DM.summary,prop=nCells/nCells_per_type)
   DM.summary<-merge(DM.summary,pattern_cells,by.x='variable',by.y=0)
