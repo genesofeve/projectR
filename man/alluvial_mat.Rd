@@ -4,7 +4,7 @@
 \alias{alluvial_mat}
 \title{alluvial_mat}
 \usage{
-alluvial_mat(new.projections = NA, ct_anno = NA)
+alluvial_mat(new.projections, ct_anno)
 }
 \arguments{
 \item{new.projections}{new projection to visualize}
