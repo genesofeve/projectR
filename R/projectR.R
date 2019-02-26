@@ -135,7 +135,6 @@ projectR.CoGAPS <- function(
   Patterns=NA, # a CoGAPS object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  model=NA, # optional arguements to choose method for projection
   family="gaussianff" # VGAM family function (default: "gaussianff")
   ){
 
@@ -150,14 +149,10 @@ projectR.CoGAPS <- function(
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
 
-  if(!is.na(model) && model=="NonNegative"){
-    Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
-  }else{
     Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
-  }
   #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
   projectionPatterns <- t(Projection$coefficients)
-  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
+  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
 
   if(full==TRUE){
       projectionFit <- list(projectionPatterns, Projection)

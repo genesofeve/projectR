@@ -25,7 +25,7 @@ projectR(data, Patterns, ...)
 
 \S4method{projectR}{matrix,CoGAPS}(data = NA, AnnotationObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA, family = "gaussianff")
+  family = "gaussianff")
 
 \S4method{projectR}{matrix,pclust}(data = NA, AnnotationObj = NA,
   IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,

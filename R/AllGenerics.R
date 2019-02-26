@@ -86,10 +86,11 @@ setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("clu
 #' @return A plot of the mean behavior for each cluster
 #' @export
 #' @examples 
+#' \dontrun{
 #'  k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #'  clusterPlotR(p.RNAseq6l3c3t, cls=k.RNAseq6l3c3t,NC=1,x=pd.RNAseq6l3c3t$days, 
 #' col=pd.RNAseq6l3c3t$color)
-#'
+#'}
 
 setGeneric("clusterPlotR",function(cData, cls, x, NC, ...) standardGeneric("clusterPlotR"))
 #######################################################################################################################################
