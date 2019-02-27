@@ -16,7 +16,7 @@
 projectR(data, Patterns, ...)
 
 \S4method{projectR}{matrix,matrix}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE, model = NA,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE,
   family = "gaussianff")
 
 \S4method{projectR}{matrix,CogapsResult}(data = NA, AnnotationObj = NA,
@@ -28,23 +28,19 @@ projectR(data, Patterns, ...)
   family = "gaussianff")
 
 \S4method{projectR}{matrix,pclust}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,prcomp}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,rotatoR}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,correlateR}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA)
+  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,list}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE, model = NA)
+  IDcol = "GeneSymbol", NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
@@ -61,9 +57,9 @@ projectR(data, Patterns, ...)
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
-\item{model}{Optional arguements to choose method for projection}
-
 \item{family}{VGAM family function for model fitting (default: "gaussianff")}
+
+\item{model}{Optional arguements to choose method for projection}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
