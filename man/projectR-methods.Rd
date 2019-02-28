@@ -75,7 +75,7 @@ analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
 and \code{correlateR}.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t, 
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
 AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 library("CoGAPS")

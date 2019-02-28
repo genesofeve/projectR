@@ -161,9 +161,6 @@ projectR.CoGAPS <- function(
 }
 
 #' @examples
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=AP.RNAseq6l3c3t,
-#' AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
-#' 
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)

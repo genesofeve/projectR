@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t, 
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
 #' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @details 
