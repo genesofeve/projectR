@@ -160,7 +160,6 @@ projectR.CoGAPS <- function(
   else{return(projectionPatterns)}
 }
 
-#' @examples
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)

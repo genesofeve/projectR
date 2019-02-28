@@ -84,9 +84,6 @@ nPatterns=5))
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,
 AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=AP.RNAseq6l3c3t,
-AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
-
 k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
 k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t,
