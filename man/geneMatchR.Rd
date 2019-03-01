@@ -4,8 +4,8 @@
 \alias{geneMatchR}
 \title{Generic geneMatchR function}
 \usage{
-geneMatchR(data1 = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
-  data2 = NA, merge = FALSE)
+geneMatchR(data1, AnnotationObj = NA, IDcol = "GeneSymbol", data2,
+  merge = FALSE)
 }
 \arguments{
 \item{data1}{a dataset of genes by samples}

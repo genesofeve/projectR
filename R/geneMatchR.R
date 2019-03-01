@@ -18,10 +18,10 @@
 #' IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
 
 geneMatchR <- function(
-  data1=NA,# a dataset of genes by samples
+  data1,# a dataset of genes by samples
   AnnotationObj=NA,#an Annotation object for data1. If NA, the rownames of data will be used.
   IDcol="GeneSymbol",#the column of AnnotationData object corresponding to identifiers matching the rownames of data2
-  data2=NA, # dataset with rownames to be matched
+  data2, # dataset with rownames to be matched
   merge=FALSE # logical indicating wether or not to merged data sets
 ){
   if(length(AnnotationObj)!=1){

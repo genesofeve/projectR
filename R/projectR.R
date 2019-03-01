@@ -82,32 +82,8 @@ projectR.LEM <- function(
 
   Patterns<-Patterns@featureLoadings
   ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  return(projectR(data,Patterns = Patterns,AnnotationObj,IDcol,NP,full))
 
-  #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]))
-  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
-
-  # do projection
-  Design <- model.matrix(~0 + dataM[[1]])
-  colnames(Design) <- colnames(dataM[[1]])
-
-  if(!is.na(model) && model=="NonNegative"){
-    Projection <- fcnnls(Design,as.matrix(t(dataM[[2]])))
-  }else{
-    projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
-  }
-
-  #projectionPatterns<-coefvlm(Projection$coefficients,matrix.out=TRUE)
-  projectionPatterns <- t(projection$coefficients)
-  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
-  pval.matrix<-2*pnorm(-abs(projection.ts))
-
-  if(full==TRUE){
-      projectionFit <- list('projection' = projectionPatterns, 'pval' = pval.matrix)
-      return(projectionFit)
-  }
-  else{return(projectionPatterns)}
 }
 
 #' @examples
@@ -265,21 +241,25 @@ projectR.correlateR <- function(
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
-  Patterns <- Patterns@corM
+  patterns <- Patterns@corM
   if(!is.na(NP)){
-    Patterns<-as.matrix(Patterns[[NP]])
-    colnames(Patterns) <- NP
+    patterns<-as.matrix(patterns[[NP]])
+    colnames(patterns) <- NP
   }
   else {
-  Patterns<-Patterns
+  patterns<-Patterns
 }
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
-  if(length(Patterns)==2){
-    Patterns <- do.call(rbind,Patterns)
+  if(length(patterns)==2){
+    patterns <- do.call(rbind,patterns)
   }
-
-  return(projectR(data,Patterns = Patterns,AnnotationObj,IDcol,NP,full))
-  
+  else{
+    patterns <- as.matrix(patterns)
+}
+  print(patterns)
+  print(class(patterns))
+  return(projectR(data = data, Patterns = patterns,AnnotationObj= AnnotationObj, IDcol = IDcol, full = full ))
+ 
 }
 #' @examples
 #' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
