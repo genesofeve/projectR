@@ -19,9 +19,9 @@ projectR(data, Patterns, ...)
   IDcol = "GeneSymbol", NP = NA, full = FALSE,
   family = "gaussianff")
 
-\S4method{projectR}{matrix,CogapsResult}(data, AnnotationObj,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA, family = "gaussianff")
+\S4method{projectR}{matrix,CogapsResult}(data, Patterns, AnnotationObj,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE, model = NA,
+  family = "gaussianff")
 
 \S4method{projectR}{matrix,CoGAPS}(data, Patterns, AnnotationObj = NA,
   IDcol = "GeneSymbol", NP = NA, full = FALSE,

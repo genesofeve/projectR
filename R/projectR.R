@@ -71,9 +71,9 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 
 projectR.CogapsResult <- function(
   data, # a dataset to be projected onto
+  Patterns, # a CogapsResult object
   AnnotationObj, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CogapsResult object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
