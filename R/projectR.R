@@ -70,10 +70,10 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 #' @importFrom NMF fcnnls
 
 projectR.CogapsResult <- function(
-  data=NA, # a dataset to be projected onto
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  data, # a dataset to be projected onto
+  Patterns, # a CogapsResult object
+  AnnotationObj, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CogapsResult object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
@@ -128,10 +128,10 @@ setMethod("projectR",signature(data="matrix",Patterns="CogapsResult"),projectR.C
 #' @importFrom NMF fcnnls
 
 projectR.CoGAPS <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # a CoGAPS object
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # a CoGAPS object
   NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   family="gaussianff" # VGAM family function (default: "gaussianff")
@@ -171,10 +171,10 @@ setMethod("projectR",signature(data="matrix",Patterns="CoGAPS"),projectR.CoGAPS)
 #' @import stats
 
 projectR.pclust <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # an Pclust object from the cluster2pattern function
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an Pclust object from the cluster2pattern function
   NP=NA, # number of desired patterns
   full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
@@ -219,10 +219,10 @@ setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 
 
 projectR.prcomp <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # an prcomp object with a rotation matrix of genes by PCs
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
@@ -266,10 +266,10 @@ setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 
 
 projectR.rotatoR <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # an prcomp object with a rotation matrix of genes by PCs
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an prcomp object with a rotation matrix of genes by PCs
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
@@ -316,10 +316,10 @@ setMethod("projectR",signature(data="matrix",Patterns="rotatoR"),projectR.rotato
 #' @import stats
 
 projectR.correlateR <- function(
-  data=NA, # a dataset to be projected onto
+  data, # a dataset to be projected onto
+  Patterns, # an correlateR object of correlated genes
   AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
   IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  Patterns=NA, # an correlateR object of correlated genes
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
@@ -347,6 +347,7 @@ projectR.correlateR <- function(
   Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
   projectionPatterns <- t(Projection$coefficients)
   projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
+  pval.matrix<-2*pnorm(-abs(projection.ts))
     if(full==TRUE){
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)

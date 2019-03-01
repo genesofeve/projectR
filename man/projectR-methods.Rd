@@ -19,25 +19,25 @@ projectR(data, Patterns, ...)
   IDcol = "GeneSymbol", NP = NA, full = FALSE,
   family = "gaussianff")
 
-\S4method{projectR}{matrix,CogapsResult}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
-  model = NA, family = "gaussianff")
-
-\S4method{projectR}{matrix,CoGAPS}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE,
+\S4method{projectR}{matrix,CogapsResult}(data, Patterns, AnnotationObj,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE, model = NA,
   family = "gaussianff")
 
-\S4method{projectR}{matrix,pclust}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,CoGAPS}(data, Patterns, AnnotationObj = NA,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE,
+  family = "gaussianff")
 
-\S4method{projectR}{matrix,prcomp}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,pclust}(data, Patterns, AnnotationObj = NA,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,rotatoR}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,prcomp}(data, Patterns, AnnotationObj = NA,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,correlateR}(data = NA, AnnotationObj = NA,
-  IDcol = "GeneSymbol", Patterns = NA, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,rotatoR}(data, Patterns, AnnotationObj = NA,
+  IDcol = "GeneSymbol", NP = NA, full = FALSE)
+
+\S4method{projectR}{matrix,correlateR}(data, Patterns,
+  AnnotationObj = NA, IDcol = "GeneSymbol", NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,list}(data, Patterns, AnnotationObj = NA,
   IDcol = "GeneSymbol", NP = NA, full = FALSE)

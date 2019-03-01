@@ -1,7 +1,7 @@
 ## ----prcomp, warning=FALSE-------------------------------------------------
 # data to define PCs
 library(projectR)
-data(RNAseq6l3c3t)
+data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data 
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -30,7 +30,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 
 ## ----projectR.prcomp, warning=FALSE----------------------------------------
 # data to project into PCs from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
+data(p.ESepiGen4c1l4)
 
 library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
@@ -60,10 +60,23 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 
+## --------------------------------------------------------------------------
+# get data 
+library(projectR)
+AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
+
+# heatmap of gene weights for CoGAPs patterns 
+library(gplots)
+pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+          distfun=function(c) as.dist(1-cor(t(c))) ,
+          cexCol=1,cexRow=.5,scale = "row", 
+          hclustfun=function(x) hclust(x, method="average")
+      )
+
 ## ----correlateR-exp--------------------------------------------------------
 # data to
 library(projectR)
-data(RNAseq6l3c3t)
+data("p.RNAseq6l3c3t")
 
 # get genes correlated to T
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
