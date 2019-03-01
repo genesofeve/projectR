@@ -388,3 +388,55 @@ projectR.list <- function(
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR",signature(data="matrix",Patterns="list"),projectR.list)
+
+
+#' @import limma
+#' @import cluster
+#' @import stats
+projectR.hclust <- function(
+  data=NA, # a dataset to be projected onto
+  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
+  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  Patterns=NA, # an Pclust object from the cluster2pattern function
+  NP=NA, # number of desired patterns
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+)
+{
+  cut <- cutree(clusters,k=NP)
+  nG <- dim(Data)[1]
+  Patterns <- matrix(0, nrow=nG, ncol=NP)
+  rownames(Patterns) <- rownames(Data)
+  for(x in 1:NP)
+  {
+    Patterns[cut==x,x] <- apply(Data[cut==x,], 1, cor, y=colMeans(OrigData[cut==x,]))
+  }
+  return(projectR(data, Patterns))
+
+  #match genes in data sets
+#  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+#  print(dim(dataM[[2]]))
+#  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
+#
+#  # do projection
+#  Design <- model.matrix(~0 + dataM[[1]])
+#  colnames(Design) <- colnames(dataM[[1]])
+#  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
+#  projectionPatterns <- t(Projection$coefficients)
+#  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
+#  pval.matrix<-2*pnorm(-abs(projection.ts))
+#  if(full==TRUE){
+#      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
+#      return(projectionFit)
+#  }
+#  else{return(projectionPatterns)}
+}
+
+#' @examples
+#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
+#' k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
+#' k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t,
+#' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
+setMethod("projectR",signature(data="matrix",Patterns="hclust"), projectR.hclust)
