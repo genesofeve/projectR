@@ -60,10 +60,23 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 
+## --------------------------------------------------------------------------
+# get data 
+library(projectR)
+AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
+
+# heatmap of gene weights for CoGAPs patterns 
+library(gplots)
+pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+          distfun=function(c) as.dist(1-cor(t(c))) ,
+          cexCol=1,cexRow=.5,scale = "row", 
+          hclustfun=function(x) hclust(x, method="average")
+      )
+
 ## ----correlateR-exp--------------------------------------------------------
 # data to
 library(projectR)
-data(RNAseq6l3c3t)
+data("p.RNAseq6l3c3t")
 
 # get genes correlated to T
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
