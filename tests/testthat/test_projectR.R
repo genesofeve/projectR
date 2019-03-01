@@ -29,11 +29,13 @@ nPatterns=5))
 	expect_that(all(dim(pr_cgps) == c(5,9)),is_true())
 	expect_that(all(pr_cgps != 0), is_true())
 
-	#cluster2pattern check
-	k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,4)
-	k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=4, Data=p.RNAseq6l3c3t)
-	k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t, 
-		AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+
+	#cluster2patter check
+	k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
+		loadings=kmeans(p.RNAseq6l3c3t, 4),
+		geneNames=map.ESepiGen4c1l$GeneSymbols,
+		sourceGeneNames=rownames(p.RNAseq6l3c3t),
+		full=FALSE, targetNumPatterns=4, sourceData=p.RNAseq6l3c3t)
 	expect_that(all(dim(k.ESepiGen4c1l) == c(4,9)),is_true())
 	expect_that(all(k.ESepiGen4c1l != 0), is_true())
 

@@ -25,7 +25,7 @@
 #' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
 #' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
 #' and \code{correlateR}.
-setGeneric("projectR",function(data,Patterns,...) standardGeneric("projectR"))
+setGeneric("projectR",function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE, ...) standardGeneric("projectR"))
 #######################################################################################################################################
 
 #' Generic cluster2pattern function
