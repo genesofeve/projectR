@@ -1,7 +1,7 @@
 ## ----prcomp, warning=FALSE-------------------------------------------------
 # data to define PCs
 library(projectR)
-data(RNAseq6l3c3t)
+data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data 
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -30,7 +30,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 
 ## ----projectR.prcomp, warning=FALSE----------------------------------------
 # data to project into PCs from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
+data(p.ESepiGen4c1l4)
 
 library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")

@@ -73,7 +73,7 @@ Projection of principle components is achieved by matrix multiplication of a new
 ```{r prcomp, warning=FALSE}
 # data to define PCs
 library(projectR)
-data(RNAseq6l3c3t)
+data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data 
 pc.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -104,7 +104,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ## Projecting prcomp objects 
 ```{r projectR.prcomp, warning=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
+data(p.ESepiGen4c1l4)
 
 library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
@@ -148,8 +148,8 @@ Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorizati
 
 ```
 library(projectR)
-projectR(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
-    Patterns = NA, NP = NA, full = FALSE)
+projectR(data, Patterns,AnnotationObj = NA, IDcol = "GeneSymbol",
+     NP = NA, full = FALSE)
 ```
 
 ### Input Arguments 
@@ -170,34 +170,26 @@ The basic output of the base projectR function, i.e. \texttt{full=FALSE}, return
  
 ## Obtaining CoGAPS patterns to project. 
 
-```
+```{r}
 # get data 
 library(projectR)
-data(RNAseq6l3c3t)
-
-# run CoGAPS 
-library(CoGAPS)
-AP<-gapsRun(D=p.RNAseq6l3c3t, S=t(apply(p.RNAseq6l3c3t,1,function(x) pmax(.1*x,.1))), nFactor=5)
-
-class(AP)<-append(class(AP),"CoGAPS")
-save(AP,file="Patterns.RNAseq6l3c3t.RData")
+AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
 
 # heatmap of gene weights for CoGAPs patterns 
-io9
 library(gplots)
 pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
           distfun=function(c) as.dist(1-cor(t(c))) ,
           cexCol=1,cexRow=.5,scale = "row", 
-          hclustfun=function(x) hclust(x, method="average"),
+          hclustfun=function(x) hclust(x, method="average")
       )
-````
+```
 
 ## Projecting CoGAPS objects 
-```
+```{r}
 # data to project into PCs from RNAseq6l3c3t expression data 
 library(projectR)
-data(ESepiGen4c1l4)
-data(Patterns.RNAseq6l3c3t)
+data('p.ESepiGen4c1l4')
+data('p.RNAseq6l3c3t')
 
 NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=TRUE, 
     AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
@@ -209,7 +201,7 @@ library(ggplot2)
 setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
 guide = guide_legend(title="Lineage"))
 
-pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
+pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=X1, y=X2, colour=Condition)) + 
       geom_point(size=5) + setEpiCOL + 
       theme(legend.position=c(0,0), legend.justification=c(0,0),
         panel.background = element_rect(fill = "white"),
@@ -219,7 +211,7 @@ pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
           x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
           y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 
-
+pNMF2ESepiGen4c1l
 ```
 
 
@@ -308,7 +300,7 @@ The output of the \texttt{correlateR} function is a \texttt{correlateR} class ob
 ```{r correlateR-exp} 
 # data to
 library(projectR)
-data(RNAseq6l3c3t)
+data("p.RNAseq6l3c3t")
 
 # get genes correlated to T
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
