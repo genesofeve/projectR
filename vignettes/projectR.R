@@ -56,7 +56,7 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
           y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 
 
-## ---- fig.show='hold', fig.width=10, fig.height=5, echo=FALSE--------------
+## ---- fig.show='hold', fig.width=10, fig.height=5, echo=FALSE, message= FALSE----
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 

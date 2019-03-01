@@ -44,8 +44,8 @@ Projection can roughly be defined as a mapping or transformation of points from 
 The base projectR function is executed as follows:
 ```
 library(projectR)
-projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
-    Patterns = NA, NP = NA, full = FALSE)
+projectR(data, Patterns, AnnotationObj = NA, IDcol = "GeneSymbol",
+ NP = NA, full = FALSE)
 ```
 
 ### Input Arguments 
@@ -54,9 +54,9 @@ The inputs that must be set each time are only the data and patterns, with all o
 The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
-\item[AnnotionObj]{an annotion object for data. If NA the rownames of data will be used.}
-\item[IDcol]{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
 \item[Patterns]{a matrix of continous values with unique rownames to be projected}
+\item[AnnotationObj]{an Annotation object for data. If NA the rownames of data will be used.}
+\item[IDcol]{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
 \item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
@@ -131,7 +131,7 @@ pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) +
 
 ```
 
-```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE}
+```{r, fig.show='hold', fig.width=10, fig.height=5, echo=FALSE, message= FALSE}
 library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 ```
@@ -148,7 +148,7 @@ Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorizati
 
 ```
 library(projectR)
-projectR(data = NA, AnnotionObj = NA, IDcol = "GeneSymbol",
+projectR(data = NA, AnnotationObj = NA, IDcol = "GeneSymbol",
     Patterns = NA, NP = NA, full = FALSE)
 ```
 
@@ -158,8 +158,8 @@ The inputs that must be set each time are only the data and patterns, with all o
 The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
-\item[AnnotionObj]{an annotion object for data. If NA the rownames of data will be used.}
-\item[IDcol]{the column of AnnotionData object corresponding to identifiers matching the type used for GeneWeights}
+\item[AnnotationObj]{an Annotation object for data. If NA the rownames of data will be used.}
+\item[IDcol]{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
 \item[Patterns]{a CoGAPS object}
 \item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
@@ -200,7 +200,7 @@ data(ESepiGen4c1l4)
 data(Patterns.RNAseq6l3c3t)
 
 NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=AP,full=TRUE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+    AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
 
@@ -355,7 +355,7 @@ data(ESepiGen4c1l4)
 
 library(projectR)
 cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,Patterns=cor2T[[1]],full=FALSE, 
-    AnnotionObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+    AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 ```
 
