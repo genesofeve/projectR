@@ -138,24 +138,8 @@ projectR.pclust <- function(
 
   Patterns <- Patterns@patterns
   ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  return(projectR(data,Patterns = Patterns,AnnotationObj,IDcol,NP,full))
 
-  #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
-  print(dim(dataM[[2]]))
-  colnames(dataM[[1]]) <- paste('Pattern ',1:dim(dataM[[1]])[2],sep='') #make option to imput vector or change label
-
-  # do projection
-  Design <- model.matrix(~0 + dataM[[1]])
-  colnames(Design) <- colnames(dataM[[1]])
-  Projection <- lmFit(as.matrix(t(dataM[[2]])),Design)
-  projectionPatterns <- t(Projection$coefficients)
-  projection.ts<-t(Projection$coefficients/Projection$stdev.unscaled/Projection$sigma)
-  pval.matrix<-2*pnorm(-abs(projection.ts))
-  if(full==TRUE){
-      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
-      return(projectionFit)
-  }
-  else{return(projectionPatterns)}
 }
 
 #' @examples
