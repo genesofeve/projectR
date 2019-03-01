@@ -372,9 +372,9 @@ setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.cor
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="hclust"),
 function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE,
-clusters, targetNumPatterns, sourceData)
+targetNumPatterns, sourceData)
 {
-  cut <- cutree(clusters, k=targetNumPatterns)
+  cut <- cutree(loadings, k=targetNumPatterns)
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=targetNumPatterns)
   for(x in 1:targetNumPatterns)
   {
@@ -385,14 +385,14 @@ clusters, targetNumPatterns, sourceData)
 
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR", signature(data="matrix", loadings="hclust"),
+setMethod("projectR", signature(data="matrix", loadings="kmeans"),
 function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE,
-clusters, targetNumPatterns, sourceData)
+targetNumPatterns, sourceData)
 {
-  patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(clusters$size)
-  for(x in 1:length(clusters$size))
+  patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size)
+  for(x in 1:length(loadings$size))
   {
-    patterns[clusters$cluster==x,x] <- apply(sourceData[clusters$cluster==x,], 1, cor, y=colMeans(sourceData[clusters$cluster==x,]))
+    patterns[loadings$cluster==x,x] <- apply(sourceData[loadings$cluster==x,], 1, cor, y=colMeans(sourceData[loadings$cluster==x,]))
   }
   return(projectR(data, loadings=patterns, geneNames, sourceGeneNames, full))
 }
