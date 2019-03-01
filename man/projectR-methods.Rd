@@ -4,13 +4,11 @@
 \name{projectR}
 \alias{projectR}
 \alias{projectR,matrix,matrix-method}
-\alias{projectR,matrix,CogapsResult-method}
-\alias{projectR,matrix,CoGAPS-method}
+\alias{projectR,matrix,LinearEmbeddingMatrix-method}
 \alias{projectR,matrix,pclust-method}
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
 \alias{projectR,matrix,correlateR-method}
-\alias{projectR,matrix,list-method}
 \title{Generic projectR function}
 \usage{
 projectR(data, Patterns, ...)
@@ -19,13 +17,9 @@ projectR(data, Patterns, ...)
   IDcol = "GeneSymbol", NP = NA, full = FALSE,
   family = "gaussianff")
 
-\S4method{projectR}{matrix,CogapsResult}(data, Patterns, AnnotationObj,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE, model = NA,
-  family = "gaussianff")
-
-\S4method{projectR}{matrix,CoGAPS}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE,
-  family = "gaussianff")
+\S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, Patterns,
+  AnnotationObj, IDcol = "GeneSymbol", NP = NA, full = FALSE,
+  model = NA, family = "gaussianff")
 
 \S4method{projectR}{matrix,pclust}(data, Patterns, AnnotationObj = NA,
   IDcol = "GeneSymbol", NP = NA, full = FALSE)
@@ -38,9 +32,6 @@ projectR(data, Patterns, ...)
 
 \S4method{projectR}{matrix,correlateR}(data, Patterns,
   AnnotationObj = NA, IDcol = "GeneSymbol", NP = NA, full = FALSE)
-
-\S4method{projectR}{matrix,list}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
