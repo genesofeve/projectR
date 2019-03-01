@@ -158,9 +158,9 @@ The inputs that must be set each time are only the data and patterns, with all o
 The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
+\item[Patterns]{a CoGAPS object}
 \item[AnnotationObj]{an Annotation object for data. If NA the rownames of data will be used.}
 \item[IDcol]{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
-\item[Patterns]{a CoGAPS object}
 \item[NP]{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
