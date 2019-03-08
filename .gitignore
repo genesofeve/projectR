@@ -5,3 +5,4 @@ inst/doc
 .DS_Store
 projectR.Rproj.Rcheck/
 projectR.Rproj
+vignettes/projectR.log
