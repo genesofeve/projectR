@@ -1,6 +1,8 @@
 ---
 title: "projectR Vignette"
-author: "Genevieve L. Stein-O'Brien"
+author: 
+- "Genevieve L. Stein-O'Brien"
+- "Gaurav Sharma"
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectR.bib
@@ -63,7 +65,7 @@ The arguments are as follows:
 The \texttt{loadings} arguement in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
 
 ### Output
-The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the package `r Biocpkg("limma")`
 
 # PCA projection
 Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectR} function has S4 method for class \texttt{prcomp}.  
@@ -168,7 +170,7 @@ The arguments are as follows:
 \end{description}
 
 ### Output
-The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
+The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the package `r Biocpkg('limma')`. 
  
 ## Obtaining CoGAPS patterns to project. 
 
