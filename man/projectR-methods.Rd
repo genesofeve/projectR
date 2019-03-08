@@ -60,7 +60,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{model}{Optional arguements to choose method for projection}
 
-\item{targetNumPatterns}{target number of patterns in the clutster object}
+\item{targetNumPatterns}{desired number of patterns}
 
 \item{sourceData}{data used to create cluster object}
 }

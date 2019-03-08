@@ -287,7 +287,7 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),projectR.cor
 
 #######################################################################################################################################
 
-#' @param targetNumPatterns target number of patterns in the clutster object
+#' @param targetNumPatterns desired number of patterns 
 #' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
@@ -300,6 +300,7 @@ targetNumPatterns, sourceData)
 {
   cut <- cutree(loadings, k=targetNumPatterns)
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=targetNumPatterns)
+  rownames(patterns) <- rownames(sourceData)
   for(x in 1:targetNumPatterns)
   {
     patterns[cut==x,x] <- apply(Data[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
