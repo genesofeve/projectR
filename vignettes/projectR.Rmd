@@ -103,10 +103,11 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ## Projecting prcomp objects 
 ```{r projectR.prcomp, warning=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data 
-data(p.ESepiGen4c1l4)
+data(p.ESepiGen4c1l)
 
 library(projectR)
-PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
+full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
 pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
 pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
@@ -147,19 +148,19 @@ Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorizati
 
 ```
 library(projectR)
-projectR(data, loadings,AnnotationObj = NA, IDcol = "GeneSymbol",
+projectR(data, loadings,dataNames = NULL, loadingsNames = NULL,
      NP = NA, full = FALSE)
 ```
 
 ### Input Arguments 
-The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the loadings object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
+The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the loadings object and either rownames of the data object will throw errors and, subsequently, should be checked before running. 
 
 The arguments are as follows:
 \begin{description}
-\item[data]{a dataset to be projected into the pattern space}
+\item[data]{a target dataset to be projected into the pattern space}
 \item[loadings]{a CoGAPS object}
-\item[AnnotationObj]{an Annotation object for data. If NA the rownames of data will be used.}
-\item[IDcol]{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
+\item[dataNames]{rownames (eg. gene names) of the target dataset, if different from existing rownames of data}
+\item[loadingsNames] loadingsNames rownames (eg. gene names) of the loadings to be matched with dataNames
 \item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
@@ -191,7 +192,7 @@ data('p.ESepiGen4c1l4')
 data('p.RNAseq6l3c3t')
 
 NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=AP,full=TRUE, 
-    AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+    data1Names=map.ESepiGen4c1l[["GeneSymbols"]])
 
 dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
 

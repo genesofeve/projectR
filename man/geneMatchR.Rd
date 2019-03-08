@@ -4,17 +4,17 @@
 \alias{geneMatchR}
 \title{Generic geneMatchR function}
 \usage{
-geneMatchR(data1, AnnotationObj = NA, IDcol = "GeneSymbol", data2,
+geneMatchR(data1, data2, data1Names = NULL, data2Names = NULL,
   merge = FALSE)
 }
 \arguments{
-\item{data1}{a dataset of genes by samples}
+\item{data1}{a data matrix, typically genes by samples}
 
-\item{AnnotationObj}{an annotation object for data1. If NA, the rownames of data will be used.}
+\item{data2}{an amplitude matrix, typically genes by factors}
 
-\item{IDcol}{the column of AnnotationData object corresponding to identifiers matching the rownames of data2}
+\item{data1Names}{rownames of data matrix, for eg genenames}
 
-\item{data2}{dataset with rownames to be matched}
+\item{data2Names}{rownames of amplitude matrix to be matched to rownames of datamatrix}
 
 \item{merge}{logical indicating wether or not to merged data sets}
 
@@ -27,6 +27,7 @@ A list of genes (intersection) in both datasets. (if merge = TRUE, Also returns 
 Matches genes accross datasets
 }
 \examples{
-geneMatchR(data1=p.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,
-IDcol="GeneSymbols",data2=p.ESepiGen4c1l$mRNA.Seq)
+geneMatchR(data1=p.ESepiGen4c1l$mRNA.Seq,data2=p.RNAseq6l3c3t,
+data1Names=map.ESepiGen4c1l[["GeneSymbols"]])
+
 }

@@ -15,8 +15,8 @@ setOldClass("CoGAPS")
 projectR.default <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   family="gaussianff"  # VGAM family function (default: "gaussianff")
@@ -25,7 +25,13 @@ projectR.default <- function(
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
   #if(!is.na(NP)){loadings<-loadings[,NP]} was giving warning with subset of patterns
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
+  if(is.null(dataNames)){
+    dataNames <- rownames(data)
+  }
+  if(is.null(loadingsNames)){
+    loadingsNames <- rownames(loadings)
+  }
+  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=data2Names, merge=FALSE)
   print(dim(dataM[[2]]))
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
@@ -82,7 +88,7 @@ projectR.LEM <- function(
 
   loadings<-loadings@featureLoadings
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  return(projectR(data,loadings = loadings,AnnotationObj,IDcol,NP,full))
+  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full))
 
 }
 
@@ -114,7 +120,7 @@ projectR.pclust <- function(
 
   loadings <- loadings@patterns
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  return(projectR(data,loadings = loadings,AnnotationObj,IDcol,NP,full))
+  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full))
 
 }
 
@@ -148,7 +154,13 @@ projectR.prcomp <- function(
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
+  if(is.null(dataNames)){
+    dataNames <- rownames(data)
+  }
+  if(is.null(loadingsNames)){
+    loadingsNames <- rownames(loadings)
+  }
+  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -195,7 +207,13 @@ projectR.rotatoR <- function(
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
+  if(is.null(dataNames)){
+    dataNames <- rownames(data)
+  }
+  if(is.null(loadingsNames)){
+    loadingsNames <- rownames(loadings)
+  }
+  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -258,7 +276,7 @@ projectR.correlateR <- function(
 }
   print(patterns)
   print(class(patterns))
-  return(projectR(data = data, loadings = patterns,AnnotationObj= AnnotationObj, IDcol = IDcol, full = full ))
+  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames, IDcol = IDcol, full = full ))
  
 }
 #' @examples

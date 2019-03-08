@@ -15,8 +15,9 @@
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
-\S4method{projectR}{matrix,matrix}(data, loadings, dataNames,
-  loadingsNames, NP = NA, full = FALSE, family = "gaussianff")
+\S4method{projectR}{matrix,matrix}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, NP = NA, full = FALSE,
+  family = "gaussianff")
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
   dataNames, loadingsNames, NP = NA, full = FALSE, model = NA,
