@@ -46,9 +46,9 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{loadings}{loadings learned from source dataset.}
 
-\item{dataNames}{rownames (eg. gene names) of the target dataset, if different from existing rownames in \code{data}}
+\item{dataNames}{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \code{rownames(data)}. Order of names in vector must match order of rows in data.}
 
-\item{loadingsNames}{rownames (eg. gene names) of the loadings}
+\item{loadingsNames}{a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
 
 \item{...}{Additional arguments to projectR}
 
@@ -65,7 +65,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 \item{sourceData}{data used to create cluster object}
 }
 \value{
-A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
 }
 \description{
 A function for the projection of new data into a previously defined 
