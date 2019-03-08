@@ -8,8 +8,8 @@ Github Repository:
 
 ```
 ## Method 1 using BiocManager
-BiocManager::install("FertigLab/CoGAPS")
+BiocManager::install("genesofeve/projectR")
 
 ## Method 2 using devtools package
-devtools::install_github("FertigLab/CoGAPS")
+devtools::install_github("genesofeve/projectR")
 ```
