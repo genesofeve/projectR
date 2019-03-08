@@ -177,10 +177,10 @@ The basic output of the base projectR function, i.e. \texttt{full=FALSE}, return
 # get data 
 library(projectR)
 AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
-
+AP <- AP$Amean
 # heatmap of gene weights for CoGAPs patterns 
 library(gplots)
-pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+pNMF<-heatmap.2(as.matrix(AP),col=bluered, trace='none',
           distfun=function(c) as.dist(1-cor(t(c))) ,
           cexCol=1,cexRow=.5,scale = "row", 
           hclustfun=function(x) hclust(x, method="average")
@@ -188,14 +188,14 @@ pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
 ```
 
 ## Projecting CoGAPS objects 
-```
+```{r}
 # data to project into PCs from RNAseq6l3c3t expression data 
 library(projectR)
 data('p.ESepiGen4c1l4')
 data('p.RNAseq6l3c3t')
 
 NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=AP,full=TRUE, 
-    data1Names=map.ESepiGen4c1l[["GeneSymbols"]])
+    dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
 dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
 

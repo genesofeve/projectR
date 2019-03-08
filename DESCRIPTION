@@ -14,7 +14,8 @@ Imports:
     stats,
     limma,
     CoGAPS,
-    NMF
+    NMF,
+    ROCR
 Suggests:
     BiocStyle,
     gridExtra,
