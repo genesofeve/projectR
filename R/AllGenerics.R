@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
-#' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @details 
 #' \code{loadings} can belong to one of several classes depending on upstream

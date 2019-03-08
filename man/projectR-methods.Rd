@@ -52,17 +52,11 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{...}{Additional arguments to projectR}
 
-\item{NP}{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
-
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{family}{VGAM family function for model fitting (default: "gaussianff")}
 
 \item{model}{Optional arguements to choose method for projection}
-
-\item{AnnotationObj}{an annotation object for data. If NA (default) the rownames of data will be used.}
-
-\item{IDcol}{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -79,31 +73,31 @@ and \code{correlateR}.
 }
 \examples{
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
-AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("CoGAPS")
 CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
 nPatterns=5))
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
-AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
 k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=k.RNAseq6l3c3t,
-AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-loadings=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+loadings=pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
 pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-loadings=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+loadings=r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
 threshold=10, absR=TRUE)
 cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
-NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 }
