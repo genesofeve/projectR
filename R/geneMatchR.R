@@ -50,15 +50,6 @@ geneMatchR <- function(
     rows1=match(uniEGids,rownames(data1))
     rnP<-rownames(data1[rows1,])  
   }
-  # if(length(AnnotationObj)!=1){
-  #   uniEGids=unique(AnnotationObj[,IDcol][AnnotationObj[,IDcol]%in%rownames(data2)])
-  #   rows1=match(uniEGids,AnnotationObj[,IDcol])
-  #   rnP<-AnnotationObj[rows1,IDcol]
-  # } else {
-  #   uniEGids=unique(rownames(data1)[rownames(data1)%in%rownames(data2)])
-  #   rows1=match(uniEGids,rownames(data1))
-  #   rnP<-rownames(data1[rows1,])
-  # }
   rows2=match(uniEGids,rownames(data2))
   data <- data1
   p2P <- data[rows1,]
