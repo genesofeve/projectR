@@ -8,9 +8,8 @@
 #' 
 #' @export
 
-
+library('ROCR')
 auc_mat<-function(labels=NA, weights=NA){
-  require(ROCR)
   results <- model.matrix(~labels-1)
   auc_matrix = matrix(nrow = dim(weights)[1], ncol = dim(results)[2])
   rownames(auc_matrix) = rownames(weights)
