@@ -29,32 +29,34 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
             y=paste("PC2 (",pcVAR[2],"% of varience)",sep=""))
 
 ## ----projectR.prcomp, warning=FALSE----------------------------------------
-# data to project into PCs from RNAseq6l3c3t expression data 
+# data to project into PCs from RNAseq6   l3c3t expression data 
 data(p.ESepiGen4c1l)
 
 library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
 full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
-pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
-pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
+pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), 
+  function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
+pd.ESepiGen4c1l$color<-c(rep("red",2),rep("green",3),rep("blue",2),rep("black",2))
 names(pd.ESepiGen4c1l$color)<-pd.ESepiGen4c1l$Cond
 
 dPCA2ESepi<- data.frame(cbind(t(PCA2ESepi[[1]]),pd.ESepiGen4c1l))
 
 #plot pca
 library(ggplot2)
-setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),guide = guide_legend(title="Lineage"))
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
+  guide = guide_legend(title="Lineage"))
 
 pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
-      geom_point(size=5) + setEpiCOL + 
-      theme(legend.position=c(0,0), legend.justification=c(0,0),
-        panel.background = element_rect(fill = "white"),
-        legend.direction = "horizontal",
-        plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
-      labs(title = "Encode RNAseq in target PC1 & PC2", 
-          x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
-          y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
+  geom_point(size=5) + setEpiCOL + 
+  theme(legend.position=c(0,0), legend.justification=c(0,0),
+  panel.background = element_rect(fill = "white"),
+  legend.direction = "horizontal",
+  plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
+  labs(title = "Encode RNAseq in target PC1 & PC2", 
+  x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
+  y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 
 
 ## ---- fig.show='hold', fig.width=10, fig.height=5, echo=FALSE, message= FALSE----

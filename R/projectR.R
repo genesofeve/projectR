@@ -36,7 +36,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
     loadingsNames <- rownames(loadings)
   }
   dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
-  print(dim(dataM[[2]]))
+  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
+  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
   colnames(Design) <- colnames(dataM[[1]])
@@ -154,8 +155,8 @@ setMethod("projectR",signature(data="matrix",loadings="prcomp"),function(
     loadingsNames <- rownames(loadings)
   }
   dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
-  print(dim(dataM[[2]]))
-
+  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
+  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
   # do projection
   dat2P<-apply(dataM[[2]],1,function(x) x-mean(x))
   projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)
@@ -205,8 +206,8 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),function(
     loadingsNames <- rownames(loadings)
   }
   dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
-  print(dim(dataM[[2]]))
-
+  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
+  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
   # do projection
   dat2P<-apply(dataM[[2]],1,function(x) x-mean(x))
   projectionPatterns<- dat2P %*% dataM[[1]] #head(X %*% PCA$rotation)

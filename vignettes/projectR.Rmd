@@ -66,7 +66,7 @@ The \texttt{loadings} arguement in the base projectR function is suitable for us
 The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the `r #Biocpkg('limma')`. 
 
 # PCA projection
-Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectR} function has S3 method for class \texttt{prcomp}.  
+Projection of principle components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximized the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The \texttt{projectR} function has S4 method for class \texttt{prcomp}.  
 
 ## Obtaining PCs to project. 
 ```{r prcomp, warning=FALSE}
@@ -102,32 +102,34 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 
 ## Projecting prcomp objects 
 ```{r projectR.prcomp, warning=FALSE}
-# data to project into PCs from RNAseq6l3c3t expression data 
+# data to project into PCs from RNAseq6   l3c3t expression data 
 data(p.ESepiGen4c1l)
 
 library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
 full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
-pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
-pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")
+pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), 
+  function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
+pd.ESepiGen4c1l$color<-c(rep("red",2),rep("green",3),rep("blue",2),rep("black",2))
 names(pd.ESepiGen4c1l$color)<-pd.ESepiGen4c1l$Cond
 
 dPCA2ESepi<- data.frame(cbind(t(PCA2ESepi[[1]]),pd.ESepiGen4c1l))
 
 #plot pca
 library(ggplot2)
-setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),guide = guide_legend(title="Lineage"))
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
+  guide = guide_legend(title="Lineage"))
 
 pPC2ESepiGen4c1l <- ggplot(dPCA2ESepi, aes(x=PC1, y=PC2, colour=Condition)) + 
-      geom_point(size=5) + setEpiCOL + 
-      theme(legend.position=c(0,0), legend.justification=c(0,0),
-        panel.background = element_rect(fill = "white"),
-        legend.direction = "horizontal",
-        plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
-      labs(title = "Encode RNAseq in target PC1 & PC2", 
-          x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
-          y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
+  geom_point(size=5) + setEpiCOL + 
+  theme(legend.position=c(0,0), legend.justification=c(0,0),
+  panel.background = element_rect(fill = "white"),
+  legend.direction = "horizontal",
+  plot.title = element_text(vjust = 0,hjust=0,face="bold")) +
+  labs(title = "Encode RNAseq in target PC1 & PC2", 
+  x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
+  y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 
 ```
 
@@ -202,14 +204,14 @@ setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
 guide = guide_legend(title="Lineage"))
 
 pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=X1, y=X2, colour=Condition)) + 
-      geom_point(size=5) + setEpiCOL + 
-      theme(legend.position=c(0,0), legend.justification=c(0,0),
-        panel.background = element_rect(fill = "white"),
-        legend.direction = "horizontal",
-        plot.title = element_text(vjust = 0,hjust=0,face="bold")) 
-      labs(title = "Encode RNAseq in target PC1 & PC2", 
-          x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
-          y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
+  geom_point(size=5) + setEpiCOL + 
+  theme(legend.position=c(0,0), legend.justification=c(0,0),
+  panel.background = element_rect(fill = "white"),
+  legend.direction = "horizontal",
+  plot.title = element_text(vjust = 0,hjust=0,face="bold")) 
+  labs(title = "Encode RNAseq in target PC1 & PC2", 
+  x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
+  y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 ```
 
 
