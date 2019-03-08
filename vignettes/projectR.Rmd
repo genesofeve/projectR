@@ -18,7 +18,7 @@ set.seed(1234)
 ```
 
 # Introduction
-Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed projectR, an R package for integrated analysis of high dimensional omic data. projectR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, projectR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the projectRR package can be used for *in silico* experiments, or additional information on the algorithm, see Stein-O'Brien, et al.
+Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics—genomics, transcriptomics, epigenomics, proteomics, etc.—each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed projectR, an R package for integrated analysis of high dimensional omic data. projectR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, projectR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the projectRR package can be used for *in silico* experiments, or additional information on the algorithm, see [Stein-O'Brien, et al](https://www.biorxiv.org/content/10.1101/395004v2).
 
 # Getting started with projectR 
 
@@ -38,30 +38,30 @@ install_github("projectR", "genesofeve")
 
 ## Methods
 
-Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function $\varphi(x)=y : \Re^{D} \mapsto  \Re^{d}$ s.t. $d \leq D$ for $x \in \Re^{D}, y  \in \Re^{d}$ @Barbakh:2009bw . The projectR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual chapters focussing on one specific method are included in the vignette. However, the general design of the projectR function is the same regardless. 
+Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function $\varphi(x)=y : \Re^{D} \mapsto  \Re^{d}$ s.t. $d \leq D$ for $x \in \Re^{D}, y  \in \Re^{d}$ @Barbakh:2009bw . The projectR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to "omic" analyses including regression, PCA, NMF, clustering. Individual sections focussing on one specific method are included in the vignette. However, the general design of the projectR function is the same regardless. 
 
 ## The base projectR function
 
-The base projectR function is executed as follows:
+The generic projectR function is executed as follows:
 ```
 library(projectR)
 projectR(data, loadings, dataNames=NULL, loadingsNames=NULL, NP = NULL, full = false)
 ```
 
 ### Input Arguments 
-The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, incongruities between gene names--rownames of the loadings object and either rownames of the data object or the values in the "IDcol" of a corresponding annotation object for the data--will throw errors and, subsequently, should be checked before running. 
+The inputs that must be set each time are only the data and loadings, with all other inputs having default values.  However, incongruities in the feature mapping between the data and loadings, i.e. a different format for the rownames of each object, will throw errors or result in an empty mapping and should be checked before running. To overcoming mismatched feature names in the objects themselve, the /code{dataNames} and /code{loadingNames} arguements can be manually supplied by the user.
 
 The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
 \item[loadings]{a matrix of continous values with unique rownames to be projected}
-\item[dataNames]{rownames (eg. gene names) of the target dataset, if different from existing rownames in data}
-\item[loadingsNames]{rownames (eg. gene names) of the loadings matching the type used for GeneWeights}
+\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \code{rownames(data)}. Order of names in vector must match order of rows in data. }
+\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
 \item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
 
-The \texttt{loadings} arguement in the base projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
+The \texttt{loadings} arguement in the generic projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF). 
 
 ### Output
 The basic output of the base projectR function, i.e. \texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. \texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function,  \texttt{Projection} is the full lmFit model from the package `r BiocStyle::Biocpkg("limma")`
@@ -139,8 +139,7 @@ library(gridExtra)
 grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 ```
 
-# CoGAPS projection
-
+# NMF projection
 NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as columns, into two matrices, as $D ~ AP$. The pattern matrix P has rows associated with BPs in samples and the amplitude matrix A has columns indicating the relative association of a given gene, where the total number of BPs (k) is an input parameter. CoGAPS and GWCoGAPS seek a pattern matrix (${\bf{P}}$) and the corresponding distribution matrix of weights (${\bf{A}}$) whose product forms a mock data matrix (${\bf{M}}$) that represents the gene-wise data ${\bf{D}}$ within noise limits ($\boldsymbol{\varepsilon}$). That is, 
 \begin{equation}
 {\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}.
