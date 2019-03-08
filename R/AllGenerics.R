@@ -11,11 +11,11 @@
 #' feature space. 
 #' @param data Target dataset into which you will project. It must of type matrix.
 #' @param loadings loadings learned from source dataset. 
-#' @param dataNames rownames (eg. gene names) of the target dataset, if different from existing rownames in \code{data}
-#' @param loadingsNames rownames (eg. gene names) of the loadings
+#' @param dataNames a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \code{rownames(data)}. Order of names in vector must match order of rows in data. 
+#' @param loadingsNames a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings. 
 #' @param ... Additional arguments to projectR
 #'
-#' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
+#' @return A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
 #' @export
 #'
 #' @examples
