@@ -9,48 +9,59 @@
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
 \alias{projectR,matrix,correlateR-method}
+\alias{projectR,matrix,hclust-method}
+\alias{projectR,matrix,kmeans-method}
 \title{Generic projectR function}
 \usage{
-projectR(data, Patterns, ...)
+projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
-\S4method{projectR}{matrix,matrix}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE,
+\S4method{projectR}{matrix,matrix}(data, loadings, dataNames,
+  loadingsNames, NP = NA, full = FALSE, family = "gaussianff")
+
+\S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
+  dataNames, loadingsNames, NP = NA, full = FALSE, model = NA,
   family = "gaussianff")
 
-\S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, Patterns,
-  AnnotationObj, IDcol = "GeneSymbol", NP = NA, full = FALSE,
-  model = NA, family = "gaussianff")
+\S4method{projectR}{matrix,pclust}(data, loadings, dataNames,
+  loadingsNames, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,pclust}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE)
+\S4method{projectR}{matrix,prcomp}(data, loadings, dataNames,
+  loadingsNames, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,prcomp}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE)
+\S4method{projectR}{matrix,rotatoR}(data, loadings, dataNames,
+  loadingsNames, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,rotatoR}(data, Patterns, AnnotationObj = NA,
-  IDcol = "GeneSymbol", NP = NA, full = FALSE)
+\S4method{projectR}{matrix,correlateR}(data, loadings, dataNames,
+  loadingsNames, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,correlateR}(data, Patterns,
-  AnnotationObj = NA, IDcol = "GeneSymbol", NP = NA, full = FALSE)
+\S4method{projectR}{matrix,hclust}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData)
+
+\S4method{projectR}{matrix,kmeans}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
 
-\item{Patterns}{Patterns learned from source dataset.}
+\item{loadings}{loadings learned from source dataset.}
+
+\item{dataNames}{rownames (eg. gene names) of the target dataset, if different from existing rownames in \code{data}}
+
+\item{loadingsNames}{rownames (eg. gene names) of the loadings}
 
 \item{...}{Additional arguments to projectR}
 
-\item{AnnotationObj}{an annotation object for data. If NA (default) the rownames of data will be used.}
-
-\item{IDcol}{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
-
-\item{NP}{vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.}
+\item{NP}{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{family}{VGAM family function for model fitting (default: "gaussianff")}
 
 \item{model}{Optional arguements to choose method for projection}
+
+\item{AnnotationObj}{an annotation object for data. If NA (default) the rownames of data will be used.}
+
+\item{IDcol}{the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
@@ -60,38 +71,38 @@ A function for the projection of new data into a previously defined
 feature space.
 }
 \details{
-\code{Patterns} can belong to one of several classes depending on upstream
+\code{loadings} can belong to one of several classes depending on upstream
 analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
 \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
 and \code{correlateR}.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
 AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 library("CoGAPS")
 CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
 nPatterns=5))
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
 AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
-k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t,
+k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=k.RNAseq6l3c3t,
 AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-Patterns=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+loadings=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
 pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-Patterns=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+loadings=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
 threshold=10, absR=TRUE)
-cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=c.RNAseq6l3c3t, 
+cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
 NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 }

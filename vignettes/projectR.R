@@ -33,7 +33,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 data(p.ESepiGen4c1l4)
 
 library(projectR)
-PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,Patterns=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,full=TRUE, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 
 pd.ESepiGen4c1l<-data.frame(Condition=sapply(colnames(p.ESepiGen4c1l$mRNA.Seq), function(x) unlist(strsplit(x,'_'))[1]),stringsAsFactors=FALSE)
 pd.ESepiGen4c1l$color<-c("red","red","green","green","green","blue","blue","black","black")

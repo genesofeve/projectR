@@ -10,22 +10,24 @@
 #' @description A function for the projection of new data into a previously defined 
 #' feature space. 
 #' @param data Target dataset into which you will project. It must of type matrix.
-#' @param Patterns Patterns learned from source dataset. 
+#' @param loadings loadings learned from source dataset. 
+#' @param dataNames rownames (eg. gene names) of the target dataset, if different from existing rownames in \code{data}
+#' @param loadingsNames rownames (eg. gene names) of the loadings
 #' @param ... Additional arguments to projectR
 #'
 #' @return A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
 #' @export
 #'
 #' @examples
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean, 
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
 #' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @details 
-#' \code{Patterns} can belong to one of several classes depending on upstream
+#' \code{loadings} can belong to one of several classes depending on upstream
 #' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
 #' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
 #' and \code{correlateR}.
-setGeneric("projectR",function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE, ...) standardGeneric("projectR"))
+setGeneric("projectR",function(data, loadings, dataNames=NULL, loadingsNames=NULL, ...) standardGeneric("projectR"))
 #######################################################################################################################################
 
 #' Generic cluster2pattern function

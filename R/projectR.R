@@ -14,18 +14,18 @@ setOldClass("CoGAPS")
 
 projectR.default <- function(
   data, # a dataset to be projected onto
-  Patterns, # a matrix of continous values to be projected with unique rownames
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   family="gaussianff"  # VGAM family function (default: "gaussianff")
   ){
 
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
-  #if(!is.na(NP)){Patterns<-Patterns[,NP]} was giving warning with subset of patterns
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
+  #if(!is.na(NP)){loadings<-loadings[,NP]} was giving warning with subset of patterns
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
   print(dim(dataM[[2]]))
   # do projection
   Design <- model.matrix(~0 + dataM[[1]])
@@ -55,13 +55,13 @@ projectR.default <- function(
 
 #' @param AnnotationObj an annotation object for data. If NA (default) the rownames of data will be used.
 #' @param IDcol the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-#' @param NP vector of integers indicating which columns of Patterns object to use. The default of NP = NA will use entire matrix.
+#' @param NP vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
 #' @param family VGAM family function for model fitting (default: "gaussianff")
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default)
+setMethod("projectR",signature(data="matrix",loadings="matrix"),projectR.default)
 
 
 #######################################################################################################################################
@@ -71,18 +71,18 @@ setMethod("projectR",signature(data="matrix",Patterns="matrix"),projectR.default
 
 projectR.LEM <- function(
   data, # a dataset to be projected onto
-  Patterns, # a LEM object
-  AnnotationObj, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
-  NP=NA, # vector of integers indicating which columns of Patterns object to use. The default of NP=NA will use entire matrix.
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
   family="gaussianff" # VGAM family function (default: "gaussianff")
   ){
 
-  Patterns<-Patterns@featureLoadings
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
-  return(projectR(data,Patterns = Patterns,AnnotationObj,IDcol,NP,full))
+  loadings<-loadings@featureLoadings
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
+  return(projectR(data,loadings = loadings,AnnotationObj,IDcol,NP,full))
 
 }
 
@@ -90,12 +90,12 @@ projectR.LEM <- function(
 #' library("CoGAPS")
 #' CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
 #' nPatterns=5))
-#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=CR.RNAseq6l3c3t,
+#' projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
 #' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR",signature(data="matrix",Patterns="LinearEmbeddingMatrix"),projectR.LEM)
+setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),projectR.LEM)
 
 #######################################################################################################################################
 
@@ -105,29 +105,29 @@ setMethod("projectR",signature(data="matrix",Patterns="LinearEmbeddingMatrix"),p
 
 projectR.pclust <- function(
   data, # a dataset to be projected onto
-  Patterns, # an Pclust object from the cluster2pattern function
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
   NP=NA, # number of desired patterns
   full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
-  Patterns <- Patterns@patterns
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
-  return(projectR(data,Patterns = Patterns,AnnotationObj,IDcol,NP,full))
+  loadings <- loadings@patterns
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
+  return(projectR(data,loadings = loadings,AnnotationObj,IDcol,NP,full))
 
 }
 
 #' @examples
 #' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
 #' k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
-#' k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=k.RNAseq6l3c3t,
+#' k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=k.RNAseq6l3c3t,
 #' AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @rdname projectR-methods
 #' @aliases projectR
 
-setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
+setMethod("projectR",signature(data="matrix",loadings="pclust"),projectR.pclust)
 #######################################################################################################################################
 
 #' @import limma
@@ -137,18 +137,18 @@ setMethod("projectR",signature(data="matrix",Patterns="pclust"),projectR.pclust)
 
 projectR.prcomp <- function(
   data, # a dataset to be projected onto
-  Patterns, # an prcomp object with a rotation matrix of genes by PCs
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
-  Patterns<-Patterns$rotation
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  loadings<-loadings$rotation
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -172,11 +172,11 @@ projectR.prcomp <- function(
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-#' Patterns=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
+#' loadings=pca.RNAseq6l3c3t,AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols")
 #'
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
+setMethod("projectR",signature(data="matrix",loadings="prcomp"),projectR.prcomp)
 #######################################################################################################################################
 
 #' @import stats
@@ -184,18 +184,18 @@ setMethod("projectR",signature(data="matrix",Patterns="prcomp"),projectR.prcomp)
 
 projectR.rotatoR <- function(
   data, # a dataset to be projected onto
-  Patterns, # an prcomp object with a rotation matrix of genes by PCs
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
   NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
-  Patterns <- Patterns@rotatedM
-  ifelse(!is.na(NP),Patterns<-Patterns[,NP],Patterns<-Patterns)
+  loadings <- loadings@rotatedM
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
 
   #match genes in data sets
-  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=Patterns, merge=FALSE)
+  dataM<-geneMatchR(data1=data, AnnotationObj=AnnotationObj, IDcol=IDcol, data2=loadings, merge=FALSE)
   print(dim(dataM[[2]]))
 
   # do projection
@@ -220,12 +220,12 @@ projectR.rotatoR <- function(
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
 #' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
-#' Patterns=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+#' loadings=r.RNAseq6l3c3t, AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 #'
 #' @rdname projectR-methods
 #' @aliases projectR
 
-setMethod("projectR",signature(data="matrix",Patterns="rotatoR"),projectR.rotatoR)
+setMethod("projectR",signature(data="matrix",loadings="rotatoR"),projectR.rotatoR)
 
 #######################################################################################################################################
 
@@ -234,20 +234,20 @@ setMethod("projectR",signature(data="matrix",Patterns="rotatoR"),projectR.rotato
 
 projectR.correlateR <- function(
   data, # a dataset to be projected onto
-  Patterns, # an correlateR object of correlated genes
-  AnnotationObj=NA, # an annotation object for data. If NA, the rownames of data will be used.
-  IDcol="GeneSymbol", # the column of AnnotationData object corresponding to identifiers matching the type used for GeneWeights
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames, # a vector with names of data rows
+  loadingsNames, # a vector with names of loadings rows
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
 
-  patterns <- Patterns@corM
+  patterns <- loadings@corM
   if(!is.na(NP)){
     patterns<-as.matrix(patterns[[NP]])
     colnames(patterns) <- NP
   }
   else {
-  patterns<-Patterns
+  patterns<-loadings
 }
   #check length of patterns "PositiveCOR" and "NegativeCOR" or just positive
   if(length(patterns)==2){
@@ -258,18 +258,18 @@ projectR.correlateR <- function(
 }
   print(patterns)
   print(class(patterns))
-  return(projectR(data = data, Patterns = patterns,AnnotationObj= AnnotationObj, IDcol = IDcol, full = full ))
+  return(projectR(data = data, loadings = patterns,AnnotationObj= AnnotationObj, IDcol = IDcol, full = full ))
  
 }
 #' @examples
 #' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
 #' threshold=10, absR=TRUE)
-#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, Patterns=c.RNAseq6l3c3t, 
+#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
 #' NP="PositiveCOR", AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
 #'
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.correlateR)
+setMethod("projectR",signature(data="matrix",loadings="correlateR"),projectR.correlateR)
 
 #######################################################################################################################################
 
@@ -279,7 +279,7 @@ setMethod("projectR",signature(data="matrix",Patterns="correlateR"),projectR.cor
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="hclust"),
-function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE,
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE,
 targetNumPatterns, sourceData)
 {
   cut <- cutree(loadings, k=targetNumPatterns)
@@ -288,19 +288,19 @@ targetNumPatterns, sourceData)
   {
     patterns[cut==x,x] <- apply(Data[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
   }
-  return(projectR(data, loadings=patterns, geneNames, sourceGeneNames, full))
-}
+  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
+})
 
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="kmeans"),
-function(data, loadings, geneNames=NULL, sourceGeneNames=NULL, full=FALSE,
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE,
 targetNumPatterns, sourceData)
 {
-  patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size)
+  patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size))
   for(x in 1:length(loadings$size))
   {
     patterns[loadings$cluster==x,x] <- apply(sourceData[loadings$cluster==x,], 1, cor, y=colMeans(sourceData[loadings$cluster==x,]))
   }
-  return(projectR(data, loadings=patterns, geneNames, sourceGeneNames, full))
-}
+  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
+})
