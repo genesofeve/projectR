@@ -59,6 +59,7 @@ projectR.default <- function(
   else{return(projectionPatterns)}
 }
 
+#' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
 #' @param family VGAM family function for model fitting (default: "gaussianff")
@@ -75,8 +76,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),projectR.default
 projectR.LEM <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
@@ -109,9 +110,9 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),p
 projectR.pclust <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
-  NP=NA, # number of desired patterns
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
@@ -141,10 +142,10 @@ setMethod("projectR",signature(data="matrix",loadings="pclust"),projectR.pclust)
 projectR.prcomp <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
-  NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
-  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
   loadings<-loadings$rotation
@@ -194,10 +195,10 @@ setMethod("projectR",signature(data="matrix",loadings="prcomp"),projectR.prcomp)
 projectR.rotatoR <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
-  NP=NA, # range of PCs to project. The default of NP=NA will use entire matrix.
-  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
   loadings <- loadings@rotatedM
@@ -250,8 +251,8 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),projectR.rotato
 projectR.correlateR <- function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames, # a vector with names of data rows
-  loadingsNames, # a vector with names of loadings rows
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
   full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
   ){
@@ -271,9 +272,7 @@ projectR.correlateR <- function(
   else{
     patterns <- as.matrix(patterns)
 }
-  print(patterns)
-  print(class(patterns))
-  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames, IDcol = IDcol, full = full ))
+  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full ))
  
 }
 #' @examples
@@ -288,6 +287,8 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),projectR.cor
 
 #######################################################################################################################################
 
+#' @param targetNumPatterns target number of patterns in the clutster object
+#' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
 #' @import stats
@@ -309,13 +310,13 @@ targetNumPatterns, sourceData)
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="kmeans"),
-function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE,
-targetNumPatterns, sourceData)
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData)
 {
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size))
+  rownames(patterns) <- rownames(sourceData)
   for(x in 1:length(loadings$size))
   {
     patterns[loadings$cluster==x,x] <- apply(sourceData[loadings$cluster==x,], 1, cor, y=colMeans(sourceData[loadings$cluster==x,]))
   }
-  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
+  return(projectR(data, loadings=patterns, dataNames= dataNames, full = full))
 })

@@ -36,7 +36,7 @@ nPatterns=5))
 		loadings=kmeans(p.RNAseq6l3c3t, 4),
 		dataNames=map.ESepiGen4c1l$GeneSymbols,
 		loadingsNames=rownames(p.RNAseq6l3c3t),
-		full=FALSE, targetNumPatterns=4, sourceData=p.RNAseq6l3c3t)
+		full=FALSE, sourceData=p.RNAseq6l3c3t)
 	expect_that(all(dim(k.ESepiGen4c1l) == c(4,9)),is_true())
 	expect_that(all(k.ESepiGen4c1l != 0), is_true())
 	expect_that(all(!is.na(k.ESepiGen4c1l)),is_true())

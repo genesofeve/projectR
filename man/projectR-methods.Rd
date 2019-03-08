@@ -20,26 +20,26 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   family = "gaussianff")
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
-  dataNames, loadingsNames, NP = NA, full = FALSE, model = NA,
-  family = "gaussianff")
+  dataNames = NULL, loadingsNames = NULL, NP = NA, full = FALSE,
+  model = NA, family = "gaussianff")
 
-\S4method{projectR}{matrix,pclust}(data, loadings, dataNames,
-  loadingsNames, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,pclust}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,prcomp}(data, loadings, dataNames,
-  loadingsNames, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,prcomp}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,rotatoR}(data, loadings, dataNames,
-  loadingsNames, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,rotatoR}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, NP = NA, full = FALSE)
 
-\S4method{projectR}{matrix,correlateR}(data, loadings, dataNames,
-  loadingsNames, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,correlateR}(data, loadings, dataNames = NULL,
+  loadingsNames = NULL, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,hclust}(data, loadings, dataNames = NULL,
   loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData)
 
 \S4method{projectR}{matrix,kmeans}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData)
+  loadingsNames = NULL, full = FALSE, sourceData)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
@@ -52,11 +52,17 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{...}{Additional arguments to projectR}
 
+\item{NP}{vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.}
+
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 
 \item{family}{VGAM family function for model fitting (default: "gaussianff")}
 
 \item{model}{Optional arguements to choose method for projection}
+
+\item{targetNumPatterns}{target number of patterns in the clutster object}
+
+\item{sourceData}{data used to create cluster object}
 }
 \value{
 A matrix of sample weights for each input pattern. (if full=TRUE, full model solution is returned)
