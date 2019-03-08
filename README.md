@@ -1,4 +1,6 @@
-# projectR Version: 0.99.534
+# Overview
+
+[![Build Status](https://travis-ci.org/genesofeve/projectR.svg?branch=master)](https://travis-ci.org/genesofeve/projectR)
 
 An R package for creating projection matrices from gene weights extracted from
 high deimensional genomic analysis.
