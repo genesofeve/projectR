@@ -146,7 +146,8 @@ NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as co
 \label{eq:matrixDecomp}
 \end{equation}
 The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm @Ochs2006, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in @Sibisi1997.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
-Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The \texttt{projectR} function has S4 method for class \texttt{CogapsResult}. 
+
+Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The \texttt{projectR} function has S4 method for class \texttt{Linear Embedding Matrix, LME}. 
 
 ```
 library(projectR)
@@ -213,8 +214,6 @@ pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=X1, y=X2, colour=Condition)) +
   x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
   y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 ```
-
-
   
 # Clustering projection
 
@@ -223,7 +222,6 @@ As cannonical projection is not defined for clustering objects, the projectR pac
 ## cluster2pattern
 
 \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights.
-
 
 ```
 library(projectR)
