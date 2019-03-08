@@ -55,8 +55,8 @@ The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
 \item[loadings]{a matrix of continous values with unique rownames to be projected}
-\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \code{rownames(data)}. Order of names in vector must match order of rows in data. }
-\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
+\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \texttt{rownames(data)}. Order of names in vector must match order of rows in data.}
+\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows of loadings to be used to match features with the data, if not provided by \texttt{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
 \item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
