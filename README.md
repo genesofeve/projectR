@@ -8,6 +8,7 @@ high deimensional genomic analysis.
 The most up-to-date version of *projectR* can be installed directly from the
 Github Repository:
 
+## Installation
 ```
 ## Method 1 using BiocManager
 BiocManager::install("genesofeve/projectR")
