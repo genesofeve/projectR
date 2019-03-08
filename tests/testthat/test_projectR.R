@@ -24,10 +24,11 @@ test_that("results are as expected",{
 	CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
 nPatterns=5))
 	pr_cgps <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
-		AnnotationObj=map.ESepiGen4c1l,IDcol="GeneSymbols") 
+		dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 	expect_that(pr_cgps, is_a('matrix'))
 	expect_that(all(dim(pr_cgps) == c(5,9)),is_true())
 	expect_that(all(pr_cgps != 0), is_true())
+	expect_that(all(!is.na(pr_cgps)),is_true())
 
 
 	#cluster2patter check
@@ -38,6 +39,7 @@ nPatterns=5))
 		full=FALSE, targetNumPatterns=4, sourceData=p.RNAseq6l3c3t)
 	expect_that(all(dim(k.ESepiGen4c1l) == c(4,9)),is_true())
 	expect_that(all(k.ESepiGen4c1l != 0), is_true())
+	expect_that(all(!is.na(k.ESepiGen4c1l)),is_true())
 
 	#pclust check
 	pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
@@ -45,6 +47,7 @@ nPatterns=5))
 		loadings=pca.RNAseq6l3c3t,dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 	expect_that(all(dim(pca.ESepiGen4c1l) == c(54,9)),is_true())
 	expect_that(all(pca.ESepiGen4c1l != 0), is_true())
+	expect_that(all(!is.na(pca.ESepiGen4c1l)),is_true())
 
 	#C
 	})

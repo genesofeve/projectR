@@ -43,7 +43,7 @@ geneMatchR <- function(
   if(nrow(data1) != 1){
     uniEGids = unique(data1Names[data1Names %in% data2Names])
     rows1 = match(uniEGids,data1Names)
-    rnP <- data1[rows1]
+    rnP <- rownames(data1[rows1,])
   }
   else{
     uniEGids=unique(rownames(data1)[rownames(data1)%in%rownames(data2)])
