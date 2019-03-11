@@ -1,15 +1,14 @@
+#' @importFrom ROCR performance prediction
 #' @title auc_mat
 #'
 #' @description Calculates AUC values for each set of weights for each label and outputs the results as a matrix
 #' @param labels a vector of labels whose length is equal to the number of rows in the weight matrix
 #' @param weights  a matrix of weights from projection analysis
 #' @return A matrix of AUC values for each set of weights classifying each label.
-#'
+#' 
 #' @export
 
-
 auc_mat<-function(labels=NA, weights=NA){
-  require(ROCR)
   results <- model.matrix(~labels-1)
   auc_matrix = matrix(nrow = dim(weights)[1], ncol = dim(results)[2])
   rownames(auc_matrix) = rownames(weights)

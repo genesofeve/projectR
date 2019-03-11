@@ -55,8 +55,8 @@ The arguments are as follows:
 \begin{description}
 \item[data]{a dataset to be projected into the pattern space}
 \item[loadings]{a matrix of continous values with unique rownames to be projected}
-\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \code{rownames(data)}. Order of names in vector must match order of rows in data. }
-\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
+\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \texttt{rownames(data)}. Order of names in vector must match order of rows in data.}
+\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows of loadings to be used to match features with the data, if not provided by \texttt{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
 \item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
 \item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
 \end{description}
@@ -146,6 +146,7 @@ NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as co
 \label{eq:matrixDecomp}
 \end{equation}
 The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm @Ochs2006, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in @Sibisi1997.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
+
 Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the limma package (cite Limma). The \texttt{projectR} function has S4 method for class \texttt{Linear Embedding Matrix, LME}. 
 
 ```
@@ -160,7 +161,7 @@ The inputs that must be set each time are only the data and patterns, with all o
 The arguments are as follows:
 \begin{description}
 \item[data]{a target dataset to be projected into the pattern space}
-\item[loadings]{a CoGAPS object}
+\item[loadings]{a CogapsResult object}
 \item[dataNames]{rownames (eg. gene names) of the target dataset, if different from existing rownames of data}
 \item[loadingsNames] loadingsNames rownames (eg. gene names) of the loadings to be matched with dataNames
 \item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
@@ -176,10 +177,10 @@ The basic output of the base projectR function, i.e. \texttt{full=FALSE}, return
 # get data 
 library(projectR)
 AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
-
+AP <- AP$Amean
 # heatmap of gene weights for CoGAPs patterns 
 library(gplots)
-pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+pNMF<-heatmap.2(as.matrix(AP),col=bluered, trace='none',
           distfun=function(c) as.dist(1-cor(t(c))) ,
           cexCol=1,cexRow=.5,scale = "row", 
           hclustfun=function(x) hclust(x, method="average")
@@ -187,14 +188,14 @@ pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
 ```
 
 ## Projecting CoGAPS objects 
-```
+```{r}
 # data to project into PCs from RNAseq6l3c3t expression data 
 library(projectR)
 data('p.ESepiGen4c1l4')
 data('p.RNAseq6l3c3t')
 
 NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=AP,full=TRUE, 
-    data1Names=map.ESepiGen4c1l[["GeneSymbols"]])
+    dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
 dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
 
@@ -216,10 +217,11 @@ pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=X1, y=X2, colour=Condition)) +
   
 # Clustering projection
 
-As cannonical projection is not defined for clustering objects, the projectR package offers two transfer learning inspired methods to achieve the "projection" of clustering objects. These methods are defined by the function used to quantify and transfer the relationships which define each cluster in the original data set to the new dataset. Briefly, \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectR}. Alternatively, the \texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. Both \texttt{cluster2pattern} and \texttt{intersectoR} methods are coded for a generic list structure with additional S3 class methods for kmeans and hclust objects. Further details and examples are provided in the followin respecitive sections. 
+As cannonical projection is not defined for clustering objects, the projectR package offers two transfer learning inspired methods to achieve the "projection" of clustering objects. These methods are defined by the function used to quantify and transfer the relationships which define each cluster in the original data set to the new dataset. Briefly, \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectR}. Alternatively, the \texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. Both \texttt{cluster2pattern} and \texttt{intersectoR} methods are coded for a generic list structure with additional S4 class methods for kmeans and hclust objects. Further details and examples are provided in the followin respecitive sections. 
 
 ## cluster2pattern
-\texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a pclust object which can serve as input to \texttt{projectR}.
+
+\texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights.
 
 ```
 library(projectR)
@@ -242,7 +244,7 @@ The output of the \texttt{cluster2pattern} function is a \texttt{pclust} class o
 
 ## intersectoR
 
-\texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S3 class methods for hclust and kmeans objects are also available. 
+\texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S4 class methods for hclust and kmeans objects are also available. 
 
 ```
 library(projectR)

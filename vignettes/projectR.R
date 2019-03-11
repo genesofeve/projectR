@@ -67,14 +67,40 @@ grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 # get data 
 library(projectR)
 AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
-
+AP <- AP$Amean
 # heatmap of gene weights for CoGAPs patterns 
 library(gplots)
-pNMF<-heatmap.2(as.matrix(AP$Amean),col=bluered, trace='none',
+pNMF<-heatmap.2(as.matrix(AP),col=bluered, trace='none',
           distfun=function(c) as.dist(1-cor(t(c))) ,
           cexCol=1,cexRow=.5,scale = "row", 
           hclustfun=function(x) hclust(x, method="average")
       )
+
+## --------------------------------------------------------------------------
+# data to project into PCs from RNAseq6l3c3t expression data 
+library(projectR)
+data('p.ESepiGen4c1l4')
+data('p.RNAseq6l3c3t')
+
+NMF2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=AP,full=TRUE, 
+    dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
+
+dNMF2ESepi<- data.frame(cbind(t(NMF2ESepi),pd.ESepiGen4c1l))
+
+#plot pca
+library(ggplot2)
+setEpiCOL <- scale_colour_manual(values = c("red","green","blue","black"),
+guide = guide_legend(title="Lineage"))
+
+pNMF2ESepiGen4c1l <- ggplot(dNMF2ESepi, aes(x=X1, y=X2, colour=Condition)) + 
+  geom_point(size=5) + setEpiCOL + 
+  theme(legend.position=c(0,0), legend.justification=c(0,0),
+  panel.background = element_rect(fill = "white"),
+  legend.direction = "horizontal",
+  plot.title = element_text(vjust = 0,hjust=0,face="bold")) 
+  labs(title = "Encode RNAseq in target PC1 & PC2", 
+  x=paste("Projected PC1 (",round(PCA2ESepi[[2]][1],2),"% of varience)",sep=""),
+  y=paste("Projected PC2 (",round(PCA2ESepi[[2]][2],2),"% of varience)",sep=""))
 
 ## ----correlateR-exp--------------------------------------------------------
 # data to
