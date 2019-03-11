@@ -24,7 +24,7 @@
 #'
 #' @details 
 #' \code{loadings} can belong to one of several classes depending on upstream
-#' analysis. Currently permitted classes are \code{matriemacs x}, \code{CogapsResult}, 
+#' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
 #' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
 #' and \code{correlateR}.
 setGeneric("projectR",function(data, loadings, dataNames=NULL, loadingsNames=NULL, ...) standardGeneric("projectR"))
