@@ -7,7 +7,7 @@
 auc_mat(labels = NA, weights = NA)
 }
 \arguments{
-\item{labels}{a vector of labels whose length is equal to the number of rows in the weight matrix}
+\item{labels}{a vector of labels whose length is equal to the number of columns in the weight matrix}
 
 \item{weights}{a matrix of weights from projection analysis}
 }
@@ -16,4 +16,9 @@ A matrix of AUC values for each set of weights classifying each label.
 }
 \description{
 Calculates AUC values for each set of weights for each label and outputs the results as a matrix
+}
+\examples{
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+dataNames = map.ESepiGen4c1l[["GeneSymbols"]]) -> projection
+auc_mat(pd.ESepiGen4c1l$Condition,projection)
 }
