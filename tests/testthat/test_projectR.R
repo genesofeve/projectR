@@ -8,7 +8,7 @@ test_that("data is proper",{
 	expect_that(map.ESepiGen4c1l, is_a('data.frame'))
 	expect_that(all(dim(map.ESepiGen4c1l) == c(93,9)),is_true())
 	expect_that(map.ESepiGen4c1l$GeneSymbols, is_a('character'))
-	expect_that(all(class(AP.RNAseq6l3c3t) == c('list','CoGAPS')),is_true())
+	expect_that(AP.RNAseq6l3c3t, is_a(c('list','CoGAPS')))
 	expect_that(length(AP.RNAseq6l3c3t),equals(12))
 	expect_that(AP.RNAseq6l3c3t$Amean, is_a('matrix'))
 	expect_that(all(dim(AP.RNAseq6l3c3t$Amean) == c(108,5)),is_true())
@@ -48,6 +48,4 @@ nPatterns=5))
 	expect_that(all(dim(pca.ESepiGen4c1l) == c(54,9)),is_true())
 	expect_that(all(pca.ESepiGen4c1l != 0), is_true())
 	expect_that(all(!is.na(pca.ESepiGen4c1l)),is_true())
-
-	#C
 	})
