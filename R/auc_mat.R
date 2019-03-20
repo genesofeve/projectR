@@ -12,15 +12,18 @@
 #' @export
 
 auc_mat<-function(labels, weights){
-  results <- model.matrix(~labels-1)
-  auc_matrix = matrix(nrow = dim(weights)[1], ncol = dim(results)[2])
-  rownames(auc_matrix) = rownames(weights)
-  colnames(auc_matrix) = colnames(results)
-  for (i in 1:dim(weights)[1]) {
-    for (j in 1:dim(results)[2]) {
-      auc_matrix[i,j] = performance(prediction(weights[i,], results[,j]), measure='auc')@"y.values"[[1]]
-    }
-  }
-  colnames(auc_matrix) = sort(unique(labels))
-  return(auc_matrix)
+results <- model.matrix(~labels-1)
+colnames(results) <- unique(labels)
+weights1 <- dim(weights)[1]
+results2 <- dim(results)[2]
+i <- rep(seq_len(weights1), each = results2)
+j <- rep(seq_len(results2), times = weights1)
+auc_res <- vapply(seq_len(weights1 * results2), function(k) {
+    performance(prediction(weights[i[k],], results[,j[k]]), measure='auc')@"y.values"[[1]]
+}, numeric(1))
+auc_res <- unlist(auc_res)
+auc_matrix <- matrix(auc_res, nrow=weights1, ncol=results2, byrow=TRUE)
+rownames(auc_matrix) = rownames(weights)
+colnames(auc_matrix) = colnames(results)
+return(auc_matrix)
 }
