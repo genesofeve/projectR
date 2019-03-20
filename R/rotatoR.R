@@ -15,7 +15,7 @@
 
 rotatoR <- function(x1,y1,x2,y2,basisSET){
 
-if(dim(basisSET)[2]!=2){print("basisSET must have 2 and only 2 columns in it for this function.");return()}
+if(dim(basisSET)[2]!=2){stop("basisSET must have 2 and only 2 columns in it for this function.");return()}
 slp1=(y1-y2)/(x1-x2)
 slp2=1/(-slp1)
 atan2.mn=atan2(slp2,1)
