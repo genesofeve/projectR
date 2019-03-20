@@ -1,4 +1,9 @@
 ## ---- include=FALSE--------------------------------------------------------
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 1, digits = 2)
+set.seed(1234)
+
+## ---- include=FALSE--------------------------------------------------------
 options(tinytex.verbose = TRUE)
 
 ## ----prcomp, warning=FALSE-------------------------------------------------
@@ -146,4 +151,13 @@ pCorT<-ggplot(pm.RNAseq6l3c3t, aes(variable, indx, fill = value)) +
 
 ## ---- fig.show='hold', fig.width=10, fig.height=5, echo=FALSE--------------
 pCorT
+
+## --------------------------------------------------------------------------
+# data to project into from RNAseq6l3c3t expression data 
+data(p.ESepiGen4c1l)
+
+library(projectR)
+cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE, 
+    dataNames=map.ESepiGen4c1l$GeneSymbols)
+
 

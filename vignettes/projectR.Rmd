@@ -11,11 +11,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```
+```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
 ```
+
 ```{r, include=FALSE}
 options(tinytex.verbose = TRUE)
 ```
@@ -26,10 +27,9 @@ Technological advances continue to spur the exponential growth of biological dat
 
 ## Installation Instructions
 
-For the current development level version, start R, and run:
+For automatic Bioconductor package installation, start R, and run: 
 ```
-library(devtools)
-install_github("projectR", "genesofeve")
+BiocManager::install("projectR")
 ```
 
 ## Methods
@@ -335,13 +335,13 @@ pCorT
 ```
 
 ## Projecting correlateR objects. 
-```
+```{r}
 # data to project into from RNAseq6l3c3t expression data 
-data(ESepiGen4c1l4)
+data(p.ESepiGen4c1l)
 
 library(projectR)
 cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE, 
-    AnnotationObj=map.ESepiGen4c1l, IDcol="GeneSymbols")
+    dataNames=map.ESepiGen4c1l$GeneSymbols)
 
 ```
 
