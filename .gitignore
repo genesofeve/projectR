@@ -7,3 +7,6 @@ projectR.Rproj.Rcheck/
 projectR.Rproj
 vignettes/projectR.log
 man/.Rapp.history
+.git/
+vignettes/.Rhistory
+vignettes/projectR_files/

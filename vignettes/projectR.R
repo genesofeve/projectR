@@ -1,3 +1,6 @@
+## ---- include=FALSE--------------------------------------------------------
+options(tinytex.verbose = TRUE)
+
 ## ----prcomp, warning=FALSE-------------------------------------------------
 # data to define PCs
 library(projectR)
