@@ -4,7 +4,7 @@
 \alias{auc_mat}
 \title{auc_mat}
 \usage{
-auc_mat(labels = NA, weights = NA)
+auc_mat(labels, weights)
 }
 \arguments{
 \item{labels}{a vector of labels whose length is equal to the number of columns in the weight matrix}

@@ -15,8 +15,8 @@
 #'
 
 
-correlateR<-function(genes=NA, #gene or character vector of genes for reference expression pattern
-	dat=NA, #matrix or data frame with  genes to be used for to calculate correlation
+correlateR<-function(genes, #gene or character vector of genes for reference expression pattern
+	dat, #matrix or data frame with  genes to be used for to calculate correlation
 	threshtype="R", #Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.
 	threshold=.7, # numeric indicating value at which to make threshold
 	absR=FALSE, # logical indicating where to include both positive and negatively correlated genes

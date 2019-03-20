@@ -4,7 +4,7 @@
 \alias{correlateR}
 \title{correlateR}
 \usage{
-correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7,
+correlateR(genes, dat, threshtype = "R", threshold = 0.7,
   absR = FALSE, ...)
 }
 \arguments{
