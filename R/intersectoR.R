@@ -88,7 +88,7 @@ intersectoR.kmeans <- function(
 				pvalOLP,pvalOLP.rev))}
 		}
 	}
-	print(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",pval,":",sep=""))
+	message(paste(dim(overLPmtx)[1]," cluster pairs have overlap with p<",pval,":",sep=""))
 	if(full==FALSE){
 		return(overLPmtx)
 	} else if(full){
