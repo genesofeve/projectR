@@ -301,6 +301,7 @@ cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, a
 cor2T <- cor2T@corM
 ### heatmap of genes more correlated to T
 indx<-unlist(sapply(cor2T,rownames))
+indx <- as.vector(indx)
 colnames(p.RNAseq6l3c3t)<-pd.RNAseq6l3c3t$sampleX
 library(reshape2)
 pm.RNAseq6l3c3t<-melt(cbind(p.RNAseq6l3c3t[indx,],indx))

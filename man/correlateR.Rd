@@ -14,17 +14,21 @@ correlateR(genes, dat, threshtype = "R", threshold = 0.7,
 
 \item{threshtype}{Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.}
 
-\item{threshold}{numeric indicating value at which to make threshold}
+\item{threshold}{numeric indicating value at which to make threshold.}
 
 \item{absR}{logical indicating where to include both positive and negatively correlated genes}
 
 \item{...}{addtion inputs to cor, such as method}
 }
 \value{
-An object of class correlateR.
+A correlation matrix
 }
 \description{
 Function to extract genes highly correlated with a gene or reference expression pattern.
+}
+\details{
+If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
+as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 }
 \examples{
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
