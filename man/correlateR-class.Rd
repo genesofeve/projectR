@@ -5,7 +5,7 @@
 \alias{correlateR-class}
 \title{correlateR}
 \description{
-class of correlateR output
+class of correlateR output.
 }
 \section{Slots}{
 

@@ -1,8 +1,8 @@
 #' rotatoR
 #' @export
 #'
-#' @slot rotatedM rotated matrix that is output of rotatoR function
-#' @description class of rotatoR output
+#' @slot rotatedM rotated basis set (matrix) that is output of rotatoR function
+#' @description class of rotatoR output. 
 
 setClass("rotatoR", slots=c(
 	rotatedM = "matrix"      
@@ -28,7 +28,7 @@ function(.Object, rotatedM, ... )
 #' @export
 #'
 #' @slot corM correlation matrix obtained from correlateR
-#' @description class of correlateR output
+#' @description class of correlateR output. 
 
 setClass("correlateR", slots=c(
 	corM = "list"      
