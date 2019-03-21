@@ -17,8 +17,7 @@ cluster2pattern.kmeans<- function(
   #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(Data[Patterns$cluster==x,])}
   for(x in 1:nD) {tempP[clusters$cluster==x,x]<-apply(Data[clusters$cluster==x,],1,cor,y=colMeans(Data[clusters$cluster==x,]))}
   Patterns<-tempP
-  pclustObj <- new("pclustKmeans",patterns = Patterns,kmeans = clusters)
-  return(pclustObj)
+  return(Patterns)
 }
 
 #' @rdname cluster2pattern-methods
@@ -41,8 +40,7 @@ cluster2pattern.hclust<-function(
   #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(Data[cut==x,])}
   for(x in 1:NP) {tempP[cut==x,x]<-apply(Data[cut==x,],1,cor,y=colMeans(Data[cut==x,]))}
   Patterns<-tempP
-  pclustObj <- new("pclustHclust",patterns = Patterns,hclust = clusters)
-  return(pclustObj)
+  return(Patterns)
 }
 
 #' @rdname cluster2pattern-methods

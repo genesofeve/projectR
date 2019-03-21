@@ -28,7 +28,7 @@ Function to extract genes highly correlated with a gene or reference expression 
 }
 \details{
 If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
-as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
+ as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 }
 \examples{
 cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)

@@ -15,7 +15,7 @@
 #'
 #' @details 
 #' If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
-#' as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
+#'  as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 
 correlateR<-function(genes, #gene or character vector of genes for reference expression pattern
 	dat, #matrix or data frame with  genes to be used for to calculate correlation
