@@ -3,7 +3,6 @@ setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
 #' @importFrom CoGAPS CoGAPS
-setOldClass("CoGAPS")
 #' @importFrom limma lmFit
 
 
@@ -95,35 +94,6 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
 
 })
 
-#######################################################################################################################################
-
-#' @import limma
-#' @import cluster
-#' @import stats
-#' @examples
-#' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#' k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
-#' k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=k.RNAseq6l3c3t,
-#' dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
-#'
-#' @rdname projectR-methods
-#' @aliases projectR
-
-setMethod("projectR",signature(data="matrix",loadings="pclust"),function(
-  data, # a dataset to be projected onto
-  loadings, # a matrix of continous values to be projected with unique rownames
-  dataNames = NULL, # a vector with names of data rows
-  loadingsNames = NULL, # a vector with names of loadings rows
-  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
-  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  ){
-
-  loadings <- loadings@patterns
-  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full))
-
-}
-)
 #######################################################################################################################################
 
 #' @import limma

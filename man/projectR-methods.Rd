@@ -5,7 +5,6 @@
 \alias{projectR}
 \alias{projectR,matrix,matrix-method}
 \alias{projectR,matrix,LinearEmbeddingMatrix-method}
-\alias{projectR,matrix,pclust-method}
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
 \alias{projectR,matrix,correlateR-method}
@@ -22,9 +21,6 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
   dataNames = NULL, loadingsNames = NULL, NP = NA, full = FALSE,
   model = NA, family = "gaussianff")
-
-\S4method{projectR}{matrix,pclust}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,prcomp}(data, loadings, dataNames = NULL,
   loadingsNames = NULL, NP = NA, full = FALSE)
@@ -85,11 +81,6 @@ library("CoGAPS")
 CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
 nPatterns=5))
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
-dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
-
-k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-k.RNAseq6l3c3t<-cluster2pattern (clusters=k.RNAseq6l3c3t, NP=22, Data=p.RNAseq6l3c3t)
-k.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=k.RNAseq6l3c3t,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
