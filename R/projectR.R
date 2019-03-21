@@ -254,7 +254,7 @@ targetNumPatterns, sourceData)
   rownames(patterns) <- rownames(sourceData)
   for(x in 1:targetNumPatterns)
   {
-    patterns[cut==x,x] <- apply(Data[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
+    patterns[cut==x,x] <- apply(sourceData[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
   }
   return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
 })
