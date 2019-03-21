@@ -10,3 +10,4 @@ man/.Rapp.history
 .git/
 vignettes/.Rhistory
 vignettes/projectR_files/
+vignettes/projectR.R
