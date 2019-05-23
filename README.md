@@ -11,7 +11,7 @@ Github Repository:
 ## Installation
 ```
 ## Method 1 using BiocManager
-BiocManager::install("genesofeve/projectR")
+BiocManager::install("projectR")
 
 ## Method 2 using devtools package
 devtools::install_github("genesofeve/projectR")
