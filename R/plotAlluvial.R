@@ -1,6 +1,6 @@
 #' @export
 
-alluvialMat<-function(newProjections, ctAnno, plot = FALSE, minPropExplained = 0.75){
+alluvialMat<-function(newProjections, annotations, annotationName = "celltype", annotationSample = "cell", plot = FALSE, minPropExplained = 0.75){
   require(dplyr)
   require(reshape2)
   require(ggalluvial)
@@ -10,13 +10,13 @@ alluvialMat<-function(newProjections, ctAnno, plot = FALSE, minPropExplained = 0
   newProjections$qval<-t(apply(newProjections$pval,1,function(x){p.adjust(x,method="BH")}))
   sigPatternIdx<-apply(newProjections$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
   sig<-as.data.frame(t(newProjections$qval[sigPatternIdx,]<=0.01))
-  DM<-as.data.frame(cbind("celltype"=ctAnno,sig))  #possible issue when the numbe of ctAnno is less than significant patterns
+  DM<-as.data.frame(cbind(annotationName=ctAnno,sig))  #possible issue when the numbe of ctAnno is less than significant patterns
 
   celltype_cells<-as.data.frame(table(ctAnno)) 
-  colnames(celltype_cells)<-c("celltype","nCells_per_type")
+  colnames(celltype_cells)<-c(annotationName,paste0('n_',annotationSample,'s_per_type'))
 
   pattern_cells<-as.data.frame(colSums(sig*1,na.rm=T))
-  colnames(pattern_cells)<-c("nCells_per_pattern")
+  colnames(pattern_cells)<-c(paste0('n_',annotationSample,'s_per_pattern'))
 
   DM.summary<- DM %>%
     dplyr::select(celltype,starts_with("Pat")) %>%
