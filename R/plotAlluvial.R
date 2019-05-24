@@ -41,7 +41,10 @@ p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   geom_stratum(width=1/12,fill="grey50",color="black") + 
   geom_label(stat="stratum",label.strata=TRUE) +
   scale_x_continuous(breaks=1:2, labels=c("Cell Type", "Pattern")) + 
-  scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) + ggtitle(paste0("Pattern explains at least ",minProp*100,"% of cells in a given type"))
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) + 
+  ggtitle(paste0("Pattern explains at least ",minProp*100,"% of cells in a given type"))
 plot(p)
   }
   return(DM.summary)
