@@ -1,6 +1,6 @@
 #' @export
 
-alluvialMat<-function(projection, annotations, annotationName = "celltype", annotationSample = "cell", plot = FALSE, minPropExplained = 0.75){
+alluvialMat<-function(projection, annotations, annotationName = "celltype", annotationType = "cell", plot = FALSE, minPropExplained = 0.75){
   require(dplyr)
   require(reshape2)
   require(ggalluvial)
@@ -40,7 +40,7 @@ nCelltype<-length(unique(plot.data$celltype))
 p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   geom_alluvium(aes(fill=celltype),color="black",size=0.2) + 
   geom_stratum(width=1/12,fill="grey50",color="black") + 
-  geom_label(stat="stratum",label.strata=TRUE) +
+  geom_label(stat="stratum",label.strata=TRUE) + labs(y="") +
   scale_x_continuous(breaks=1:2, labels=c(annotationName, "Pattern")) + 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
     panel.background = element_blank(), axis.line = element_line(colour = "black")) +
@@ -48,5 +48,6 @@ p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   ggtitle(paste0("Pattern explains at least ",minProp*100,"% of ",annotationSample,"s in a given type"))
 plot(p)
   }
+
   return(DM.summary)
 }
