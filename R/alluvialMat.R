@@ -1,6 +1,25 @@
+#' @title alluvialMat
+#'
+#' @description Function to provide alluvial matrix for generating alluvial plot
+#' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
+#' @param   annotation a character vector of annotations for the data
+#' @param   annotationName a character for naming the annotations collectively, default is "Cell type"
+#' @param   annotationType a character indicating the type of data annotated, default is "Cell"
+#' @param   plot logical indicating whether to return the alluvial plot, default is TRUE
+#' @param   minPropExplained 
+#' @return  A matrix to generate alluvial plots
+#' @export
+#' @import dplyr, reshape2, ggalluvial, viridis, RColorBrewer, scales
+#' @examples
+#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+#' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
+#' alluvialMat(projection,pd.ESepiGen4c1l$Condition)
+#' @details 
+#' If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
+#'  as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 #' @export
 
-alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = FALSE, minPropExplained = 0.75){
+alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = TRUE, minPropExplained = 0.75){
   require(dplyr)
   require(reshape2)
   require(ggalluvial)
@@ -47,9 +66,11 @@ p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
     panel.background = element_blank(), axis.line = element_line(colour = "black")) +
   scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) + 
-  ggtitle(paste0("Pattern explains at least ",minProp*100,"% of ",annotationSample,"s in a given type"))
+  ggtitle(paste0("Pattern explains at least ",minProp*100,"% of ",tolower(annotationType),"s in a given type"))
+  #in a given *type* may not be ideal for all scenarios
 plot(p)
   }
-
+  colnames(DM.summary)[c(1:4,6)] <- c('Pattern',annotationName,paste0('n',annotationType,'s'),
+    paste0('n',annotationType,'s_per_type'), paste0('n',annotationType,'s_per_pattern'))
   return(DM.summary)
 }
