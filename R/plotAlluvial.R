@@ -6,9 +6,8 @@ alluvialMat<-function(projection, annotations, annotationName = "celltype", anno
   require(ggalluvial)
   require(viridis)
   require(RColorBrewer)
-  if(!('pval' %in% projection)){
-    print("Please set arguemnt full = TRUE in projectR to generate projection with p-values")
-    return(0)
+  if(!('pval' %in% names(projection))){
+    stop("Please set arguemnt full = TRUE in projectR to generate projection with p-values")
   }
   sigPatternIdx<-apply(projection$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
   projection$qval<-t(apply(projection$pval,1,function(x){p.adjust(x,method="BH")}))
