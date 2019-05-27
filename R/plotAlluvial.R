@@ -1,11 +1,12 @@
 #' @export
 
-alluvialMat<-function(projection, annotations, annotationName = "celltype", annotationType = "cell", plot = FALSE, minPropExplained = 0.75){
+alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = FALSE, minPropExplained = 0.75){
   require(dplyr)
   require(reshape2)
   require(ggalluvial)
   require(viridis)
   require(RColorBrewer)
+  require(scales)
   if(!('pval' %in% names(projection))){
     stop("Please set arguemnt full = TRUE in projectR to generate projection with p-values")
   }
@@ -42,6 +43,7 @@ p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   geom_stratum(width=1/12,fill="grey50",color="black") + 
   geom_label(stat="stratum",label.strata=TRUE) + labs(y="") +
   scale_x_continuous(breaks=1:2, labels=c(annotationName, "Pattern")) + 
+  scale_y_continuous(breaks = pretty_breaks()) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
     panel.background = element_blank(), axis.line = element_line(colour = "black")) +
   scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) + 
