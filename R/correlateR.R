@@ -9,7 +9,7 @@
 #' @param 	...  addtion inputs to cor, such as method
 #' @return 	A correlation matrix
 #' @export
-#' @import stats
+#' @importFrom stats cor
 #' @examples
 #' cor2T<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", threshold=10, absR=TRUE)
 #'

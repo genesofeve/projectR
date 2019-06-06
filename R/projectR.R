@@ -8,7 +8,7 @@ setOldClass("prcomp")
 
 #######################################################################################################################################
 #' @import limma
-#' @import stats
+#' @importFrom stats model.matrix
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
@@ -66,7 +66,6 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
 
 #######################################################################################################################################
 #' @import limma
-#' @import stats
 #' @importFrom NMF fcnnls
 #' @examples
 #' library("CoGAPS")
@@ -97,7 +96,7 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
 #######################################################################################################################################
 
 #' @import limma
-#' @import stats
+#' @importFrom stats var
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
@@ -146,7 +145,6 @@ setMethod("projectR",signature(data="matrix",loadings="prcomp"),function(
 })
 #######################################################################################################################################
 
-#' @import stats
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
@@ -199,7 +197,6 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),function(
 #######################################################################################################################################
 
 #' @import limma
-#' @import stats
 #' @examples
 #' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
 #' threshold=10, absR=TRUE)
@@ -242,7 +239,7 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
 #' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
-#' @import stats
+#' @importFrom stats cutree
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="hclust"),

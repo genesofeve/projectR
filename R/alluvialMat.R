@@ -1,5 +1,4 @@
 #' @title alluvialMat
-#'
 #' @description Function to provide alluvial matrix for generating alluvial plot
 #' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
 #' @param   annotations a character vector of annotations for the data
