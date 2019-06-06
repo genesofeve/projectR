@@ -1,4 +1,6 @@
 #' @title alluvialMat
+#' @import dplyr reshape2 ggplot2 ggalluvial viridis RColorBrewer
+#' @rawNamespace import(scales, except = viridis_pal)
 #' @description Function to provide alluvial matrix for generating alluvial plot
 #' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
 #' @param   annotations a character vector of annotations for the data
@@ -14,12 +16,6 @@
 #' @export
 
 alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = TRUE, minPropExplained = 0.75){
-  require(dplyr)
-  require(reshape2)
-  require(ggalluvial)
-  require(viridis)
-  require(RColorBrewer)
-  require(scales)
   if(!('pval' %in% names(projection))){
     stop("Please set arguemnt full = TRUE in projectR to generate projection with p-values")
   }
