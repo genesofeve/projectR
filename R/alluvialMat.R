@@ -2,8 +2,8 @@
 #'
 #' @description Function to provide alluvial matrix for generating alluvial plot
 #' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
-#' @param   annotation a character vector of annotations for the data
-#' @param   annotationName a character for naming the annotations collectively, default is "Cell type"
+#' @param   annotations a character vector of annotations for the data
+#' @param   annotationName a collective name for the annotations, default is "Cell type"
 #' @param   annotationType a character indicating the type of data annotated, default is "Cell"
 #' @param   plot logical indicating whether to return the alluvial plot, default is TRUE
 #' @param   minPropExplained 

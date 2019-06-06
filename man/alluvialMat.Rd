@@ -10,6 +10,8 @@ alluvialMat(projection, annotations, annotationName = "Cell type",
 \arguments{
 \item{projection}{a projection generated from projectR, ensure that full = TRUE while generating projection}
 
+\item{annotations}{a character vector of annotations for the data}
+
 \item{annotationName}{a character for naming the annotations collectively, default is "Cell type"}
 
 \item{annotationType}{a character indicating the type of data annotated, default is "Cell"}
@@ -17,8 +19,6 @@ alluvialMat(projection, annotations, annotationName = "Cell type",
 \item{plot}{logical indicating whether to return the alluvial plot, default is TRUE}
 
 \item{minPropExplained}{}
-
-\item{annotation}{a character vector of annotations for the data}
 }
 \value{
 A matrix to generate alluvial plots
