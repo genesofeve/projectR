@@ -3,18 +3,15 @@
 #' @description Function to provide alluvial matrix for generating alluvial plot
 #' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
 #' @param   annotations a character vector of annotations for the data
-#' @param   annotationName a collective name for the annotations, default is "Cell type"
+#' @param   annotationName a charcter fof collective name of the annotations, default is "Cell type"
 #' @param   annotationType a character indicating the type of data annotated, default is "Cell"
 #' @param   plot logical indicating whether to return the alluvial plot, default is TRUE
-#' @param   minPropExplained 
+#' @param   minPropExplained threshold for minimum proportion of samples that correspond to a pattern to be used for plotting
 #' @return  A matrix to generate alluvial plots
 #' @examples
 #' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 #' alluvialMat(projection,pd.ESepiGen4c1l$Condition)
-#' @details 
-#' If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
-#'  as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 #' @export
 
 alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = TRUE, minPropExplained = 0.75){

@@ -12,23 +12,19 @@ alluvialMat(projection, annotations, annotationName = "Cell type",
 
 \item{annotations}{a character vector of annotations for the data}
 
-\item{annotationName}{a character for naming the annotations collectively, default is "Cell type"}
+\item{annotationName}{a charcter fof collective name of the annotations, default is "Cell type"}
 
 \item{annotationType}{a character indicating the type of data annotated, default is "Cell"}
 
 \item{plot}{logical indicating whether to return the alluvial plot, default is TRUE}
 
-\item{minPropExplained}{}
+\item{minPropExplained}{threshold for minimum proportion of samples that correspond to a pattern to be used for plotting}
 }
 \value{
 A matrix to generate alluvial plots
 }
 \description{
 Function to provide alluvial matrix for generating alluvial plot
-}
-\details{
-If threshtype is "R" than threshold must be between -1 and 1. Otherwise if top N correlated genes are required, set \code{threshtype}
- as "N" and set \code{threshold} = N, i.e, the number of correlated genes required.
 }
 \examples{
 projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
