@@ -8,8 +8,6 @@
 #' @param   plot logical indicating whether to return the alluvial plot, default is TRUE
 #' @param   minPropExplained 
 #' @return  A matrix to generate alluvial plots
-#' @export
-#' @import dplyr, reshape2, ggalluvial, viridis, RColorBrewer, scales
 #' @examples
 #' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
