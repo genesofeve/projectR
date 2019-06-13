@@ -249,11 +249,11 @@ targetNumPatterns, sourceData)
   cut <- cutree(loadings, k=targetNumPatterns)
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=targetNumPatterns)
   rownames(patterns) <- rownames(sourceData)
-  for(x in 1:targetNumPatterns)
-  {
-    patterns[cut==x,x] <- apply(sourceData[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
-  }
-  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
+    for(x in 1:targetNumPatterns)
+    {
+      patterns[cut==x,x] <- apply(sourceData[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
+    }
+  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full = full))
 })
 
 #' @rdname projectR-methods

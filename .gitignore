@@ -11,4 +11,4 @@ man/.Rapp.history
 vignettes/.Rhistory
 vignettes/projectR_files/
 vignettes/projectR.R
-test.R
+test.Rmd
