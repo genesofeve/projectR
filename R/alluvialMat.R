@@ -1,5 +1,6 @@
 #' @title alluvialMat
 #' @import dplyr reshape2 ggplot2 ggalluvial viridis RColorBrewer
+#' @importFrom grDevices colorRampPalette
 #' @rawNamespace import(scales, except = viridis_pal)
 #' @description Function to provide alluvial matrix for generating alluvial plot
 #' @param   projection  a projection generated from projectR, ensure that full = TRUE while generating projection
