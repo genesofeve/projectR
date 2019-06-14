@@ -2,7 +2,7 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 0.99.628
+Version: 1.0.044
 Date: 2016-11-22
 Author: Gaurav Sharma, Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
@@ -15,7 +15,14 @@ Imports:
     limma,
     CoGAPS,
     NMF,
-    ROCR
+    ROCR,
+    ggalluvial,
+    RColorBrewer,
+    dplyr,
+    reshape2,
+    viridis,
+    scales,
+    ggplot2
 Suggests:
     BiocStyle,
     gridExtra,
@@ -24,9 +31,7 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    ComplexHeatmap,
-    viridis,
-    ggplot2
+    ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 6.1.1
 Encoding: UTF-8
