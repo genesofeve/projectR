@@ -1,5 +1,5 @@
 #' @importFrom ROCR performance prediction
-#' @title auc_mat
+#' @title aucMat
 #'
 #' @description Calculates AUC values for each set of weights for each label and outputs the results as a matrix
 #' @param labels a vector of labels whose length is equal to the number of columns in the weight matrix
@@ -8,10 +8,10 @@
 #' @examples
 #' projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]]) -> projection
-#' auc_mat(pd.ESepiGen4c1l$Condition,projection)
+#' aucMat(pd.ESepiGen4c1l$Condition,projection)
 #' @export
 
-auc_mat<-function(labels, weights){
+aucMat<-function(labels, weights){
 results <- model.matrix(~labels-1)
 colnames(results) <- unique(labels)
 weights1 <- dim(weights)[1]
