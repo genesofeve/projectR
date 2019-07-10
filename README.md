@@ -10,10 +10,10 @@ Github Repository:
 
 ## Installation
 ```
-## Method 1 using BiocManager
+## Method 1 from Bioconductor
 BiocManager::install("projectR")
 
-## Method 2 using devtools package
+## Method 2 from Github
 BiocManager::install("genesofeve/projectR")
 ```
 ## Getting Started
