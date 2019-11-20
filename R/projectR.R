@@ -264,7 +264,7 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="hclust"),
 function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE,
-targetNumPatterns, sourceData)
+targetNumPatterns, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
   cut <- cutree(loadings, k=targetNumPatterns)
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=targetNumPatterns)
@@ -287,7 +287,7 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
   {
     patterns[loadings$cluster==x,x] <- apply(sourceData[loadings$cluster==x,], 1, cor, y=colMeans(sourceData[loadings$cluster==x,]))
   }
-  return(projectR(data, loadings=patterns, dataNames= dataNames, full = full))
+  return(projectR(data, loadings=patterns, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 })
 
 #########################################################################
