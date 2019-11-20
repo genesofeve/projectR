@@ -22,7 +22,9 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  family="gaussianff"  # VGAM family function (default: "gaussianff")
+  family="gaussianff",  # VGAM family function (default: "gaussianff")
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
@@ -55,12 +57,23 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   #colnames(pval.matrix)<-colnames(projectionPatterns)
   #rownames(pval.matrix)<-rownames(projectionPatterns)
 
-  if(full==TRUE){
+  if(bootstrapPval){
+  boots <- lapply(1:bootIter,function(x){
+  rows <- sample(nrow(Design),nrow(Design),replace = T)
+  projection <- lmFit(as.matrix(t(dataM[[2]][rows,])),Design[rows,])
+  return(projection$coefficients)
+    })
+  bootPval <- compareBoots(projection$coefficients,boots)
+  }
+
+  if(full & bootstrapPval){
       #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix, 'bootstrapPval' = bootPval)
+      return(projectionFit)
+  } else if(full){
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
-  }
-  else{return(projectionPatterns)}
+  }else{return(projectionPatterns)}
 })
 
 
@@ -269,3 +282,24 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
   }
   return(projectR(data, loadings=patterns, dataNames= dataNames, full = full))
 })
+
+#########################################################################
+
+
+compareBoots <- function(projection,boots){
+mat <- sapply(1:nrow(projection),function(i){
+  sapply(1:ncol(projection),function(j){
+    val <- sapply(1:length(boots),function(x){
+      return(boots[[x]][i,j])
+    })
+    valD <- ecdf(val)
+    qt0 <- valD(0)
+    if(qt0 < 0.5){
+        return(2*qt0)
+      } else {
+        return(2*(1-qt0))
+      }
+  })
+})
+return(mat)
+}

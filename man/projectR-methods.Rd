@@ -16,7 +16,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \S4method{projectR}{matrix,matrix}(data, loadings, dataNames = NULL,
   loadingsNames = NULL, NP = NA, full = FALSE,
-  family = "gaussianff")
+  family = "gaussianff", bootstrapPval = FALSE, bootIter = 1000)
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
   dataNames = NULL, loadingsNames = NULL, NP = NA, full = FALSE,
