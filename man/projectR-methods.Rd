@@ -54,6 +54,10 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{family}{VGAM family function for model fitting (default: "gaussianff")}
 
+\item{bootstrapPval}{logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects}
+
+\item{bootIter}{number of bootstrap iterations, default = 1000}
+
 \item{model}{Optional arguements to choose method for projection}
 
 \item{targetNumPatterns}{desired number of patterns}

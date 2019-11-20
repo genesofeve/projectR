@@ -13,6 +13,8 @@ setOldClass("prcomp")
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
 #' @param family VGAM family function for model fitting (default: "gaussianff")
+#' @param bootstrapPval logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects
+#' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
