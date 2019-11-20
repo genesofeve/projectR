@@ -99,12 +99,14 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
-  family="gaussianff" # VGAM family function (default: "gaussianff")
+  family="gaussianff", # VGAM family function (default: "gaussianff")
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   loadings<-loadings@featureLoadings
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full))
+  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 
 })
 
@@ -226,7 +228,9 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
   dataNames = NULL, # a vector with names of data rows
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
-  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   patterns <- loadings@corM
@@ -244,13 +248,14 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
   else{
     patterns <- as.matrix(patterns)
 }
-  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full ))
+  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full,
+    bootstrapPval = bootstrapPval, bootIter = bootIter))
  
 })
 
 #######################################################################################################################################
 
-#' @param targetNumPatterns desired number of patterns 
+#' @param targetNumPatterns desired number of patterns with hclust  
 #' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
