@@ -20,7 +20,8 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
   dataNames = NULL, loadingsNames = NULL, NP = NA, full = FALSE,
-  model = NA, family = "gaussianff")
+  model = NA, family = "gaussianff", bootstrapPval = FALSE,
+  bootIter = 1000)
 
 \S4method{projectR}{matrix,prcomp}(data, loadings, dataNames = NULL,
   loadingsNames = NULL, NP = NA, full = FALSE)
@@ -29,10 +30,12 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   loadingsNames = NULL, NP = NA, full = FALSE)
 
 \S4method{projectR}{matrix,correlateR}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE)
+  loadingsNames = NULL, NP = NA, full = FALSE,
+  bootstrapPval = FALSE, bootIter = 1000)
 
 \S4method{projectR}{matrix,hclust}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData)
+  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData,
+  bootstrapPval = FALSE, bootIter = 1000)
 
 \S4method{projectR}{matrix,kmeans}(data, loadings, dataNames = NULL,
   loadingsNames = NULL, full = FALSE, sourceData)
@@ -60,7 +63,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{model}{Optional arguements to choose method for projection}
 
-\item{targetNumPatterns}{desired number of patterns}
+\item{targetNumPatterns}{desired number of patterns with hclust}
 
 \item{sourceData}{data used to create cluster object}
 }
