@@ -279,7 +279,7 @@ targetNumPatterns, sourceData,bootstrapPval=FALSE,bootIter=1000)
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="kmeans"),
-function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData)
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size))
   rownames(patterns) <- rownames(sourceData)

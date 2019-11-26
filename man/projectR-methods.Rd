@@ -14,31 +14,82 @@
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
-\S4method{projectR}{matrix,matrix}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE,
-  family = "gaussianff", bootstrapPval = FALSE, bootIter = 1000)
+\S4method{projectR}{matrix,matrix}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE,
+  family = "gaussianff",
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 
-\S4method{projectR}{matrix,LinearEmbeddingMatrix}(data, loadings,
-  dataNames = NULL, loadingsNames = NULL, NP = NA, full = FALSE,
-  model = NA, family = "gaussianff", bootstrapPval = FALSE,
-  bootIter = 1000)
+\S4method{projectR}{matrix,LinearEmbeddingMatrix}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE,
+  model = NA,
+  family = "gaussianff",
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 
-\S4method{projectR}{matrix,prcomp}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,prcomp}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE
+)
 
-\S4method{projectR}{matrix,rotatoR}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE)
+\S4method{projectR}{matrix,rotatoR}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE
+)
 
-\S4method{projectR}{matrix,correlateR}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, NP = NA, full = FALSE,
-  bootstrapPval = FALSE, bootIter = 1000)
+\S4method{projectR}{matrix,correlateR}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE,
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 
-\S4method{projectR}{matrix,hclust}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, full = FALSE, targetNumPatterns, sourceData,
-  bootstrapPval = FALSE, bootIter = 1000)
+\S4method{projectR}{matrix,hclust}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  full = FALSE,
+  targetNumPatterns,
+  sourceData,
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 
-\S4method{projectR}{matrix,kmeans}(data, loadings, dataNames = NULL,
-  loadingsNames = NULL, full = FALSE, sourceData)
+\S4method{projectR}{matrix,kmeans}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  full = FALSE,
+  sourceData,
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}

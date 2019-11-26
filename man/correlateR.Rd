@@ -4,8 +4,7 @@
 \alias{correlateR}
 \title{correlateR}
 \usage{
-correlateR(genes, dat, threshtype = "R", threshold = 0.7,
-  absR = FALSE, ...)
+correlateR(genes, dat, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
 }
 \arguments{
 \item{genes}{gene or character vector of genes for reference expression pattern}

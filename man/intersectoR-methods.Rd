@@ -9,11 +9,9 @@
 \usage{
 intersectoR(pSet1, pSet2, pval, ...)
 
-\S4method{intersectoR}{kmeans,kmeans}(pSet1 = NA, pSet2 = NA,
-  pval = 0.05, full = FALSE)
+\S4method{intersectoR}{kmeans,kmeans}(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE)
 
-\S4method{intersectoR}{hclust,hclust}(pSet1 = NA, pSet2 = NA,
-  pval = 0.05, full = FALSE, k = NULL)
+\S4method{intersectoR}{hclust,hclust}(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
 }
 \arguments{
 \item{pSet1}{an object for a set of patterns where each entry is a set of genes associated with a single pattern}

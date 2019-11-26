@@ -4,8 +4,14 @@
 \alias{alluvialMat}
 \title{alluvialMat}
 \usage{
-alluvialMat(projection, annotations, annotationName = "Cell type",
-  annotationType = "Cell", plot = TRUE, minPropExplained = 0.75)
+alluvialMat(
+  projection,
+  annotations,
+  annotationName = "Cell type",
+  annotationType = "Cell",
+  plot = TRUE,
+  minPropExplained = 0.75
+)
 }
 \arguments{
 \item{projection}{a projection generated from projectR, ensure that full = TRUE while generating projection}

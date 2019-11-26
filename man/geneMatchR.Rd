@@ -4,8 +4,7 @@
 \alias{geneMatchR}
 \title{Generic geneMatchR function}
 \usage{
-geneMatchR(data1, data2, data1Names = NULL, data2Names = NULL,
-  merge = FALSE)
+geneMatchR(data1, data2, data1Names = NULL, data2Names = NULL, merge = FALSE)
 }
 \arguments{
 \item{data1}{a data matrix, typically genes by samples}
