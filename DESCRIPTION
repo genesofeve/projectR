@@ -30,7 +30,7 @@ Suggests:
     testthat,
     devtools,
     knitr,
-    rmarkdown (<= 1.17),
+    rmarkdown (== 1.17),
     ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 7.0.0
