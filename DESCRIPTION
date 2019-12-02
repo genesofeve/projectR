@@ -22,14 +22,14 @@ Imports:
     reshape2,
     viridis,
     scales,
-    ggplot2,
-    rmarkdown (== 1.17)
+    ggplot2
 Suggests:
     BiocStyle,
     gridExtra,
     grid,
     testthat,
     devtools,
+    rmarkdown (== 1.17),
     knitr,
     ComplexHeatmap
 LazyData: TRUE
