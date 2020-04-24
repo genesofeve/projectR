@@ -15,7 +15,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
-#update.packages(ask = FALSE, checkBuilt = TRUE, repos = "https://cloud.r-project.org")  # update R packages
+update.packages(ask = FALSE, checkBuilt = TRUE, repos = "https://cloud.r-project.org")  # update R packages
 tinytex::tlmgr_update()
 ```
 
