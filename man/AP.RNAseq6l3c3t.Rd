@@ -4,7 +4,9 @@
 \name{AP.RNAseq6l3c3t}
 \alias{AP.RNAseq6l3c3t}
 \title{CoGAPS patterns and genes weights for p.RNAseq6l3c3t}
-\format{A list of 12 items}
+\format{
+A list of 12 items
+}
 \usage{
 AP.RNAseq6l3c3t
 }

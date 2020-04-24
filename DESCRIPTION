@@ -2,7 +2,7 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 1.1.047
+Version: 1.1.050
 Date: 2016-11-22
 Author: Gaurav Sharma, Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
@@ -33,7 +33,7 @@ Suggests:
     rmarkdown,
     ComplexHeatmap
 LazyData: TRUE
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
