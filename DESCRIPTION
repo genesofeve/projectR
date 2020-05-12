@@ -12,8 +12,6 @@ Imports:
     cluster,
     stats,
     limma,
-    CoGAPS,
-    NMF,
     ROCR,
     ggalluvial,
     RColorBrewer,
@@ -30,7 +28,8 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    ComplexHeatmap
+    ComplexHeatmap,
+    CoGAPS
 LazyData: TRUE
 RoxygenNote: 7.1.0
 Encoding: UTF-8
