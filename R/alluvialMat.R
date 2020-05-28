@@ -51,7 +51,7 @@ nCelltype<-length(unique(plot.data$celltype))
 p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
   geom_alluvium(aes(fill=celltype),color="black",size=0.2) + 
   geom_stratum(width=1/12,fill="grey50",color="black") + 
-  geom_label(stat=ggalluvial::StatStratum,label.strata=TRUE) + labs(y="") + 
+  geom_label(stat=ggalluvial::StatStratum,infer.label=TRUE) + labs(y="") + 
   scale_x_continuous(breaks=1:2, labels=c(annotationName, "Pattern")) + 
   scale_y_continuous(breaks = pretty_breaks()) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
