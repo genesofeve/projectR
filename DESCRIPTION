@@ -13,6 +13,8 @@ Imports:
     cluster,
     stats,
     limma,
+    CoGAPS,
+    NMF,
     ROCR,
     ggalluvial,
     RColorBrewer,
