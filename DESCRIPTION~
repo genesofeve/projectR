@@ -3,11 +3,11 @@ Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
 <<<<<<< HEAD
-Version: 1.1.052
-Date: 2016-11-22
+Version: 1.1.050
 =======
 Version: 1.3.0
->>>>>>> 16281838af27c22b5066220cf7b94311862e53b6
+>>>>>>> upstream/master
+Date: 2016-11-22
 Author: Gaurav Sharma, Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
@@ -17,6 +17,8 @@ Imports:
     cluster,
     stats,
     limma,
+    CoGAPS,
+    NMF,
     ROCR,
     ggalluvial,
     RColorBrewer,
@@ -33,8 +35,7 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    ComplexHeatmap,
-    CoGAPS
+    ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 7.1.0
 Encoding: UTF-8
