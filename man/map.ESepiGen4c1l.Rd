@@ -4,7 +4,9 @@
 \name{map.ESepiGen4c1l}
 \alias{map.ESepiGen4c1l}
 \title{RNAseqing and ChIPSeq of matched genes in differentiated human iPS cells}
-\format{A data frames with 93 rows and 9 variables:}
+\format{
+A data frames with 93 rows and 9 variables:
+}
 \usage{
 map.ESepiGen4c1l
 }

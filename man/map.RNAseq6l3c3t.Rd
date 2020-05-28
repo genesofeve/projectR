@@ -5,7 +5,9 @@
 \alias{map.RNAseq6l3c3t}
 \title{RNAseqing from human 3 iPS & 3 ES cell lines
 in 3 experimental condition at 3 time points}
-\format{A data frames with 108 rows and 54 variables:}
+\format{
+A data frames with 108 rows and 54 variables:
+}
 \usage{
 map.RNAseq6l3c3t
 }

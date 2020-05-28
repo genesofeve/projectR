@@ -23,7 +23,8 @@ geneMatchR <- function(
   data2, # dataset with rownames to be matched
   data1Names = NULL, # rownames of data1
   data2Names = NULL, # rownames of data2
-  merge=FALSE # logical indicating wether or not to merged data sets
+  merge=FALSE, # logical indicating wether or not to merged data sets
+  ...
 ){
 
   if(!is.null(data1Names)){
