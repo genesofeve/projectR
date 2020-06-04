@@ -33,17 +33,9 @@ Suggests:
     devtools,
     rmarkdown (== 1.17),
     knitr,
-<<<<<<< HEAD
     ComplexHeatmap
 LazyData: TRUE
-RoxygenNote: 7.0.2
-=======
-    rmarkdown,
-    ComplexHeatmap,
-    CoGAPS
-LazyData: TRUE
 RoxygenNote: 7.1.0
->>>>>>> master
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
