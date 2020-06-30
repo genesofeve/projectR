@@ -44,11 +44,11 @@ setGeneric("projectR",function(data, loadings, dataNames=NULL, loadingsNames=NUL
 #' @export
 #' @examples
 #' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#' cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 #' 
 #' distp <- dist(p.RNAseq6l3c3t)
 #' hc.RNAseq6l3c3t <- hclust(distp)
-#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 
 setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("cluster2pattern"))
 #######################################################################################################################################

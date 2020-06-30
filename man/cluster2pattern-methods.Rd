@@ -9,9 +9,9 @@
 \usage{
 cluster2pattern(clusters, NP, Data, ...)
 
-\S4method{cluster2pattern}{kmeans}(clusters, Data)
+\S4method{cluster2pattern}{kmeans}(clusters, data)
 
-\S4method{cluster2pattern}{hclust}(clusters, NP, Data = NA)
+\S4method{cluster2pattern}{hclust}(clusters, NP, data = NA)
 }
 \arguments{
 \item{clusters}{a cluster object which could be either an hclust or a kmeans object}
