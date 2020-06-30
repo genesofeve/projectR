@@ -1,7 +1,7 @@
 ---
 title: "projectR Vignette"
 author: 
-- "Gaurav Sharma, Genevieve L. Stein-O'Brien"
+- "Genevieve L. Stein-O'Brien"
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectR.bib
