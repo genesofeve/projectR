@@ -13,6 +13,7 @@ Imports:
     cluster,
     stats,
     limma,
+    CoGAPS,
     NMF,
     ROCR,
     ggalluvial,
@@ -23,7 +24,6 @@ Imports:
     scales,
     ggplot2
 Suggests:
-    CoGAPS
     BiocStyle,
     gridExtra,
     grid,

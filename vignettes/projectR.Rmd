@@ -99,7 +99,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 
 ## Projecting prcomp objects 
 ```{r projectR.prcomp, warning=FALSE}
-# data to project into PCs from RNAseq6   l3c3t expression data 
+# data to project into PCs from RNAseq6l3c3t expression data 
 data(p.ESepiGen4c1l)
 
 library(projectR)
@@ -221,7 +221,7 @@ As cannonical projection is not defined for clustering objects, the projectR pac
 
 ```
 library(projectR)
-cluster2pattern(clusters = NA, NP = NA, Data = NA)
+cluster2pattern(clusters = NA, NP = NA, data = NA)
 ```
 
 ### Input Arguments 
