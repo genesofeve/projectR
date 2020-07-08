@@ -7,18 +7,18 @@
 \alias{cluster2pattern,hclust-method}
 \title{Generic cluster2pattern function}
 \usage{
-cluster2pattern(clusters, NP, Data, ...)
+cluster2pattern(clusters, NP, data, ...)
 
-\S4method{cluster2pattern}{kmeans}(clusters, Data)
+\S4method{cluster2pattern}{kmeans}(clusters, data)
 
-\S4method{cluster2pattern}{hclust}(clusters, NP, Data = NA)
+\S4method{cluster2pattern}{hclust}(clusters, NP, data = NA)
 }
 \arguments{
 \item{clusters}{a cluster object which could be either an hclust or a kmeans object}
 
 \item{NP}{number of desired patterns}
 
-\item{Data}{data used to make clusters object}
+\item{data}{data used to make clusters object}
 
 \item{...}{Additional arguments to cluster2pattern}
 }
@@ -30,9 +30,9 @@ Function to make patterns of continuous weights from clusters.
 }
 \examples{
 k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 
 distp <- dist(p.RNAseq6l3c3t)
 hc.RNAseq6l3c3t <- hclust(distp)
-cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 }
