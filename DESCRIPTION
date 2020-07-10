@@ -22,7 +22,6 @@ Imports:
     scales,
     ggplot2
 Suggests:
-    CoGAPS,
     BiocStyle,
     gridExtra,
     grid,
