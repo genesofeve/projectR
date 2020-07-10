@@ -38,19 +38,19 @@ setGeneric("projectR",function(data, loadings, dataNames=NULL, loadingsNames=NUL
 #'
 #' @param clusters a cluster object which could be either an hclust or a kmeans object
 #' @param NP number of desired patterns
-#' @param Data data used to make clusters object
+#' @param data data used to make clusters object
 #' @param ... Additional arguments to cluster2pattern
 #' @return An object of class pclust containing pattern weights corresponding for each cluster.
 #' @export
 #' @examples
 #' k.RNAseq6l3c3t<-kmeans(p.RNAseq6l3c3t,22)
-#' cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' cluster2pattern(clusters=k.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 #' 
 #' distp <- dist(p.RNAseq6l3c3t)
 #' hc.RNAseq6l3c3t <- hclust(distp)
-#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,Data=p.RNAseq6l3c3t)
+#' cluster2pattern(clusters=hc.RNAseq6l3c3t,NP=22,data=p.RNAseq6l3c3t)
 
-setGeneric("cluster2pattern",function(clusters,NP,Data,...) standardGeneric("cluster2pattern"))
+setGeneric("cluster2pattern",function(clusters,NP,data,...) standardGeneric("cluster2pattern"))
 #######################################################################################################################################
 
 #' Generic clusterPlotR function

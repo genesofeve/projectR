@@ -9,11 +9,25 @@
 \usage{
 clusterPlotR(cData, cls, x, NC, ...)
 
-\S4method{clusterPlotR}{ANY,kmeans}(cData = NA, cls = NA, x = NA,
-  NC = NA, annoIndx = NA, label = NULL, ...)
+\S4method{clusterPlotR}{ANY,kmeans}(
+  cData = NA,
+  cls = NA,
+  x = NA,
+  NC = NA,
+  annoIndx = NA,
+  label = NULL,
+  ...
+)
 
-\S4method{clusterPlotR}{ANY,hclust}(cData = NA, cls = NA, x = NA,
-  NC = NA, annoIndx = NA, label = NULL, ...)
+\S4method{clusterPlotR}{ANY,hclust}(
+  cData = NA,
+  cls = NA,
+  x = NA,
+  NC = NA,
+  annoIndx = NA,
+  label = NULL,
+  ...
+)
 }
 \arguments{
 \item{cData}{data used to get clusters}

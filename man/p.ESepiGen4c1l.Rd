@@ -4,7 +4,9 @@
 \name{p.ESepiGen4c1l}
 \alias{p.ESepiGen4c1l}
 \title{RNAseqing and ChIPSeq of matched genes in differentiated human iPS cells}
-\format{p.ESepiGen4c1l is a list of 6 data frames each with with 93 rows and between 4 and 9 variables:}
+\format{
+p.ESepiGen4c1l is a list of 6 data frames each with with 93 rows and between 4 and 9 variables:
+}
 \usage{
 p.ESepiGen4c1l
 }

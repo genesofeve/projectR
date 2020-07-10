@@ -4,7 +4,9 @@
 \name{pd.ESepiGen4c1l}
 \alias{pd.ESepiGen4c1l}
 \title{RNAseqing and ChIPSeq of matched genes in differentiated human iPS cells}
-\format{A data frames with 9 rows and 2 variables:}
+\format{
+A data frames with 9 rows and 2 variables:
+}
 \usage{
 pd.ESepiGen4c1l
 }

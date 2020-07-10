@@ -8,11 +8,13 @@ setOldClass("prcomp")
 
 #######################################################################################################################################
 #' @import limma
-#' @import stats
+#' @importFrom stats model.matrix
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
 #' @param family VGAM family function for model fitting (default: "gaussianff")
+#' @param bootstrapPval logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects
+#' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
 #' @aliases projectR
 .projectR_matrix<-function(
@@ -22,7 +24,9 @@ setOldClass("prcomp")
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  family="gaussianff"  # VGAM family function (default: "gaussianff")
+  family="gaussianff",  # VGAM family function (default: "gaussianff")
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
@@ -55,8 +59,20 @@ setOldClass("prcomp")
   #colnames(pval.matrix)<-colnames(projectionPatterns)
   #rownames(pval.matrix)<-rownames(projectionPatterns)
 
-  if(full==TRUE){
+  if(bootstrapPval){
+  boots <- lapply(1:bootIter,function(x){
+  rows <- sample(nrow(Design),nrow(Design),replace = T)
+  projection <- lmFit(as.matrix(t(dataM[[2]][rows,])),Design[rows,])
+  return(projection$coefficients)
+    })
+  bootPval <- compareBoots(projection$coefficients,boots)
+  }
+
+  if(full & bootstrapPval){
       #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix, 'bootstrapPval' = bootPval)
+      return(projectionFit)
+  } else if(full){
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
   }
@@ -128,7 +144,6 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),.projectR_mat
 
 #######################################################################################################################################
 #' @import limma
-#' @import stats
 #' @importFrom NMF fcnnls
 #' @examples
 #' library("CoGAPS")
@@ -147,22 +162,24 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
-  family="gaussianff" # VGAM family function (default: "gaussianff")
+  family="gaussianff", # VGAM family function (default: "gaussianff")
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   loadings<-loadings@featureLoadings
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full))
+  return(projectR(data,loadings = loadings,dataNames = dataNames, loadingsNames = loadingsNames,NP,full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 
 })
 
 #######################################################################################################################################
 
 #' @import limma
-#' @import stats
+#' @importFrom stats var
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 #' loadings=pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -208,11 +225,10 @@ setMethod("projectR",signature(data="matrix",loadings="prcomp"),function(
 })
 #######################################################################################################################################
 
-#' @import stats
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
-#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 #' loadings=r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -261,11 +277,10 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),function(
 #######################################################################################################################################
 
 #' @import limma
-#' @import stats
 #' @examples
-#' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
+#' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N",
 #' threshold=10, absR=TRUE)
-#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
+#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t,
 #' NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -276,7 +291,9 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
   dataNames = NULL, # a vector with names of data rows
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, #can be used to select for "NegativeCOR" or "PositiveCOR" list from correlateR class obj containing both. By default is NA
-  full=FALSE # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  full=FALSE, # logical indicating whether to return the percent variance accounted for by each projected PC. By default only the new pattern object is returned.
+  bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
+  bootIter=1e3 # No of bootstrap iterations
   ){
 
   patterns <- loadings@corM
@@ -294,37 +311,38 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
   else{
     patterns <- as.matrix(patterns)
 }
-  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full ))
- 
+  return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full,
+    bootstrapPval = bootstrapPval, bootIter = bootIter))
+
 })
 
 #######################################################################################################################################
 
-#' @param targetNumPatterns desired number of patterns 
+#' @param targetNumPatterns desired number of patterns with hclust
 #' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
-#' @import stats
+#' @importFrom stats cutree
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="hclust"),
 function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE,
-targetNumPatterns, sourceData)
+targetNumPatterns, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
   cut <- cutree(loadings, k=targetNumPatterns)
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=targetNumPatterns)
   rownames(patterns) <- rownames(sourceData)
-  for(x in 1:targetNumPatterns)
-  {
-    patterns[cut==x,x] <- apply(sourceData[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
-  }
-  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full))
+    for(x in 1:targetNumPatterns)
+    {
+      patterns[cut==x,x] <- apply(sourceData[cut==x,], 1, cor, y=colMeans(sourceData[cut==x,]))
+    }
+  return(projectR(data, loadings=patterns, dataNames, loadingsNames, full = full))
 })
 
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR", signature(data="matrix", loadings="kmeans"),
-function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData)
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
   patterns <- matrix(0, nrow=nrow(sourceData), ncol=length(loadings$size))
   rownames(patterns) <- rownames(sourceData)
@@ -332,5 +350,26 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
   {
     patterns[loadings$cluster==x,x] <- apply(sourceData[loadings$cluster==x,], 1, cor, y=colMeans(sourceData[loadings$cluster==x,]))
   }
-  return(projectR(data, loadings=patterns, dataNames= dataNames, full = full))
+  return(projectR(data, loadings=patterns, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 })
+
+#########################################################################
+
+
+compareBoots <- function(projection,boots){
+mat <- sapply(1:nrow(projection),function(i){
+  sapply(1:ncol(projection),function(j){
+    val <- sapply(1:length(boots),function(x){
+      return(boots[[x]][i,j])
+    })
+    valD <- ecdf(val)
+    qt0 <- valD(0)
+    if(qt0 < 0.5){
+        return(2*qt0)
+      } else {
+        return(2*(1-qt0))
+      }
+  })
+})
+return(mat)
+}
