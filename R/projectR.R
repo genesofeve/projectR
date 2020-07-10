@@ -17,7 +17,7 @@ setOldClass("prcomp")
 #' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
 #' @aliases projectR
-setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
+.projectR_matrix<-function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
   dataNames = NULL, # a vector with names of data rows
@@ -75,9 +75,72 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   } else if(full){
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
-  }else{return(projectionPatterns)}
-})
+  }
+  else{return(projectionPatterns)}
+}
 
+setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix)
+
+
+#######################################################################################################################################
+#' @import Matrix
+#' @import MatrixModels
+#' @import stats
+#' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
+#' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+#' @param model Optional arguements to choose method for projection
+#' @param family VGAM family function for model fitting (default: "gaussianff")
+#' @rdname projectR-methods
+#' @aliases projectR
+.projectR_matrix_sparse<-function(
+  data, # a dataset to be projected onto
+  loadings, # a matrix of continous values to be projected with unique rownames
+  dataNames = NULL, # a vector with names of data rows
+  loadingsNames = NULL, # a vector with names of loadings rows
+  NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
+  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
+  family="gaussianff"  # VGAM family function (default: "gaussianff")
+  ){
+
+  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
+  #if(!is.na(NP)){loadings<-loadings[,NP]} was giving warning with subset of patterns
+  #match genes in data sets
+  if(is.null(dataNames)){
+    dataNames <- rownames(data)
+  }
+  if(is.null(loadingsNames)){
+    loadingsNames <- rownames(loadings)
+  }
+  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
+  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
+  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
+  # do projection
+  Design <- model.matrix(~0 + dataM[[1]])
+  colnames(Design) <- colnames(dataM[[1]])
+  projection <- MatrixModels:::lm.fit.sparse(t(dataM[[2]]),dataM[[1]])
+  projectionPatterns <- t(projection$coefficients)
+  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
+
+  #projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
+  #projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
+
+  #For VGAM
+  #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
+
+  #For limma
+  pval.matrix<-2*pnorm(-abs(projection.ts))
+  #colnames(pval.matrix)<-colnames(projectionPatterns)
+  #rownames(pval.matrix)<-rownames(projectionPatterns)
+
+  if(full==TRUE){
+      #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
+      projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
+      return(projectionFit)
+  }
+  else{return(projectionPatterns)}
+}
+
+setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),.projectR_matrix_sparse)
 
 #######################################################################################################################################
 #' @import limma
@@ -116,7 +179,7 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
 #' @importFrom stats var
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 #' loadings=pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -165,7 +228,7 @@ setMethod("projectR",signature(data="matrix",loadings="prcomp"),function(
 #' @examples
 #' pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 #' r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
-#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+#' pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 #' loadings=r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -215,9 +278,9 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),function(
 
 #' @import limma
 #' @examples
-#' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
+#' c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N",
 #' threshold=10, absR=TRUE)
-#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
+#' cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t,
 #' NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
 #' @rdname projectR-methods
@@ -250,12 +313,12 @@ setMethod("projectR",signature(data="matrix",loadings="correlateR"),function(
 }
   return(projectR(data = data, loadings = patterns,dataNames = dataNames, loadingsNames = loadingsNames,  full = full,
     bootstrapPval = bootstrapPval, bootIter = bootIter))
- 
+
 })
 
 #######################################################################################################################################
 
-#' @param targetNumPatterns desired number of patterns with hclust  
+#' @param targetNumPatterns desired number of patterns with hclust
 #' @param sourceData data used to create cluster object
 #' @import limma
 #' @import cluster
