@@ -21,9 +21,9 @@ Imports:
     reshape2,
     viridis,
     scales,
-    ggplot2
-Suggests:
+    ggplot2,
     CoGAPS
+Suggests:
     BiocStyle,
     gridExtra,
     grid,
