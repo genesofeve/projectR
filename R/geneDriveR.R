@@ -1,38 +1,98 @@
 #######################################################################################################################################
-#' @import
-#' @importFrom 
-#' @param 
-bonferroniCorrectedDifferences(cellgroup1, cellgroup2, alpha){
+#' 
+#' Calculate the (weighted) difference in means for each measurement between two groups. 
+#' 
+#' 
+#' @importFrom stats var
+#' @param group1
+#' @export
+bonferroniCorrectedDifferences <- function(
+  group1,
+  group2,
+  diff_weights = NULL,
+  alpha){
   
   #if passed from projectionDrivers, cellgroup1 and cellgroup 1 will have the same rows (genes)
   #TODO: if going to be called in other places, or directly, need to do that filtering prior to call
   
-  if(!(dim(cellgroup1)[1] == dim(cellgroup2)[1])){
+  if(!(dim(group1)[1] == dim(group2)[1])){
     stop("Rows of two cell group matrices are not identical")
   }
   
-  dimensionality <- dim(cellgroup1)
+  ##Take means over all genes and calculate differences
+  group1_mean <- apply(group1, 1, mean)
+  group2_mean <- apply(group2, 1, mean)
   
-}
+  mean_diff <- group1_mean - group2_mean
+  
+  
+  
+  if(!(names(mean_diff) == rownames(diff_weights) && T)){
+    stop("Names of loadings and counts do not match")
+  }
+  
+  #if weights are provided, use them to weight the difference in means
+  if(!is.null(diff_weights)){
+    mean_diff <- mean_diff * diff_weights
+  }
+  
+  
+  
+  ##Stats and corrections beginning here
+  dimensionality <- dim(mean_diff)[1] #number of measurements (genes)
+  
+  n1_samples <- dim(group1)[2] #number of samples (cells)
+  n2_samples <- dim(group2)[2]
+  pval <- 1 - alpha
+  bon_correct <- pval / (2*dimensionality)
+  qval <- 1 - bon_correct
+  
+  tval <- qt(p = qval, df = n1_samples + n2_samples -2) #critical value
+  
+  ##TODO: Compute covariance and pool here. What exactly are these values?
+  group1_var <- apply(group1, 1, var)
+  group2_var <- apply(group2, 1, var)
+  
+  #TODO: is this right?
+  pooled <- ((n1_samples-1)*group1_var + (n1_samples-1)*group2_var)  /  (n1_samples+n2_samples-2)
+    
+  #establish dataframe to populate in the following for loop
+  plusminus = data.frame(low = rep(NA_integer_, dimensionality), high = rep(NA_integer_, dimensionality))
+  #for each gene
+  for(i in 1:dimensionality){
+    
+    scale = tval * sqrt(pooled[i] * (1/n1_samples + 1/n2_samples))
+    
+    plusminus[i, "low"] <- mean_diff[i, 1]  - scale
+    plusminus[i, "high"] <- mean_diff[i, 1] + scale
+    
+  }
+  
+  
+  ##Plot CI here
+  
+  return(plusminus)
+}  
+
+  
+
 
 #######################################################################################################################################
-#' @import stats
-#' @importFrom 
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
 #' @param feature_name column of loadings for which drivers will be calculated.
 #' @param alpha confidence value for the bonferroni confidence intervals
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
-#' @rdname 
+#' @export
 #' 
 #' 
-.drivers_matrix<-function(
+geneDriveR<-function(
   cellgroup1, #gene x cell count matrix for cell group 1
   cellgroup2, #gene x cell count matrix for cell group 2
   loadings, # a matrix of continous values to be projected with unique rownames
-  loadingsNames = NULL # a vector with names of loadings rows
-  
+  loadingsNames = NULL, # a vector with names of loadings rows
+  alpha
 ){
   
   #TODO: Do sparse and dense matrices need to be handled differently?
@@ -75,50 +135,16 @@ bonferroniCorrectedDifferences(cellgroup1, cellgroup2, alpha){
   #do second filtering on other cell group so all genes are consistent
   cellgroup2_filtered <- cellgroup2[rownames(cellgroup1_filtered),]
   
-  ##Take means over all genes and calculate differences
-  group1_mean <- apply(cellgroup1_filtered, 1, mean)
-  group2_mean <- apply(cellgroup2_filtered, 1, mean)
-  
-  mean_diff <- group1_mean - group2_mean
   
   #normalize feature weights
   weight_norm <- norm(feature_filtered) #square of sums of squares (sum for all positive values)
   feature_normalized <- feature_filtered #TODO: add normalization here
   
-  if(!(names(mean_diff) == rownames(feature_normalized) && T)){
-    stop("Names of loadings and counts do not match")
-  }
-  drivers <- mean_diff * feature_normalized
-  
-  ##Stats and corrections beginning here
-  
-  dimensionality <- dim(drivers)[1] #number of measurements (genes)
-  
-  n1_samples <- dim(cellgroup1_filtered)[2] 
-  n2_samples <- dim(cellgroup2_filtered)[2]
-  pval <- 1 - alpha
-  bon_correct <- pval / (2*dimensionality)
-  qval <- 1 - bon_correct
-  
-  tval <- qt(p = qval, df = n1_samples + n2_samples -2) #critical value
-  
-  ##TODO: Compute covariance and pool here. What exactly are these values?
-  pooled <- matrix(rep(1, dimensionality*dimensionality), nrow = dimensionality)
-  
-  
-  plusminus = data.frame(low = rep(NA_integer_, dimensionality), high = rep(NA_integer_, dimensionality))
-  #for each gene
-  for(i in 1:dimensionality){
-      
-    scale = tval * sqrt(pooled[i,i] * (1/n1_samples + 1/n2_samples))
-      
-    plusminus[i, "low"] <- drivers[i, 1]  - scale
-    plusminus[i, "high"] <- drivers[i, 1] + scale
-      
-  }
-
-  ##Plot CI here
-}  
-  
+  bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
+                                group2 = cellgroup2_filtered,
+                                diff_weights = feature_normalized,
+                                alpha = alpha)
+    
+}
 #setMethod("geneDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
