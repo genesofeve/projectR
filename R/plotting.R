@@ -9,3 +9,40 @@
 # superheat(test$projection,row.dendrogram=TRUE, pretty.order.cols = TRUE,
 #           heat.pal.values = c(0, 0.5, 1),yt=colSums(test$projection),yt.plot.type='scatterline',yt.axis.name="Sum of\nProjections",X.text=tmp,X.text.size=8,bottom.label.text.angle = 90)
 #
+
+#######################################################################################################################################
+#' 
+#' plotConfidenceIntervals
+#' 
+#' Generate point and line confidence intervals from provided estimates
+#' 
+#' @import ggplot
+#' @import dplyr
+#' @param confidence_intervals a vector with names of loading rows. Defaults to rownames.
+#' @param interval_name names of columns that contain the low and high estimates, respectively
+#' @export
+plotConfidenceIntervals <- function(
+  confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
+  interval_name = c("low","high")){
+  .
+  
+  #gene names were stored as rownames, make sure high and low estimates are stored
+  confidence_intervals$gene_names <- rownames(confidence_intervals)
+  confidence_intervals$low <- confidence_intervals$interval_name[1]
+  confidence_intervals$high <- confidence_intervals$interval_name[2]
+  
+  
+  n <- dim(confidence_intervals)[1]
+  confidence_intervals <- confidence_intervals %>%
+    mutate(
+      mid = (high+low)/2,
+      positive = mid > 0,
+      idx = 1:n)
+  
+  ggplot(data = confidence_intervals) + geom_pointrange(aes(y = idx, x = mid, xmin = low, xmax = high, color = positive)) +
+    theme_minimal() + 
+    xlab("Difference in group means") + 
+    ylab("Genes")
+  #TODO: add gene names to y axis labels
+  
+}  

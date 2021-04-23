@@ -79,7 +79,6 @@ bonferroniCorrectedDifferences <- function(
   return(plusminus)
 }  
 
-  
 
 
 #######################################################################################################################################
@@ -89,6 +88,7 @@ bonferroniCorrectedDifferences <- function(
 #' @param feature_name column of loadings for which drivers will be calculated.
 #' @param alpha confidence value for the bonferroni confidence intervals
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
+#' @param display boolean. Whether or not to plot and display confidence intervals
 #' @export
 #' 
 #' 
@@ -98,7 +98,8 @@ geneDriveR<-function(
   loadings, # a matrix of continous values to be projected with unique rownames
   loadingsNames = NULL, # a vector with names of loadings rows
   feature_name,
-  alpha
+  alpha,
+  display
 ){
   
   #TODO: Do sparse and dense matrices need to be handled differently?
@@ -190,7 +191,12 @@ geneDriveR<-function(
     rownames(mean_bonferroni)[mean_sig_idx])
   
   ##sickGGplotfunction(mean_bonferroni[shared_genes,])
+  sorted_conf_intervals <- mean_bonferroni[shared_genes,] %>% dplyr::arrange(high)
   
+  if(display){
+    plotConfidenceIntervals(sorted_conf_intervals)
+    #TODO: return plot below too?
+  }
   
   return(list(
     weighted_mean_differences = weighted_drivers_bonferroni,
