@@ -27,19 +27,22 @@ bonferroniCorrectedDifferences <- function(
   
   
   
-  if(!(names(mean_diff) == rownames(diff_weights) && T)){
-    stop("Names of loadings and counts do not match")
-  }
-  
+
   #if weights are provided, use them to weight the difference in means
   if(!is.null(diff_weights)){
+    
+    #check that genes exactly match between difference vector and weight vector
+    if(!(names(mean_diff) == names(diff_weights) && T)){
+      stop("Names of loadings and counts do not match")
+    }
+    
     mean_diff <- mean_diff * diff_weights
   }
   
   
   
   ##Stats and corrections beginning here
-  dimensionality <- dim(mean_diff)[1] #number of measurements (genes)
+  dimensionality <- length(mean_diff) #number of measurements (genes)
   
   n1_samples <- dim(group1)[2] #number of samples (cells)
   n2_samples <- dim(group2)[2]
@@ -58,13 +61,15 @@ bonferroniCorrectedDifferences <- function(
     
   #establish dataframe to populate in the following for loop
   plusminus = data.frame(low = rep(NA_integer_, dimensionality), high = rep(NA_integer_, dimensionality))
+  rownames(plusminus) <- names(mean_diff)
+  
   #for each gene
   for(i in 1:dimensionality){
     
     scale = tval * sqrt(pooled[i] * (1/n1_samples + 1/n2_samples))
     
-    plusminus[i, "low"] <- mean_diff[i, 1]  - scale
-    plusminus[i, "high"] <- mean_diff[i, 1] + scale
+    plusminus[i, "low"] <- mean_diff[i]  - scale
+    plusminus[i, "high"] <- mean_diff[i] + scale
     
   }
   
@@ -92,10 +97,13 @@ geneDriveR<-function(
   cellgroup2, #gene x cell count matrix for cell group 2
   loadings, # a matrix of continous values to be projected with unique rownames
   loadingsNames = NULL, # a vector with names of loadings rows
+  feature_name,
   alpha
 ){
   
   #TODO: Do sparse and dense matrices need to be handled differently?
+  #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
+  #TODO: Enforce that loadings is one row? or loop over patterns?
   
   #check that alpha significance level is appropriate
   if(alpha < 0 | alpha > 1){
@@ -103,8 +111,19 @@ geneDriveR<-function(
   }
   
   #select specified feature to calculate drivers for
+  if(length(feature_name) != 1 && class(feature_name) == "character"){
+    stop("provided feature name must not a character vector of length one")
+  }
+  
+  if(is.null(loadingsNames)){
+    loadingsNames <- rownames(loadings)
+    #TODO: set loadingsnames if provided
+  }
+  
+  #feature weights must be formatted as a matrix for normalization
   if(feature_name %in% colnames(loadings)){
     feature <- loadings[,feature_name, drop = F] #data.frame
+    feature <- as.matrix(feature)
   } else  {
     stop(paste0(feature_name, " is not a column in provided loadings"))
   }
@@ -113,9 +132,7 @@ geneDriveR<-function(
   # if(is.null(dataNames)){
   #   dataNames <- rownames(data)
   # }
-  if(is.null(loadingsNames)){
-    loadingsNames <- rownames(loadings)
-  }
+
   
   #shared rows in two data matrices
   filtered_data <-geneMatchR(data1=cellgroup1, data2=cellgroup2, data1Names=NULL, data2Names=NULL, merge=FALSE)
@@ -140,11 +157,45 @@ geneDriveR<-function(
   weight_norm <- norm(feature_filtered) #square of sums of squares (sum for all positive values)
   feature_normalized <- feature_filtered #TODO: add normalization here
   
-  bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
+  #cast feature weights to a named vector
+  feature_normalized_vec <- feature_filtered[,1]
+  names(feature_normalized_vec) <- rownames(feature_normalized)
+  
+  #weighted confidence intervals of differences in cluster means
+  weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                 group2 = cellgroup2_filtered,
-                                diff_weights = feature_normalized,
+                                diff_weights = feature_normalized_vec,
                                 alpha = alpha)
-    
+  
+  
+   #unweighted confidence intervals of difference in cluster means
+  mean_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
+                                                    group2 = cellgroup2_filtered,
+                                                    diff_weights = NULL,
+                                                    alpha = alpha)
+  
+  #Determine which genes have significantly non-zero mean difference and weighted mean difference
+  #significant
+  weighted_sig_idx <- apply(weighted_drivers_bonferroni, 1, function(interval){
+    (interval[1] > 0 & interval[2] > 0) | (interval[1] < 0 & interval[2] < 0)
+  })
+  
+  mean_sig_idx <- apply(mean_bonferroni, 1, function(interval){
+    (interval[1] > 0 & interval[2] > 0) | (interval[1] < 0 & interval[2] < 0)
+  })
+  
+  #genes that are collectively either up or down
+  shared_genes <- base::intersect(
+    rownames(weighted_drivers_bonferroni)[weighted_sig_idx],
+    rownames(mean_bonferroni)[mean_sig_idx])
+  
+  ##sickGGplotfunction(mean_bonferroni[shared_genes,])
+  
+  
+  return(list(
+    weighted_mean_differences = weighted_drivers_bonferroni,
+    mean_differences = mean_bonferroni,
+    significant_genes = shared_genes))
 }
 #setMethod("geneDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
