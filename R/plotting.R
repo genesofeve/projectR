@@ -16,7 +16,7 @@
 #' 
 #' Generate point and line confidence intervals from provided estimates
 #' 
-#' @import ggplot
+#' @import ggplot2
 #' @import dplyr
 #' @param confidence_intervals a vector with names of loading rows. Defaults to rownames.
 #' @param interval_name names of columns that contain the low and high estimates, respectively
@@ -24,12 +24,12 @@
 plotConfidenceIntervals <- function(
   confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
   interval_name = c("low","high")){
-  .
+  
   
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
-  confidence_intervals$low <- confidence_intervals$interval_name[1]
-  confidence_intervals$high <- confidence_intervals$interval_name[2]
+  confidence_intervals$low <- confidence_intervals[,interval_name[1]]
+  confidence_intervals$high <- confidence_intervals[,interval_name[2]]
   
   
   n <- dim(confidence_intervals)[1]

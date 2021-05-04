@@ -82,6 +82,10 @@ bonferroniCorrectedDifferences <- function(
 
 
 #######################################################################################################################################
+#' projectionDriveR
+#' 
+#' Calculate the weighted difference in expression between two groups (group1 - group2)
+#' 
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
@@ -89,19 +93,23 @@ bonferroniCorrectedDifferences <- function(
 #' @param alpha confidence value for the bonferroni confidence intervals
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
 #' @param display boolean. Whether or not to plot and display confidence intervals
+#' @param normalize_feature Boolean. Whether or not to normalize feature weights.
+#' @return A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.
 #' @export
 #' 
 #' 
-geneDriveR<-function(
+projectionDriveR<-function(
   cellgroup1, #gene x cell count matrix for cell group 1
   cellgroup2, #gene x cell count matrix for cell group 2
   loadings, # a matrix of continous values to be projected with unique rownames
   loadingsNames = NULL, # a vector with names of loadings rows
   feature_name,
   alpha,
-  display
+  display = TRUE,
+  normalize_feature = TRUE
 ){
   
+  #TODO: Something isnt right with the documentation, arguments do not autosuggest
   #TODO: Do sparse and dense matrices need to be handled differently?
   #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
   #TODO: Enforce that loadings is one row? or loop over patterns?
@@ -155,12 +163,15 @@ geneDriveR<-function(
   
   
   #normalize feature weights
-  weight_norm <- norm(feature_filtered) #square of sums of squares (sum for all positive values)
-  feature_normalized <- feature_filtered #TODO: add normalization here
+  if(normalize_feature){
+    weight_norm <- norm(feature_filtered) #square of sums of squares (sum for all positive values)
+    num_nonzero <- sum(feature_filtered > 0) #number of nonzero weights
+    feature_filtered <- feature_filtered * num_nonzero / weight_norm
+  }
   
   #cast feature weights to a named vector
   feature_normalized_vec <- feature_filtered[,1]
-  names(feature_normalized_vec) <- rownames(feature_normalized)
+  names(feature_normalized_vec) <- rownames(feature_filtered)
   
   #weighted confidence intervals of differences in cluster means
   weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
@@ -190,7 +201,7 @@ geneDriveR<-function(
     rownames(weighted_drivers_bonferroni)[weighted_sig_idx],
     rownames(mean_bonferroni)[mean_sig_idx])
   
-  ##sickGGplotfunction(mean_bonferroni[shared_genes,])
+  
   sorted_conf_intervals <- mean_bonferroni[shared_genes,] %>% dplyr::arrange(high)
   
   if(display){
@@ -203,5 +214,5 @@ geneDriveR<-function(
     mean_differences = mean_bonferroni,
     significant_genes = shared_genes))
 }
-#setMethod("geneDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
+#setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
