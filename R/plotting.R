@@ -23,8 +23,8 @@
 #' @export
 plotConfidenceIntervals <- function(
   confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
-  interval_name = c("low","high")){
-  
+  interval_name = c("low","high"),
+  decreasing = T){
   
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
@@ -36,10 +36,17 @@ plotConfidenceIntervals <- function(
   confidence_intervals <- confidence_intervals %>%
     mutate(
       mid = (high+low)/2,
-      positive = mid > 0,
-      idx = 1:n)
+      positive = mid > 0)
   
-  ggplot(data = confidence_intervals) + geom_pointrange(aes(y = idx, x = mid, xmin = low, xmax = high, color = positive)) +
+  #order in descending order on estimates
+  if(decreasing){
+    confidence_intervals <- confidence_intervals %>% 
+      mutate(
+        idx = dense_rank(desc(mid))
+      )
+  }
+  
+  ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
     theme_minimal() + 
     xlab("Difference in group means") + 
     ylab("Genes")

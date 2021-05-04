@@ -57,7 +57,7 @@ bonferroniCorrectedDifferences <- function(
   group2_var <- apply(group2, 1, var)
   
   #TODO: is this right?
-  pooled <- ((n1_samples-1)*group1_var + (n1_samples-1)*group2_var)  /  (n1_samples+n2_samples-2)
+  pooled <- ((n1_samples-1)*group1_var + (n2_samples-1)*group2_var)  /  (n1_samples+n2_samples-2)
     
   #establish dataframe to populate in the following for loop
   plusminus = data.frame(low = rep(NA_integer_, dimensionality), high = rep(NA_integer_, dimensionality))
@@ -202,7 +202,7 @@ projectionDriveR<-function(
     rownames(mean_bonferroni)[mean_sig_idx])
   
   
-  sorted_conf_intervals <- mean_bonferroni[shared_genes,] %>% dplyr::arrange(high)
+  sorted_conf_intervals <- mean_bonferroni[shared_genes,]
   
   if(display){
     plotConfidenceIntervals(sorted_conf_intervals)
