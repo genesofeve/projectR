@@ -18,6 +18,7 @@ setOldClass("kmeans")
   #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
   for(x in 1:nD) {tempP[clusters$cluster==x,x]<-apply(data[clusters$cluster==x,],1,cor,y=colMeans(data[clusters$cluster==x,]))}
   Patterns<-tempP
+  Patterns <- new("cluster2pattern",clusterMatrix = Patterns)
   return(Patterns)
 }
 
@@ -43,6 +44,7 @@ setOldClass("hclust")
   #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(data[cut==x,])}
   for(x in 1:NP) {tempP[cut==x,x]<-apply(data[cut==x,],1,cor,y=colMeans(data[cut==x,]))}
   Patterns<-tempP
+  Patterns <- new("cluster2pattern",clusterMatrix = Patterns)
   return(Patterns)
 }
 
