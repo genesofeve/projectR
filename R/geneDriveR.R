@@ -4,8 +4,6 @@
 #' 
 #' 
 #' @importFrom stats var
-#' @param group1
-#' @export
 bonferroniCorrectedDifferences <- function(
   group1,
   group2,
@@ -62,6 +60,7 @@ bonferroniCorrectedDifferences <- function(
   #establish dataframe to populate in the following for loop
   plusminus = data.frame(low = rep(NA_integer_, dimensionality), high = rep(NA_integer_, dimensionality))
   rownames(plusminus) <- names(mean_diff)
+  
   
   #for each gene
   for(i in 1:dimensionality){
@@ -211,9 +210,10 @@ projectionDriveR<-function(
   }
   
   return(list(
-    weighted_mean_differences = weighted_drivers_bonferroni,
     mean_differences = mean_bonferroni,
-    significant_genes = shared_genes))
+    weighted_mean_differences = weighted_drivers_bonferroni,
+    significant_genes = shared_genes,
+    normalized_weights = feature_normalized_vec))
 }
 #setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 

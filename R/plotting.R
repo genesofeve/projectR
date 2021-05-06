@@ -17,14 +17,16 @@
 #' Generate point and line confidence intervals from provided estimates
 #' 
 #' @import ggplot2
-#' @import dplyr
+#' @importFrom dplyr %>% mutate dense_rank
 #' @param confidence_intervals a vector with names of loading rows. Defaults to rownames.
 #' @param interval_name names of columns that contain the low and high estimates, respectively
+#' @param sort Boolean. Whether or not to sort genes by their estimates (default = T)
+#' @param feature_weights optional. weights of features to include as annotation.
 #' @export
 plotConfidenceIntervals <- function(
   confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
   interval_name = c("low","high"),
-  decreasing = T){
+  sort = T){
   
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
@@ -39,10 +41,10 @@ plotConfidenceIntervals <- function(
       positive = mid > 0)
   
   #order in descending order on estimates
-  if(decreasing){
+  if(sort){
     confidence_intervals <- confidence_intervals %>% 
       mutate(
-        idx = dense_rank(desc(mid))
+        idx = dense_rank(mid)
       )
   }
   
@@ -50,7 +52,8 @@ plotConfidenceIntervals <- function(
     theme_minimal() + 
     xlab("Difference in group means") + 
     ylab("Genes") + 
-    geom_vline(xintercept = 0, color = "black", linetype = "dashed")
+    geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
+    theme(legend.position = "none")
   #TODO: add gene names to y axis labels
   #TODO: add annotation with pattern weights
   

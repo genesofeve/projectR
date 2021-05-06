@@ -4,12 +4,20 @@
 \alias{plotConfidenceIntervals}
 \title{plotConfidenceIntervals}
 \usage{
-plotConfidenceIntervals(confidence_intervals, interval_name = c("low", "high"))
+plotConfidenceIntervals(
+  confidence_intervals,
+  interval_name = c("low", "high"),
+  sort = T
+)
 }
 \arguments{
 \item{confidence_intervals}{a vector with names of loading rows. Defaults to rownames.}
 
 \item{interval_name}{names of columns that contain the low and high estimates, respectively}
+
+\item{sort}{Boolean. Whether or not to sort genes by their estimates (default = T)}
+
+\item{feature_weights}{optional. weights of features to include as annotation.}
 }
 \description{
 Generate point and line confidence intervals from provided estimates
