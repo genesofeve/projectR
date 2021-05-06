@@ -1,11 +1,12 @@
 
-#' @importFrom stats kmeans hclust
-setOldClass("kmeans")
-setOldClass("hclust")
+
+
+
 
 #######################################################################################################################################
-
-cluster2pattern.kmeans<- function(
+#' @importFrom stats kmeans
+setOldClass("kmeans")
+.cluster2pattern_kmeans<- function(
   clusters, # a kmeans object
   data # data used to make clusters object
   ){
@@ -22,11 +23,13 @@ cluster2pattern.kmeans<- function(
 
 #' @rdname cluster2pattern-methods
 #' @aliases cluster2pattern
-setMethod("cluster2pattern",signature(clusters="kmeans"),cluster2pattern.kmeans)
+setMethod("cluster2pattern",signature(clusters="kmeans"),.cluster2pattern_kmeans)
 
 #######################################################################################################################################
+#' @importFrom stats hclust
 
-cluster2pattern.hclust<-function(
+setOldClass("hclust")
+.cluster2pattern_hclust<-function(
   clusters, # an hclust object
   NP, # number of desired patterns
   data=NA # data used to make hclust object
@@ -45,7 +48,7 @@ cluster2pattern.hclust<-function(
 
 #' @rdname cluster2pattern-methods
 #' @aliases cluster2pattern
-setMethod("cluster2pattern",signature(clusters="hclust"),cluster2pattern.hclust)
+setMethod("cluster2pattern",signature(clusters="hclust"),.cluster2pattern_hclust)
 
 #######################################################################################################################################
 
