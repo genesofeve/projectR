@@ -1,5 +1,59 @@
 
 
+#######################################################################################################################################
+#' @examples
+#' library(projectR)
+#' data(p.RNAseq6l3c3t)
+#' condition<-sapply(colnames(p.RNAseq6l3c3t),function(x) strsplit(x,"[.]")[[1]][1])
+#' cluster2pattern(clusters=condition,data=p.RNAseq6l3c3t)
+#'
+.cluster2pattern <- function(
+  clusters, # a vector of character cluster assignments
+  data # data used to make clusters object
+  ){
+
+  nD<-length(unique(clusters))
+  nG<-dim(data)[1]
+  tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
+  rownames(tempP)<-rownames(data)
+  colnames(tempP)<-unique(clusters)
+  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
+  for(x in unique(clusters)) {tempP[clusters==x,x]<-apply(data[clusters==x,],1,cor,y=colMeans(data[clusters==x,]))}
+  Patterns<-tempP
+  Patterns <- new("cluster2pattern",clusterMatrix = Patterns)
+  return(Patterns)
+}
+
+#' @rdname cluster2pattern-methods
+#' @aliases cluster2pattern
+setMethod("cluster2pattern",signature(clusters="character"),.cluster2pattern)
+
+
+
+#######################################################################################################################################
+
+#'
+#'  
+.cluster2pattern_numeric <- function(
+  clusters, # a vector of numeric cluster assignments
+  data # data used to make clusters object
+  ){
+
+  nD<-length(unique(clusters))
+  nG<-dim(data)[1]
+  tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
+  rownames(tempP)<-rownames(data)
+  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
+  for(x in 1:nD) {tempP[clusters==x,x]<-apply(data[clusters==x,],1,cor,y=colMeans(data[clusters==x,]))}
+  Patterns<-tempP
+  Patterns <- new("cluster2pattern",clusterMatrix = Patterns)
+  return(Patterns)
+}
+
+#' @rdname cluster2pattern-methods
+#' @aliases cluster2pattern
+setMethod("cluster2pattern",signature(clusters="numeric"),.cluster2pattern_numeric)
+
 
 
 

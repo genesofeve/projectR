@@ -221,6 +221,14 @@ As canonical projection is not defined for clustering objects, the projectR pack
 
 ```
 library(projectR)
+data(p.RNAseq6l3c3t)
+
+
+nP<-5
+kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+kpattern
+
 cluster2pattern(clusters = NA, NP = NA, data = NA)
 ```
 
