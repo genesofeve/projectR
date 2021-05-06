@@ -20,9 +20,12 @@ Imports:
     reshape2,
     viridis,
     scales,
+    Matrix,
+    MatrixModels,
     ggplot2
 Suggests:
     BiocStyle,
+    CoGAPS,
     gridExtra,
     grid,
     testthat,

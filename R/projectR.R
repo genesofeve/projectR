@@ -2,7 +2,6 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
-#' @importFrom CoGAPS CoGAPS
 #' @importFrom limma lmFit
 
 
