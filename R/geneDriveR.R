@@ -113,6 +113,7 @@ projectionDriveR<-function(
   #TODO: Do sparse and dense matrices need to be handled differently?
   #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
   #TODO: Enforce that loadings is one row? or loop over patterns?
+  #TODO: should alpha be the inverse of what it is now? (1-alpha)
   
   #check that alpha significance level is appropriate
   if(alpha < 0 | alpha > 1){

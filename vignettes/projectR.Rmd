@@ -345,3 +345,42 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
     dataNames=map.ESepiGen4c1l$GeneSymbols)
 
 ```
+
+
+# Identification of differential features through projectionDriveR.
+
+## projectionDriveR
+
+#######TODO: Standardize language of gene/feature/pattern. Make sure alpha is consistent. 
+#######TODO: paraphrase Asher's description here. Cite his manuscript.
+
+```
+library(projectR)
+projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
+                 alpha, feature_name, display = T, normalize_feature = T)
+
+```
+
+### Input Arguments
+The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the feature (column of loadings).
+
+
+The arguments are as follows:
+\begin{description}
+\item[cellgroup1]{Matrix 1 with features as rows, samples as columns}
+\item[cellgroup2]{Matrix 2 with features as rows, samples as columns}
+\item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
+\item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
+\item[alpha]{Determines the significance of the confidence interval to be calculated between the difference of means}
+\item[feature_name]{the column of the loadings by which the features will be weighted}
+\item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
+\item[normalize_feature]{Boolean. Whether or not to normalize the average feature weight. Default = T}
+
+\end{description}
+
+## Output 
+The output of \texttt{projectionDriveR} is a list of length three. \texttt{mean_bonferroni} holds the confidence intervals for the difference in means for all features, \texttt{weighted_bonferroni} holds the confidence intervals for the weighted difference in means for all features, and \texttt{significant_genes} is a vector of gene names that are significantly different at the threshold provided. 
+
+
+
+

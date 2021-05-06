@@ -49,7 +49,9 @@ plotConfidenceIntervals <- function(
   ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
     theme_minimal() + 
     xlab("Difference in group means") + 
-    ylab("Genes")
+    ylab("Genes") + 
+    geom_vline(xintercept = 0, color = "black", linetype = "dashed")
   #TODO: add gene names to y axis labels
+  #TODO: add annotation with pattern weights
   
 }  
