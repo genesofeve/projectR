@@ -7,18 +7,25 @@
 plotConfidenceIntervals(
   confidence_intervals,
   interval_name = c("low", "high"),
-  sort = T
+  sort = T,
+  genes = NULL,
+  weights = NULL
 )
 }
 \arguments{
-\item{confidence_intervals}{a vector with names of loading rows. Defaults to rownames.}
+\item{confidence_intervals}{A dataframe of features x estimates.}
 
-\item{interval_name}{names of columns that contain the low and high estimates, respectively}
+\item{interval_name}{names of columns that contain the low and high estimates, respectively. Default: c("low","high")}
 
 \item{sort}{Boolean. Whether or not to sort genes by their estimates (default = T)}
 
-\item{feature_weights}{optional. weights of features to include as annotation.}
+\item{genes}{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.}
+
+\item{weights}{optional. weights of features to include as annotation.}
+}
+\value{
+A list with pointrange estimates and, if requested, a heatmap of pattern weights.
 }
 \description{
-Generate point and line confidence intervals from provided estimates
+Generate point and line confidence intervals from provided estimates.
 }

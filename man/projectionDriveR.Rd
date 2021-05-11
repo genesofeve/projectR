@@ -9,10 +9,10 @@ projectionDriveR(
   cellgroup2,
   loadings,
   loadingsNames = NULL,
-  feature_name,
+  pattern_name,
   alpha,
   display = TRUE,
-  normalize_feature = TRUE
+  normalize_pattern = TRUE
 )
 }
 \arguments{
@@ -24,13 +24,13 @@ projectionDriveR(
 
 \item{loadingsNames}{a vector with names of loading rows. Defaults to rownames.}
 
-\item{feature_name}{column of loadings for which drivers will be calculated.}
+\item{pattern_name}{column of loadings for which drivers will be calculated.}
 
 \item{alpha}{confidence value for the bonferroni confidence intervals}
 
 \item{display}{boolean. Whether or not to plot and display confidence intervals}
 
-\item{normalize_feature}{Boolean. Whether or not to normalize feature weights.}
+\item{normalize_pattern}{Boolean. Whether or not to normalize pattern weights.}
 }
 \value{
 A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.

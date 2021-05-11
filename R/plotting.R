@@ -14,19 +14,23 @@
 #' 
 #' plotConfidenceIntervals
 #' 
-#' Generate point and line confidence intervals from provided estimates
+#' Generate point and line confidence intervals from provided estimates. 
 #' 
 #' @import ggplot2
 #' @importFrom dplyr %>% mutate dense_rank
-#' @param confidence_intervals a vector with names of loading rows. Defaults to rownames.
-#' @param interval_name names of columns that contain the low and high estimates, respectively
+#' @param confidence_intervals A dataframe of features x estimates. 
+#' @param interval_name names of columns that contain the low and high estimates, respectively. Default: c("low","high")
 #' @param sort Boolean. Whether or not to sort genes by their estimates (default = T)
-#' @param feature_weights optional. weights of features to include as annotation.
+#' @param genes a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.
+#' @param weights optional. weights of features to include as annotation.
+#' @return A list with pointrange estimates and, if requested, a heatmap of pattern weights.
 #' @export
 plotConfidenceIntervals <- function(
   confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
   interval_name = c("low","high"),
-  sort = T){
+  sort = T,
+  genes = NULL,
+  weights = NULL){
   
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
@@ -40,21 +44,39 @@ plotConfidenceIntervals <- function(
       mid = (high+low)/2,
       positive = mid > 0)
   
-  #order in descending order on estimates
+  if(!is.null(genes)){
+    #select genes provided and get them in that order
+    if(!(is.character(genes))){ stop("Genes must be provided as a character vector") }
+    message(paste0("Selecting ", length(genes), " features"))
+    confidence_intervals <- confidence_intervals[genes,]
+    
+  }
+  
   if(sort){
+    #order in increasing order on estimates
     confidence_intervals <- confidence_intervals %>% 
       mutate(
         idx = dense_rank(mid)
       )
+  } else{ 
+      #if not sorted, create index variable for current order
+      confidence_intervals <- confidence_intervals %>% 
+        mutate(idx = 1:n)
+      
   }
   
-  ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
+  ci_plot <- ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
+    geom_point(aes(x = mid, y = idx), fill ="black",color = "black") +
     theme_minimal() + 
     xlab("Difference in group means") + 
     ylab("Genes") + 
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
     theme(legend.position = "none")
-  #TODO: add gene names to y axis labels
-  #TODO: add annotation with pattern weights
+ 
+  if(!is.null(weights)){
+    
+    
+  }
   
+  return(ci_plot)
 }  

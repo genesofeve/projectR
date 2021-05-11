@@ -88,11 +88,11 @@ bonferroniCorrectedDifferences <- function(
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
-#' @param feature_name column of loadings for which drivers will be calculated.
+#' @param pattern_name column of loadings for which drivers will be calculated.
 #' @param alpha confidence value for the bonferroni confidence intervals
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
 #' @param display boolean. Whether or not to plot and display confidence intervals
-#' @param normalize_feature Boolean. Whether or not to normalize feature weights.
+#' @param normalize_pattern Boolean. Whether or not to normalize pattern weights.
 #' @return A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.
 #' @export
 #' 
@@ -102,10 +102,10 @@ projectionDriveR<-function(
   cellgroup2, #gene x cell count matrix for cell group 2
   loadings, # a matrix of continous values to be projected with unique rownames
   loadingsNames = NULL, # a vector with names of loadings rows
-  feature_name,
+  pattern_name,
   alpha,
   display = TRUE,
-  normalize_feature = TRUE
+  normalize_pattern = TRUE
 ){
   
   #TODO: Something isnt right with the documentation, arguments do not autosuggest
@@ -120,8 +120,8 @@ projectionDriveR<-function(
   }
   
   #select specified feature to calculate drivers for
-  if(length(feature_name) != 1 && class(feature_name) == "character"){
-    stop("provided feature name must not a character vector of length one")
+  if(length(pattern_name) != 1 | !is.character(pattern_name)){
+    stop("provided pattern name must be a character vector of length one")
   }
   
   if(is.null(loadingsNames)){
@@ -129,12 +129,12 @@ projectionDriveR<-function(
     #TODO: set loadingsnames if provided
   }
   
-  #feature weights must be formatted as a matrix for normalization
-  if(feature_name %in% colnames(loadings)){
-    feature <- loadings[,feature_name, drop = F] #data.frame
-    feature <- as.matrix(feature)
+  #pattern weights must be formatted as a matrix for normalization
+  if(pattern_name %in% colnames(loadings)){
+    pattern <- loadings[,pattern_name, drop = F] #data.frame
+    pattern <- as.matrix(pattern)
   } else  {
-    stop(paste0(feature_name, " is not a column in provided loadings"))
+    stop(paste0(pattern_name, " is not a column in provided loadings"))
   }
   
   # #match genes in data sets
@@ -151,36 +151,36 @@ projectionDriveR<-function(
   cellgroup2 <- filtered_data[[1]]
   
   #shared rows in data matrices and loadings
-  filtered_weights <- geneMatchR(data1 = cellgroup1, data2 = feature, data1Names = NULL, data2Names = NULL, merge = F)
+  filtered_weights <- geneMatchR(data1 = cellgroup1, data2 = pattern, data1Names = NULL, data2Names = NULL, merge = F)
   print(paste(as.character(dim(filtered_weights[[2]])[1]),'row names matched between data and loadings'))
   print(paste('Updated dimension of data:',as.character(paste(dim(filtered_weights[[2]])[1], collapse = ' '))))
   
-  feature_filtered <- filtered_weights[[1]]
+  pattern_filtered <- filtered_weights[[1]]
   
   cellgroup1_filtered <- filtered_weights[[2]]
   #do second filtering on other cell group so all genes are consistent
   cellgroup2_filtered <- cellgroup2[rownames(cellgroup1_filtered),]
   
   
-  #normalize feature weights
-  if(normalize_feature){
-    weight_norm <- norm(feature_filtered) #square of sums of squares (sum for all positive values)
-    num_nonzero <- sum(feature_filtered > 0) #number of nonzero weights
-    feature_filtered <- feature_filtered * num_nonzero / weight_norm
+  #normalize pattern weights
+  if(normalize_pattern){
+    weight_norm <- norm(pattern_filtered) #square of sums of squares (sum for all positive values)
+    num_nonzero <- sum(pattern_filtered > 0) #number of nonzero weights
+    pattern_filtered <- pattern_filtered * num_nonzero / weight_norm
   }
   
   #cast feature weights to a named vector
-  feature_normalized_vec <- feature_filtered[,1]
-  names(feature_normalized_vec) <- rownames(feature_filtered)
+  pattern_normalized_vec <- pattern_filtered[,1]
+  names(pattern_normalized_vec) <- rownames(pattern_filtered)
   
   #weighted confidence intervals of differences in cluster means
   weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                 group2 = cellgroup2_filtered,
-                                diff_weights = feature_normalized_vec,
+                                diff_weights = pattern_normalized_vec,
                                 alpha = alpha)
   
   
-   #unweighted confidence intervals of difference in cluster means
+  #unweighted confidence intervals of difference in cluster means
   mean_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                                     group2 = cellgroup2_filtered,
                                                     diff_weights = NULL,
@@ -213,7 +213,7 @@ projectionDriveR<-function(
     mean_differences = mean_bonferroni,
     weighted_mean_differences = weighted_drivers_bonferroni,
     significant_genes = shared_genes,
-    normalized_weights = feature_normalized_vec))
+    normalized_weights = pattern_normalized_vec))
 }
 #setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
