@@ -17,12 +17,15 @@
 #' Generate point and line confidence intervals from provided estimates. 
 #' 
 #' @import ggplot2
+#' @import viridis
+#' @importFrom scales squish
 #' @importFrom dplyr %>% mutate dense_rank
 #' @param confidence_intervals A dataframe of features x estimates. 
 #' @param interval_name names of columns that contain the low and high estimates, respectively. Default: c("low","high")
 #' @param sort Boolean. Whether or not to sort genes by their estimates (default = T)
 #' @param genes a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.
-#' @param weights optional. weights of features to include as annotation.
+#' @param weights optional. weights of features to include as annotation. 
+#' @param weights_clip optional. quantile of data to clip color scale for improved visualization. Default: 0.99
 #' @return A list with pointrange estimates and, if requested, a heatmap of pattern weights.
 #' @export
 plotConfidenceIntervals <- function(
@@ -30,7 +33,8 @@ plotConfidenceIntervals <- function(
   interval_name = c("low","high"),
   sort = T,
   genes = NULL,
-  weights = NULL){
+  weights = NULL,
+  weights_clip = 0.99){
   
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
@@ -47,7 +51,8 @@ plotConfidenceIntervals <- function(
   if(!is.null(genes)){
     #select genes provided and get them in that order
     if(!(is.character(genes))){ stop("Genes must be provided as a character vector") }
-    message(paste0("Selecting ", length(genes), " features"))
+    n <- length(genes)
+    message(paste0("Selecting ", n, " features"))
     confidence_intervals <- confidence_intervals[genes,]
     
   }
@@ -74,9 +79,21 @@ plotConfidenceIntervals <- function(
     theme(legend.position = "none")
  
   if(!is.null(weights)){
+    if(is.null(names(weights))){ stop("Weights must have names that match estimates")}
     
+    #maintain established order from the pointrange plot
+    ordered_weights <- weights[rownames(conf_intervals)]
     
-  }
+    confidence_intervals$weights <- ordered_weights
+    
+    wt_heatmap <- ggplot(data = confidence_intervals) +
+      geom_tile(aes(x = 1, y = 1:n, fill = weights)) +
+      scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )), oob=squish) +
+      theme_void()
+    
+  } else{ wt_heatmap = NULL}
   
-  return(ci_plot)
+  return(list("ci_estimates_plot" = ci_plot,
+              "feature_order" = rownames(conf_intervals),
+              "weights_heatmap" = wt_heatmap))
 }  

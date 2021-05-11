@@ -9,7 +9,8 @@ plotConfidenceIntervals(
   interval_name = c("low", "high"),
   sort = T,
   genes = NULL,
-  weights = NULL
+  weights = NULL,
+  weights_clip = 0.99
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ plotConfidenceIntervals(
 \item{genes}{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.}
 
 \item{weights}{optional. weights of features to include as annotation.}
+
+\item{weights_clip}{optional. quantile of data to clip color scale for improved visualization. Default: 0.99}
 }
 \value{
 A list with pointrange estimates and, if requested, a heatmap of pattern weights.
