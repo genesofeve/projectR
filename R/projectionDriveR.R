@@ -8,7 +8,7 @@ bonferroniCorrectedDifferences <- function(
   group1,
   group2,
   diff_weights = NULL,
-  alpha){
+  pvalue){
   
   #if passed from projectionDrivers, cellgroup1 and cellgroup 1 will have the same rows (genes)
   #TODO: if going to be called in other places, or directly, need to do that filtering prior to call
@@ -44,8 +44,7 @@ bonferroniCorrectedDifferences <- function(
   
   n1_samples <- dim(group1)[2] #number of samples (cells)
   n2_samples <- dim(group2)[2]
-  pval <- 1 - alpha
-  bon_correct <- pval / (2*dimensionality)
+  bon_correct <- pvalue / (2*dimensionality) #bonferroni correction
   qval <- 1 - bon_correct
   
   tval <- qt(p = qval, df = n1_samples + n2_samples -2) #critical value
@@ -62,7 +61,7 @@ bonferroniCorrectedDifferences <- function(
   rownames(plusminus) <- names(mean_diff)
   
   
-  #for each gene
+  #for each gene, calculate confidence interval around mean
   for(i in 1:dimensionality){
     
     scale = tval * sqrt(pooled[i] * (1/n1_samples + 1/n2_samples))
@@ -72,8 +71,6 @@ bonferroniCorrectedDifferences <- function(
     
   }
   
-  
-  ##Plot CI here
   
   return(plusminus)
 }  
@@ -89,7 +86,7 @@ bonferroniCorrectedDifferences <- function(
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
 #' @param pattern_name column of loadings for which drivers will be calculated.
-#' @param alpha confidence value for the bonferroni confidence intervals
+#' @param pvalue confidence level for the bonferroni confidence intervals. Default 1e-5
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
 #' @param display boolean. Whether or not to plot and display confidence intervals
 #' @param normalize_pattern Boolean. Whether or not to normalize pattern weights.
@@ -103,7 +100,7 @@ projectionDriveR<-function(
   loadings, # a matrix of continous values to be projected with unique rownames
   loadingsNames = NULL, # a vector with names of loadings rows
   pattern_name,
-  alpha,
+  pvalue = 1e-5,
   display = TRUE,
   normalize_pattern = TRUE
 ){
@@ -111,15 +108,15 @@ projectionDriveR<-function(
   #TODO: Something isnt right with the documentation, arguments do not autosuggest
   #TODO: Do sparse and dense matrices need to be handled differently?
   #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
-  #TODO: Enforce that loadings is one row? or loop over patterns?
-  #TODO: should alpha be the inverse of what it is now? (1-alpha)
+
+ 
   
   #check that alpha significance level is appropriate
-  if(alpha < 0 | alpha > 1){
-    stop("alpha must be numeric between 0 and 1")
+  if(pvalue < 0 | pvalue > 1){
+    stop("pvalue must be numeric between 0 and 1")
   }
   
-  #select specified feature to calculate drivers for
+  #select specified feature to calculate drivers for. Make sure it is a character vector of length one
   if(length(pattern_name) != 1 | !is.character(pattern_name)){
     stop("provided pattern name must be a character vector of length one")
   }
@@ -177,14 +174,14 @@ projectionDriveR<-function(
   weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                 group2 = cellgroup2_filtered,
                                 diff_weights = pattern_normalized_vec,
-                                alpha = alpha)
+                                pvalue = pvalue)
   
   
   #unweighted confidence intervals of difference in cluster means
   mean_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                                     group2 = cellgroup2_filtered,
                                                     diff_weights = NULL,
-                                                    alpha = alpha)
+                                                    pvalue = pvalue)
   
   #Determine which genes have significantly non-zero mean difference and weighted mean difference
   #significant
@@ -205,8 +202,8 @@ projectionDriveR<-function(
   sorted_conf_intervals <- mean_bonferroni[shared_genes,]
   
   if(display){
+    #print confidence interval pointrange plot
     plotConfidenceIntervals(sorted_conf_intervals)
-    #TODO: return plot below too?
   }
   
   return(list(

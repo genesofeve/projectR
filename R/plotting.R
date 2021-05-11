@@ -82,7 +82,7 @@ plotConfidenceIntervals <- function(
     if(is.null(names(weights))){ stop("Weights must have names that match estimates")}
     
     #maintain established order from the pointrange plot
-    ordered_weights <- weights[rownames(conf_intervals)]
+    ordered_weights <- weights[rownames(confidence_intervals)]
     
     confidence_intervals$weights <- ordered_weights
     
@@ -94,6 +94,6 @@ plotConfidenceIntervals <- function(
   } else{ wt_heatmap = NULL}
   
   return(list("ci_estimates_plot" = ci_plot,
-              "feature_order" = rownames(conf_intervals),
+              "feature_order" = rownames(confidence_intervals),
               "weights_heatmap" = wt_heatmap))
 }  
