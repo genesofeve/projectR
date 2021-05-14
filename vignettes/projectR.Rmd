@@ -1,7 +1,11 @@
 ---
 title: "projectR Vignette"
 author:
+- "Gaurav Sharma"
+- "Jared N. Slosberg"
+- "Loyal A. Goff"
 - "Genevieve L. Stein-O'Brien"
+
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectR.bib
@@ -260,7 +264,7 @@ The arguments are as follows:
 \end{description}
 
 ### Output
-The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified $p$-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of signigicantly overlapping sets will also be returned.
+The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified $p$-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of significantly overlapping sets will also be returned.
 
 # Correlation based projection
 
@@ -347,11 +351,10 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
 ```
 
 
-# Identification of differential features through projectionDriveR.
+# Differential features identification via projectionDriveR.
 
 ## projectionDriveR
 
-#######TODO: Standardize language of gene/feature/pattern. Make sure alpha is consistent. 
 #######TODO: paraphrase Asher's description here. Cite his manuscript.
 
 ```
@@ -362,7 +365,7 @@ projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
 ```
 
 ### Input Arguments
-The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the feature (column of loadings).
+The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings).
 
 
 The arguments are as follows:
@@ -371,16 +374,84 @@ The arguments are as follows:
 \item[cellgroup2]{Matrix 2 with features as rows, samples as columns}
 \item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
 \item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
-\item[alpha]{Determines the significance of the confidence interval to be calculated between the difference of means}
-\item[feature_name]{the column of the loadings by which the features will be weighted}
+\item[pattern\_name]{the column name of the loadings by which the features will be weighted}
+\item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
 \item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
-\item[normalize_feature]{Boolean. Whether or not to normalize the average feature weight. Default = T}
-
+\item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
 \end{description}
 
 ## Output 
-The output of \texttt{projectionDriveR} is a list of length three. \texttt{mean_bonferroni} holds the confidence intervals for the difference in means for all features, \texttt{weighted_bonferroni} holds the confidence intervals for the weighted difference in means for all features, and \texttt{significant_genes} is a vector of gene names that are significantly different at the threshold provided. 
+The output of \texttt{projectionDriver} is a list of length four \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. 
+
+## Identifying differential features associated with learned patterns
+#######TODO: paraphrase Asher's description here. Cite his manuscript.
+
+```{r projectionDriver, message = F, out.width="100%"}
+options(width = 60)
+#TODO: Change this pack to default libary before pull request
+library(projectR, lib.loc = "~/R-dev/")
+library(dplyr)
+
+#gene weights x pattern
+data("retinal_patterns")
+
+#size-normed, log expression
+data("microglial_counts")
+
+#size-normed, log expression
+data("glial_counts")
+
+#the features by which to weight the difference in expression 
+pattern_to_weight <- "Pattern.24"
+drivers <- projectionDriveR(microglial_counts, #expression matrix
+                                       glial_counts, #expression matrix
+                                       loadings = retinal_patterns, #feature x pattern dataframe
+                                       loadingsNames = NULL,
+                                       pattern_name = pattern_to_weight, #column name
+                                       pvalue = 1e-5, #pvalue before bonferroni correction
+                                       display = T,
+                                       normalize_pattern = T) #normalize feature weights
+
+conf_intervals <- drivers$mean_ci[drivers$significant_genes,]
+
+str(conf_intervals)
+
+
+#order in ascending order of estimates
+conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
+
+
+conf_intervals$label_name <- NA_character_
+#add text labels for top and bottom n genes
+n <- 2
+idx <- c(1:n, (dim(conf_intervals)[1]-(n-1)):dim(conf_intervals)[1])
+gene_ids <- rownames(conf_intervals)[idx]
+conf_intervals$label_name[idx] <- gene_ids
+
+plots_list <- plotConfidenceIntervals(conf_intervals, #mean difference in expression confidence intervals
+                                      sort = F, #should genes be sorted by estimates
+                                      weights = drivers$normalized_weights[rownames(conf_intervals)],
+                                      pattern_name = pattern_to_weight,
+                                      weights_clip = 0.99,
+                                      weights_vis_norm = "none")
+
+pl1 <- plots_list[["ci_estimates_plot"]] +
+  ggrepel::geom_label_repel(aes(label = label_name), max.overlaps = 20, force = 50)
+
+pl2 <- plots_list[["weights_heatmap"]]
+
+#now plot the weighted differences
+weighted_conf_intervals <- drivers$weighted_mean_ci[rownames(conf_intervals),]
+plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
+                                               sort = F,
+                                               pattern_name = pattern_to_weight)
+
+pl3 <- plots_list_weighted[["ci_estimates_plot"]] +
+  xlab("Difference in weighted group means") +
+  theme(axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank())
+
+cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3)
 
 
 
-
+```

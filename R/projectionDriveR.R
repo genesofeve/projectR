@@ -207,10 +207,10 @@ projectionDriveR<-function(
   }
   
   return(list(
-    mean_differences = mean_bonferroni,
-    weighted_mean_differences = weighted_drivers_bonferroni,
-    significant_genes = shared_genes,
-    normalized_weights = pattern_normalized_vec))
+    mean_ci = mean_bonferroni,
+    weighted_mean_ci = weighted_drivers_bonferroni,
+    normalized_weights = pattern_normalized_vec,
+    significant_genes = shared_genes))
 }
 #setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
