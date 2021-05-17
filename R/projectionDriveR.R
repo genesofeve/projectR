@@ -205,10 +205,13 @@ projectionDriveR<-function(
   sig_weights <- pattern_normalized_vec[shared_genes]
     
   #create confidence interval plot
-  #TODO: warning or message if variables are overwritten?
+  #TODO: warning or message if variables are overwritten? Validate ... args.
   #... allows for changing of weights inclusion, clip value, norms
  
-  pl <- plotConfidenceIntervals(conf_intervals, weights = sig_weights, ...)
+  pl <- plotConfidenceIntervals(conf_intervals,
+                                weights = sig_weights,
+                                pattern_name = pattern_name, 
+                                ...)
   
   if(display){
     #print confidence interval pointrange plot
