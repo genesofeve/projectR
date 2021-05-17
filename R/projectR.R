@@ -2,7 +2,6 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
-#' @importFrom CoGAPS CoGAPS
 #' @importFrom limma lmFit
 
 
@@ -355,6 +354,25 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
 
 #########################################################################
 
+#' @examples
+#' library("projectR")
+#' data(p.RNAseq6l3c3t)
+#' nP<-5
+#' kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+#' kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+#' p<-as.matrix(p.RNAseq6l3c3t)
+#' projectR(p,kpattern)
+#'
+#' @rdname projectR-methods
+#' @aliases projectR
+
+setMethod("projectR", signature(data="matrix", loadings="cluster2pattern"),
+function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
+{
+  return(projectR(data, loadings=loadings@clusterMatrix, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
+})
+
+#########################################################################
 
 compareBoots <- function(projection,boots){
 mat <- sapply(1:nrow(projection),function(i){
