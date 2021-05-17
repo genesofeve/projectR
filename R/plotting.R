@@ -23,6 +23,7 @@
 #' @import viridis
 #' @importFrom scales squish
 #' @importFrom dplyr %>% mutate dense_rank
+#' @importFrom cowplot plot_grid
 #' @param confidence_intervals A dataframe of features x estimates. 
 #' @param interval_name names of columns that contain the low and high estimates, respectively. Default: c("low","high")
 #' @param pattern_name string to use as the title for plots.
@@ -37,7 +38,7 @@
 plotConfidenceIntervals <- function(
   confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
   interval_name = c("low","high"),
-  pattern_name = "weights",
+  pattern_name = NULL,
   sort = T,
   genes = NULL,
   weights = NULL,
@@ -77,12 +78,13 @@ plotConfidenceIntervals <- function(
   }
   
   if(sort){
-    #order in increasing order on estimates
+    #order in increasing order on estimates, and create index variable
     message("sorting genes in increasing order of estimates...")
     confidence_intervals <- confidence_intervals %>% 
       mutate(
         idx = dense_rank(mid)
-      )
+      ) %>%
+      arrange(mid)
   } else{ 
       #if not sorted, create index variable for current order
       confidence_intervals <- confidence_intervals %>% 
@@ -102,6 +104,10 @@ plotConfidenceIntervals <- function(
   if(!is.null(weights)){
     if(is.null(names(weights))){ stop("Weights must have names that match estimates")}
     
+    #either use pattern_name, or if not provided, just label heatmap with "weights"
+    hm_name <- ifelse(is.null(pattern_name), "weights", pattern_name)
+    
+    #TODO: make sure that this enforces weights are in same order as genes
     #maintain established order from the pointrange plot
     ordered_weights <- weights[rownames(confidence_intervals)]
     
@@ -110,14 +116,16 @@ plotConfidenceIntervals <- function(
       #transform to percentiles from 0 to 1
       ordered_weights <- trunc(rank(ordered_weights))/length(ordered_weights)
 
-      pattern_name <- paste0(pattern_name, " (quantiles)")
+      hm_name <- paste0(hm_name, " (quantiles)")
     }
     
     confidence_intervals$weights <- ordered_weights
     
     wt_heatmap <- ggplot(data = confidence_intervals) +
       geom_tile(aes(x = 1, y = 1:n, fill = weights)) +
-      scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )), oob=squish, name = pattern_name) +
+      scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )),
+                         oob=squish,
+                         name = hm_name) +
       theme_void() 
     
     

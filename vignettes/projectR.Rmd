@@ -383,7 +383,7 @@ The arguments for projectionDriveR are:
 \end{description}
 
 ### Output 
-The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. plotted_ci returns the ggplot figure of the confidence intervals.
+The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
 
 ### Identifying differential features associated with learned patterns
 #######TODO: paraphrase Asher's description here. Cite his manuscript.
@@ -392,7 +392,7 @@ The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_c
 options(width = 60)
 #TODO: Change this pack to default libary before pull request
 library(projectR, lib.loc = "~/R-dev/")
-library(dplyr)
+library(dplyr, warn.conflicts = F)
 
 #gene weights x pattern
 data("retinal_patterns")
@@ -423,24 +423,37 @@ str(conf_intervals)
 ## plotConfidenceIntervals
 
 ### Input
-
+The arguments for plotConfidenceIntervals are:
+\begin{description}
+\item[confidence\_intervals]{A dataframe of features x estimates}
+\item[interval\_name]{names of columns that contain the low and high estimates, respectively.
+(default: c("low","high"))}
+\item[pattern\_name]{string to use as the title for the plots}
+\item[sort]{Boolean. Whether or not to sort genes by their estimates (default = T)}
+\item[genes]{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)}
+\item[weights]{weights of features to include as annotation (default = NULL will not include heatmap)}
+\item[weights\_clip]{quantile of data to clip color scale for improved visualization (default: 0.99)}
+\item[weights\_vis\_norm]{Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"}
+\end{description}
+ 
 ### Output 
+A list of the length three that includes confidence interval plots and relevant info. \texttt{ci\_estimates\_plot} is the pointrange plot for the provided estimates. If called from within \texttt{projectionDriveR}, the unweighted estimates are used. \texttt{feature\_order} is the vector of gene names in the order shown in the figure. \texttt{weights\_heatmap} is a heatmap annotation of the gene loadings, in the same order as above. 
 
 ### Customize plotting of confidence intervals
 
-
 ```{r}
+library(cowplot)
 #order in ascending order of estimates
 conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
 
-
-conf_intervals$label_name <- NA_character_
 #add text labels for top and bottom n genes
+conf_intervals$label_name <- NA_character_
 n <- 2
 idx <- c(1:n, (dim(conf_intervals)[1]-(n-1)):dim(conf_intervals)[1])
 gene_ids <- rownames(conf_intervals)[idx]
 conf_intervals$label_name[idx] <- gene_ids
 
+#the labels above can now be used as ggplot aesthetics
 plots_list <- plotConfidenceIntervals(conf_intervals, #mean difference in expression confidence intervals
                                       sort = F, #should genes be sorted by estimates
                                       weights = drivers$normalized_weights[rownames(conf_intervals)],

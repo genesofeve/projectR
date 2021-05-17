@@ -201,16 +201,23 @@ projectionDriveR<-function(
     rownames(mean_bonferroni)[mean_sig_idx])
   
   
-  sorted_conf_intervals <- mean_bonferroni[shared_genes,]
-  
+  conf_intervals <- mean_bonferroni[shared_genes,]
+  sig_weights <- pattern_normalized_vec[shared_genes]
+    
   #create confidence interval plot
   #TODO: warning or message if variables are overwritten?
   #... allows for changing of weights inclusion, clip value, norms
-  pl <- plotConfidenceIntervals(sorted_conf_intervals, weights = pattern_normalized_vec, ...)
+ 
+  pl <- plotConfidenceIntervals(conf_intervals, weights = sig_weights, ...)
   
   if(display){
     #print confidence interval pointrange plot
-    cowplot::plot_grid(pl["ci_estimates_plot"], pl["weights_heatmap"], ncol = 2, rel_widths = c(1,.3))
+    #TODO: FIXME: This doesn't seem to be enforcing the order properly
+    print(cowplot::plot_grid(pl[["ci_estimates_plot"]],
+                             pl[["weights_heatmap"]],
+                             ncol = 2,
+                             align = "h",
+                             rel_widths = c(1,.3)))
   }
   
   return(list(
