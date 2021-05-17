@@ -351,11 +351,12 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
 ```
 
 
-# Differential features identification via projectionDriveR.
+# Differential features identification.
 
 ## projectionDriveR
 
 #######TODO: paraphrase Asher's description here. Cite his manuscript.
+#######TODO: Add docs for plotConfidenceIntervals
 
 ```
 library(projectR)
@@ -368,7 +369,7 @@ projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
 The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings).
 
 
-The arguments are as follows:
+The arguments for projectionDriveR are:
 \begin{description}
 \item[cellgroup1]{Matrix 1 with features as rows, samples as columns}
 \item[cellgroup2]{Matrix 2 with features as rows, samples as columns}
@@ -378,12 +379,13 @@ The arguments are as follows:
 \item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
 \item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
 \item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
+\item[...]{arguments to pass to plotConfidenceIntervals}
 \end{description}
 
-## Output 
-The output of \texttt{projectionDriver} is a list of length four \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. 
+### Output 
+The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. plotted_ci returns the ggplot figure of the confidence intervals.
 
-## Identifying differential features associated with learned patterns
+### Identifying differential features associated with learned patterns
 #######TODO: paraphrase Asher's description here. Cite his manuscript.
 
 ```{r projectionDriver, message = F, out.width="100%"}
@@ -416,7 +418,18 @@ conf_intervals <- drivers$mean_ci[drivers$significant_genes,]
 
 str(conf_intervals)
 
+```
 
+## plotConfidenceIntervals
+
+### Input
+
+### Output 
+
+### Customize plotting of confidence intervals
+
+
+```{r}
 #order in ascending order of estimates
 conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
 

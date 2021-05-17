@@ -90,6 +90,7 @@ bonferroniCorrectedDifferences <- function(
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
 #' @param display boolean. Whether or not to plot and display confidence intervals
 #' @param normalize_pattern Boolean. Whether or not to normalize pattern weights.
+#' @param ... parameters to pass to plotConfidenceIntervals 
 #' @return A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.
 #' @export
 #' 
@@ -102,7 +103,8 @@ projectionDriveR<-function(
   pattern_name,
   pvalue = 1e-5,
   display = TRUE,
-  normalize_pattern = TRUE
+  normalize_pattern = TRUE,
+  ...
 ){
   
   #TODO: Something isnt right with the documentation, arguments do not autosuggest
@@ -201,16 +203,22 @@ projectionDriveR<-function(
   
   sorted_conf_intervals <- mean_bonferroni[shared_genes,]
   
+  #create confidence interval plot
+  #TODO: warning or message if variables are overwritten?
+  #... allows for changing of weights inclusion, clip value, norms
+  pl <- plotConfidenceIntervals(sorted_conf_intervals, weights = pattern_normalized_vec, ...)
+  
   if(display){
     #print confidence interval pointrange plot
-    plotConfidenceIntervals(sorted_conf_intervals)
+    cowplot::plot_grid(pl["ci_estimates_plot"], pl["weights_heatmap"], ncol = 2, rel_widths = c(1,.3))
   }
   
   return(list(
     mean_ci = mean_bonferroni,
     weighted_mean_ci = weighted_drivers_bonferroni,
     normalized_weights = pattern_normalized_vec,
-    significant_genes = shared_genes))
+    significant_genes = shared_genes,
+    plotted_ci = pl))
 }
 #setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 
