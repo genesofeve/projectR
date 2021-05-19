@@ -38,3 +38,5 @@ VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
 BugReports: https://support.bioconductor.org/t/projectR/
 URL: https://github.com/genesofeve/projectR/
+Depends: 
+    R (>= 2.10)
