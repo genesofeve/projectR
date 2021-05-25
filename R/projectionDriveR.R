@@ -81,7 +81,7 @@ bonferroniCorrectedDifferences <- function(
 #' 
 #' Calculate the weighted difference in expression between two groups (group1 - group2)
 #' 
-#' @ImportFrom cowplot plot_grid
+#' @importFrom cowplot plot_grid
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
