@@ -368,7 +368,7 @@ Given loadings that define the weight of features (genes) in a given latent spac
 ```
 library(projectR)
 projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
-                 alpha, feature_name, display = T, normalize_feature = T)
+                 pvalue, pattern_name, display = T, normalize_pattern = T)
 
 ```
 
@@ -388,14 +388,13 @@ The arguments for projectionDriveR are:
 \end{description}
 
 ### Output 
-The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
+The output of \texttt{projectionDriveR} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
 
 ### Identifying differential features associated with learned patterns
 
 
 ```{r projectionDriver, message = F, out.width="100%"}
 options(width = 60)
-#TODO: Change this pack to default libary before pull request
 library(projectR)
 library(dplyr, warn.conflicts = F)
 
