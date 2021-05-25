@@ -17,6 +17,10 @@ bonferroniCorrectedDifferences <- function(
     stop("Rows of two cell group matrices are not identical")
   }
   
+  if(any(is.na(group1)) | any(is.na(group2))){
+    stop("NA values in count matrices not allowed")
+  }
+  
   ##Take means over all genes and calculate differences
   group1_mean <- apply(group1, 1, mean)
   group2_mean <- apply(group2, 1, mean)
@@ -101,20 +105,21 @@ projectionDriveR<-function(
   normalize_pattern = TRUE
 ){
   
-  #TODO: Do sparse and dense matrices need to be handled differently?
+  #Count matrices can be class matrix, data.frame, sparse.matrix, ... anything that is coercible by as.matrix()
+  
   #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
 
  
   #check that alpha significance level is appropriate
-  if(pvalue < 0 | pvalue > 1){
+  if(pvalue <= 0 | pvalue >= 1){
     stop("pvalue must be numeric between 0 and 1")
   }
   
-  #select specified feature to calculate drivers for. Make sure it is a character vector of length one
+  #Make sure provided pattern string is a character vector of length one
   if(length(pattern_name) != 1 | !is.character(pattern_name)){
-    stop("provided pattern name must be a character vector of length one")
+    stop("provided pattern_name must be a character vector of length one")
   }
-  
+
   #set loadings rownames if provided
   if(!is.null(loadingsNames)){
     rownames(loadings) <- loadingsNames
@@ -125,7 +130,7 @@ projectionDriveR<-function(
     pattern <- loadings[,pattern_name, drop = F] #data.frame
     pattern <- as.matrix(pattern)
   } else  {
-    stop(paste0(pattern_name, " is not a column in provided loadings"))
+    stop(paste0("Provided pattern_name ",pattern_name, " is not a column in provided loadings"))
   }
   
   #Filter the two count matrices and the pattern weights to include the intersection of their features
@@ -136,10 +141,17 @@ projectionDriveR<-function(
   cellgroup1 <- filtered_data[[2]] #geneMatchR flips the indexes
   cellgroup2 <- filtered_data[[1]]
   
+  
   #shared rows in data matrices and loadings
   filtered_weights <- geneMatchR(data1 = cellgroup1, data2 = pattern, data1Names = NULL, data2Names = NULL, merge = F)
-  print(paste(as.character(dim(filtered_weights[[2]])[1]),'row names matched between data and loadings'))
-  print(paste('Updated dimension of data:',as.character(paste(dim(filtered_weights[[2]])[1], collapse = ' '))))
+  dimensionality_final <- dim(filtered_weights[[2]])[1]
+  
+  print(paste(as.character(dimensionality_final,'row names matched between data and loadings')))
+  print(paste('Updated dimension of data:',as.character(paste(dimensionality_final, collapse = ' '))))
+  
+  if(dimensionality_final == 0){
+    stop("No features matched by rownames of count matrix and rownames of loadings")
+  }
   
   pattern_filtered <- filtered_weights[[1]]
   
@@ -188,6 +200,17 @@ projectionDriveR<-function(
   shared_genes <- base::intersect(
     rownames(weighted_drivers_bonferroni)[weighted_sig_idx],
     rownames(mean_bonferroni)[mean_sig_idx])
+  
+  if(length(shared_genes) == 0){
+    #no genes were significant. Return info we have and skip plotting.
+    warning("No features (and weighted features) were significantly differentially used between the two groups")
+    return(list(
+      mean_ci = mean_bonferroni,
+      weighted_mean_ci = weighted_drivers_bonferroni,
+      normalized_weights = pattern_normalized_vec,
+      significant_genes = shared_genes,
+      plotted_ci = NULL))
+  }
   
   
   conf_intervals <- mean_bonferroni[shared_genes,]

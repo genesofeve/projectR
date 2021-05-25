@@ -102,7 +102,7 @@ plotConfidenceIntervals <- function(
   if(!is.null(weights)){
     
     #check that weights are formatted as a named vector
-    if(!(is.numeric(weights))){ stop("Genes must be provided as a numeric vector") }
+    if(!(is.numeric(weights))){ stop("Weights must be provided as a numeric vector") }
     if(is.null(names(weights))){ stop("Weights must have names that match estimates")}
     
     #either use pattern_name, or if not provided, just label heatmap with "weights"
