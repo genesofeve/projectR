@@ -11,6 +11,7 @@
 \alias{projectR,matrix,correlateR-method}
 \alias{projectR,matrix,hclust-method}
 \alias{projectR,matrix,kmeans-method}
+\alias{projectR,matrix,cluster2pattern-method}
 \title{Generic projectR function}
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
@@ -101,6 +102,17 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   bootstrapPval = FALSE,
   bootIter = 1000
 )
+
+\S4method{projectR}{matrix,cluster2pattern}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  full = FALSE,
+  sourceData,
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
@@ -165,5 +177,13 @@ c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N",
 threshold=10, absR=TRUE)
 cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t,
 NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+
+library("projectR")
+data(p.RNAseq6l3c3t)
+nP<-5
+kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+p<-as.matrix(p.RNAseq6l3c3t)
+projectR(p,kpattern)
 
 }

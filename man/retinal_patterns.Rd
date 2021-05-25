@@ -3,14 +3,18 @@
 \docType{data}
 \name{retinal_patterns}
 \alias{retinal_patterns}
-\title{TEST TEST TEST}
+\title{CoGAPS patterns learned from the developing mouse retina.}
 \format{
-tester
+A gene (rows) by pattern (column) matrix
 }
 \usage{
 retinal_patterns
 }
 \description{
-TEST TEST TEST
+CoGAPS patterns learned from the developing mouse retina.
+}
+\references{
+1. Clark, B.S., & Stein-O'Brien G.L., et al. Single-Cell RNA-Seq Analysis of Development Identifies NFI 
+Factors as Regulating Mitotic Exit and Late-Born Cell Specification. Cell 102, 1111-1126 (2019).
 }
 \keyword{datasets}

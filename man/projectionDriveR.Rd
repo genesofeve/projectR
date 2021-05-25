@@ -12,8 +12,7 @@ projectionDriveR(
   pattern_name,
   pvalue = 1e-05,
   display = TRUE,
-  normalize_pattern = TRUE,
-  ...
+  normalize_pattern = TRUE
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ projectionDriveR(
 \item{display}{boolean. Whether or not to plot and display confidence intervals}
 
 \item{normalize_pattern}{Boolean. Whether or not to normalize pattern weights.}
-
-\item{...}{parameters to pass to plotConfidenceIntervals}
 }
 \value{
 A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.

@@ -5,14 +5,14 @@
 #' 
 #' @importFrom stats var
 bonferroniCorrectedDifferences <- function(
-  group1,
-  group2,
-  diff_weights = NULL,
-  pvalue){
+  group1, #count matrix 1
+  group2, #count matrix 2
+  diff_weights = NULL, #loadings to weight the differential expression between the groups
+  pvalue) #signficance value to threshold at
+  {
   
   #if passed from projectionDrivers, cellgroup1 and cellgroup 1 will have the same rows (genes)
-  #TODO: if going to be called in other places, or directly, need to do that filtering prior to call
-  
+
   if(!(dim(group1)[1] == dim(group2)[1])){
     stop("Rows of two cell group matrices are not identical")
   }
@@ -20,12 +20,9 @@ bonferroniCorrectedDifferences <- function(
   ##Take means over all genes and calculate differences
   group1_mean <- apply(group1, 1, mean)
   group2_mean <- apply(group2, 1, mean)
-  
   mean_diff <- group1_mean - group2_mean
   
   
-  
-
   #if weights are provided, use them to weight the difference in means
   if(!is.null(diff_weights)){
     
@@ -49,11 +46,9 @@ bonferroniCorrectedDifferences <- function(
   
   tval <- qt(p = qval, df = n1_samples + n2_samples -2) #critical value
   
-  ##TODO: Compute covariance and pool here. What exactly are these values?
   group1_var <- apply(group1, 1, var)
   group2_var <- apply(group2, 1, var)
   
-  #TODO: is this right?
   pooled <- ((n1_samples-1)*group1_var + (n2_samples-1)*group2_var)  /  (n1_samples+n2_samples-2)
     
   #establish dataframe to populate in the following for loop
@@ -66,8 +61,8 @@ bonferroniCorrectedDifferences <- function(
     
     scale = tval * sqrt(pooled[i] * (1/n1_samples + 1/n2_samples))
     
-    plusminus[i, "low"] <- mean_diff[i]  - scale
-    plusminus[i, "high"] <- mean_diff[i] + scale
+    plusminus[i, "low"] <- mean_diff[i]  - scale #low estimate
+    plusminus[i, "high"] <- mean_diff[i] + scale #high estimate
     
   }
   
@@ -90,7 +85,6 @@ bonferroniCorrectedDifferences <- function(
 #' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
 #' @param display boolean. Whether or not to plot and display confidence intervals
 #' @param normalize_pattern Boolean. Whether or not to normalize pattern weights.
-#' @param ... parameters to pass to plotConfidenceIntervals 
 #' @return A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.
 #' @export
 #' 
@@ -103,16 +97,13 @@ projectionDriveR<-function(
   pattern_name,
   pvalue = 1e-5,
   display = TRUE,
-  normalize_pattern = TRUE,
-  ...
+  normalize_pattern = TRUE
 ){
   
-  #TODO: Something isnt right with the documentation, arguments do not autosuggest
   #TODO: Do sparse and dense matrices need to be handled differently?
   #TODO: assert rownames and colnames exist where needed, and that things are matrices (or can be cast to)
 
  
-  
   #check that alpha significance level is appropriate
   if(pvalue < 0 | pvalue > 1){
     stop("pvalue must be numeric between 0 and 1")
@@ -123,9 +114,9 @@ projectionDriveR<-function(
     stop("provided pattern name must be a character vector of length one")
   }
   
-  if(is.null(loadingsNames)){
-    loadingsNames <- rownames(loadings)
-    #TODO: set loadingsnames if provided
+  #set loadings rownames if provided
+  if(!is.null(loadingsNames)){
+    rownames(loadings) <- loadingsNames
   }
   
   #pattern weights must be formatted as a matrix for normalization
@@ -136,17 +127,12 @@ projectionDriveR<-function(
     stop(paste0(pattern_name, " is not a column in provided loadings"))
   }
   
-  # #match genes in data sets
-  # if(is.null(dataNames)){
-  #   dataNames <- rownames(data)
-  # }
-
-  
+  #Filter the two count matrices and the pattern weights to include the intersection of their features
   #shared rows in two data matrices
   filtered_data <-geneMatchR(data1=cellgroup1, data2=cellgroup2, data1Names=NULL, data2Names=NULL, merge=FALSE)
   print(paste(as.character(dim(filtered_data[[2]])[1]),'row names matched between datasets'))
   
-  cellgroup1 <- filtered_data[[2]] #TODO: geneMatchR flips the indexes, correct?
+  cellgroup1 <- filtered_data[[2]] #geneMatchR flips the indexes
   cellgroup2 <- filtered_data[[1]]
   
   #shared rows in data matrices and loadings
@@ -172,12 +158,14 @@ projectionDriveR<-function(
   pattern_normalized_vec <- pattern_filtered[,1]
   names(pattern_normalized_vec) <- rownames(pattern_filtered)
   
+  
+  
+  
   #weighted confidence intervals of differences in cluster means
   weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
                                 group2 = cellgroup2_filtered,
                                 diff_weights = pattern_normalized_vec,
                                 pvalue = pvalue)
-  
   
   #unweighted confidence intervals of difference in cluster means
   mean_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
@@ -205,17 +193,12 @@ projectionDriveR<-function(
   sig_weights <- pattern_normalized_vec[shared_genes]
     
   #create confidence interval plot
-  #TODO: warning or message if variables are overwritten? Validate ... args.
-  #... allows for changing of weights inclusion, clip value, norms
- 
   pl <- plotConfidenceIntervals(conf_intervals,
                                 weights = sig_weights,
-                                pattern_name = pattern_name, 
-                                ...)
+                                pattern_name = pattern_name)
   
   if(display){
     #print confidence interval pointrange plot
-    #TODO: FIXME: This doesn't seem to be enforcing the order properly
     print(cowplot::plot_grid(pl[["ci_estimates_plot"]],
                              pl[["weights_heatmap"]],
                              ncol = 2,
@@ -230,5 +213,4 @@ projectionDriveR<-function(
     significant_genes = shared_genes,
     plotted_ci = pl))
 }
-#setMethod("projectionDriveR",signature(data="matrix",loadings="matrix"),.drivers_matrix)
 

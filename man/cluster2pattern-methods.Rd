@@ -3,11 +3,17 @@
 \docType{methods}
 \name{cluster2pattern}
 \alias{cluster2pattern}
+\alias{cluster2pattern,character-method}
+\alias{cluster2pattern,numeric-method}
 \alias{cluster2pattern,kmeans-method}
 \alias{cluster2pattern,hclust-method}
 \title{Generic cluster2pattern function}
 \usage{
 cluster2pattern(clusters, NP, data, ...)
+
+\S4method{cluster2pattern}{character}(clusters, data)
+
+\S4method{cluster2pattern}{numeric}(clusters, data)
 
 \S4method{cluster2pattern}{kmeans}(clusters, data)
 

@@ -363,8 +363,7 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
 
 ## projectionDriveR
 
-#######TODO: paraphrase Asher's description here. Cite his manuscript.
-Given loadings that define the weight of features (genes) in a given latent space (e.g. PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By looking at differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained (Baraban et al, 2021)
+Given loadings that define the weight of features (genes) in a given latent space (e.g. PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
 
 ```
 library(projectR)
@@ -374,8 +373,7 @@ projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
 ```
 
 ### Input Arguments
-The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings).
-
+The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings). If applicable, the expression matrices should already be corrected for variables such as sequencing depth.
 
 The arguments for projectionDriveR are:
 \begin{description}
@@ -387,7 +385,6 @@ The arguments for projectionDriveR are:
 \item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
 \item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
 \item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
-\item[...]{arguments to pass to plotConfidenceIntervals}
 \end{description}
 
 ### Output 
@@ -399,7 +396,7 @@ The output of \texttt{projectionDriver} is a list of length five \texttt{mean\_c
 ```{r projectionDriver, message = F, out.width="100%"}
 options(width = 60)
 #TODO: Change this pack to default libary before pull request
-library(projectR, lib.loc = "~/R-dev/")
+library(projectR)
 library(dplyr, warn.conflicts = F)
 
 #gene weights x pattern
@@ -453,12 +450,13 @@ A list of the length three that includes confidence interval plots and relevant 
 library(cowplot)
 #order in ascending order of estimates
 conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
+gene_order <- rownames(conf_intervals)
 
 #add text labels for top and bottom n genes
 conf_intervals$label_name <- NA_character_
 n <- 2
 idx <- c(1:n, (dim(conf_intervals)[1]-(n-1)):dim(conf_intervals)[1])
-gene_ids <- rownames(conf_intervals)[idx]
+gene_ids <- gene_order[idx]
 conf_intervals$label_name[idx] <- gene_ids
 
 #the labels above can now be used as ggplot aesthetics
@@ -475,7 +473,7 @@ pl1 <- plots_list[["ci_estimates_plot"]] +
 pl2 <- plots_list[["weights_heatmap"]]
 
 #now plot the weighted differences
-weighted_conf_intervals <- drivers$weighted_mean_ci[rownames(conf_intervals),]
+weighted_conf_intervals <- drivers$weighted_mean_ci[gene_order,]
 plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
                                                sort = F,
                                                pattern_name = pattern_to_weight)
@@ -489,3 +487,10 @@ cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3
 
 
 ```
+
+
+
+
+
+
+

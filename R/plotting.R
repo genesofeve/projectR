@@ -53,9 +53,6 @@ plotConfidenceIntervals <- function(
     stop("weights_vis_norm must be either 'none' or 'quantiles'")
   }
   
-  
-  
-  
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
   confidence_intervals$low <- confidence_intervals[,interval_name[1]]
@@ -65,8 +62,8 @@ plotConfidenceIntervals <- function(
   n <- dim(confidence_intervals)[1]
   confidence_intervals <- confidence_intervals %>%
     mutate(
-      mid = (high+low)/2,
-      positive = mid > 0)
+      mid = (high+low)/2, #estimate, used for point position
+      positive = mid > 0) #upregulated, used for color scheme
   
   if(!is.null(genes)){
     #select genes provided and get them in that order
@@ -82,16 +79,16 @@ plotConfidenceIntervals <- function(
     message("sorting genes in increasing order of estimates...")
     confidence_intervals <- confidence_intervals %>% 
       mutate(
-        idx = dense_rank(mid)
-      ) %>%
+        idx = dense_rank(mid)) %>%
       arrange(mid)
+    
   } else{ 
       #if not sorted, create index variable for current order
       confidence_intervals <- confidence_intervals %>% 
         mutate(idx = 1:n)
-      
   }
   
+  #genereate point range plot
   ci_plot <- ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
     geom_point(aes(x = mid, y = idx), fill ="black",color = "black") +
     theme_minimal() + 
@@ -101,26 +98,28 @@ plotConfidenceIntervals <- function(
     theme(legend.position = "none") + 
     ggtitle(pattern_name)
  
+  #if provided, create heatmap for pattern weights
   if(!is.null(weights)){
+    
+    #check that weights are formatted as a named vector
+    if(!(is.numeric(weights))){ stop("Genes must be provided as a numeric vector") }
     if(is.null(names(weights))){ stop("Weights must have names that match estimates")}
     
     #either use pattern_name, or if not provided, just label heatmap with "weights"
     hm_name <- ifelse(is.null(pattern_name), "weights", pattern_name)
     
-    #TODO: make sure that this enforces weights are in same order as genes
     #maintain established order from the pointrange plot
     ordered_weights <- weights[rownames(confidence_intervals)]
     
     if(weights_vis_norm == "quantiles"){
-      
       #transform to percentiles from 0 to 1
       ordered_weights <- trunc(rank(ordered_weights))/length(ordered_weights)
-
-      hm_name <- paste0(hm_name, " (quantiles)")
+      hm_name <- paste0(hm_name, " (quantiles)") #append quantile to plot name
     }
     
     confidence_intervals$weights <- ordered_weights
     
+    #generate heatmap
     wt_heatmap <- ggplot(data = confidence_intervals) +
       geom_tile(aes(x = 1, y = 1:n, fill = weights)) +
       scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )),
@@ -128,10 +127,7 @@ plotConfidenceIntervals <- function(
                          name = hm_name) +
       theme_void() 
     
-    
-      
-      
-  } else{ wt_heatmap = NULL}
+  } else{ wt_heatmap = NULL} #if weights aren't provided, return NULL
   
   return(list("ci_estimates_plot" = ci_plot,
               "feature_order" = rownames(confidence_intervals),

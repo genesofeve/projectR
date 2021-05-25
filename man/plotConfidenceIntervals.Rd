@@ -7,7 +7,7 @@
 plotConfidenceIntervals(
   confidence_intervals,
   interval_name = c("low", "high"),
-  pattern_name = "weights",
+  pattern_name = NULL,
   sort = T,
   genes = NULL,
   weights = NULL,
