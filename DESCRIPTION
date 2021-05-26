@@ -22,7 +22,8 @@ Imports:
     scales,
     Matrix,
     MatrixModels,
-    ggplot2
+    ggplot2,
+    cowplot
 Suggests:
     BiocStyle,
     CoGAPS,
