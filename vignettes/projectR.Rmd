@@ -1,7 +1,11 @@
 ---
 title: "projectR Vignette"
 author:
+- "Gaurav Sharma"
+- "Jared N. Slosberg"
+- "Loyal A. Goff"
 - "Genevieve L. Stein-O'Brien"
+
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::pdf_document
 bibliography: projectR.bib
@@ -268,7 +272,7 @@ The arguments are as follows:
 \end{description}
 
 ### Output
-The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified $p$-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of signigicantly overlapping sets will also be returned.
+The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified $p$-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of significantly overlapping sets will also be returned.
 
 # Correlation based projection
 
@@ -353,3 +357,139 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
     dataNames=map.ESepiGen4c1l$GeneSymbols)
 
 ```
+
+
+# Differential features identification.
+
+## projectionDriveR
+
+Given loadings that define the weight of features (genes) in a given latent space (e.g. PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
+
+```
+library(projectR)
+projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
+                 pvalue, pattern_name, display = T, normalize_pattern = T)
+
+```
+
+### Input Arguments
+The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings). If applicable, the expression matrices should already be corrected for variables such as sequencing depth.
+
+The arguments for projectionDriveR are:
+\begin{description}
+\item[cellgroup1]{Matrix 1 with features as rows, samples as columns.}
+\item[cellgroup2]{Matrix 2 with features as rows, samples as columns.}
+\item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
+\item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
+\item[pattern\_name]{the column name of the loadings by which the features will be weighted}
+\item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
+\item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
+\item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
+\end{description}
+
+### Output 
+The output of \texttt{projectionDriveR} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
+
+### Identifying differential features associated with learned patterns
+
+
+```{r projectionDriver, message = F, out.width="100%"}
+options(width = 60)
+library(projectR)
+library(dplyr, warn.conflicts = F)
+
+#gene weights x pattern
+data("retinal_patterns")
+
+#size-normed, log expression
+data("microglial_counts")
+
+#size-normed, log expression
+data("glial_counts")
+
+#the features by which to weight the difference in expression 
+pattern_to_weight <- "Pattern.24"
+drivers <- projectionDriveR(microglial_counts, #expression matrix
+                                       glial_counts, #expression matrix
+                                       loadings = retinal_patterns, #feature x pattern dataframe
+                                       loadingsNames = NULL,
+                                       pattern_name = pattern_to_weight, #column name
+                                       pvalue = 1e-5, #pvalue before bonferroni correction
+                                       display = T,
+                                       normalize_pattern = T) #normalize feature weights
+
+conf_intervals <- drivers$mean_ci[drivers$significant_genes,]
+
+str(conf_intervals)
+
+```
+
+## plotConfidenceIntervals
+
+### Input
+The arguments for plotConfidenceIntervals are:
+\begin{description}
+\item[confidence\_intervals]{A dataframe of features x estimates}
+\item[interval\_name]{names of columns that contain the low and high estimates, respectively.
+(default: c("low","high"))}
+\item[pattern\_name]{string to use as the title for the plots}
+\item[sort]{Boolean. Whether or not to sort genes by their estimates (default = T)}
+\item[genes]{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)}
+\item[weights]{weights of features to include as annotation (default = NULL will not include heatmap)}
+\item[weights\_clip]{quantile of data to clip color scale for improved visualization (default: 0.99)}
+\item[weights\_vis\_norm]{Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"}
+\end{description}
+ 
+### Output 
+A list of the length three that includes confidence interval plots and relevant info. \texttt{ci\_estimates\_plot} is the point-range plot for the provided estimates. If called from within \texttt{projectionDriveR}, the unweighted estimates are used. \texttt{feature\_order} is the vector of gene names in the order shown in the figure. \texttt{weights\_heatmap} is a heatmap annotation of the gene loadings, in the same order as above. 
+
+### Customize plotting of confidence intervals
+
+```{r}
+library(cowplot)
+#order in ascending order of estimates
+conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
+gene_order <- rownames(conf_intervals)
+
+#add text labels for top and bottom n genes
+conf_intervals$label_name <- NA_character_
+n <- 2
+idx <- c(1:n, (dim(conf_intervals)[1]-(n-1)):dim(conf_intervals)[1])
+gene_ids <- gene_order[idx]
+conf_intervals$label_name[idx] <- gene_ids
+
+#the labels above can now be used as ggplot aesthetics
+plots_list <- plotConfidenceIntervals(conf_intervals, #mean difference in expression confidence intervals
+                                      sort = F, #should genes be sorted by estimates
+                                      weights = drivers$normalized_weights[rownames(conf_intervals)],
+                                      pattern_name = pattern_to_weight,
+                                      weights_clip = 0.99,
+                                      weights_vis_norm = "none")
+
+pl1 <- plots_list[["ci_estimates_plot"]] +
+  ggrepel::geom_label_repel(aes(label = label_name), max.overlaps = 20, force = 50)
+
+pl2 <- plots_list[["weights_heatmap"]]
+
+#now plot the weighted differences
+weighted_conf_intervals <- drivers$weighted_mean_ci[gene_order,]
+plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
+                                               sort = F,
+                                               pattern_name = pattern_to_weight)
+
+pl3 <- plots_list_weighted[["ci_estimates_plot"]] +
+  xlab("Difference in weighted group means") +
+  theme(axis.title.y = element_blank(), axis.ticks.y = element_blank(), axis.text.y = element_blank())
+
+cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3)
+
+
+
+```
+
+
+
+
+
+
+

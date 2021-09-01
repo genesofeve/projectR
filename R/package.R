@@ -84,3 +84,26 @@
 #' @docType data
 #' @format A list of 12 items 
 "AP.RNAseq6l3c3t"
+
+#' CoGAPS patterns learned from the developing mouse retina.
+#'
+#' @references 
+#' 1. Clark, B.S., & Stein-O'Brien G.L., et al. Single-Cell RNA-Seq Analysis of Development Identifies NFI 
+#' Factors as Regulating Mitotic Exit and Late-Born Cell Specification. Cell 102, 1111-1126 (2019).
+#' @name retinal_patterns
+#' @docType data
+#' @format A gene (rows) by pattern (column) matrix
+"retinal_patterns"
+
+#' log-normalized count data from microglial cells in the p6 mouse cortex.
+#' @name microglial_counts
+#' @docType data 
+#' @format A gene (rows) by cell (column) matrix
+"microglial_counts"
+
+#' log-normalized count data from astrocytes and oligodendrocytes in the p6 mouse cortex.
+#' @name glial_counts
+#' @docType data 
+#' @format A gene (rows) by cell (column) matrix
+"glial_counts"
+
