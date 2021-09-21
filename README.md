@@ -17,4 +17,4 @@ BiocManager::install("projectR")
 BiocManager::install("genesofeve/projectR")
 ```
 ## Getting Started
-We recommed recommend going through the [vignette](https://github.com/genesofeve/projectR/blob/master/vignettes/projectR.pdf) to learn more about **projectR**.
+We recommend going through the [vignette](https://github.com/genesofeve/projectR/blob/master/vignettes/projectR.pdf) to learn more about **projectR**.
