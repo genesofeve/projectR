@@ -17,10 +17,6 @@
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
   rownames(tempP)<-rownames(data)
   colnames(tempP)<-unique(clusters)
-  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
-  #previous code
-  #for(x in unique(clusters)) {tempP[clusters==x,x]<-apply(data[clusters==x,],1,cor,y=colMeans(data[clusters==x,]))}
-  #new code
   for(x in unique(clusters)) 
   {
      mean_cluster <- colMeans(data[,clusters==x])
@@ -50,10 +46,6 @@ setMethod("cluster2pattern",signature(clusters="character"),.cluster2pattern)
   nG<-dim(data)[1]
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
   rownames(tempP)<-rownames(data)
-  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
-  #previous code
-  #for(x in 1:nD) {tempP[clusters==x,x]<-apply(data[clusters==x,],1,cor,y=colMeans(data[clusters==x,]))}
-  #new code
   for(x in unique(clusters)) 
   {
      mean_cluster <- colMeans(data[,clusters==x])
@@ -83,10 +75,6 @@ setOldClass("kmeans")
   nG<-dim(data)[1]
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
   rownames(tempP)<-rownames(data)
-  #for(x in 1:nD) {tempP[Patterns$cluster==x,x]<-rowMeans(data[Patterns$cluster==x,])}
-  #previous code
-  #for(x in 1:nD) {tempP[clusters$cluster==x,x]<-apply(data[clusters$cluster==x,],1,cor,y=colMeans(data[clusters$cluster==x,]))}
-  #new code
   for(x in unique(clusters$cluster)) 
   {
      mean_cluster <- colMeans(data[,clusters$cluster==x])
@@ -117,9 +105,6 @@ setOldClass("hclust")
   nG<-dim(data)[1]
   tempP<-matrix(data=rep(0,NP*nG),nrow = nG,ncol=NP)
   rownames(tempP)<-rownames(data)
-  #for(x in 1:NP) {tempP[cut==x,x]<-rowMeans(data[cut==x,])}
-  #previous code
-  #for(x in 1:NP) {tempP[cut==x,x]<-apply(data[cut==x,],1,cor,y=colMeans(data[cut==x,]))}
   for(x in unique(cut)) 
   {
      mean_cluster <- colMeans(data[,cut==x])
