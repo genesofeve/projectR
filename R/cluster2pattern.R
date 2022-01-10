@@ -75,12 +75,12 @@ setOldClass("kmeans")
   nG<-dim(data)[1]
   tempP<-matrix(data=rep(0,nD*nG),nrow = nG,ncol =nD)
   rownames(tempP)<-rownames(data)
+  colnames(tempP)<-unique(clusters$cluster)
   for(x in unique(clusters$cluster)) 
   {
-     mean_cluster <- colMeans(data[,clusters$cluster==x])
-     tempP[, x]<-apply(data[,clusters$cluster==x], 1, cor ,mean_cluster)
+    mean_cluster <- colMeans(data[,clusters$cluster==x])
+    tempP[, x]<-apply(data[,clusters$cluste==x], 1, cor ,mean_cluster)
   }
-
   Patterns<-tempP
   Patterns <- new("cluster2pattern",clusterMatrix = Patterns)
   return(Patterns)
