@@ -103,12 +103,12 @@ setOldClass("hclust")
 #  if(is.na(Patterndata)){stop("data used to make hclust object must also be provided.")}
   cut=cutree(clusters,k=NP)
   nG<-dim(data)[1]
-  tempP<-matrix(data=rep(0,NP*nG),nrow = nG,ncol=NP)
+  tempP<-matrix(data=rep(0,nP*nG),nrow = nG,ncol=nP)
   rownames(tempP)<-rownames(data)
   for(x in unique(cut)) 
   {
-     mean_cluster <- colMeans(data[,cut==x])
-     tempP[, x]<-apply(data[,cut==x], 1, cor ,mean_cluster)
+    mean_cluster <- colMeans(data[,cut==x])
+    tempP[, x]<-apply(data[,cut==x], 1, cor ,mean_cluster)
   }
 
   Patterns<-tempP
