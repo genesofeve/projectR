@@ -447,6 +447,7 @@ A list of the length three that includes confidence interval plots and relevant 
 
 ```{r}
 library(cowplot)
+library(ggrepel)
 #order in ascending order of estimates
 conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
 gene_order <- rownames(conf_intervals)
