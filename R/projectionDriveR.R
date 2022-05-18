@@ -4,6 +4,7 @@
 #' 
 #' 
 #' @importFrom stats var
+#' @importFrom ggrepel geom_label_repel
 bonferroniCorrectedDifferences <- function(
   group1, #count matrix 1
   group2, #count matrix 2
