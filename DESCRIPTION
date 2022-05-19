@@ -34,7 +34,8 @@ Suggests:
     knitr,
     rmarkdown,
     ComplexHeatmap,
-    ggrepel
+    ggrepel,
+    tinytex
 LazyData: TRUE
 RoxygenNote: 7.1.1
 Encoding: UTF-8
