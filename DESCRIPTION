@@ -23,7 +23,8 @@ Imports:
     Matrix,
     MatrixModels,
     ggplot2,
-    cowplot
+    cowplot,
+    ggrepel
 Suggests:
     BiocStyle,
     CoGAPS,
@@ -33,9 +34,7 @@ Suggests:
     devtools,
     knitr,
     rmarkdown,
-    ComplexHeatmap,
-    ggrepel,
-    tinytex
+    ComplexHeatmap
 LazyData: TRUE
 RoxygenNote: 7.2.0
 Encoding: UTF-8
