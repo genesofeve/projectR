@@ -145,17 +145,17 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
 }
 \description{
-A function for the projection of new data into a previously defined 
+A function for the projection of new data into a previously defined
 feature space.
 }
 \details{
 \code{loadings} can belong to one of several classes depending on upstream
-analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
-\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
+analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
+\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR},
 and \code{correlateR}.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("CoGAPS")
