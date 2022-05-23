@@ -10,7 +10,7 @@ date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::html_document
 bibliography: projectR.bib
 description: |
- Functions for the projection of weights from PCA, CoGAPS, NMF, correlation, and clustering
+ Functions for the Projection of Weights from PCA, CoGAPS, NMF, Correlation, and Clustering
 vignette: >
   %\VignetteIndexEntry{projectR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -229,7 +229,7 @@ data(p.RNAseq6l3c3t)
 
 
 nP<-5
-kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
 kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
 kpattern
 
@@ -446,7 +446,7 @@ A list of the length three that includes confidence interval plots and relevant 
 ### Customize plotting of confidence intervals
 
 ```{r}
-library(cowplot)
+suppressWarnings(library(cowplot))
 #order in ascending order of estimates
 conf_intervals <- conf_intervals %>% mutate(mid = (high+low)/2) %>% arrange(mid)
 gene_order <- rownames(conf_intervals)

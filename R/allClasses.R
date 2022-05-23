@@ -61,16 +61,18 @@ setClass("cluster2pattern", slots=c(
 	clusterMatrix = "matrix"
 ))
 
-#' Constructor for rotatoR
-#' @param .Object rotatoR object
-#' @param ... additional arguments to intialize rotatoR
-#' @return initialized rotatoR object
+#' Constructor for cluster2pattern
+#' @param .Object clusterMatrix object
+#' @param clusterMatrix matrix of continous values for projection that is output of cluster2pattern function
+#' @param ... additional arguments to intialize cluster2pattern
+#' @return initialized cluster2pattern object
 
 #' @importFrom methods callNextMethod
 
-setMethod("initialize", "rotatoR",
-function(.Object, ... )
+setMethod("initialize", "cluster2pattern",
+function(.Object, clusterMatrix, ... )
 {
 	.Object <- callNextMethod(.Object, ...)
-  .Object
+	.Object@clusterMatrix <- clusterMatrix
+    .Object
 })
