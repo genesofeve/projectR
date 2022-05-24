@@ -26,7 +26,9 @@
 #' \code{loadings} can belong to one of several classes depending on upstream
 #' analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
 #' \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR},
-#' and \code{correlateR}.
+#' and \code{correlateR}. Please note that \code{loadings} should not contain NA.
+# NA in loadings result in dimension mismatch b/w loadings and data as they are removed
+# by model.matrix
 setGeneric("projectR",function(data, loadings, dataNames=NULL, loadingsNames=NULL, ...) standardGeneric("projectR"))
 #######################################################################################################################################
 

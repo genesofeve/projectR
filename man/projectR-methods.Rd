@@ -152,7 +152,7 @@ feature space.
 \code{loadings} can belong to one of several classes depending on upstream
 analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
 \code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR},
-and \code{correlateR}.
+and \code{correlateR}. Please note that \code{loadings} should not contain NA.
 }
 \examples{
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
@@ -180,8 +180,8 @@ NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("projectR")
 data(p.RNAseq6l3c3t)
-nP<-5
-kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+nP<-3
+kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
 kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
 p<-as.matrix(p.RNAseq6l3c3t)
 projectR(p,kpattern)

@@ -357,8 +357,8 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
 #' @examples
 #' library("projectR")
 #' data(p.RNAseq6l3c3t)
-#' nP<-5
-#' kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+#' nP<-3
+#' kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
 #' kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
 #' p<-as.matrix(p.RNAseq6l3c3t)
 #' projectR(p,kpattern)
@@ -369,7 +369,9 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
 setMethod("projectR", signature(data="matrix", loadings="cluster2pattern"),
 function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
-  return(projectR(data, loadings=loadings@clusterMatrix, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
+  loadings = loadings@clusterMatrix
+  loadings[is.na(loadings)] <- 0
+  return(projectR(data, loadings=loadings, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 })
 
 #########################################################################
