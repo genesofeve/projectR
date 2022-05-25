@@ -2,8 +2,6 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
-#' @importFrom limma lmFit
-
 
 #######################################################################################################################################
 #' @import limma
@@ -16,7 +14,7 @@ setOldClass("prcomp")
 #' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
 #' @aliases projectR
-.projectR_matrix<-function(
+setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
   dataNames = NULL, # a vector with names of data rows
@@ -76,10 +74,7 @@ setOldClass("prcomp")
       return(projectionFit)
   }
   else{return(projectionPatterns)}
-}
-
-setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix)
-
+})
 
 #######################################################################################################################################
 #' @import Matrix
@@ -91,7 +86,7 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix
 #' @param family VGAM family function for model fitting (default: "gaussianff")
 #' @rdname projectR-methods
 #' @aliases projectR
-.projectR_matrix_sparse<-function(
+setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
   dataNames = NULL, # a vector with names of data rows
@@ -137,9 +132,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix
       return(projectionFit)
   }
   else{return(projectionPatterns)}
-}
+})
 
-setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),.projectR_matrix_sparse)
 
 #######################################################################################################################################
 #' @import limma

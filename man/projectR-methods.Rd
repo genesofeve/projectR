@@ -3,8 +3,8 @@
 \docType{methods}
 \name{projectR}
 \alias{projectR}
-\alias{.projectR_matrix}
-\alias{.projectR_matrix_sparse}
+\alias{projectR,matrix,matrix-method}
+\alias{projectR,dgCMatrix,matrix-method}
 \alias{projectR,matrix,LinearEmbeddingMatrix-method}
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
@@ -16,7 +16,7 @@
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
-.projectR_matrix(
+\S4method{projectR}{matrix,matrix}(
   data,
   loadings,
   dataNames = NULL,
@@ -28,7 +28,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   bootIter = 1000
 )
 
-.projectR_matrix_sparse(
+\S4method{projectR}{dgCMatrix,matrix}(
   data,
   loadings,
   dataNames = NULL,

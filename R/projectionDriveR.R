@@ -1,7 +1,11 @@
 #######################################################################################################################################
+#' bonferroniCorrectedDifferences
 #'
 #' Calculate the (weighted) difference in means for each measurement between two groups.
-#'
+#' @param group1 count matrix 1
+#' @param group2 count matrix 2
+#' @param diff_weights oadings to weight the differential expression between the groups
+#' @param pvalue significance value to threshold at
 #'
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
