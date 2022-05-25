@@ -370,6 +370,7 @@ setMethod("projectR", signature(data="matrix", loadings="cluster2pattern"),
 function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
   loadings = loadings@clusterMatrix
+  # NA results from cor when sd is zero in some of the groups
   loadings[is.na(loadings)] <- 0
   return(projectR(data, loadings=loadings, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 })
