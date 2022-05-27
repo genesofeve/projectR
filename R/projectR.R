@@ -77,9 +77,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
 })
 
 #######################################################################################################################################
-#' @import Matrix
 #' @import MatrixModels
-#' @import stats
+#' @importFrom stats model.matrix
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
