@@ -1,8 +1,0 @@
-# necessary yml
-language: r
-cache: packages
-sudo: required
-
-# use bioconductor
-bioc_required: true
-bioc_use_devel: false

@@ -2,8 +2,6 @@
 setOldClass("kmeans")
 setOldClass("hclust")
 setOldClass("prcomp")
-#' @importFrom limma lmFit
-
 
 #######################################################################################################################################
 #' @import limma
@@ -16,7 +14,7 @@ setOldClass("prcomp")
 #' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
 #' @aliases projectR
-.projectR_matrix<-function(
+setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
   dataNames = NULL, # a vector with names of data rows
@@ -76,22 +74,18 @@ setOldClass("prcomp")
       return(projectionFit)
   }
   else{return(projectionPatterns)}
-}
-
-setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix)
-
+})
 
 #######################################################################################################################################
-#' @import Matrix
 #' @import MatrixModels
-#' @import stats
+#' @importFrom stats model.matrix
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
 #' @param family VGAM family function for model fitting (default: "gaussianff")
 #' @rdname projectR-methods
 #' @aliases projectR
-.projectR_matrix_sparse<-function(
+setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
   data, # a dataset to be projected onto
   loadings, # a matrix of continous values to be projected with unique rownames
   dataNames = NULL, # a vector with names of data rows
@@ -137,9 +131,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),.projectR_matrix
       return(projectionFit)
   }
   else{return(projectionPatterns)}
-}
+})
 
-setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),.projectR_matrix_sparse)
 
 #######################################################################################################################################
 #' @import limma
@@ -357,8 +350,8 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
 #' @examples
 #' library("projectR")
 #' data(p.RNAseq6l3c3t)
-#' nP<-5
-#' kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+#' nP<-3
+#' kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
 #' kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
 #' p<-as.matrix(p.RNAseq6l3c3t)
 #' projectR(p,kpattern)
@@ -369,7 +362,10 @@ function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceD
 setMethod("projectR", signature(data="matrix", loadings="cluster2pattern"),
 function(data, loadings, dataNames=NULL, loadingsNames=NULL, full=FALSE, sourceData,bootstrapPval=FALSE,bootIter=1000)
 {
-  return(projectR(data, loadings=loadings@clusterMatrix, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
+  loadings = loadings@clusterMatrix
+  # NA results from cor when sd is zero in some of the groups
+  loadings[is.na(loadings)] <- 0
+  return(projectR(data, loadings=loadings, dataNames= dataNames, full = full,bootstrapPval=bootstrapPval,bootIter=bootIter))
 })
 
 #########################################################################

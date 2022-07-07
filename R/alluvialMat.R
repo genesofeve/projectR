@@ -11,7 +11,7 @@
 #' @param   minPropExplained threshold for minimum proportion of samples that correspond to a pattern to be used for plotting
 #' @return  A matrix to generate alluvial plots
 #' @examples
-#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 #' alluvialMat(projection,pd.ESepiGen4c1l$Condition)
 #' @export
@@ -25,9 +25,9 @@ alluvialMat<-function(projection, annotations, annotationName = "Cell type", ann
   sigPatternIdx<-apply(projection$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
   sig<-as.data.frame(t(projection$qval[sigPatternIdx,]<=0.01))
   DM<-as.data.frame(cbind('celltype'=annotations,sig))  #possible issue when the numbe of annotations is less than significant patterns
-  celltype_cells<-as.data.frame(table(annotations)) 
+  celltype_cells<-as.data.frame(table(annotations))
   colnames(celltype_cells)<-c('celltype','nCells_per_type')
-  colnames(DM)[1] <- 'celltype' 
+  colnames(DM)[1] <- 'celltype'
   pattern_cells<-as.data.frame(colSums(sig*1,na.rm=T))
   colnames(pattern_cells)<-c('nCells_per_pattern')
   DM.summary<- DM %>%
@@ -49,14 +49,14 @@ plot.data<-subset(DM.summary,prop>minProp)
 nPatterns<-length(unique(plot.data$variable))
 nCelltype<-length(unique(plot.data$celltype))
 p<-ggplot(plot.data,aes(y=prop,axis1=celltype,axis2=variable)) +
-  geom_alluvium(aes(fill=celltype),color="black",size=0.2) + 
-  geom_stratum(width=1/12,fill="grey50",color="black") + 
-  geom_label(stat=ggalluvial::StatStratum,infer.label=TRUE) + labs(y="") + 
-  scale_x_continuous(breaks=1:2, labels=c(annotationName, "Pattern")) + 
+  geom_alluvium(aes(fill=celltype),color="black",size=0.2) +
+  geom_stratum(width=1/12,fill="grey50",color="black") +
+  geom_text(stat = ggalluvial::StatStratum , aes(label = after_stat(stratum))) + labs(y="") +
+  scale_x_continuous(breaks=1:2, labels=c(annotationName, "Pattern")) +
   scale_y_continuous(breaks = pretty_breaks()) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
     panel.background = element_blank(), axis.line = element_line(colour = "black")) +
-  scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) + 
+  scale_fill_manual(values=getPalette(nCelltype)) + guides(fill=FALSE) +
   ggtitle(paste0("Pattern explains at least ",minProp*100,"% of ",tolower(annotationType),"s in a given type"))
   #in a given *type* may not be ideal for all scenarios
 plot(p)

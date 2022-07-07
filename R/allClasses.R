@@ -2,10 +2,10 @@
 #' @export
 #'
 #' @slot rotatedM rotated basis set (matrix) that is output of rotatoR function
-#' @description class of rotatoR output. 
+#' @description class of rotatoR output.
 
 setClass("rotatoR", slots=c(
-	rotatedM = "matrix"      
+	rotatedM = "matrix"
 ))
 
 #' Constructor for rotatoR
@@ -28,10 +28,10 @@ function(.Object, rotatedM, ... )
 #' @export
 #'
 #' @slot corM correlation matrix obtained from correlateR
-#' @description class of correlateR output. 
+#' @description class of correlateR output.
 
 setClass("correlateR", slots=c(
-	corM = "list"      
+	corM = "list"
 ))
 
 #' Constructor for correlateR
@@ -55,13 +55,13 @@ function(.Object, corM, ... )
 #' @export
 #'
 #' @slot clusterMatrix matrix of continous values for projection that is output of cluster2pattern function
-#' @description class of cluster2pattern output. 
+#' @description class of cluster2pattern output.
 
 setClass("cluster2pattern", slots=c(
-	clusterMatrix = "matrix"      
+	clusterMatrix = "matrix"
 ))
 
-#' Constructor for rotatoR
+#' Constructor for cluster2pattern
 #' @param .Object clusterMatrix object
 #' @param clusterMatrix matrix of continous values for projection that is output of cluster2pattern function
 #' @param ... additional arguments to intialize cluster2pattern
@@ -69,7 +69,7 @@ setClass("cluster2pattern", slots=c(
 
 #' @importFrom methods callNextMethod
 
-setMethod("initialize", "rotatoR",
+setMethod("initialize", "cluster2pattern",
 function(.Object, clusterMatrix, ... )
 {
 	.Object <- callNextMethod(.Object, ...)

@@ -64,20 +64,23 @@
 
 \setlength{\droptitle}{-2em}
 
-\RequirePackage[]{/usr/local/lib/R/4.0/site-library/BiocStyle/resources/tex/Bioconductor}
+\RequirePackage[]{C:/Users/Gaurav/Documents/R/win-library/4.0/BiocStyle/resources/tex/Bioconductor}
 
 \bioctitle[]{projectR Vignette}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-\author{Genevieve L. Stein-O'Brien}
+\author{Gaurav Sharma, Jared N. Slosberg, Loyal A. Goff and Genevieve L. Stein-O'Brien}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{6 May 2021}
+    \date{20 May 2022}
 
 % code highlighting
 \definecolor{fgcolor}{rgb}{0.251, 0.251, 0.251}
+\makeatletter
+\@ifundefined{AddToHook}{}{\AddToHook{package/xcolor/after}{\definecolor{fgcolor}{rgb}{0.251, 0.251, 0.251}}}
+\makeatother
 \newcommand{\hlnum}[1]{\textcolor[rgb]{0.816,0.125,0.439}{#1}}%
 \newcommand{\hlstr}[1]{\textcolor[rgb]{0.251,0.627,0.251}{#1}}%
 \newcommand{\hlcom}[1]{\textcolor[rgb]{0.502,0.502,0.502}{\textit{#1}}}%
@@ -131,7 +134,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor{errorcolor}{#1}}
 \newcommand{\NormalTok}[1]{\hlstd{#1}}
 %
-\AtBeginDocument{\bibliographystyle{/usr/local/lib/R/4.0/site-library/BiocStyle/resources/tex/unsrturl}}
+\AtBeginDocument{\bibliographystyle{C:/Users/Gaurav/Documents/R/win-library/4.0/BiocStyle/resources/tex/unsrturl}}
 
 
 \begin{document}
@@ -209,33 +212,33 @@ Projection of principal components is achieved by matrix multiplication of a new
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# data to define PCs}
-\FunctionTok{library}\NormalTok{(projectR)}
-\FunctionTok{data}\NormalTok{(p.RNAseq6l3c3t)}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(p.RNAseq6l3c3t)}
 
 \CommentTok{\# do PCA on RNAseq6l3c3t expression data}
-\NormalTok{pc.RNAseq6l3c3t}\OtherTok{\textless{}{-}}\FunctionTok{prcomp}\NormalTok{(}\FunctionTok{t}\NormalTok{(p.RNAseq6l3c3t))}
-\NormalTok{pcVAR }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(((pc.RNAseq6l3c3t}\SpecialCharTok{$}\NormalTok{sdev)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(pc.RNAseq6l3c3t}\SpecialCharTok{$}\NormalTok{sdev}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}\SpecialCharTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{)}
-\NormalTok{dPCA }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(pc.RNAseq6l3c3t}\SpecialCharTok{$}\NormalTok{x,pd.RNAseq6l3c3t))}
+\NormalTok{pc.RNAseq6l3c3t<{-}}\KeywordTok{prcomp}\NormalTok{(}\KeywordTok{t}\NormalTok{(p.RNAseq6l3c3t))}
+\NormalTok{pcVAR <{-}}\StringTok{ }\KeywordTok{round}\NormalTok{(((pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sdev)}\OperatorTok{\^{}}\DecValTok{2}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sdev}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}\OperatorTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{dPCA <{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{x,pd.RNAseq6l3c3t))}
 
 \CommentTok{\#plot pca}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\NormalTok{setCOL }\OtherTok{\textless{}{-}} \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\AttributeTok{name=}\StringTok{"Condition:"}\NormalTok{)}
-\NormalTok{setFILL }\OtherTok{\textless{}{-}} \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{),}\AttributeTok{guide =} \ConstantTok{FALSE}\NormalTok{)}
-\NormalTok{setPCH }\OtherTok{\textless{}{-}} \FunctionTok{scale\_shape\_manual}\NormalTok{(}\AttributeTok{values=}\FunctionTok{c}\NormalTok{(}\DecValTok{23}\NormalTok{,}\DecValTok{22}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{24}\NormalTok{),}\AttributeTok{name=}\StringTok{"Cell Line:"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\DataTypeTok{name=}\StringTok{"Condition:"}\NormalTok{)}
+\NormalTok{setFILL <{-}}\StringTok{ }\KeywordTok{scale\_fill\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{),}\DataTypeTok{guide =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{setPCH <{-}}\StringTok{ }\KeywordTok{scale\_shape\_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\DecValTok{23}\NormalTok{,}\DecValTok{22}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{24}\NormalTok{),}\DataTypeTok{name=}\StringTok{"Cell Line:"}\NormalTok{)}
 
-\NormalTok{pPCA }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(dPCA, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{PC1, }\AttributeTok{y=}\NormalTok{PC2, }\AttributeTok{colour=}\NormalTok{ID.cond, }\AttributeTok{shape=}\NormalTok{ID.line,}
-        \AttributeTok{fill=}\NormalTok{ID.cond)) }\SpecialCharTok{+}
-        \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size=}\NormalTok{days),}\AttributeTok{alpha=}\NormalTok{.}\DecValTok{6}\NormalTok{)}\SpecialCharTok{+}
-\NormalTok{        setCOL }\SpecialCharTok{+}\NormalTok{ setPCH  }\SpecialCharTok{+}\NormalTok{ setFILL }\SpecialCharTok{+}
-        \FunctionTok{scale\_size\_area}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{), }\AttributeTok{name=}\StringTok{"Day"}\NormalTok{) }\SpecialCharTok{+}
-        \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{legend.justification=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
-              \AttributeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
-              \AttributeTok{panel.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"white"}\NormalTok{,}\AttributeTok{colour=}\ConstantTok{NA}\NormalTok{),}
-              \AttributeTok{legend.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"transparent"}\NormalTok{,}\AttributeTok{colour=}\ConstantTok{NA}\NormalTok{),}
-              \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{0}\NormalTok{,}\AttributeTok{hjust=}\DecValTok{0}\NormalTok{,}\AttributeTok{face=}\StringTok{"bold"}\NormalTok{)) }\SpecialCharTok{+}
-        \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"PCA of hPSC PolyA RNAseq"}\NormalTok{,}
-            \AttributeTok{x=}\FunctionTok{paste}\NormalTok{(}\StringTok{"PC1 ("}\NormalTok{,pcVAR[}\DecValTok{1}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),}
-            \AttributeTok{y=}\FunctionTok{paste}\NormalTok{(}\StringTok{"PC2 ("}\NormalTok{,pcVAR[}\DecValTok{2}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{pPCA <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dPCA, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{PC1, }\DataTypeTok{y=}\NormalTok{PC2, }\DataTypeTok{colour=}\NormalTok{ID.cond, }\DataTypeTok{shape=}\NormalTok{ID.line,}
+        \DataTypeTok{fill=}\NormalTok{ID.cond)) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{geom\_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size=}\NormalTok{days),}\DataTypeTok{alpha=}\NormalTok{.}\DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{        }\NormalTok{setCOL }\OperatorTok{+}\StringTok{ }\NormalTok{setPCH  }\OperatorTok{+}\StringTok{ }\NormalTok{setFILL }\OperatorTok{+}
+\StringTok{        }\KeywordTok{scale\_size\_area}\NormalTok{(}\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{), }\DataTypeTok{name=}\StringTok{"Day"}\NormalTok{) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+              \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+              \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{,}\DataTypeTok{colour=}\OtherTok{NA}\NormalTok{),}
+              \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"transparent"}\NormalTok{,}\DataTypeTok{colour=}\OtherTok{NA}\NormalTok{),}
+              \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"PCA of hPSC PolyA RNAseq"}\NormalTok{,}
+            \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC1 ("}\NormalTok{,pcVAR[}\DecValTok{1}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+            \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC2 ("}\NormalTok{,pcVAR[}\DecValTok{2}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -245,40 +248,46 @@ Projection of principal components is achieved by matrix multiplication of a new
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# data to project into PCs from RNAseq6l3c3t expression data}
-\FunctionTok{data}\NormalTok{(p.ESepiGen4c1l)}
+\KeywordTok{data}\NormalTok{(p.ESepiGen4c1l)}
 
-\FunctionTok{library}\NormalTok{(projectR)}
-\NormalTok{PCA2ESepi }\OtherTok{\textless{}{-}} \FunctionTok{projectR}\NormalTok{(}\AttributeTok{data =}\NormalTok{ p.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{mRNA.Seq,}\AttributeTok{loadings=}\NormalTok{pc.RNAseq6l3c3t,}
-\AttributeTok{full=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
-\DocumentationTok{\#\# [1] "93 row names matched between data and loadings"}
-\DocumentationTok{\#\# [1] "Updated dimension of data: 93 9"}
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{PCA2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{pc.RNAseq6l3c3t,}
+\DataTypeTok{full=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
+\CommentTok{\#\# [1] "93 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 93 9"}
 
-\NormalTok{pd.ESepiGen4c1l}\OtherTok{\textless{}{-}}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Condition=}\FunctionTok{sapply}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(p.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{mRNA.Seq),}
-  \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{unlist}\NormalTok{(}\FunctionTok{strsplit}\NormalTok{(x,}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{))[}\DecValTok{1}\NormalTok{]),}\AttributeTok{stringsAsFactors=}\ConstantTok{FALSE}\NormalTok{)}
-\NormalTok{pd.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{color}\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"green"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{rep}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-\FunctionTok{names}\NormalTok{(pd.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{color)}\OtherTok{\textless{}{-}}\NormalTok{pd.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{Cond}
+\NormalTok{pd.ESepiGen4c1l<{-}}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Condition=}\KeywordTok{sapply}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq),}
+  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{unlist}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(x,}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{))[}\DecValTok{1}\NormalTok{]),}\DataTypeTok{stringsAsFactors=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{color<{-}}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"green"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{names}\NormalTok{(pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{color)<{-}pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{Cond}
 
-\NormalTok{dPCA2ESepi}\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(}\FunctionTok{t}\NormalTok{(PCA2ESepi[[}\DecValTok{1}\NormalTok{]]),pd.ESepiGen4c1l))}
+\NormalTok{dPCA2ESepi<{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\KeywordTok{t}\NormalTok{(PCA2ESepi[[}\DecValTok{1}\NormalTok{]]),pd.ESepiGen4c1l))}
 
 \CommentTok{\#plot pca}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\NormalTok{setEpiCOL }\OtherTok{\textless{}{-}} \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
-  \AttributeTok{guide =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setEpiCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
+  \DataTypeTok{guide =} \KeywordTok{guide\_legend}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
 
-\NormalTok{pPC2ESepiGen4c1l }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(dPCA2ESepi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{PC1, }\AttributeTok{y=}\NormalTok{PC2, }\AttributeTok{colour=}\NormalTok{Condition)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size=}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ setEpiCOL }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{legend.justification=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
-  \AttributeTok{panel.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"white"}\NormalTok{),}
-  \AttributeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
-  \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{0}\NormalTok{,}\AttributeTok{hjust=}\DecValTok{0}\NormalTok{,}\AttributeTok{face=}\StringTok{"bold"}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
-  \AttributeTok{x=}\FunctionTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\FunctionTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),}
-  \AttributeTok{y=}\FunctionTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\FunctionTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{pPC2ESepiGen4c1l <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dPCA2ESepi, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{PC1, }\DataTypeTok{y=}\NormalTok{PC2, }\DataTypeTok{colour=}\NormalTok{Condition)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_point}\NormalTok{(}\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{setEpiCOL }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+  \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{),}
+  \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+  \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
+  \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+  \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## Warning: package 'gridExtra' was built under R version 4.0.5
+## Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
+## use `guide = "none"` instead.
+\end{verbatim}
+
 \begin{adjustwidth}{\fltoffset}{0mm}
-\includegraphics[width=1\linewidth,]{projectR_files/figure-latex/unnamed-chunk-3-1} \end{adjustwidth}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-2-1} \end{adjustwidth}
 
 \hypertarget{nmf-projection}{%
 \section{NMF projection}\label{nmf-projection}}
@@ -325,26 +334,31 @@ The basic output of the base projectR function, i.e.~\texttt{full=FALSE}, return
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# get data}
-\FunctionTok{library}\NormalTok{(projectR)}
-\NormalTok{AP }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(}\StringTok{"AP.RNAseq6l3c3t"}\NormalTok{)) }\CommentTok{\#CoGAPS run data}
-\NormalTok{AP }\OtherTok{\textless{}{-}}\NormalTok{ AP}\SpecialCharTok{$}\NormalTok{Amean}
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{AP <{-}}\StringTok{ }\KeywordTok{get}\NormalTok{(}\KeywordTok{data}\NormalTok{(}\StringTok{"AP.RNAseq6l3c3t"}\NormalTok{)) }\CommentTok{\#CoGAPS run data}
+\NormalTok{AP <{-}}\StringTok{ }\NormalTok{AP}\OperatorTok{$}\NormalTok{Amean}
 \CommentTok{\# heatmap of gene weights for CoGAPs patterns}
-\FunctionTok{library}\NormalTok{(gplots)}
-\DocumentationTok{\#\# }
-\DocumentationTok{\#\# Attaching package: \textquotesingle{}gplots\textquotesingle{}}
-\DocumentationTok{\#\# The following object is masked from \textquotesingle{}package:stats\textquotesingle{}:}
-\DocumentationTok{\#\# }
-\DocumentationTok{\#\#     lowess}
-\NormalTok{pNMF}\OtherTok{\textless{}{-}}\FunctionTok{heatmap.2}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(AP),}\AttributeTok{col=}\NormalTok{bluered, }\AttributeTok{trace=}\StringTok{\textquotesingle{}none\textquotesingle{}}\NormalTok{,}
-          \AttributeTok{distfun=}\ControlFlowTok{function}\NormalTok{(c) }\FunctionTok{as.dist}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{cor}\NormalTok{(}\FunctionTok{t}\NormalTok{(c))) ,}
-          \AttributeTok{cexCol=}\DecValTok{1}\NormalTok{,}\AttributeTok{cexRow=}\NormalTok{.}\DecValTok{5}\NormalTok{,}\AttributeTok{scale =} \StringTok{"row"}\NormalTok{,}
-          \AttributeTok{hclustfun=}\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{hclust}\NormalTok{(x, }\AttributeTok{method=}\StringTok{"average"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(gplots)}
+\CommentTok{\#\# Warning: package \textquotesingle{}gplots\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#\# }
+\CommentTok{\#\# Attaching package: \textquotesingle{}gplots\textquotesingle{}}
+\CommentTok{\#\# The following object is masked from \textquotesingle{}package:projectR\textquotesingle{}:}
+\CommentTok{\#\# }
+\CommentTok{\#\#     lowess}
+\CommentTok{\#\# The following object is masked from \textquotesingle{}package:stats\textquotesingle{}:}
+\CommentTok{\#\# }
+\CommentTok{\#\#     lowess}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{pNMF<{-}}\KeywordTok{heatmap.2}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(AP),}\DataTypeTok{col=}\NormalTok{bluered, }\DataTypeTok{trace=}\StringTok{\textquotesingle{}none\textquotesingle{}}\NormalTok{,}
+          \DataTypeTok{distfun=}\ControlFlowTok{function}\NormalTok{(c) }\KeywordTok{as.dist}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\KeywordTok{cor}\NormalTok{(}\KeywordTok{t}\NormalTok{(c))) ,}
+          \DataTypeTok{cexCol=}\DecValTok{1}\NormalTok{,}\DataTypeTok{cexRow=}\NormalTok{.}\DecValTok{5}\NormalTok{,}\DataTypeTok{scale =} \StringTok{"row"}\NormalTok{,}
+          \DataTypeTok{hclustfun=}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{hclust}\NormalTok{(x, }\DataTypeTok{method=}\StringTok{"average"}\NormalTok{)}
 \NormalTok{      )}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{adjustwidth}{\fltoffset}{0mm}
-\includegraphics[width=1\linewidth,]{projectR_files/figure-latex/unnamed-chunk-4-1} \end{adjustwidth}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-3-1} \end{adjustwidth}
 
 \hypertarget{projecting-cogaps-objects}{%
 \subsection{Projecting CoGAPS objects}\label{projecting-cogaps-objects}}
@@ -352,43 +366,43 @@ The basic output of the base projectR function, i.e.~\texttt{full=FALSE}, return
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# data to project into PCs from RNAseq6l3c3t expression data}
-\FunctionTok{library}\NormalTok{(projectR)}
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.ESepiGen4c1l4\textquotesingle{}}\NormalTok{)}
-\DocumentationTok{\#\# Warning in data("p.ESepiGen4c1l4"): data set \textquotesingle{}p.ESepiGen4c1l4\textquotesingle{} not found}
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.RNAseq6l3c3t\textquotesingle{}}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.ESepiGen4c1l4\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\# Warning in data("p.ESepiGen4c1l4"): data set \textquotesingle{}p.ESepiGen4c1l4\textquotesingle{} not found}
+\KeywordTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.RNAseq6l3c3t\textquotesingle{}}\NormalTok{)}
 
-\NormalTok{NMF2ESepi }\OtherTok{\textless{}{-}} \FunctionTok{projectR}\NormalTok{(p.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{mRNA.Seq,}\AttributeTok{loadings=}\NormalTok{AP,}\AttributeTok{full=}\ConstantTok{TRUE}\NormalTok{,}
-    \AttributeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
-\DocumentationTok{\#\# [1] "93 row names matched between data and loadings"}
-\DocumentationTok{\#\# [1] "Updated dimension of data: 93 9"}
+\NormalTok{NMF2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{AP,}\DataTypeTok{full=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
+\CommentTok{\#\# [1] "93 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 93 9"}
 
-\NormalTok{dNMF2ESepi}\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(}\FunctionTok{t}\NormalTok{(NMF2ESepi),pd.ESepiGen4c1l))}
+\NormalTok{dNMF2ESepi<{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\KeywordTok{t}\NormalTok{(NMF2ESepi),pd.ESepiGen4c1l))}
 
 \CommentTok{\#plot pca}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\NormalTok{setEpiCOL }\OtherTok{\textless{}{-}} \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
-\AttributeTok{guide =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setEpiCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
+\DataTypeTok{guide =} \KeywordTok{guide\_legend}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
 
-\NormalTok{pNMF2ESepiGen4c1l }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(dNMF2ESepi, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{X1, }\AttributeTok{y=}\NormalTok{X2, }\AttributeTok{colour=}\NormalTok{Condition)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size=}\DecValTok{5}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ setEpiCOL }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{legend.justification=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
-  \AttributeTok{panel.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill =} \StringTok{"white"}\NormalTok{),}
-  \AttributeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
-  \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{vjust =} \DecValTok{0}\NormalTok{,}\AttributeTok{hjust=}\DecValTok{0}\NormalTok{,}\AttributeTok{face=}\StringTok{"bold"}\NormalTok{))}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
-  \AttributeTok{x=}\FunctionTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\FunctionTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{),}
-  \AttributeTok{y=}\FunctionTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\FunctionTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\AttributeTok{sep=}\StringTok{""}\NormalTok{))}
-\DocumentationTok{\#\# $x}
-\DocumentationTok{\#\# [1] "Projected PC1 (18.33\% of varience)"}
-\DocumentationTok{\#\# }
-\DocumentationTok{\#\# $y}
-\DocumentationTok{\#\# [1] "Projected PC2 (17.13\% of varience)"}
-\DocumentationTok{\#\# }
-\DocumentationTok{\#\# $title}
-\DocumentationTok{\#\# [1] "Encode RNAseq in target PC1 \& PC2"}
-\DocumentationTok{\#\# }
-\DocumentationTok{\#\# attr(,"class")}
-\DocumentationTok{\#\# [1] "labels"}
+\NormalTok{pNMF2ESepiGen4c1l <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dNMF2ESepi, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{X1, }\DataTypeTok{y=}\NormalTok{X2, }\DataTypeTok{colour=}\NormalTok{Condition)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_point}\NormalTok{(}\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{setEpiCOL }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+  \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{),}
+  \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+  \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{))}
+  \KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
+  \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+  \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\CommentTok{\#\# $x}
+\CommentTok{\#\# [1] "Projected PC1 (18.36\% of varience)"}
+\CommentTok{\#\# }
+\CommentTok{\#\# $y}
+\CommentTok{\#\# [1] "Projected PC2 (17.15\% of varience)"}
+\CommentTok{\#\# }
+\CommentTok{\#\# $title}
+\CommentTok{\#\# [1] "Encode RNAseq in target PC1 \& PC2"}
+\CommentTok{\#\# }
+\CommentTok{\#\# attr(,"class")}
+\CommentTok{\#\# [1] "labels"}
 \end{Highlighting}
 \end{Shaded}
 
@@ -461,7 +475,7 @@ The arguments are as follows:
 \hypertarget{output-3}{%
 \subsubsection{Output}\label{output-3}}
 
-The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified \(p\)-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of signigicantly overlapping sets will also be returned.
+The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified \(p\)-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of significantly overlapping sets will also be returned.
 
 \hypertarget{correlation-based-projection}{%
 \section{Correlation based projection}\label{correlation-based-projection}}
@@ -503,49 +517,52 @@ The output of the \texttt{correlateR} function is a \texttt{correlateR} class ob
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# data to}
-\FunctionTok{library}\NormalTok{(projectR)}
-\FunctionTok{data}\NormalTok{(}\StringTok{"p.RNAseq6l3c3t"}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(}\StringTok{"p.RNAseq6l3c3t"}\NormalTok{)}
 
 \CommentTok{\# get genes correlated to T}
-\NormalTok{cor2T}\OtherTok{\textless{}{-}}\FunctionTok{correlateR}\NormalTok{(}\AttributeTok{genes=}\StringTok{"T"}\NormalTok{, }\AttributeTok{dat=}\NormalTok{p.RNAseq6l3c3t, }\AttributeTok{threshtype=}\StringTok{"N"}\NormalTok{, }\AttributeTok{threshold=}\DecValTok{10}\NormalTok{, }\AttributeTok{absR=}\ConstantTok{TRUE}\NormalTok{)}
-\NormalTok{cor2T }\OtherTok{\textless{}{-}}\NormalTok{ cor2T}\SpecialCharTok{@}\NormalTok{corM}
-\DocumentationTok{\#\#\# heatmap of genes more correlated to T}
-\NormalTok{indx}\OtherTok{\textless{}{-}}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(cor2T,rownames))}
-\NormalTok{indx }\OtherTok{\textless{}{-}} \FunctionTok{as.vector}\NormalTok{(indx)}
-\FunctionTok{colnames}\NormalTok{(p.RNAseq6l3c3t)}\OtherTok{\textless{}{-}}\NormalTok{pd.RNAseq6l3c3t}\SpecialCharTok{$}\NormalTok{sampleX}
-\FunctionTok{library}\NormalTok{(reshape2)}
-\NormalTok{pm.RNAseq6l3c3t}\OtherTok{\textless{}{-}}\FunctionTok{melt}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(p.RNAseq6l3c3t[indx,],indx))}
-\DocumentationTok{\#\# Using indx as id variables}
+\NormalTok{cor2T<{-}}\KeywordTok{correlateR}\NormalTok{(}\DataTypeTok{genes=}\StringTok{"T"}\NormalTok{, }\DataTypeTok{dat=}\NormalTok{p.RNAseq6l3c3t, }\DataTypeTok{threshtype=}\StringTok{"N"}\NormalTok{, }\DataTypeTok{threshold=}\DecValTok{10}\NormalTok{, }\DataTypeTok{absR=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cor2T <{-}}\StringTok{ }\NormalTok{cor2T}\OperatorTok{@}\NormalTok{corM}
+\CommentTok{\#\#\# heatmap of genes more correlated to T}
+\NormalTok{indx<{-}}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(cor2T,rownames))}
+\NormalTok{indx <{-}}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(indx)}
+\KeywordTok{colnames}\NormalTok{(p.RNAseq6l3c3t)<{-}pd.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sampleX}
+\KeywordTok{library}\NormalTok{(reshape2)}
+\CommentTok{\#\# Warning: package \textquotesingle{}reshape2\textquotesingle{} was built under R version 4.0.5}
+\NormalTok{pm.RNAseq6l3c3t<{-}}\KeywordTok{melt}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(p.RNAseq6l3c3t[indx,],indx))}
+\CommentTok{\#\# Using indx as id variables}
 
-\FunctionTok{library}\NormalTok{(gplots)}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(viridis)}
-\DocumentationTok{\#\# Loading required package: viridisLite}
-\NormalTok{pCorT}\OtherTok{\textless{}{-}}\FunctionTok{ggplot}\NormalTok{(pm.RNAseq6l3c3t, }\FunctionTok{aes}\NormalTok{(variable, indx, }\AttributeTok{fill =}\NormalTok{ value)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_tile}\NormalTok{(}\AttributeTok{colour=}\StringTok{"gray20"}\NormalTok{, }\AttributeTok{size=}\FloatTok{1.5}\NormalTok{, }\AttributeTok{stat=}\StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_fill\_viridis}\NormalTok{(}\AttributeTok{option=}\StringTok{"B"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{) }\SpecialCharTok{+}  \FunctionTok{ylab}\NormalTok{(}\StringTok{""}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_y\_discrete}\NormalTok{(}\AttributeTok{limits=}\NormalTok{indx) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Ten genes most highly pos \& neg correlated with T"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}
-    \AttributeTok{panel.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
-    \AttributeTok{panel.border =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill=}\ConstantTok{NA}\NormalTok{,}\AttributeTok{color=}\StringTok{"gray20"}\NormalTok{, }\AttributeTok{size=}\FloatTok{0.5}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"solid"}\NormalTok{),}
-    \AttributeTok{panel.grid.major =} \FunctionTok{element\_blank}\NormalTok{(),}
-    \AttributeTok{panel.grid.minor =} \FunctionTok{element\_blank}\NormalTok{(),}
-    \AttributeTok{axis.line =} \FunctionTok{element\_blank}\NormalTok{(),}
-    \AttributeTok{axis.ticks =} \FunctionTok{element\_blank}\NormalTok{(),}
-    \AttributeTok{axis.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\FunctionTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{),}\AttributeTok{hjust=}\DecValTok{1}\NormalTok{),}
-    \AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{90}\NormalTok{,}\AttributeTok{vjust=}\NormalTok{.}\DecValTok{5}\NormalTok{),}
-    \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{color=}\StringTok{"white"}\NormalTok{, }\AttributeTok{size=}\FunctionTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{)),}
-    \AttributeTok{legend.background =} \FunctionTok{element\_rect}\NormalTok{(}\AttributeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
-    \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{,}
-    \AttributeTok{legend.title=}\FunctionTok{element\_blank}\NormalTok{()}
+\KeywordTok{library}\NormalTok{(gplots)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(viridis)}
+\CommentTok{\#\# Warning: package \textquotesingle{}viridis\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#\# Loading required package: viridisLite}
+\CommentTok{\#\# Warning: package \textquotesingle{}viridisLite\textquotesingle{} was built under R version 4.0.5}
+\NormalTok{pCorT<{-}}\KeywordTok{ggplot}\NormalTok{(pm.RNAseq6l3c3t, }\KeywordTok{aes}\NormalTok{(variable, indx, }\DataTypeTok{fill =}\NormalTok{ value)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_tile}\NormalTok{(}\DataTypeTok{colour=}\StringTok{"gray20"}\NormalTok{, }\DataTypeTok{size=}\FloatTok{1.5}\NormalTok{, }\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale\_fill\_viridis}\NormalTok{(}\DataTypeTok{option=}\StringTok{"B"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{) }\OperatorTok{+}\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{""}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale\_y\_discrete}\NormalTok{(}\DataTypeTok{limits=}\NormalTok{indx) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ten genes most highly pos \& neg correlated with T"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}
+    \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
+    \DataTypeTok{panel.border =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\OtherTok{NA}\NormalTok{,}\DataTypeTok{color=}\StringTok{"gray20"}\NormalTok{, }\DataTypeTok{size=}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{linetype=}\StringTok{"solid"}\NormalTok{),}
+    \DataTypeTok{panel.grid.major =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{panel.grid.minor =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.line =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.ticks =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.text =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{),}\DataTypeTok{hjust=}\DecValTok{1}\NormalTok{),}
+    \DataTypeTok{axis.text.x =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{,}\DataTypeTok{vjust=}\NormalTok{.}\DecValTok{5}\NormalTok{),}
+    \DataTypeTok{legend.text =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{color=}\StringTok{"white"}\NormalTok{, }\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{)),}
+    \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
+    \DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{,}
+    \DataTypeTok{legend.title=}\KeywordTok{element\_blank}\NormalTok{()}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{adjustwidth}{\fltoffset}{0mm}
-\includegraphics[width=1\linewidth,]{projectR_files/figure-latex/unnamed-chunk-6-1} \end{adjustwidth}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-5-1} \end{adjustwidth}
 
 \hypertarget{projecting-correlater-objects.}{%
 \subsection{Projecting correlateR objects.}\label{projecting-correlater-objects.}}
@@ -553,28 +570,189 @@ The output of the \texttt{correlateR} function is a \texttt{correlateR} class ob
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# data to project into from RNAseq6l3c3t expression data}
-\FunctionTok{data}\NormalTok{(p.ESepiGen4c1l)}
+\KeywordTok{data}\NormalTok{(p.ESepiGen4c1l)}
 
-\FunctionTok{library}\NormalTok{(projectR)}
-\NormalTok{cor2ESepi }\OtherTok{\textless{}{-}} \FunctionTok{projectR}\NormalTok{(p.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{mRNA.Seq,}\AttributeTok{loadings=}\NormalTok{cor2T[[}\DecValTok{1}\NormalTok{]],}\AttributeTok{full=}\ConstantTok{FALSE}\NormalTok{,}
-    \AttributeTok{dataNames=}\NormalTok{map.ESepiGen4c1l}\SpecialCharTok{$}\NormalTok{GeneSymbols)}
-\DocumentationTok{\#\# [1] "9 row names matched between data and loadings"}
-\DocumentationTok{\#\# [1] "Updated dimension of data: 9 9"}
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{cor2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{cor2T[[}\DecValTok{1}\NormalTok{]],}\DataTypeTok{full=}\OtherTok{FALSE}\NormalTok{,}
+    \DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l}\OperatorTok{$}\NormalTok{GeneSymbols)}
+\CommentTok{\#\# [1] "9 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 9 9"}
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{differential-features-identification.}{%
+\section{Differential features identification.}\label{differential-features-identification.}}
+
+\hypertarget{projectiondriver}{%
+\subsection{projectionDriveR}\label{projectiondriver}}
+
+Given loadings that define the weight of features (genes) in a given latent space (e.g.~PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
+
+\begin{verbatim}
+library(projectR)
+projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
+                 pvalue, pattern_name, display = T, normalize_pattern = T)
+\end{verbatim}
+
+\hypertarget{input-arguments-5}{%
+\subsubsection{Input Arguments}\label{input-arguments-5}}
+
+The required inputs are two feature by sample (e.g.~gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings). If applicable, the expression matrices should already be corrected for variables such as sequencing depth.
+
+The arguments for projectionDriveR are:
+
+\begin{description}
+\item[cellgroup1]{Matrix 1 with features as rows, samples as columns.}
+\item[cellgroup2]{Matrix 2 with features as rows, samples as columns.}
+\item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
+\item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
+\item[pattern\_name]{the column name of the loadings by which the features will be weighted}
+\item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
+\item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
+\item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
+\end{description}
+
+\hypertarget{output-5}{%
+\subsubsection{Output}\label{output-5}}
+
+The output of \texttt{projectionDriveR} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized\_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
+
+\hypertarget{identifying-differential-features-associated-with-learned-patterns}{%
+\subsubsection{Identifying differential features associated with learned patterns}\label{identifying-differential-features-associated-with-learned-patterns}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{width =} \DecValTok{60}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{library}\NormalTok{(dplyr, }\DataTypeTok{warn.conflicts =}\NormalTok{ F)}
+\CommentTok{\#\# Warning: package \textquotesingle{}dplyr\textquotesingle{} was built under R version 4.0.5}
+
+\CommentTok{\#gene weights x pattern}
+\KeywordTok{data}\NormalTok{(}\StringTok{"retinal\_patterns"}\NormalTok{)}
+
+\CommentTok{\#size{-}normed, log expression}
+\KeywordTok{data}\NormalTok{(}\StringTok{"microglial\_counts"}\NormalTok{)}
+
+\CommentTok{\#size{-}normed, log expression}
+\KeywordTok{data}\NormalTok{(}\StringTok{"glial\_counts"}\NormalTok{)}
+
+\CommentTok{\#the features by which to weight the difference in expression }
+\NormalTok{pattern\_to\_weight <{-}}\StringTok{ "Pattern.24"}
+\NormalTok{drivers <{-}}\StringTok{ }\KeywordTok{projectionDriveR}\NormalTok{(microglial\_counts, }\CommentTok{\#expression matrix}
+\NormalTok{                                       glial\_counts, }\CommentTok{\#expression matrix}
+                                       \DataTypeTok{loadings =}\NormalTok{ retinal\_patterns, }\CommentTok{\#feature x pattern dataframe}
+                                       \DataTypeTok{loadingsNames =} \OtherTok{NULL}\NormalTok{,}
+                                       \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight, }\CommentTok{\#column name}
+                                       \DataTypeTok{pvalue =} \FloatTok{1e{-}5}\NormalTok{, }\CommentTok{\#pvalue before bonferroni correction}
+                                       \DataTypeTok{display =}\NormalTok{ T,}
+                                       \DataTypeTok{normalize\_pattern =}\NormalTok{ T) }\CommentTok{\#normalize feature weights}
+\CommentTok{\#\# [1] "2996 row names matched between datasets"}
+\CommentTok{\#\# [1] "2996"}
+\CommentTok{\#\# [1] "Updated dimension of data: 2996"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/projectionDriver-1} \end{adjustwidth}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{conf\_intervals <{-}}\StringTok{ }\NormalTok{drivers}\OperatorTok{$}\NormalTok{mean\_ci[drivers}\OperatorTok{$}\NormalTok{significant\_genes,]}
+
+\KeywordTok{str}\NormalTok{(conf\_intervals)}
+\CommentTok{\#\# \textquotesingle{}data.frame\textquotesingle{}:    253 obs. of  2 variables:}
+\CommentTok{\#\#  $ low : num  1.86 0.158 {-}0.562 {-}0.756 0.155 ...}
+\CommentTok{\#\#  $ high: num  2.03943 0.26729 {-}0.00197 {-}0.18521 0.23239 ...}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plotconfidenceintervals}{%
+\subsection{plotConfidenceIntervals}\label{plotconfidenceintervals}}
+
+\hypertarget{input}{%
+\subsubsection{Input}\label{input}}
+
+The arguments for plotConfidenceIntervals are:
+
+\begin{description}
+\item[confidence\_intervals]{A dataframe of features x estimates}
+\item[interval\_name]{names of columns that contain the low and high estimates, respectively.
+(default: c("low","high"))}
+\item[pattern\_name]{string to use as the title for the plots}
+\item[sort]{Boolean. Whether or not to sort genes by their estimates (default = T)}
+\item[genes]{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)}
+\item[weights]{weights of features to include as annotation (default = NULL will not include heatmap)}
+\item[weights\_clip]{quantile of data to clip color scale for improved visualization (default: 0.99)}
+\item[weights\_vis\_norm]{Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"}
+\end{description}
+
+\hypertarget{output-6}{%
+\subsubsection{Output}\label{output-6}}
+
+A list of the length three that includes confidence interval plots and relevant info. \texttt{ci\_estimates\_plot} is the point-range plot for the provided estimates. If called from within \texttt{projectionDriveR}, the unweighted estimates are used. \texttt{feature\_order} is the vector of gene names in the order shown in the figure. \texttt{weights\_heatmap} is a heatmap annotation of the gene loadings, in the same order as above.
+
+\hypertarget{customize-plotting-of-confidence-intervals}{%
+\subsubsection{Customize plotting of confidence intervals}\label{customize-plotting-of-confidence-intervals}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(cowplot)}
+\CommentTok{\#\# Warning: package \textquotesingle{}cowplot\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#order in ascending order of estimates}
+\NormalTok{conf\_intervals <{-}}\StringTok{ }\NormalTok{conf\_intervals }\OperatorTok{\%>\%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mid =}\NormalTok{ (high}\OperatorTok{+}\NormalTok{low)}\OperatorTok{/}\DecValTok{2}\NormalTok{) }\OperatorTok{\%>\%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(mid)}
+\NormalTok{gene\_order <{-}}\StringTok{ }\KeywordTok{rownames}\NormalTok{(conf\_intervals)}
+
+\CommentTok{\#add text labels for top and bottom n genes}
+\NormalTok{conf\_intervals}\OperatorTok{$}\NormalTok{label\_name <{-}}\StringTok{ }\OtherTok{NA\_character\_}
+\NormalTok{n <{-}}\StringTok{ }\DecValTok{2}
+\NormalTok{idx <{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n, (}\KeywordTok{dim}\NormalTok{(conf\_intervals)[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(conf\_intervals)[}\DecValTok{1}\NormalTok{])}
+\NormalTok{gene\_ids <{-}}\StringTok{ }\NormalTok{gene\_order[idx]}
+\NormalTok{conf\_intervals}\OperatorTok{$}\NormalTok{label\_name[idx] <{-}}\StringTok{ }\NormalTok{gene\_ids}
+
+\CommentTok{\#the labels above can now be used as ggplot aesthetics}
+\NormalTok{plots\_list <{-}}\StringTok{ }\KeywordTok{plotConfidenceIntervals}\NormalTok{(conf\_intervals, }\CommentTok{\#mean difference in expression confidence intervals}
+                                      \DataTypeTok{sort =}\NormalTok{ F, }\CommentTok{\#should genes be sorted by estimates}
+                                      \DataTypeTok{weights =}\NormalTok{ drivers}\OperatorTok{$}\NormalTok{normalized\_weights[}\KeywordTok{rownames}\NormalTok{(conf\_intervals)],}
+                                      \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight,}
+                                      \DataTypeTok{weights\_clip =} \FloatTok{0.99}\NormalTok{,}
+                                      \DataTypeTok{weights\_vis\_norm =} \StringTok{"none"}\NormalTok{)}
+
+\NormalTok{pl1 <{-}}\StringTok{ }\NormalTok{plots\_list[[}\StringTok{"ci\_estimates\_plot"}\NormalTok{]] }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggrepel}\OperatorTok{::}\KeywordTok{geom\_label\_repel}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =}\NormalTok{ label\_name), }\DataTypeTok{max.overlaps =} \DecValTok{20}\NormalTok{, }\DataTypeTok{force =} \DecValTok{50}\NormalTok{)}
+
+\NormalTok{pl2 <{-}}\StringTok{ }\NormalTok{plots\_list[[}\StringTok{"weights\_heatmap"}\NormalTok{]]}
+
+\CommentTok{\#now plot the weighted differences}
+\NormalTok{weighted\_conf\_intervals <{-}}\StringTok{ }\NormalTok{drivers}\OperatorTok{$}\NormalTok{weighted\_mean\_ci[gene\_order,]}
+\NormalTok{plots\_list\_weighted <{-}}\StringTok{ }\KeywordTok{plotConfidenceIntervals}\NormalTok{(weighted\_conf\_intervals,}
+                                               \DataTypeTok{sort =}\NormalTok{ F,}
+                                               \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight)}
+
+\NormalTok{pl3 <{-}}\StringTok{ }\NormalTok{plots\_list\_weighted[[}\StringTok{"ci\_estimates\_plot"}\NormalTok{]] }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Difference in weighted group means"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element\_blank}\NormalTok{(), }\DataTypeTok{axis.ticks.y =} \KeywordTok{element\_blank}\NormalTok{(), }\DataTypeTok{axis.text.y =} \KeywordTok{element\_blank}\NormalTok{())}
+
+\NormalTok{cowplot}\OperatorTok{::}\KeywordTok{plot\_grid}\NormalTok{(pl1, pl2, pl3, }\DataTypeTok{align =} \StringTok{"h"}\NormalTok{, }\DataTypeTok{rel\_widths =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,.}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{), }\DataTypeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\CommentTok{\#\# Warning: Removed 249 rows containing missing values}
+\CommentTok{\#\# (geom\_label\_repel).}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-7-1} \end{adjustwidth}
+
 \hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-Barbakh:2009bw}{}}%
-Barbakh, Wesam Ashour, Ying Wu, and Colin Fyfe. 2009. {``{Review of Linear Projection Methods}.''} In \emph{Non-Standard Parameter Adaptation for Exploratory Data Analysis}, 29--48. Berlin, Heidelberg: Springer Berlin Heidelberg.
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-Barbakh:2009bw}{}%
+Barbakh, Wesam Ashour, Ying Wu, and Colin Fyfe. 2009. ``Review of Linear Projection Methods.'' In \emph{Non-Standard Parameter Adaptation for Exploratory Data Analysis}, 29--48. Berlin, Heidelberg: Springer Berlin Heidelberg.
 
-\leavevmode\vadjust pre{\hypertarget{ref-Sibisi1997}{}}%
-Sibisi, Sibusiso, and John Skilling. 1997. {``Prior Distributions on Measure Space.''} \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)} 59 (1): 217--35. \url{https://doi.org/10.1111/1467-9868.00065}.
+\leavevmode\hypertarget{ref-Sibisi1997}{}%
+Sibisi, Sibusiso, and John Skilling. 1997. ``Prior Distributions on Measure Space.'' \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)} 59 (1): 217--35. \url{https://doi.org/10.1111/1467-9868.00065}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-Ochs2006}{}}%
-Wang, Guoli, Andrew V. Kossenkov, and Michael F. Ochs. 2006. {``LS-NMF: A Modified Non-Negative Matrix Factorization Algorithm Utilizing Uncertainty Estimates.''} \emph{BMC Bioinformatics} 7 (1): 175. \url{https://doi.org/10.1186/1471-2105-7-175}.
-
-\end{CSLReferences}
+\leavevmode\hypertarget{ref-Ochs2006}{}%
+Wang, Guoli, Andrew V. Kossenkov, and Michael F. Ochs. 2006. ``LS-Nmf: A Modified Non-Negative Matrix Factorization Algorithm Utilizing Uncertainty Estimates.'' \emph{BMC Bioinformatics} 7 (1): 175. \url{https://doi.org/10.1186/1471-2105-7-175}.
+\end{cslreferences}
 
 
 \end{document}

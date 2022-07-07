@@ -4,26 +4,18 @@
 \alias{initialize,rotatoR-method}
 \title{Constructor for rotatoR}
 \usage{
-\S4method{initialize}{rotatoR}(.Object, clusterMatrix, ...)
-
-\S4method{initialize}{rotatoR}(.Object, clusterMatrix, ...)
+\S4method{initialize}{rotatoR}(.Object, rotatedM, ...)
 }
 \arguments{
-\item{.Object}{clusterMatrix object}
-
-\item{clusterMatrix}{matrix of continous values for projection that is output of cluster2pattern function}
-
-\item{...}{additional arguments to intialize cluster2pattern}
+\item{.Object}{rotatoR object}
 
 \item{rotatedM}{rotated matrix from rotatoR function}
+
+\item{...}{additional arguments to intialize rotatoR}
 }
 \value{
 initialized rotatoR object
-
-initialized cluster2pattern object
 }
 \description{
-Constructor for rotatoR
-
 Constructor for rotatoR
 }

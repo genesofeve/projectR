@@ -3,8 +3,8 @@
 \docType{methods}
 \name{projectR}
 \alias{projectR}
-\alias{.projectR_matrix}
-\alias{.projectR_matrix_sparse}
+\alias{projectR,matrix,matrix-method}
+\alias{projectR,dgCMatrix,matrix-method}
 \alias{projectR,matrix,LinearEmbeddingMatrix-method}
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
@@ -16,7 +16,7 @@
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
-.projectR_matrix(
+\S4method{projectR}{matrix,matrix}(
   data,
   loadings,
   dataNames = NULL,
@@ -28,7 +28,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   bootIter = 1000
 )
 
-.projectR_matrix_sparse(
+\S4method{projectR}{dgCMatrix,matrix}(
   data,
   loadings,
   dataNames = NULL,
@@ -145,17 +145,17 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
 }
 \description{
-A function for the projection of new data into a previously defined 
+A function for the projection of new data into a previously defined
 feature space.
 }
 \details{
 \code{loadings} can belong to one of several classes depending on upstream
-analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
-\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
-and \code{correlateR}.
+analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
+\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR},
+and \code{correlateR}. Please note that \code{loadings} should not contain NA.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("CoGAPS")
@@ -180,8 +180,8 @@ NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("projectR")
 data(p.RNAseq6l3c3t)
-nP<-5
-kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+nP<-3
+kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
 kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
 p<-as.matrix(p.RNAseq6l3c3t)
 projectR(p,kpattern)
