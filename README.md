@@ -1,6 +1,6 @@
 # Overview
 
-[![R-CMD-check](https://github.com/gaura/projectR/workflows/R-CMD-check/badge.svg)](https://github.com/Gaura/projectR/actions)
+[![R-CMD-check](https://github.com/genesofeve/projectR/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/genesofeve/projectR/actions/workflows/R-CMD-check.yml)
 
 An R package for creating projection matrices from gene weights extracted from
 high dimensional genomic analysis.
