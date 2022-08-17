@@ -61,7 +61,7 @@ The arguments are as follows:
 The `loadings` argument in the generic projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).
 
 ### Output
-The basic output of the base projectR function, i.e. `full=FALSE`, returns `projectionPatterns` representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. `full=TRUE`, returns `projectionFit`, a list containing `projectionPatterns` and `Projection`. The `Projection` object contains additional information from the proceedure used to obtain the `projectionPatterns`. For the the the base projectR function, `Projection` is the full lmFit model from the package `r BiocStyle::Biocpkg("limma")`.
+The basic output of the base projectR function, i.e. `full=FALSE`, returns `projectionPatterns` representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e. `full=TRUE`, returns `projectionFit`, a list containing `projectionPatterns` and `Projection`. The `Projection` object contains additional information from the proceedure used to obtain the `projectionPatterns`. For the the the base projectR function, `Projection` is the full `lmFit` model from the package `r BiocStyle::Biocpkg("limma")`.
 
 # PCA projection
 Projection of principal components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximize the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, $V$, and $\Re^n$ which preserves inner products. If $V$ is an inner product space over $\Re$ with orthonormal basis $B = v_1,...,v_n$ and $v \epsilon V s.t [v]_B = (r_1,...,r_n)$, then finding the coordinate of $v_i$ in $v$ is precisely the inner product of $v$ with $v_i$, i.e. $r_i = \langle v,v_i \rangle$. This formulation is implemented for only those genes belonging to both the new data and the PC space.  The **`projectR`** function has S4 method for class `prcomp`.
@@ -144,7 +144,7 @@ NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as co
 \end{equation}
 The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm @Ochs2006, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in @Sibisi1997.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
 
-Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
+Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the `lmFit` function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
 
 ```
 library(projectR)
@@ -156,17 +156,17 @@ projectR(data, loadings,dataNames = NULL, loadingsNames = NULL,
 The inputs that must be set each time are only the data and patterns, with all other inputs having default values.  However, inconguities between gene names--rownames of the loadings object and either rownames of the data object will throw errors and, subsequently, should be checked before running.
 
 The arguments are as follows:
-\begin{description}
-\item[data]{a target dataset to be projected into the pattern space}
-\item[loadings]{a CogapsResult object}
-\item[dataNames]{rownames (eg. gene names) of the target dataset, if different from existing rownames of data}
-\item[loadingsNames] loadingsNames rownames (eg. gene names) of the loadings to be matched with dataNames
-\item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
-\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
-\end{description}
+
+**`data`** a target dataset to be projected into the pattern space  
+**`loadings`** a CogapsResult object  
+**`dataNames`** rownames (eg. gene names) of the target dataset, if different from existing rownames of data  
+**`loadingsNames`** loadingsNames rownames (eg. gene names) of the loadings to be matched with dataNames  
+**`NP`** vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.  
+**`full`** logical indicating whether to return the full model solution. By default only the new pattern object is returned.  
+
 
 ### Output
-The basic output of the base projectR function, i.e. `full=FALSE`, returns `projectionPatterns` representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. `full=TRUE`, returns `projectionFit`, a list containing `projectionPatterns` and `Projection`. The `Projection` object contains additional information from the procedure used to obtain the `projectionPatterns`. For the the the base projectR function,  `Projection` is the full lmFit model from the package `r BiocStyle::Biocpkg('limma')`.
+The basic output of the base projectR function, i.e. `full=FALSE`, returns `projectionPatterns` representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function,  i.e. `full=TRUE`, returns `projectionFit`, a list containing `projectionPatterns` and `Projection`. The `Projection` object contains additional information from the procedure used to obtain the `projectionPatterns`. For the the the base projectR function,  `Projection` is the full `lmFit` model from the package `r BiocStyle::Biocpkg('limma')`.
 
 ## Obtaining CoGAPS patterns to project.
 
@@ -238,11 +238,11 @@ cluster2pattern(clusters = NA, NP = NA, data = NA)
 The inputs that must be set each time are the clusters and data.
 
 The arguments are as follows:
-\begin{description}
-\item[clusters]{a clustering object}
-\item[NP]{either the number of clusters desired or the subset of clusters to use}
-\item[data]{data used to make clusters object}
-\end{description}
+
+**`clusters`** a clustering object  
+**`NP`** either the number of clusters desired or the subset of clusters to use  
+**`data`** data used to make clusters object  
+
 
 ### Output
 The output of the `cluster2pattern` function is a `pclust` class object; specifically, a matrix of genes (rows) by clusters (columns). A gene's value outside of its assigned cluster is zero. For the cluster containing a given gene, the gene's value is the correlation of the gene's expression to the mean of that cluster.
@@ -261,13 +261,13 @@ intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
 The inputs that must be set each time are the clusters and data.
 
 The arguments are as follows:
-\begin{description}
-\item[pSet1]{a list for a set of patterns where each entry is a set of genes associated with a single pattern}
-\item[pSet2]{a list for a second set of patterns where each entry is a set of genes associated with a single pattern}
-\item[pval]{the maximum p-value considered significant}
-\item[full]{logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.}
-\item[k]{numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order}
-\end{description}
+
+**`pSet1`** a list for a set of patterns where each entry is a set of genes associated with a single pattern  
+**`pSet2`** a list for a second set of patterns where each entry is a set of genes associated with a single pattern  
+**`pval`** the maximum p-value considered significant  
+**`full`** logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.  
+**`k`** numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order  
+
 
 ### Output
 The output of the `intersectoR` function is a summary matrix showing the sets with statistically significant overlap under the specified $p$-value threshold based on a hypergeometric test. If `full==TRUE` the full data frame of significantly overlapping sets will also be returned.
@@ -287,14 +287,14 @@ correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE
 The inputs that must be set each time are only the genes and data, with all other inputs having default values.
 
 The arguments are as follows:
-\begin{description}
-\item[genes]{gene or character vector of genes for reference expression pattern dat}
-\item[data]{matrix or data frame with genes to be used for to calculate correlation}
-\item[threshtype]{Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.}
-\item[threshold]{numeric indicating value at which to make threshold}
-\item[absR]{logical indicating where to include both positive and negatively correlated genes}
-\item[...]{addtion imputes to the cor function}
-\end{description}
+
+**`genes`** gene or character vector of genes for reference expression pattern dat  
+**`data`** matrix or data frame with genes to be used for to calculate correlation  
+**`threshtype`** Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.  
+**`threshold`** numeric indicating value at which to make threshold  
+**`absR`** logical indicating where to include both positive and negatively correlated genes  
+**`...`** addtion imputes to the cor function  
+
 
 ### Output
 The output of the `correlateR` function is a `correlateR` class object. Specifically, a matrix of correlation values for those genes whose expression pattern pattern in the dataset is correlated (and anti-correlated if absR=TRUE) above the value given in as the threshold arguement. As this information may be useful in its own right, it is recommended that users inspect the `correlateR` object before using it as input to the `projectR` function.
@@ -374,16 +374,16 @@ projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
 The required inputs are two feature by sample (e.g. gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings). If applicable, the expression matrices should already be corrected for variables such as sequencing depth.
 
 The arguments for projectionDriveR are:
-\begin{description}
-\item[cellgroup1]{Matrix 1 with features as rows, samples as columns.}
-\item[cellgroup2]{Matrix 2 with features as rows, samples as columns.}
-\item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
-\item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
-\item[pattern_name]{the column name of the loadings by which the features will be weighted}
-\item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
-\item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
-\item[normalize_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
-\end{description}
+
+**`cellgroup1`** Matrix 1 with features as rows, samples as columns.  
+**`cellgroup2`** Matrix 2 with features as rows, samples as columns.  
+**`loadings`** Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space  
+**`loadingsNames`** Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used  
+**`pattern_name`** the column name of the loadings by which the features will be weighted  
+**`pvalue`** Determines the significance of the confidence interval to be calculated between the difference of means  
+**`display`** Boolean. Whether or not to plot the estimates of significant features. Default = T  
+**`normalize_pattern`** Boolean. Whether or not to normalize the average feature weight. Default = T  
+
 
 ### Output 
 The output of `projectionDriveR` is a list of length five `mean_ci` holds the confidence intervals for the difference in means for all features, `weighted_ci` holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, `significant_genes` is a vector of gene names that are significantly different at the threshold provided. `plotted_ci` returns the ggplot figure of the confidence intervals, see `plotConfidenceIntervals` for documentation.
@@ -426,17 +426,16 @@ str(conf_intervals)
 
 ### Input
 The arguments for plotConfidenceIntervals are:
-\begin{description}
-\item[confidence_intervals]{A dataframe of features x estimates}
-\item[interval_name]{names of columns that contain the low and high estimates, respectively.
-(default: c("low","high"))}
-\item[pattern_name]{string to use as the title for the plots}
-\item[sort]{Boolean. Whether or not to sort genes by their estimates (default = T)}
-\item[genes]{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)}
-\item[weights]{weights of features to include as annotation (default = NULL will not include heatmap)}
-\item[weights_clip]{quantile of data to clip color scale for improved visualization (default: 0.99)}
-\item[weights_vis_norm]{Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"}
-\end{description}
+
+**`confidence_intervals`** A dataframe of features x estimates  
+**`interval_name`** names of columns that contain the low and high estimates, respectively. (default: c("low","high"))
+**`pattern_name`** string to use as the title for the plots  
+**`sort`** Boolean. Whether or not to sort genes by their estimates (default = T)  
+**`genes`** a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)  
+**`weights`** weights of features to include as annotation (default = NULL will not include heatmap)  
+**`weights_clip`** quantile of data to clip color scale for improved visualization (default: 0.99)  
+**`weights_vis_norm`** Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"  
+
  
 ### Output 
 A list of the length three that includes confidence interval plots and relevant info. `ci_estimates_plot` is the point-range plot for the provided estimates. If called from within `projectionDriveR`, the unweighted estimates are used. `feature_order` is the vector of gene names in the order shown in the figure. `weights_heatmap` is a heatmap annotation of the gene loadings, in the same order as above.
@@ -485,7 +484,7 @@ cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3
 
 ```
 
-
+# References
 
 
 
