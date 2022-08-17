@@ -139,12 +139,12 @@ grid.arrange(pPCA,pPC2ESepiGen4c1l,nrow=1)
 # NMF projection
 NMF decomposes a data matrix of $D$ with $N$ genes as rows and $M$ samples as columns, into two matrices, as $D ~ AP$. The pattern matrix P has rows associated with BPs in samples and the amplitude matrix A has columns indicating the relative association of a given gene, where the total number of BPs (k) is an input parameter. CoGAPS and GWCoGAPS seek a pattern matrix (${\bf{P}}$) and the corresponding distribution matrix of weights (${\bf{A}}$) whose product forms a mock data matrix (${\bf{M}}$) that represents the gene-wise data ${\bf{D}}$ within noise limits ($\boldsymbol{\varepsilon}$). That is,
 \begin{equation}
-{\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}.
+{\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}  ..............(1)
 \label{eq:matrixDecomp}
 \end{equation}
 The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space.  As in the Bayesian Decomposition algorithm @Ochs2006, the matrices ${\bf{A}}$ and ${\bf{P}}$ in CoGAPS are assumed to have the atomic prior described in @Sibisi1997.  In the CoGAPS/GWCoGAPS implementation, $\alpha_{A}$ and $\alpha_{P}$ are corresponding parameters for the expected number of atoms which map to each matrix element in ${\bf{A}}$ and ${\bf{P}}$, respectively.  The corresponding matrices ${\bf{A}}$ and ${\bf{P}}$ are found by MCMC sampling.
 
-Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the `lmFit` function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
+Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in (1) for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the `lmFit` function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
 
 ```
 library(projectR)
