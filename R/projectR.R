@@ -139,8 +139,7 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
 #' @importFrom NMF fcnnls
 #' @examples
 #' library("CoGAPS")
-#' # CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
-#' nPatterns=5))
+#' # CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams", nPatterns=5))
 #' projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 #'
