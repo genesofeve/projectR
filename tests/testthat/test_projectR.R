@@ -16,13 +16,13 @@ test_that("data is proper",{
 	expect_true(all(dim(pd.ESepiGen4c1l) == c(9,2)))
 	expect_that(pd.RNAseq6l3c3t,is_a('data.frame'))
 	expect_true(all(dim(pd.RNAseq6l3c3t) == c(54,38)))
+	expect_true(all(dim(CR.RNAseq6l3c3t) == c(54,5)))
 	})
 
 test_that("results are as expected",{
 	#CoGAPS check
 	library("CoGAPS")
-	CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
-nPatterns=5))
+	# CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams", nPatterns=5))
 	pr_cgps <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
 		dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 	expect_that(pr_cgps, is_a('matrix'))

@@ -14,7 +14,7 @@ retinal_patterns
 CoGAPS patterns learned from the developing mouse retina.
 }
 \references{
-1. Clark, B.S., & Stein-O'Brien G.L., et al. Single-Cell RNA-Seq Analysis of Development Identifies NFI 
+1. Clark, B.S., & Stein-O'Brien G.L., et al. Single-Cell RNA-Seq Analysis of Development Identifies NFI
 Factors as Regulating Mitotic Exit and Late-Born Cell Specification. Cell 102, 1111-1126 (2019).
 }
 \keyword{datasets}
