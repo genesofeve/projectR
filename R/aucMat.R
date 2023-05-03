@@ -13,7 +13,7 @@
 
 aucMat<-function(labels, weights){
 results <- model.matrix(~labels-1)
-colnames(results) <- unique(labels)
+colnames(results) <- gsub("labels", "", colnames(results))
 weights1 <- dim(weights)[1]
 results2 <- dim(results)[2]
 i <- rep(seq_len(weights1), each = results2)

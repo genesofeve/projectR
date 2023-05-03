@@ -1,0 +1,18 @@
+citHeader("To cite the projectR package in publications use:")
+
+citEntry(entry="article",
+  title  = "projectR: an R/Bioconductor package for transfer learning via PCA, NMF, correlation and clustering",
+  author = personList(as.person("Gaurav Sharma"),
+                      as.person("Carlo Conlantuoni"),
+                      as.person("Loyal A Goff"),
+                      as.person("Elana J Fertig"),
+                      as.person("Genevieve Stein-O'Brien")),
+  journal = "Bioinformatics",
+  year = "2020",
+  volume = "36",
+  issue = "11",
+  pages = "3592–3593",
+  url = "https://academic.oup.com/bioinformatics/article/36/11/3592/5804979",
+  textVersion = paste("Gaurav Sharma, Carlo Colantuoni, Loyal A Goff, Elana J Fertig, and Genevieve Stein-O’Brien (2020).",
+    "projectR: an R/Bioconductor package for transfer learning via PCA, NMF, correlation and clustering.",
+    "Bioinformatics 36(11), 3592-3593."))

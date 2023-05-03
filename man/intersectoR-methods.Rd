@@ -30,7 +30,7 @@ intersectoR(pSet1, pSet2, pval, ...)
 A list containing: Overlap matrix, overlap index, and overlapping sets.
 }
 \description{
-A function to find and test the intersecting values of two sets of objects, 
+A function to find and test the intersecting values of two sets of objects,
 presumably the genes associated with patterns in two different datasets. Both the input objects
 need to be of the same type either kmeans or hclust.
 }

@@ -55,7 +55,7 @@ geneMatchR <- function(
   data <- data1
   p2P <- data[rows1,]
   rownames(p2P) <- rnP
-  As4P <- data2[rows2,]
+  As4P <- data2[rows2,  ,drop = F]
   if(!is.matrix(As4P)){As4P <- as.matrix(As4P)}
   p4P <- p2P[match(rownames(p2P),rownames(As4P)),]
   dataM<-list("data1"=As4P,"data2"=p4P)
