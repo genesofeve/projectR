@@ -40,14 +40,11 @@ correlateR<-function(genes, #gene or character vector of genes for reference exp
 		}
 	} else {
 		if(threshtype=="R"){
-			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[which(sort(cor2gene,decreasing=TRUE)>=threshold)])
+			corGS<-list(abs=as.matrix(sort(cor2gene,decreasing=TRUE)[which(sort(cor2gene,decreasing=TRUE)>=threshold)]))
 		} else if(threshtype=="N"){
-			corGS<-as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold])
+			corGS<-list(abs=as.matrix(sort(cor2gene,decreasing=TRUE)[1:threshold]))
 		}
 	}
 	corR <- new("correlateR",corM = corGS)
 	return(corR)
 }
-
-
-

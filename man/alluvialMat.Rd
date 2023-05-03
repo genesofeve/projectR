@@ -10,7 +10,9 @@ alluvialMat(
   annotationName = "Cell type",
   annotationType = "Cell",
   plot = TRUE,
-  minPropExplained = 0.75
+  minPropExplained = 0.75,
+  pvalThreshold = 0.05,
+  qvalThreshold = 0.05
 )
 }
 \arguments{
@@ -25,6 +27,10 @@ alluvialMat(
 \item{plot}{logical indicating whether to return the alluvial plot, default is TRUE}
 
 \item{minPropExplained}{threshold for minimum proportion of samples that correspond to a pattern to be used for plotting}
+
+\item{pvalThreshold}{theshold level of significance for p-value}
+
+\item{qvalThreshold}{theshold level of significance for Benjamini-Hochberg corrected p-value}
 }
 \value{
 A matrix to generate alluvial plots
@@ -33,7 +39,7 @@ A matrix to generate alluvial plots
 Function to provide alluvial matrix for generating alluvial plot
 }
 \examples{
-projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 alluvialMat(projection,pd.ESepiGen4c1l$Condition)
 }

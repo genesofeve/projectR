@@ -4,12 +4,14 @@
 \name{projectR}
 \alias{projectR}
 \alias{projectR,matrix,matrix-method}
+\alias{projectR,dgCMatrix,matrix-method}
 \alias{projectR,matrix,LinearEmbeddingMatrix-method}
 \alias{projectR,matrix,prcomp-method}
 \alias{projectR,matrix,rotatoR-method}
 \alias{projectR,matrix,correlateR-method}
 \alias{projectR,matrix,hclust-method}
 \alias{projectR,matrix,kmeans-method}
+\alias{projectR,matrix,cluster2pattern-method}
 \title{Generic projectR function}
 \usage{
 projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
@@ -24,6 +26,16 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   family = "gaussianff",
   bootstrapPval = FALSE,
   bootIter = 1000
+)
+
+\S4method{projectR}{dgCMatrix,matrix}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  NP = NA,
+  full = FALSE,
+  family = "gaussianff"
 )
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(
@@ -90,6 +102,17 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   bootstrapPval = FALSE,
   bootIter = 1000
 )
+
+\S4method{projectR}{matrix,cluster2pattern}(
+  data,
+  loadings,
+  dataNames = NULL,
+  loadingsNames = NULL,
+  full = FALSE,
+  sourceData,
+  bootstrapPval = FALSE,
+  bootIter = 1000
+)
 }
 \arguments{
 \item{data}{Target dataset into which you will project. It must of type matrix.}
@@ -122,37 +145,44 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
 }
 \description{
-A function for the projection of new data into a previously defined 
+A function for the projection of new data into a previously defined
 feature space.
 }
 \details{
 \code{loadings} can belong to one of several classes depending on upstream
-analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult}, 
-\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR}, 
-and \code{correlateR}.
+analysis. Currently permitted classes are \code{matrix}, \code{CogapsResult},
+\code{CoGAPS}, \code{pclust}, \code{prcomp}, \code{rotatoR},
+and \code{correlateR}. Please note that \code{loadings} should not contain NA.
 }
 \examples{
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("CoGAPS")
-CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams",
-nPatterns=5))
+# CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams", nPatterns=5))
 projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 loadings=pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
 r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, 
+pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
 loadings=r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
-c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N", 
+c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N",
 threshold=10, absR=TRUE)
-cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t, 
+cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t,
 NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+
+library("projectR")
+data(p.RNAseq6l3c3t)
+nP<-3
+kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
+kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+p<-as.matrix(p.RNAseq6l3c3t)
+projectR(p,kpattern)
 
 }

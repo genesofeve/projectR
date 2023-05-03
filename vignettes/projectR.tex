@@ -1,0 +1,758 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+% grffile has become a legacy package: https://ctan.org/pkg/grffile
+\IfFileExists{grffile.sty}{%
+\usepackage{grffile}
+}{}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+\RequirePackage[]{C:/Users/Gaurav/Documents/R/win-library/4.0/BiocStyle/resources/tex/Bioconductor}
+
+\bioctitle[]{projectR Vignette}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+\author{Gaurav Sharma, Jared N. Slosberg, Loyal A. Goff and Genevieve L. Stein-O'Brien}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{20 May 2022}
+
+% code highlighting
+\definecolor{fgcolor}{rgb}{0.251, 0.251, 0.251}
+\makeatletter
+\@ifundefined{AddToHook}{}{\AddToHook{package/xcolor/after}{\definecolor{fgcolor}{rgb}{0.251, 0.251, 0.251}}}
+\makeatother
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.816,0.125,0.439}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.251,0.627,0.251}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.502,0.502,0.502}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.251,0.251,0.251}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.125,0.125,0.941}{#1}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.251,0.251,0.251}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.878,0.439,0.125}{#1}}%
+\let\hlipl\hlkwb
+%
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+%
+\newenvironment{Shaded}{\begin{myshaded}}{\end{myshaded}}
+% set background for result chunks
+\let\oldverbatim\verbatim
+\renewenvironment{verbatim}{\color{codecolor}\begin{myshaded}\begin{oldverbatim}}{\end{oldverbatim}\end{myshaded}}
+%
+\newcommand{\KeywordTok}[1]{\hlkwd{#1}}
+\newcommand{\DataTypeTok}[1]{\hlkwc{#1}}
+\newcommand{\DecValTok}[1]{\hlnum{#1}}
+\newcommand{\BaseNTok}[1]{\hlnum{#1}}
+\newcommand{\FloatTok}[1]{\hlnum{#1}}
+\newcommand{\ConstantTok}[1]{\hlnum{#1}}
+\newcommand{\CharTok}[1]{\hlstr{#1}}
+\newcommand{\SpecialCharTok}[1]{\hlstr{#1}}
+\newcommand{\StringTok}[1]{\hlstr{#1}}
+\newcommand{\VerbatimStringTok}[1]{\hlstr{#1}}
+\newcommand{\SpecialStringTok}[1]{\hlstr{#1}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\hlcom{#1}}
+\newcommand{\DocumentationTok}[1]{\hlcom{#1}}
+\newcommand{\AnnotationTok}[1]{\hlcom{#1}}
+\newcommand{\CommentVarTok}[1]{\hlcom{#1}}
+\newcommand{\OtherTok}[1]{{#1}}
+\newcommand{\FunctionTok}[1]{\hlstd{#1}}
+\newcommand{\VariableTok}[1]{\hlstd{#1}}
+\newcommand{\ControlFlowTok}[1]{\hlkwd{#1}}
+\newcommand{\OperatorTok}[1]{\hlopt{#1}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textit{#1}}
+\newcommand{\AttributeTok}[1]{{#1}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor{messagecolor}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor{warningcolor}{#1}}
+\newcommand{\AlertTok}[1]{\textcolor{errorcolor}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor{errorcolor}{#1}}
+\newcommand{\NormalTok}[1]{\hlstd{#1}}
+%
+\AtBeginDocument{\bibliographystyle{C:/Users/Gaurav/Documents/R/win-library/4.0/BiocStyle/resources/tex/unsrturl}}
+
+
+\begin{document}
+\maketitle
+
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+\newpage
+}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Technological advances continue to spur the exponential growth of biological data as illustrated by the rise of the omics---genomics, transcriptomics, epigenomics, proteomics, etc.---each with there own high throughput technologies. In order to leverage the full power of these resources, methods to integrate multiple data sets and data types must be developed. The reciprocal nature of the genomic, transcriptomic, epigenomic, and proteomic biology requires that the data provides a complementary view of cellular function and regulatory organization; however, the technical heterogeneity and massive size of high-throughput data even within a particular omic makes integrated analysis challenging. To address these challenges, we developed projectR, an R package for integrated analysis of high dimensional omic data. projectR uses the relationships defined within a given high dimensional data set, to interrogate related biological phenomena in an entirely new data set. By relying on relative comparisons within data type, projectR is able to circumvent many issues arising from technological variation. For a more extensive example of how the tools in the projectR package can be used for \emph{in silico} experiments, or additional information on the algorithm, see \href{https://www.sciencedirect.com/science/article/pii/S2405471219301462}{Stein-O'Brien, et al}.
+
+\hypertarget{getting-started-with-projectr}{%
+\section{Getting started with projectR}\label{getting-started-with-projectr}}
+
+\hypertarget{installation-instructions}{%
+\subsection{Installation Instructions}\label{installation-instructions}}
+
+For automatic Bioconductor package installation, start R, and run:
+
+\begin{verbatim}
+BiocManager::install("projectR")
+\end{verbatim}
+
+\hypertarget{methods}{%
+\subsection{Methods}\label{methods}}
+
+Projection can roughly be defined as a mapping or transformation of points from one space to another often lower dimensional space. Mathematically, this can described as a function \(\varphi(x)=y : \Re^{D} \mapsto \Re^{d}\) s.t. \(d \leq D\) for \(x \in \Re^{D}, y \in \Re^{d}\) Barbakh, Wu, and Fyfe (2009) . The projectR package uses projection functions defined in a training dataset to interrogate related biological phenomena in an entirely new data set. These functions can be the product of any one of several methods common to ``omic'' analyses including regression, PCA, NMF, clustering. Individual sections focusing on one specific method are included in the vignette. However, the general design of the projectR function is the same regardless.
+
+\hypertarget{the-base-projectr-function}{%
+\subsection{The base projectR function}\label{the-base-projectr-function}}
+
+The generic projectR function is executed as follows:
+
+\begin{verbatim}
+library(projectR)
+projectR(data, loadings, dataNames=NULL, loadingsNames=NULL, NP = NULL, full = false)
+\end{verbatim}
+
+\hypertarget{input-arguments}{%
+\subsubsection{Input Arguments}\label{input-arguments}}
+
+The inputs that must be set each time are only the data and loadings, with all other inputs having default values. However, incongruities in the feature mapping between the data and loadings, i.e.~a different format for the rownames of each object, will throw errors or result in an empty mapping and should be checked before running. To overcoming mismatched feature names in the objects themselves, the /code\{dataNames\} and /code\{loadingNames\} arguments can be manually supplied by the user.
+
+The arguments are as follows:
+
+\begin{description}
+\item[data]{a dataset to be projected into the pattern space}
+\item[loadings]{a matrix of continous values with unique rownames to be projected}
+\item[dataNames]{a vector containing unique name, i.e. gene names, for the rows of the target dataset to be used to match features with the loadings, if not provided by \texttt{rownames(data)}. Order of names in vector must match order of rows in data.}
+\item[loadingsNames]{a vector containing unique names, i.e. gene names, for the rows of loadings to be used to match features with the data, if not provided by \texttt{rownames(loadings)}. Order of names in vector must match order of rows in loadings.}
+\item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
+\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+\end{description}
+
+The \texttt{loadings} argument in the generic projectR function is suitable for use with any genernal feature space, or set of feature spaces, whose rows annotation links them to the data to be projected. Ex: the coeffients associated with individual genes as the result of regression analysis or the amplituded values of individual genes as the result of non-negative matrix factorization (NMF).
+
+\hypertarget{output}{%
+\subsubsection{Output}\label{output}}
+
+The basic output of the base projectR function, i.e.~\texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e.~\texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the proceedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function, \texttt{Projection} is the full lmFit model from the package \emph{\href{https://bioconductor.org/packages/3.12/limma}{limma}}.
+
+\hypertarget{pca-projection}{%
+\section{PCA projection}\label{pca-projection}}
+
+Projection of principal components is achieved by matrix multiplication of a new data set by previously generated eigenvectors, or gene loadings. If the original data were standardized such that each gene is centered to zero average expression level, the principal components are normalized eigenvectors of the covariance matrix of the genes. Each PC is ordered according to how much of the variation present in the data they contain. Projection of the original samples into each PC will maximize the variance of the samples in the direction of that component and uncorrelated to previous components. Projection of new data places the new samples into the PCs defined by the original data. Because the components define an orthonormal basis set, they provide an isomorphism between a vector space, \(V\), and \(\Re^n\) which preserves inner products. If \(V\) is an inner product space over \(\Re\) with orthonormal basis \(B = v_1,...,v_n\) and \(v \epsilon V s.t [v]_B = (r_1,...,r_n)\), then finding the coordinate of \(v_i\) in \(v\) is precisely the inner product of \(v\) with \(v_i\), i.e.~\(r_i = \langle v,v_i \rangle\). This formulation is implemented for only those genes belonging to both the new data and the PC space. The \texttt{projectR} function has S4 method for class \texttt{prcomp}.
+
+\hypertarget{obtaining-pcs-to-project.}{%
+\subsection{Obtaining PCs to project.}\label{obtaining-pcs-to-project.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data to define PCs}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(p.RNAseq6l3c3t)}
+
+\CommentTok{\# do PCA on RNAseq6l3c3t expression data}
+\NormalTok{pc.RNAseq6l3c3t<{-}}\KeywordTok{prcomp}\NormalTok{(}\KeywordTok{t}\NormalTok{(p.RNAseq6l3c3t))}
+\NormalTok{pcVAR <{-}}\StringTok{ }\KeywordTok{round}\NormalTok{(((pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sdev)}\OperatorTok{\^{}}\DecValTok{2}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sdev}\OperatorTok{\^{}}\DecValTok{2}\NormalTok{))}\OperatorTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{dPCA <{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(pc.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{x,pd.RNAseq6l3c3t))}
+
+\CommentTok{\#plot pca}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{), }\DataTypeTok{name=}\StringTok{"Condition:"}\NormalTok{)}
+\NormalTok{setFILL <{-}}\StringTok{ }\KeywordTok{scale\_fill\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{,}\StringTok{"red"}\NormalTok{),}\DataTypeTok{guide =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{setPCH <{-}}\StringTok{ }\KeywordTok{scale\_shape\_manual}\NormalTok{(}\DataTypeTok{values=}\KeywordTok{c}\NormalTok{(}\DecValTok{23}\NormalTok{,}\DecValTok{22}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{25}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{24}\NormalTok{),}\DataTypeTok{name=}\StringTok{"Cell Line:"}\NormalTok{)}
+
+\NormalTok{pPCA <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dPCA, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{PC1, }\DataTypeTok{y=}\NormalTok{PC2, }\DataTypeTok{colour=}\NormalTok{ID.cond, }\DataTypeTok{shape=}\NormalTok{ID.line,}
+        \DataTypeTok{fill=}\NormalTok{ID.cond)) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{geom\_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size=}\NormalTok{days),}\DataTypeTok{alpha=}\NormalTok{.}\DecValTok{6}\NormalTok{)}\OperatorTok{+}
+\StringTok{        }\NormalTok{setCOL }\OperatorTok{+}\StringTok{ }\NormalTok{setPCH  }\OperatorTok{+}\StringTok{ }\NormalTok{setFILL }\OperatorTok{+}
+\StringTok{        }\KeywordTok{scale\_size\_area}\NormalTok{(}\DataTypeTok{breaks =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{), }\DataTypeTok{name=}\StringTok{"Day"}\NormalTok{) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+              \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+              \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{,}\DataTypeTok{colour=}\OtherTok{NA}\NormalTok{),}
+              \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"transparent"}\NormalTok{,}\DataTypeTok{colour=}\OtherTok{NA}\NormalTok{),}
+              \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{        }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"PCA of hPSC PolyA RNAseq"}\NormalTok{,}
+            \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC1 ("}\NormalTok{,pcVAR[}\DecValTok{1}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+            \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"PC2 ("}\NormalTok{,pcVAR[}\DecValTok{2}\NormalTok{],}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{projecting-prcomp-objects}{%
+\subsection{Projecting prcomp objects}\label{projecting-prcomp-objects}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data to project into PCs from RNAseq6l3c3t expression data}
+\KeywordTok{data}\NormalTok{(p.ESepiGen4c1l)}
+
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{PCA2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{pc.RNAseq6l3c3t,}
+\DataTypeTok{full=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
+\CommentTok{\#\# [1] "93 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 93 9"}
+
+\NormalTok{pd.ESepiGen4c1l<{-}}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Condition=}\KeywordTok{sapply}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq),}
+  \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{unlist}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(x,}\StringTok{\textquotesingle{}\_\textquotesingle{}}\NormalTok{))[}\DecValTok{1}\NormalTok{]),}\DataTypeTok{stringsAsFactors=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{color<{-}}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"green"}\NormalTok{,}\DecValTok{3}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"blue"}\NormalTok{,}\DecValTok{2}\NormalTok{),}\KeywordTok{rep}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{names}\NormalTok{(pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{color)<{-}pd.ESepiGen4c1l}\OperatorTok{$}\NormalTok{Cond}
+
+\NormalTok{dPCA2ESepi<{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\KeywordTok{t}\NormalTok{(PCA2ESepi[[}\DecValTok{1}\NormalTok{]]),pd.ESepiGen4c1l))}
+
+\CommentTok{\#plot pca}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setEpiCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
+  \DataTypeTok{guide =} \KeywordTok{guide\_legend}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
+
+\NormalTok{pPC2ESepiGen4c1l <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dPCA2ESepi, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{PC1, }\DataTypeTok{y=}\NormalTok{PC2, }\DataTypeTok{colour=}\NormalTok{Condition)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_point}\NormalTok{(}\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{setEpiCOL }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+  \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{),}
+  \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+  \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
+  \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+  \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'gridExtra' was built under R version 4.0.5
+## Warning: It is deprecated to specify `guide = FALSE` to remove a guide. Please
+## use `guide = "none"` instead.
+\end{verbatim}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-2-1} \end{adjustwidth}
+
+\hypertarget{nmf-projection}{%
+\section{NMF projection}\label{nmf-projection}}
+
+NMF decomposes a data matrix of \(D\) with \(N\) genes as rows and \(M\) samples as columns, into two matrices, as \(D ~ AP\). The pattern matrix P has rows associated with BPs in samples and the amplitude matrix A has columns indicating the relative association of a given gene, where the total number of BPs (k) is an input parameter. CoGAPS and GWCoGAPS seek a pattern matrix (\({\bf{P}}\)) and the corresponding distribution matrix of weights (\({\bf{A}}\)) whose product forms a mock data matrix (\({\bf{M}}\)) that represents the gene-wise data \({\bf{D}}\) within noise limits (\(\boldsymbol{\varepsilon}\)). That is,
+\begin{equation}
+{\bf{D}} = {\bf{M}} + \boldsymbol{\varepsilon} = {\bf{A}}{\bf{P}} + \boldsymbol{\varepsilon}.
+\label{eq:matrixDecomp}
+\end{equation}
+The number of rows in \({\bf{P}}\) (columns in \({\bf{A}}\)) defines the number of biological patterns (k) that CoGAPS/GWCoGAPS will infer from the number of nonorthogonal basis vectors required to span the data space. As in the Bayesian Decomposition algorithm Wang, Kossenkov, and Ochs (2006), the matrices \({\bf{A}}\) and \({\bf{P}}\) in CoGAPS are assumed to have the atomic prior described in Sibisi and Skilling (1997). In the CoGAPS/GWCoGAPS implementation, \(\alpha_{A}\) and \(\alpha_{P}\) are corresponding parameters for the expected number of atoms which map to each matrix element in \({\bf{A}}\) and \({\bf{P}}\), respectively. The corresponding matrices \({\bf{A}}\) and \({\bf{P}}\) are found by MCMC sampling.
+
+Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in \ref{eq:matrixDecomp} for the new data matrix where \({\bf{A}}\) is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns \({\bf{P}}\) in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the lmFit function in the \emph{\href{https://bioconductor.org/packages/3.12/limma}{limma}} package. The \texttt{projectR} function has S4 method for class \texttt{Linear Embedding Matrix, LME}.
+
+\begin{verbatim}
+library(projectR)
+projectR(data, loadings,dataNames = NULL, loadingsNames = NULL,
+     NP = NA, full = FALSE)
+\end{verbatim}
+
+\hypertarget{input-arguments-1}{%
+\subsubsection{Input Arguments}\label{input-arguments-1}}
+
+The inputs that must be set each time are only the data and patterns, with all other inputs having default values. However, inconguities between gene names--rownames of the loadings object and either rownames of the data object will throw errors and, subsequently, should be checked before running.
+
+The arguments are as follows:
+
+\begin{description}
+\item[data]{a target dataset to be projected into the pattern space}
+\item[loadings]{a CogapsResult object}
+\item[dataNames]{rownames (eg. gene names) of the target dataset, if different from existing rownames of data}
+\item[loadingsNames] loadingsNames rownames (eg. gene names) of the loadings to be matched with dataNames
+\item[NP]{vector of integers indicating which columns of loadings object to use. The default of NP = NA will use entire matrix.}
+\item[full]{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+\end{description}
+
+\hypertarget{output-1}{%
+\subsubsection{Output}\label{output-1}}
+
+The basic output of the base projectR function, i.e.~\texttt{full=FALSE}, returns \texttt{projectionPatterns} representing relative weights for the samples from the new data in this previously defined feature space, or set of feature spaces. The full output of the base projectR function, i.e.~\texttt{full=TRUE}, returns \texttt{projectionFit}, a list containing \texttt{projectionPatterns} and \texttt{Projection}. The \texttt{Projection} object contains additional information from the procedure used to obtain the \texttt{projectionPatterns}. For the the the base projectR function, \texttt{Projection} is the full lmFit model from the package \emph{\href{https://bioconductor.org/packages/3.12/limma}{limma}}.
+
+\hypertarget{obtaining-cogaps-patterns-to-project.}{%
+\subsection{Obtaining CoGAPS patterns to project.}\label{obtaining-cogaps-patterns-to-project.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# get data}
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{AP <{-}}\StringTok{ }\KeywordTok{get}\NormalTok{(}\KeywordTok{data}\NormalTok{(}\StringTok{"AP.RNAseq6l3c3t"}\NormalTok{)) }\CommentTok{\#CoGAPS run data}
+\NormalTok{AP <{-}}\StringTok{ }\NormalTok{AP}\OperatorTok{$}\NormalTok{Amean}
+\CommentTok{\# heatmap of gene weights for CoGAPs patterns}
+\KeywordTok{library}\NormalTok{(gplots)}
+\CommentTok{\#\# Warning: package \textquotesingle{}gplots\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#\# }
+\CommentTok{\#\# Attaching package: \textquotesingle{}gplots\textquotesingle{}}
+\CommentTok{\#\# The following object is masked from \textquotesingle{}package:projectR\textquotesingle{}:}
+\CommentTok{\#\# }
+\CommentTok{\#\#     lowess}
+\CommentTok{\#\# The following object is masked from \textquotesingle{}package:stats\textquotesingle{}:}
+\CommentTok{\#\# }
+\CommentTok{\#\#     lowess}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{pNMF<{-}}\KeywordTok{heatmap.2}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(AP),}\DataTypeTok{col=}\NormalTok{bluered, }\DataTypeTok{trace=}\StringTok{\textquotesingle{}none\textquotesingle{}}\NormalTok{,}
+          \DataTypeTok{distfun=}\ControlFlowTok{function}\NormalTok{(c) }\KeywordTok{as.dist}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\KeywordTok{cor}\NormalTok{(}\KeywordTok{t}\NormalTok{(c))) ,}
+          \DataTypeTok{cexCol=}\DecValTok{1}\NormalTok{,}\DataTypeTok{cexRow=}\NormalTok{.}\DecValTok{5}\NormalTok{,}\DataTypeTok{scale =} \StringTok{"row"}\NormalTok{,}
+          \DataTypeTok{hclustfun=}\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{hclust}\NormalTok{(x, }\DataTypeTok{method=}\StringTok{"average"}\NormalTok{)}
+\NormalTok{      )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-3-1} \end{adjustwidth}
+
+\hypertarget{projecting-cogaps-objects}{%
+\subsection{Projecting CoGAPS objects}\label{projecting-cogaps-objects}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data to project into PCs from RNAseq6l3c3t expression data}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.ESepiGen4c1l4\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\# Warning in data("p.ESepiGen4c1l4"): data set \textquotesingle{}p.ESepiGen4c1l4\textquotesingle{} not found}
+\KeywordTok{data}\NormalTok{(}\StringTok{\textquotesingle{}p.RNAseq6l3c3t\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{NMF2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{AP,}\DataTypeTok{full=}\OtherTok{TRUE}\NormalTok{,}
+    \DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l[[}\StringTok{"GeneSymbols"}\NormalTok{]])}
+\CommentTok{\#\# [1] "93 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 93 9"}
+
+\NormalTok{dNMF2ESepi<{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(}\KeywordTok{t}\NormalTok{(NMF2ESepi),pd.ESepiGen4c1l))}
+
+\CommentTok{\#plot pca}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\NormalTok{setEpiCOL <{-}}\StringTok{ }\KeywordTok{scale\_colour\_manual}\NormalTok{(}\DataTypeTok{values =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{,}\StringTok{"green"}\NormalTok{,}\StringTok{"blue"}\NormalTok{,}\StringTok{"black"}\NormalTok{),}
+\DataTypeTok{guide =} \KeywordTok{guide\_legend}\NormalTok{(}\DataTypeTok{title=}\StringTok{"Lineage"}\NormalTok{))}
+
+\NormalTok{pNMF2ESepiGen4c1l <{-}}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(dNMF2ESepi, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{X1, }\DataTypeTok{y=}\NormalTok{X2, }\DataTypeTok{colour=}\NormalTok{Condition)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_point}\NormalTok{(}\DataTypeTok{size=}\DecValTok{5}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{setEpiCOL }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.position=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DataTypeTok{legend.justification=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
+  \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"white"}\NormalTok{),}
+  \DataTypeTok{legend.direction =} \StringTok{"horizontal"}\NormalTok{,}
+  \DataTypeTok{plot.title =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{vjust =} \DecValTok{0}\NormalTok{,}\DataTypeTok{hjust=}\DecValTok{0}\NormalTok{,}\DataTypeTok{face=}\StringTok{"bold"}\NormalTok{))}
+  \KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Encode RNAseq in target PC1 \& PC2"}\NormalTok{,}
+  \DataTypeTok{x=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC1 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{1}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{),}
+  \DataTypeTok{y=}\KeywordTok{paste}\NormalTok{(}\StringTok{"Projected PC2 ("}\NormalTok{,}\KeywordTok{round}\NormalTok{(PCA2ESepi[[}\DecValTok{2}\NormalTok{]][}\DecValTok{2}\NormalTok{],}\DecValTok{2}\NormalTok{),}\StringTok{"\% of varience)"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\CommentTok{\#\# $x}
+\CommentTok{\#\# [1] "Projected PC1 (18.36\% of varience)"}
+\CommentTok{\#\# }
+\CommentTok{\#\# $y}
+\CommentTok{\#\# [1] "Projected PC2 (17.15\% of varience)"}
+\CommentTok{\#\# }
+\CommentTok{\#\# $title}
+\CommentTok{\#\# [1] "Encode RNAseq in target PC1 \& PC2"}
+\CommentTok{\#\# }
+\CommentTok{\#\# attr(,"class")}
+\CommentTok{\#\# [1] "labels"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{clustering-projection}{%
+\section{Clustering projection}\label{clustering-projection}}
+
+As canonical projection is not defined for clustering objects, the projectR package offers two transfer learning inspired methods to achieve the ``projection'' of clustering objects. These methods are defined by the function used to quantify and transfer the relationships which define each cluster in the original data set to the new dataset. Briefly, \texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights. These weights are output as a \texttt{pclust} object which can serve as input to \texttt{projectR}. Alternatively, the \texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. Both \texttt{cluster2pattern} and \texttt{intersectoR} methods are coded for a generic list structure with additional S4 class methods for kmeans and hclust objects. Further details and examples are provided in the followin respecitive sections.
+
+\hypertarget{cluster2pattern}{%
+\subsection{cluster2pattern}\label{cluster2pattern}}
+
+\texttt{cluster2pattern} uses the corelation of each genes expression to the mean of each cluster to define continuous weights.
+
+\begin{verbatim}
+library(projectR)
+data(p.RNAseq6l3c3t)
+
+
+nP<-5
+kClust<-kmeans(p.RNAseq6l3c3t,centers=nP)
+kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+kpattern
+
+cluster2pattern(clusters = NA, NP = NA, data = NA)
+\end{verbatim}
+
+\hypertarget{input-arguments-2}{%
+\subsubsection{Input Arguments}\label{input-arguments-2}}
+
+The inputs that must be set each time are the clusters and data.
+
+The arguments are as follows:
+
+\begin{description}
+\item[clusters]{a clustering object}
+\item[NP]{either the number of clusters desired or the subset of clusters to use}
+\item[data]{data used to make clusters object}
+\end{description}
+
+\hypertarget{output-2}{%
+\subsubsection{Output}\label{output-2}}
+
+The output of the \texttt{cluster2pattern} function is a \texttt{pclust} class object; specifically, a matrix of genes (rows) by clusters (columns). A gene's value outside of its assigned cluster is zero. For the cluster containing a given gene, the gene's value is the correlation of the gene's expression to the mean of that cluster.
+
+\hypertarget{intersector}{%
+\subsection{intersectoR}\label{intersector}}
+
+\texttt{intersectoR} function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S4 class methods for \texttt{hclust} and \texttt{kmeans} objects are also available.
+
+\begin{verbatim}
+library(projectR)
+intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
+\end{verbatim}
+
+\hypertarget{input-arguments-3}{%
+\subsubsection{Input Arguments}\label{input-arguments-3}}
+
+The inputs that must be set each time are the clusters and data.
+
+The arguments are as follows:
+
+\begin{description}
+\item[pSet1]{a list for a set of patterns where each entry is a set of genes associated with a single pattern}
+\item[pSet2]{a list for a second set of patterns where each entry is a set of genes associated with a single pattern}
+\item[pval]{the maximum p-value considered significant}
+\item[full]{logical indicating whether to return full data frame of signigicantly overlapping sets. Default is false will return summary matrix.}
+\item[k]{numeric giving cut height for hclust objects, if vector arguments will be applied to pSet1 and pSet2 in that order}
+\end{description}
+
+\hypertarget{output-3}{%
+\subsubsection{Output}\label{output-3}}
+
+The output of the \texttt{intersectoR} function is a summary matrix showing the sets with statistically significant overlap under the specified \(p\)-value threshold based on a hypergeometric test. If \texttt{full==TRUE} the full data frame of significantly overlapping sets will also be returned.
+
+\hypertarget{correlation-based-projection}{%
+\section{Correlation based projection}\label{correlation-based-projection}}
+
+Correlation based projection requires a matrix of gene-wise correlation values to serve as the Pattern input to the \texttt{projectR} function. This matrix can be user-generated or the result of the \texttt{correlateR} function included in the projectR package. User-generated matrixes with each row corresponding to an individual gene can be input to the generic \texttt{projectR} function. The \texttt{correlateR} function allows users to create a weight matrix for projection with values quantifying the within dataset correlation of each genes expression to the expression pattern of a particular gene or set of genes as follows.
+
+\hypertarget{correlater}{%
+\subsection{correlateR}\label{correlater}}
+
+\begin{verbatim}
+library(projectR)
+correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
+\end{verbatim}
+
+\hypertarget{input-arguments-4}{%
+\subsubsection{Input Arguments}\label{input-arguments-4}}
+
+The inputs that must be set each time are only the genes and data, with all other inputs having default values.
+
+The arguments are as follows:
+
+\begin{description}
+\item[genes]{gene or character vector of genes for reference expression pattern dat}
+\item[data]{matrix or data frame with genes to be used for to calculate correlation}
+\item[threshtype]{Default "R" indicates thresholding by R value or equivalent. Alternatively, "N" indicates a numerical cut off.}
+\item[threshold]{numeric indicating value at which to make threshold}
+\item[absR]{logical indicating where to include both positive and negatively correlated genes}
+\item[...]{addtion imputes to the cor function}
+\end{description}
+
+\hypertarget{output-4}{%
+\subsubsection{Output}\label{output-4}}
+
+The output of the \texttt{correlateR} function is a \texttt{correlateR} class object. Specifically, a matrix of correlation values for those genes whose expression pattern pattern in the dataset is correlated (and anti-correlated if absR=TRUE) above the value given in as the threshold arguement. As this information may be useful in its own right, it is recommended that users inspect the \texttt{correlateR} object before using it as input to the \texttt{projectR} function.
+
+\hypertarget{obtaining-and-visualizing-objects.}{%
+\subsection{\texorpdfstring{Obtaining and visualizing \texttt{correlateR} objects.}{Obtaining and visualizing  objects.}}\label{obtaining-and-visualizing-objects.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data to}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{data}\NormalTok{(}\StringTok{"p.RNAseq6l3c3t"}\NormalTok{)}
+
+\CommentTok{\# get genes correlated to T}
+\NormalTok{cor2T<{-}}\KeywordTok{correlateR}\NormalTok{(}\DataTypeTok{genes=}\StringTok{"T"}\NormalTok{, }\DataTypeTok{dat=}\NormalTok{p.RNAseq6l3c3t, }\DataTypeTok{threshtype=}\StringTok{"N"}\NormalTok{, }\DataTypeTok{threshold=}\DecValTok{10}\NormalTok{, }\DataTypeTok{absR=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{cor2T <{-}}\StringTok{ }\NormalTok{cor2T}\OperatorTok{@}\NormalTok{corM}
+\CommentTok{\#\#\# heatmap of genes more correlated to T}
+\NormalTok{indx<{-}}\KeywordTok{unlist}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(cor2T,rownames))}
+\NormalTok{indx <{-}}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(indx)}
+\KeywordTok{colnames}\NormalTok{(p.RNAseq6l3c3t)<{-}pd.RNAseq6l3c3t}\OperatorTok{$}\NormalTok{sampleX}
+\KeywordTok{library}\NormalTok{(reshape2)}
+\CommentTok{\#\# Warning: package \textquotesingle{}reshape2\textquotesingle{} was built under R version 4.0.5}
+\NormalTok{pm.RNAseq6l3c3t<{-}}\KeywordTok{melt}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(p.RNAseq6l3c3t[indx,],indx))}
+\CommentTok{\#\# Using indx as id variables}
+
+\KeywordTok{library}\NormalTok{(gplots)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(viridis)}
+\CommentTok{\#\# Warning: package \textquotesingle{}viridis\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#\# Loading required package: viridisLite}
+\CommentTok{\#\# Warning: package \textquotesingle{}viridisLite\textquotesingle{} was built under R version 4.0.5}
+\NormalTok{pCorT<{-}}\KeywordTok{ggplot}\NormalTok{(pm.RNAseq6l3c3t, }\KeywordTok{aes}\NormalTok{(variable, indx, }\DataTypeTok{fill =}\NormalTok{ value)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_tile}\NormalTok{(}\DataTypeTok{colour=}\StringTok{"gray20"}\NormalTok{, }\DataTypeTok{size=}\FloatTok{1.5}\NormalTok{, }\DataTypeTok{stat=}\StringTok{"identity"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale\_fill\_viridis}\NormalTok{(}\DataTypeTok{option=}\StringTok{"B"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{) }\OperatorTok{+}\StringTok{  }\KeywordTok{ylab}\NormalTok{(}\StringTok{""}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale\_y\_discrete}\NormalTok{(}\DataTypeTok{limits=}\NormalTok{indx) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ten genes most highly pos \& neg correlated with T"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}
+    \DataTypeTok{panel.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
+    \DataTypeTok{panel.border =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\OtherTok{NA}\NormalTok{,}\DataTypeTok{color=}\StringTok{"gray20"}\NormalTok{, }\DataTypeTok{size=}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{linetype=}\StringTok{"solid"}\NormalTok{),}
+    \DataTypeTok{panel.grid.major =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{panel.grid.minor =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.line =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.ticks =} \KeywordTok{element\_blank}\NormalTok{(),}
+    \DataTypeTok{axis.text =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{),}\DataTypeTok{hjust=}\DecValTok{1}\NormalTok{),}
+    \DataTypeTok{axis.text.x =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{90}\NormalTok{,}\DataTypeTok{vjust=}\NormalTok{.}\DecValTok{5}\NormalTok{),}
+    \DataTypeTok{legend.text =} \KeywordTok{element\_text}\NormalTok{(}\DataTypeTok{color=}\StringTok{"white"}\NormalTok{, }\DataTypeTok{size=}\KeywordTok{rel}\NormalTok{(}\DecValTok{1}\NormalTok{)),}
+    \DataTypeTok{legend.background =} \KeywordTok{element\_rect}\NormalTok{(}\DataTypeTok{fill=}\StringTok{"gray20"}\NormalTok{),}
+    \DataTypeTok{legend.position =} \StringTok{"bottom"}\NormalTok{,}
+    \DataTypeTok{legend.title=}\KeywordTok{element\_blank}\NormalTok{()}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-5-1} \end{adjustwidth}
+
+\hypertarget{projecting-correlater-objects.}{%
+\subsection{Projecting correlateR objects.}\label{projecting-correlater-objects.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data to project into from RNAseq6l3c3t expression data}
+\KeywordTok{data}\NormalTok{(p.ESepiGen4c1l)}
+
+\KeywordTok{library}\NormalTok{(projectR)}
+\NormalTok{cor2ESepi <{-}}\StringTok{ }\KeywordTok{projectR}\NormalTok{(p.ESepiGen4c1l}\OperatorTok{$}\NormalTok{mRNA.Seq,}\DataTypeTok{loadings=}\NormalTok{cor2T[[}\DecValTok{1}\NormalTok{]],}\DataTypeTok{full=}\OtherTok{FALSE}\NormalTok{,}
+    \DataTypeTok{dataNames=}\NormalTok{map.ESepiGen4c1l}\OperatorTok{$}\NormalTok{GeneSymbols)}
+\CommentTok{\#\# [1] "9 row names matched between data and loadings"}
+\CommentTok{\#\# [1] "Updated dimension of data: 9 9"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{differential-features-identification.}{%
+\section{Differential features identification.}\label{differential-features-identification.}}
+
+\hypertarget{projectiondriver}{%
+\subsection{projectionDriveR}\label{projectiondriver}}
+
+Given loadings that define the weight of features (genes) in a given latent space (e.g.~PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
+
+\begin{verbatim}
+library(projectR)
+projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
+                 pvalue, pattern_name, display = T, normalize_pattern = T)
+\end{verbatim}
+
+\hypertarget{input-arguments-5}{%
+\subsubsection{Input Arguments}\label{input-arguments-5}}
+
+The required inputs are two feature by sample (e.g.~gene by cell) matrices to be compared, the loadings that define the feature weights, and the name of the pattern (column of feature loadings). If applicable, the expression matrices should already be corrected for variables such as sequencing depth.
+
+The arguments for projectionDriveR are:
+
+\begin{description}
+\item[cellgroup1]{Matrix 1 with features as rows, samples as columns.}
+\item[cellgroup2]{Matrix 2 with features as rows, samples as columns.}
+\item[loadings]{Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space}
+\item[loadingsNames]{Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used}
+\item[pattern\_name]{the column name of the loadings by which the features will be weighted}
+\item[pvalue]{Determines the significance of the confidence interval to be calculated between the difference of means}
+\item[display]{Boolean. Whether or not to plot the estimates of significant features. Default = T}
+\item[normalize\_pattern]{Boolean. Whether or not to normalize the average feature weight. Default = T}
+\end{description}
+
+\hypertarget{output-5}{%
+\subsubsection{Output}\label{output-5}}
+
+The output of \texttt{projectionDriveR} is a list of length five \texttt{mean\_ci} holds the confidence intervals for the difference in means for all features, \texttt{weighted\_ci} holds the confidence intervals for the weighted difference in means for all features, and normalized\_weights are the weights themselves. In addition, \texttt{significant\_genes} is a vector of gene names that are significantly different at the threshold provided. \texttt{plotted\_ci} returns the ggplot figure of the confidence intervals, see \texttt{plotConfidenceIntervals} for documentation.
+
+\hypertarget{identifying-differential-features-associated-with-learned-patterns}{%
+\subsubsection{Identifying differential features associated with learned patterns}\label{identifying-differential-features-associated-with-learned-patterns}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{width =} \DecValTok{60}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(projectR)}
+\KeywordTok{library}\NormalTok{(dplyr, }\DataTypeTok{warn.conflicts =}\NormalTok{ F)}
+\CommentTok{\#\# Warning: package \textquotesingle{}dplyr\textquotesingle{} was built under R version 4.0.5}
+
+\CommentTok{\#gene weights x pattern}
+\KeywordTok{data}\NormalTok{(}\StringTok{"retinal\_patterns"}\NormalTok{)}
+
+\CommentTok{\#size{-}normed, log expression}
+\KeywordTok{data}\NormalTok{(}\StringTok{"microglial\_counts"}\NormalTok{)}
+
+\CommentTok{\#size{-}normed, log expression}
+\KeywordTok{data}\NormalTok{(}\StringTok{"glial\_counts"}\NormalTok{)}
+
+\CommentTok{\#the features by which to weight the difference in expression }
+\NormalTok{pattern\_to\_weight <{-}}\StringTok{ "Pattern.24"}
+\NormalTok{drivers <{-}}\StringTok{ }\KeywordTok{projectionDriveR}\NormalTok{(microglial\_counts, }\CommentTok{\#expression matrix}
+\NormalTok{                                       glial\_counts, }\CommentTok{\#expression matrix}
+                                       \DataTypeTok{loadings =}\NormalTok{ retinal\_patterns, }\CommentTok{\#feature x pattern dataframe}
+                                       \DataTypeTok{loadingsNames =} \OtherTok{NULL}\NormalTok{,}
+                                       \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight, }\CommentTok{\#column name}
+                                       \DataTypeTok{pvalue =} \FloatTok{1e{-}5}\NormalTok{, }\CommentTok{\#pvalue before bonferroni correction}
+                                       \DataTypeTok{display =}\NormalTok{ T,}
+                                       \DataTypeTok{normalize\_pattern =}\NormalTok{ T) }\CommentTok{\#normalize feature weights}
+\CommentTok{\#\# [1] "2996 row names matched between datasets"}
+\CommentTok{\#\# [1] "2996"}
+\CommentTok{\#\# [1] "Updated dimension of data: 2996"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/projectionDriver-1} \end{adjustwidth}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{conf\_intervals <{-}}\StringTok{ }\NormalTok{drivers}\OperatorTok{$}\NormalTok{mean\_ci[drivers}\OperatorTok{$}\NormalTok{significant\_genes,]}
+
+\KeywordTok{str}\NormalTok{(conf\_intervals)}
+\CommentTok{\#\# \textquotesingle{}data.frame\textquotesingle{}:    253 obs. of  2 variables:}
+\CommentTok{\#\#  $ low : num  1.86 0.158 {-}0.562 {-}0.756 0.155 ...}
+\CommentTok{\#\#  $ high: num  2.03943 0.26729 {-}0.00197 {-}0.18521 0.23239 ...}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plotconfidenceintervals}{%
+\subsection{plotConfidenceIntervals}\label{plotconfidenceintervals}}
+
+\hypertarget{input}{%
+\subsubsection{Input}\label{input}}
+
+The arguments for plotConfidenceIntervals are:
+
+\begin{description}
+\item[confidence\_intervals]{A dataframe of features x estimates}
+\item[interval\_name]{names of columns that contain the low and high estimates, respectively.
+(default: c("low","high"))}
+\item[pattern\_name]{string to use as the title for the plots}
+\item[sort]{Boolean. Whether or not to sort genes by their estimates (default = T)}
+\item[genes]{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order (default = NULL will include all genes.)}
+\item[weights]{weights of features to include as annotation (default = NULL will not include heatmap)}
+\item[weights\_clip]{quantile of data to clip color scale for improved visualization (default: 0.99)}
+\item[weights\_vis\_norm]{Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"}
+\end{description}
+
+\hypertarget{output-6}{%
+\subsubsection{Output}\label{output-6}}
+
+A list of the length three that includes confidence interval plots and relevant info. \texttt{ci\_estimates\_plot} is the point-range plot for the provided estimates. If called from within \texttt{projectionDriveR}, the unweighted estimates are used. \texttt{feature\_order} is the vector of gene names in the order shown in the figure. \texttt{weights\_heatmap} is a heatmap annotation of the gene loadings, in the same order as above.
+
+\hypertarget{customize-plotting-of-confidence-intervals}{%
+\subsubsection{Customize plotting of confidence intervals}\label{customize-plotting-of-confidence-intervals}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(cowplot)}
+\CommentTok{\#\# Warning: package \textquotesingle{}cowplot\textquotesingle{} was built under R version 4.0.5}
+\CommentTok{\#order in ascending order of estimates}
+\NormalTok{conf\_intervals <{-}}\StringTok{ }\NormalTok{conf\_intervals }\OperatorTok{\%>\%}\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mid =}\NormalTok{ (high}\OperatorTok{+}\NormalTok{low)}\OperatorTok{/}\DecValTok{2}\NormalTok{) }\OperatorTok{\%>\%}\StringTok{ }\KeywordTok{arrange}\NormalTok{(mid)}
+\NormalTok{gene\_order <{-}}\StringTok{ }\KeywordTok{rownames}\NormalTok{(conf\_intervals)}
+
+\CommentTok{\#add text labels for top and bottom n genes}
+\NormalTok{conf\_intervals}\OperatorTok{$}\NormalTok{label\_name <{-}}\StringTok{ }\OtherTok{NA\_character\_}
+\NormalTok{n <{-}}\StringTok{ }\DecValTok{2}
+\NormalTok{idx <{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{n, (}\KeywordTok{dim}\NormalTok{(conf\_intervals)[}\DecValTok{1}\NormalTok{]}\OperatorTok{{-}}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(conf\_intervals)[}\DecValTok{1}\NormalTok{])}
+\NormalTok{gene\_ids <{-}}\StringTok{ }\NormalTok{gene\_order[idx]}
+\NormalTok{conf\_intervals}\OperatorTok{$}\NormalTok{label\_name[idx] <{-}}\StringTok{ }\NormalTok{gene\_ids}
+
+\CommentTok{\#the labels above can now be used as ggplot aesthetics}
+\NormalTok{plots\_list <{-}}\StringTok{ }\KeywordTok{plotConfidenceIntervals}\NormalTok{(conf\_intervals, }\CommentTok{\#mean difference in expression confidence intervals}
+                                      \DataTypeTok{sort =}\NormalTok{ F, }\CommentTok{\#should genes be sorted by estimates}
+                                      \DataTypeTok{weights =}\NormalTok{ drivers}\OperatorTok{$}\NormalTok{normalized\_weights[}\KeywordTok{rownames}\NormalTok{(conf\_intervals)],}
+                                      \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight,}
+                                      \DataTypeTok{weights\_clip =} \FloatTok{0.99}\NormalTok{,}
+                                      \DataTypeTok{weights\_vis\_norm =} \StringTok{"none"}\NormalTok{)}
+
+\NormalTok{pl1 <{-}}\StringTok{ }\NormalTok{plots\_list[[}\StringTok{"ci\_estimates\_plot"}\NormalTok{]] }\OperatorTok{+}
+\StringTok{  }\NormalTok{ggrepel}\OperatorTok{::}\KeywordTok{geom\_label\_repel}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{label =}\NormalTok{ label\_name), }\DataTypeTok{max.overlaps =} \DecValTok{20}\NormalTok{, }\DataTypeTok{force =} \DecValTok{50}\NormalTok{)}
+
+\NormalTok{pl2 <{-}}\StringTok{ }\NormalTok{plots\_list[[}\StringTok{"weights\_heatmap"}\NormalTok{]]}
+
+\CommentTok{\#now plot the weighted differences}
+\NormalTok{weighted\_conf\_intervals <{-}}\StringTok{ }\NormalTok{drivers}\OperatorTok{$}\NormalTok{weighted\_mean\_ci[gene\_order,]}
+\NormalTok{plots\_list\_weighted <{-}}\StringTok{ }\KeywordTok{plotConfidenceIntervals}\NormalTok{(weighted\_conf\_intervals,}
+                                               \DataTypeTok{sort =}\NormalTok{ F,}
+                                               \DataTypeTok{pattern\_name =}\NormalTok{ pattern\_to\_weight)}
+
+\NormalTok{pl3 <{-}}\StringTok{ }\NormalTok{plots\_list\_weighted[[}\StringTok{"ci\_estimates\_plot"}\NormalTok{]] }\OperatorTok{+}
+\StringTok{  }\KeywordTok{xlab}\NormalTok{(}\StringTok{"Difference in weighted group means"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.title.y =} \KeywordTok{element\_blank}\NormalTok{(), }\DataTypeTok{axis.ticks.y =} \KeywordTok{element\_blank}\NormalTok{(), }\DataTypeTok{axis.text.y =} \KeywordTok{element\_blank}\NormalTok{())}
+
+\NormalTok{cowplot}\OperatorTok{::}\KeywordTok{plot\_grid}\NormalTok{(pl1, pl2, pl3, }\DataTypeTok{align =} \StringTok{"h"}\NormalTok{, }\DataTypeTok{rel\_widths =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,.}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{), }\DataTypeTok{ncol =} \DecValTok{3}\NormalTok{)}
+\CommentTok{\#\# Warning: Removed 249 rows containing missing values}
+\CommentTok{\#\# (geom\_label\_repel).}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{adjustwidth}{\fltoffset}{0mm}
+\includegraphics[width=1\linewidth,]{E:/Projects/Fertiglab/projectR/vignettes/projectR_files/figure-latex/unnamed-chunk-7-1} \end{adjustwidth}
+
+\hypertarget{refs}{}
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-Barbakh:2009bw}{}%
+Barbakh, Wesam Ashour, Ying Wu, and Colin Fyfe. 2009. ``Review of Linear Projection Methods.'' In \emph{Non-Standard Parameter Adaptation for Exploratory Data Analysis}, 29--48. Berlin, Heidelberg: Springer Berlin Heidelberg.
+
+\leavevmode\hypertarget{ref-Sibisi1997}{}%
+Sibisi, Sibusiso, and John Skilling. 1997. ``Prior Distributions on Measure Space.'' \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)} 59 (1): 217--35. \url{https://doi.org/10.1111/1467-9868.00065}.
+
+\leavevmode\hypertarget{ref-Ochs2006}{}%
+Wang, Guoli, Andrew V. Kossenkov, and Michael F. Ochs. 2006. ``LS-Nmf: A Modified Non-Negative Matrix Factorization Algorithm Utilizing Uncertainty Estimates.'' \emph{BMC Bioinformatics} 7 (1): 175. \url{https://doi.org/10.1186/1471-2105-7-175}.
+\end{cslreferences}
+
+
+\end{document}

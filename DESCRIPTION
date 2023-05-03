@@ -2,7 +2,7 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 1.17.0
+Version: 1.17.5
 Author: Gaurav Sharma, Genevieve Stein-O'Brien
 Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
@@ -12,7 +12,6 @@ Imports:
     cluster,
     stats,
     limma,
-    CoGAPS,
     NMF,
     ROCR,
     ggalluvial,
@@ -21,20 +20,29 @@ Imports:
     reshape2,
     viridis,
     scales,
-    ggplot2
+    Matrix,
+    MatrixModels,
+    ggplot2,
+    cowplot,
+    ggrepel
 Suggests:
     BiocStyle,
+    CoGAPS,
     gridExtra,
     grid,
     testthat,
     devtools,
+    rmarkdown (== 1.17),
     knitr,
     rmarkdown,
-    ComplexHeatmap
+    ComplexHeatmap,
+    gplots
 LazyData: TRUE
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
 BugReports: https://support.bioconductor.org/t/projectR/
 URL: https://github.com/genesofeve/projectR/
+Depends: 
+    R (>= 2.10)
