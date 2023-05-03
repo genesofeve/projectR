@@ -39,7 +39,7 @@ A matrix to generate alluvial plots
 Function to provide alluvial matrix for generating alluvial plot
 }
 \examples{
-projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 alluvialMat(projection,pd.ESepiGen4c1l$Condition)
 }
