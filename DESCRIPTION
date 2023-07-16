@@ -32,7 +32,7 @@ Suggests:
     grid,
     testthat,
     devtools,
-    rmarkdown (== 1.17),
+    rmarkdown,
     knitr,
     rmarkdown,
     ComplexHeatmap,
@@ -45,4 +45,4 @@ biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
 BugReports: https://support.bioconductor.org/t/projectR/
 URL: https://github.com/genesofeve/projectR/
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0.1)
