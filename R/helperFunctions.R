@@ -7,7 +7,8 @@
 #' @param 	umapConfig  umap.config, a list of parameters to customize umap embedding
 #' @return  A umap of projection
 #' @examples
-#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+#' library(umap)
+#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 #' umapConfig = umap.defaults
 #' umapConfig$n_neighbors = 3
@@ -37,7 +38,7 @@ getUMAP <- function(projection,axis=2,umapMethod="naive",umapConfig=umap.default
 #' @param   axis		integer, either 1 umap of projection or 2 for umap of transpose of projection
 #' @param   ...			addtional arguments passed to tsne
 #' @examples
-#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+#' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 #' dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 #' projectionTSNE <- getTSNE(projection)
 #' @export
