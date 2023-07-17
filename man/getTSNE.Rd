@@ -17,7 +17,7 @@ getTSNE(projection, axis = 2, ...)
 Function to provide tSNE of projection
 }
 \examples{
-projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 projectionTSNE <- getTSNE(projection)
 }

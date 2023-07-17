@@ -22,7 +22,8 @@ A umap of projection
 Function to provide umap of projection
 }
 \examples{
-projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean, 
+library(umap)
+projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
 dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE)
 umapConfig = umap.defaults
 umapConfig$n_neighbors = 3
