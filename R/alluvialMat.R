@@ -9,6 +9,8 @@
 #' @param   annotationType a character indicating the type of data annotated, default is "Cell"
 #' @param   plot logical indicating whether to return the alluvial plot, default is TRUE
 #' @param   minPropExplained threshold for minimum proportion of samples that correspond to a pattern to be used for plotting
+#' @param   pvalThreshold theshold level of significance for p-value
+#' @param   qvalThreshold theshold level of significance for Benjamini-Hochberg corrected p-value
 #' @return  A matrix to generate alluvial plots
 #' @examples
 #' projection <- projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=AP.RNAseq6l3c3t$Amean,
@@ -16,14 +18,15 @@
 #' alluvialMat(projection,pd.ESepiGen4c1l$Condition)
 #' @export
 
-alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = TRUE, minPropExplained = 0.75){
+alluvialMat<-function(projection, annotations, annotationName = "Cell type", annotationType = "Cell", plot = TRUE, minPropExplained = 0.75, 
+  pvalThreshold = 0.05,qvalThreshold = 0.05){
   if(!('pval' %in% names(projection))){
     stop("Please set arguemnt full = TRUE in projectR to generate projection with p-values")
   }
-  sigPatternIdx<-apply(projection$pval,1,function(x){if(min(x,na.rm=TRUE)<=0.05){return(TRUE)} else{return(FALSE)}})
+  sigPatternIdx<-apply(projection$pval,1,function(x){if(min(x,na.rm=TRUE)<=pvalThreshold){return(TRUE)} else{return(FALSE)}})
   projection$qval<-t(apply(projection$pval,1,function(x){p.adjust(x,method="BH")}))
-  sigPatternIdx<-apply(projection$qval,1,function(x){if(min(x,na.rm=T)<=0.01){return(TRUE)} else{return(FALSE)}})
-  sig<-as.data.frame(t(projection$qval[sigPatternIdx,]<=0.01))
+  sigPatternIdx<-apply(projection$qval,1,function(x){if(min(x,na.rm=T)<=qvalThreshold){return(TRUE)} else{return(FALSE)}})
+  sig<-as.data.frame(t(projection$qval[sigPatternIdx,]<=qvalThreshold))
   DM<-as.data.frame(cbind('celltype'=annotations,sig))  #possible issue when the numbe of annotations is less than significant patterns
   celltype_cells<-as.data.frame(table(annotations))
   colnames(celltype_cells)<-c('celltype','nCells_per_type')
