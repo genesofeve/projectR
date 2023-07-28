@@ -317,12 +317,6 @@ multivariateAnalysisR <- function(
       )
     })
   )
-  print(length(group))
-  print(length(ci_lower))
-  print(length(ci_upper))
-  print(length(y_pos))
-  print(length(colors))
-  print(length(labels))
   # Create a data frame
   data <- data.frame(
     group, 
