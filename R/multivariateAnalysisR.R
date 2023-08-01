@@ -21,11 +21,6 @@
 #' @return none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 #' @export
 #'
-#' @examples
-#' dict1 <- list("myclusters" = "RPCs-1", "Condition" = c("72h_Mtz", "24h_Mtz"))
-#' dict2 <- list("myclusters" = "Muller Glia", "Condition" = c("72h_Mtz", "24h_Mtz"))
-#' multivariateAnalysisR(significanceLevel = 0.05, patternKeys = list("Muller_Pattern1", "Muller_Pattern2", "Muller_Pattern3"), seuratobj = RNA4time_seurat, dictionaries = list(dict1, dict2), customNames = list("test1", "test2"), exclusive = TRUE, exportFolder = "results", ANOVAwidth = 1000, ANOVAheight = 1000, CIwidth = 1000, CIheight = 1000, CIspacing = 2)
-#' 
 
 multivariateAnalysisR <- function(
     significanceLevel = 0.05, # double value for testing significance in ANOVA test
