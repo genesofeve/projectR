@@ -11,14 +11,14 @@
 #' @param dictionaries list of dictionaries indicating clusters to be compared
 #' @param customNames list of custom names for clusters in corresponding order
 #' @param exclusive boolean value for determining interpolation between params in clusters
-#' @param exportFolder name of folder to store exported graphs
+#' @param exportFolder name of folder to store exported graphs and CSV files
 #' @param ANOVAwidth width of ANOVA png
 #' @param ANOVAheight height of ANOVA png
 #' @param CIwidth width of CI png
 #' @param CIheight height of CI png
 #' @param CIspacing spacing between each CI in CI graph
 #'
-#' @return none; ANOVA and Confidence Intervals are visualized and exported as pngs
+#' @return none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 #' @export
 #'
 #' @examples
@@ -243,6 +243,7 @@ multivariateAnalysisR <- function(
   # step 1: initialization
   name <- sapply(sortedGrossList, function(x) x$patternKey)
   value <- sapply(sortedGrossList, function(x) x[["ANOVA"]][1])
+  pValue <- sapply(sortedGrossList, function(x) x[["ANOVA"]][2]) # for CSV export
   significance <- sapply(sortedGrossList, function(x) x[["ANOVA"]][3])
   color <- ifelse(significance == 1, "blue", "red")
   # Create a data frame
@@ -351,4 +352,45 @@ multivariateAnalysisR <- function(
   CI_file_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_CI.png")
   ggsave(filename = CI_file_path, plot = last_plot(), width = CIwidth, height = CIheight, units = "px", limitsize = FALSE, device = "png", bg = "white")
   
+  # CSV export
+  # ANOVA
+  ANOVA_significance <- ifelse(significance == 1, "TRUE", "FALSE")
+  ANOVA_CSV_df <- data.frame(
+    "Pattern" = rev(name),
+    "F-statistic value" = rev(value),
+    "p-value" = rev(pValue),
+    "Statistically Significant" = rev(ANOVA_significance)
+  )
+  ANOVA_export_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_ANOVA.csv")
+  write.csv(ANOVA_CSV_df, ANOVA_export_path, row.names = FALSE)
+  
+  # CI
+  color_labels_pair1name <- unlist(
+    lapply(sortedGrossList, function(x) {
+      unlist(
+        lapply(x$CI, function(y) {
+          y$pair1Name
+        })
+      )
+    })
+  )
+  color_labels_pair2name <- unlist(
+    lapply(sortedGrossList, function(x) {
+      unlist(
+        lapply(x$CI, function(y) {
+          y$pair2Name
+        })
+      )
+    })
+  )
+  CI_CSV_df <- data.frame(
+    "Pattern" = rev(group),
+    "CI Lower Value" = rev(ci_lower),
+    "CI Higher Value" = rev(ci_upper),
+    "CI Cluster 1" = color_labels_pair1name,
+    "CI Cluster 2" = color_labels_pair2name
+  )
+  CI_export_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_CI.csv")
+  write.csv(CI_CSV_df, CI_export_path, row.names = FALSE)
+
 }

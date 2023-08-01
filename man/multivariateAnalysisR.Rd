@@ -32,7 +32,7 @@ multivariateAnalysisR(
 
 \item{exclusive}{boolean value for determining interpolation between params in clusters}
 
-\item{exportFolder}{name of folder to store exported graphs}
+\item{exportFolder}{name of folder to store exported graphs and CSV files}
 
 \item{ANOVAwidth}{width of ANOVA png}
 
@@ -45,7 +45,7 @@ multivariateAnalysisR(
 \item{CIspacing}{spacing between each CI in CI graph}
 }
 \value{
-none; ANOVA and Confidence Intervals are visualized and exported as pngs
+none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 }
 \description{
 Performs multivariate analysis across specified clusters in datasets

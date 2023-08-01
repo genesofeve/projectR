@@ -509,7 +509,7 @@ The arguments for `multivariateAnalysisR` are:
 **`dictionaries`** List of dictionaries indicating clusters to be compared.  
 **`customNames`** List of custom names for clusters in corresponding order.
 **`exclusive`** Boolean value for determining interpolation between params in clusters.
-**`exportFolder`** Name of folder to store exported graphs.
+**`exportFolder`** Name of folder to store exported graphs and CSV files.
 **`ANOVAwidth`** Width of ANOVA png.
 **`ANOVAheight`** Height of ANOVA png.
 **`CIwidth`** Width of CI png.
@@ -518,7 +518,7 @@ The arguments for `multivariateAnalysisR` are:
 
 
 ### Output 
-The outputs of `multivariateAnalysisR` are two exported PNG files: one for ANOVA analysis, another for CI. No values are returned from the function. From the ANOVA analysis, researchers can see the general ranking of differential uses of patterns across the specified clusters. From the CI analysis, researchers can identify the specific differential use cases between every pair of clusters. 
+The outputs of `multivariateAnalysisR` are two pairs of exported PNG/CSV files: one for ANOVA analysis, another for CI. No values are returned from the function. From the ANOVA analysis, researchers can see the general ranking of differential uses of patterns across the specified clusters. From the CI analysis, researchers can identify the specific differential use cases between every pair of clusters. 
 
 ### Comparing differential uses of patterns across different clusters
 Demonstrative example will be added soon.
