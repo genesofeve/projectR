@@ -11,6 +11,7 @@ Github Repository:
 ## Installation
 ```
 ## Method 1 from Bioconductor
+## Deprecated for now; use Method 2 instead
 BiocManager::install("projectR")
 
 ## Method 2 from Github
