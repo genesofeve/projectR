@@ -16,7 +16,8 @@ test_that("data is proper",{
 	expect_true(all(dim(pd.ESepiGen4c1l) == c(9,2)))
 	expect_that(pd.RNAseq6l3c3t,is_a('data.frame'))
 	expect_true(all(dim(pd.RNAseq6l3c3t) == c(54,38)))
-	# expect_true(all(dim(CR.RNAseq6l3c3t) == c(54,5)))
+	expect_true(all(dim(CR.RNAseq6l3c3t) == c(54,5)))
+	expect_that(multivariateAnalysisR_seurat_test, is_a('Seurat'))
 	})
 
 test_that("results are as expected",{
@@ -48,4 +49,9 @@ test_that("results are as expected",{
 	expect_true(all(dim(pca.ESepiGen4c1l) == c(54,9)))
 	expect_true(all(pca.ESepiGen4c1l != 0))
 	expect_true(all(!is.na(pca.ESepiGen4c1l)))
+	
+	#multivariateAnalysisR check
+	output <- multivariateAnalysisR(multivariateAnalysisR_seurat_test)
+	expect_true(is.null(output))
+	
 	})
