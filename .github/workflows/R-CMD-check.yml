@@ -5,9 +5,9 @@
 
 on:
   push:
-    branches: [workflowCheck, main, master]
+    branches: [multivariateAnalysisR-testthat, workflowCheck, main, master]
   pull_request:
-    branches: [workflowCheck, main, master]
+    branches: [multivariateAnalysisR-testthat, workflowCheck, main, master]
 
 name: R-CMD-check
 
