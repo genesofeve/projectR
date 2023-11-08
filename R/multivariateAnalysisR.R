@@ -18,7 +18,7 @@
 #' @param CIheight height of CI png
 #' @param CIspacing spacing between each CI in CI graph
 #'
-#' @return boolean if run is successful; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
+#' @return none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 #' @export
 #'
 
