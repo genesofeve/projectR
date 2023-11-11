@@ -4,6 +4,7 @@
 # major OSs (linux, macOS and Windows) with the current, development, and previous versions of R.
 
 on:
+  workflow_dispatch:
   push:
     branches: [main, master]
   pull_request:
