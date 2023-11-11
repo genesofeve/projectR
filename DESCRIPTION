@@ -37,7 +37,8 @@ Suggests:
     knitr,
     rmarkdown,
     ComplexHeatmap,
-    gplots
+    gplots,
+    SeuratObject
 LazyData: TRUE
 RoxygenNote: 7.2.3
 Encoding: UTF-8
