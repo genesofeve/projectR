@@ -51,7 +51,17 @@ test_that("results are as expected",{
 	expect_true(all(!is.na(pca.ESepiGen4c1l)))
 	
 	#multivariateAnalysisR check
-	output <- multivariateAnalysisR(multivariateAnalysisR_seurat_test)
-	expect_true(is.null(output))
+	output <- multivariateAnalysisR(seuratobj = multivariateAnalysisR_seurat_test, 
+	                                patternKeys = list("Pattern_1", "Pattern_2"), 
+	                                dictionaries = list(
+	                                  list("stage" = "E18"), 
+	                                  list("stage" = "Adult")
+	                                  )
+	                                )
+	expect_is(output, "list")
+	expect_length(output, 2)
+	expect_true("patternKey" %in% names(output[[1]]))
+	expect_true("ANOVA" %in% names(output[[1]]))
+	expect_true("CI" %in% names(output[[1]]))
 	
 	})
