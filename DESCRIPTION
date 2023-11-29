@@ -40,6 +40,7 @@ Suggests:
     gplots,
     SeuratObject
 LazyData: TRUE
+LazyDataCompression: gzip
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr
