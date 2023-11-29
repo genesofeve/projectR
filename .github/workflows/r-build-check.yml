@@ -1,0 +1,9 @@
+# Shows how the r-build-check.yml can be called from another repository.
+name: call-example
+on:
+    push:
+        branches: ['main']
+    workflow_dispatch:
+jobs:
+    build-check:
+        uses: FertigLab/actions/.github/workflows/r-build-check.yml@v1
