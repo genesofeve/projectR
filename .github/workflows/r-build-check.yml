@@ -1,5 +1,5 @@
 # Shows how the r-build-check.yml can be called from another repository.
-name: call-example
+name: r-build-check
 on:
     push:
         branches: ['main']
