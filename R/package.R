@@ -117,3 +117,9 @@
 #' @format A gene (rows) by cell (column) matrix
 "glial_counts"
 
+#' Truncated Seurat Object with latent space projection
+#' done to unspecified cells in different stages for multivariateAnalysisR analysis
+#' @name multivariateAnalysisR_seurat_test
+#' @docType data
+#' @format A Seurat Object with 31034 observations of 4 variables in meta.data:
+"multivariateAnalysisR_seurat_test"

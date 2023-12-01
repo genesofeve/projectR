@@ -45,7 +45,7 @@ multivariateAnalysisR(
 \item{CIspacing}{spacing between each CI in CI graph}
 }
 \value{
-none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
+a sorted list of ANOVA and CI results; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 }
 \description{
 Performs multivariate analysis across specified clusters in datasets

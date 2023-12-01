@@ -18,7 +18,7 @@
 #' @param CIheight height of CI png
 #' @param CIspacing spacing between each CI in CI graph
 #'
-#' @return none; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
+#' @return a sorted list of ANOVA and CI results; ANOVA and Confidence Intervals are visualized and exported in both PNG and CSV
 #' @export
 #'
 
@@ -387,5 +387,6 @@ multivariateAnalysisR <- function(
   )
   CI_export_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_CI.csv")
   write.csv(CI_CSV_df, CI_export_path, row.names = FALSE)
-
+  
+  return(sortedGrossList)
 }
