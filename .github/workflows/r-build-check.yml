@@ -2,7 +2,7 @@
 name: r-build-check
 on:
     push:
-        branches: ['main']
+        branches: ['master']
     workflow_dispatch:
 jobs:
     build-check:
