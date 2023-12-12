@@ -518,7 +518,7 @@ The arguments for `multivariateAnalysisR` are:
 
 
 ### Output 
-The outputs of `multivariateAnalysisR` are two pairs of exported PNG/CSV files: one for ANOVA analysis, another for CI. No values are returned from the function. From the ANOVA analysis, researchers can see the general ranking of differential uses of patterns across the specified clusters. From the CI analysis, researchers can identify the specific differential use cases between every pair of clusters. 
+`multivariateAnalysisR` returns a sorted list of the generated ANOVA and CI values. It also exports two pairs of exported PNG/CSV files: one for ANOVA analysis, another for CI. From the ANOVA analysis, researchers can see the general ranking of differential uses of patterns across the specified clusters. From the CI analysis, researchers can identify the specific differential use cases between every pair of clusters. 
 
 ### Comparing differential uses of patterns across different clusters
 Demonstrative example will be added soon.
