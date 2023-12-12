@@ -31,19 +31,21 @@
 #' @param genes a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.
 #' @param weights optional. weights of features to include as annotation. 
 #' @param weights_clip optional. quantile of data to clip color scale for improved visualization. Default: 0.99
-#' @param weights_vis_norm Which processed version of weights to visualize as a heatmap. 
+#' @param weights_vis_norm Which processed version of weights to visualize as a heatmap.
+#' @param weighted specifies whether the confidence intervals in use are weighted by the pattern and labels plots accordingly
 #' Options are "none" (which uses provided weights) or "quantiles". Default: none
 #' @return A list with pointrange estimates and, if requested, a heatmap of pattern weights.
 #' @export
 plotConfidenceIntervals <- function(
-  confidence_intervals, #confidence_interval is a data.frame or matrix with two columns (low, high). Genes must be rownames
-  interval_name = c("low","high"),
-  pattern_name = NULL,
-  sort = T,
-  genes = NULL,
-  weights = NULL,
-  weights_clip = 0.99,
-  weights_vis_norm = "none"){
+    confidence_intervals,
+    interval_name = c("low","high"),
+    pattern_name = NULL,
+    sort = T,
+    genes = NULL,
+    weights = NULL,
+    weights_clip = 0.99,
+    weights_vis_norm = "none",
+    weighted = F){
   
   if(weights_clip < 0 | weights_clip > 1){
     stop("weights_clip must be numeric between 0 and 1")
@@ -53,11 +55,15 @@ plotConfidenceIntervals <- function(
     stop("weights_vis_norm must be either 'none' or 'quantiles'")
   }
   
+  if(weighted == F){
+    lab = "Unweighted"
+  } else{
+    lab = "Weighted"
+  }
   #gene names were stored as rownames, make sure high and low estimates are stored
   confidence_intervals$gene_names <- rownames(confidence_intervals)
   confidence_intervals$low <- confidence_intervals[,interval_name[1]]
   confidence_intervals$high <- confidence_intervals[,interval_name[2]]
-  
   
   n <- dim(confidence_intervals)[1]
   confidence_intervals <- confidence_intervals %>%
@@ -77,27 +83,24 @@ plotConfidenceIntervals <- function(
   if(sort){
     #order in increasing order on estimates, and create index variable
     message("sorting genes in increasing order of estimates...")
-    confidence_intervals <- confidence_intervals %>% 
-      mutate(
-        idx = dense_rank(mid)) %>%
+    confidence_intervals <- confidence_intervals %>% mutate(idx = dense_rank(mid)) %>%
       arrange(mid)
     
-  } else{ 
-      #if not sorted, create index variable for current order
-      confidence_intervals <- confidence_intervals %>% 
-        mutate(idx = 1:n)
+  } else{
+    #if not sorted, create index variable for current order
+    confidence_intervals <- confidence_intervals %>% mutate(idx = 1:n)
   }
   
   #genereate point range plot
   ci_plot <- ggplot(data = confidence_intervals, aes(y = idx, x = mid)) + geom_pointrange(aes(xmin = low, xmax = high, color = positive)) +
     geom_point(aes(x = mid, y = idx), fill ="black",color = "black") +
-    theme_minimal() + 
-    xlab("Difference in group means") + 
-    ylab("Genes") + 
-    geom_vline(xintercept = 0, color = "black", linetype = "dashed") + 
-    theme(legend.position = "none") + 
-    ggtitle(pattern_name)
- 
+    theme_minimal() +
+    xlab("Difference in group means") +
+    ylab("Genes") +
+    geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
+    theme(legend.position = "none") +
+    ggtitle(lab)
+  
   #if provided, create heatmap for pattern weights
   if(!is.null(weights)){
     
@@ -125,11 +128,12 @@ plotConfidenceIntervals <- function(
       scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )),
                          oob=squish,
                          name = hm_name) +
-      theme_void() 
+      theme_void()
     
   } else{ wt_heatmap = NULL} #if weights aren't provided, return NULL
   
   return(list("ci_estimates_plot" = ci_plot,
               "feature_order" = rownames(confidence_intervals),
               "weights_heatmap" = wt_heatmap))
-}  
+}
+
