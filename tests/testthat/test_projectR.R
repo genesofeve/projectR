@@ -69,7 +69,7 @@ test_that("results are as expected",{
 #projectionDriveR check
 #test that expected output is present and in correct format
 
-test_that("results are correctly formatted",{
+test_that("results are correctly formatted for confidence interval mode",{
   
   pattern_to_weight <- "Pattern.24"
   drivers <- projectionDriveR(microglial_counts, #expression matrix
@@ -79,14 +79,15 @@ test_that("results are correctly formatted",{
                               pattern_name = pattern_to_weight, #column name
                               pvalue = 1e-5, #pvalue before bonferroni correction
                               display = T,
-                              normalize_pattern = T) #normalize feature weights
+                              normalize_pattern = T,  #normalize feature weights
+                              mode = "CI") #set to confidence interval mode
 #check output is in list format
 expect_is(drivers, "list")
 
 #check length of dfs
-expect_length(drivers, 12)
-expect_length(drivers$mean_ci, 9)
-expect_length(drivers$weighted_mean_ci, 9)
+expect_length(drivers, 5)
+expect_length(drivers$mean_ci, 3)
+expect_length(drivers$weighted_mean_ci, 3)
 
 #check that genes used for calculations overlap both datasets and loadings
 expect_true(unique(drivers$mean_ci$gene %in% rownames(microglial_counts)))
@@ -103,35 +104,94 @@ expect_is(drivers$mean_ci, "data.frame")
 expect_true("weighted_mean_ci" %in% names(drivers))
 expect_is(drivers$mean_ci, "data.frame")
 
-expect_true("significant_shared_genes" %in% names(drivers))
-expect_is(drivers$significant_shared_genes, "character")
+expect_true("sig_genes" %in% names(drivers))
+expect_is(drivers$sig_genes, "list")
+expect_length(drivers$sig_genes, 3)
 
-expect_true("weighted_sig_genes" %in% names(drivers))
-expect_is(drivers$weighted_sig_genes, "character")
+expect_true(unique(c("unweighted_sig_genes", "weighted_sig_genes", "significant_shared_genes") %in% names(drivers$sig_genes)))
 
-expect_true("unweighted_sig_genes" %in% names(drivers))
-expect_is(drivers$unweighted_sig_genes, "character")
+expect_is(drivers$sig_genes$unweighted_sig_genes, "character")
 
-expect_true("welch_sig" %in% names(drivers))
-expect_is(drivers$welch_sig, "character")
+expect_is(drivers$sig_genes$weighted_sig_genes, "character")
 
-expect_true("weighted_welch_sig" %in% names(drivers))
-expect_is(drivers$weighted_welch_sig, "character")
+expect_is(drivers$sig_genes$significant_shared_genes, "character")
 
-expect_true("welch_significant_shared_genes" %in% names(drivers))
-expect_is(drivers$welch_significant_shared_genes, "character")
-
-expect_true("pvalue" %in% names(drivers))
-expect_is(drivers$pvalue, "numeric")
+expect_true("meta_data" %in% names(drivers))
+expect_is(drivers$meta_data, "list")
+expect_length(drivers$meta_data, 2)
 
 #check that matrix names are proper and match source names
-expect_true(deparse(substitute(microglial_counts)) == drivers$test_matrix)
-expect_type(drivers$test_matrix, "character")
+expect_true(deparse(substitute(microglial_counts)) == drivers$meta_data$test_matrix)
+expect_type(drivers$meta_data$test_matrix, "character")
 
-expect_true(deparse(substitute(glial_counts)) == drivers$reference_matrix)
-expect_type(drivers$reference_matrix, "character")
+expect_true(deparse(substitute(glial_counts)) == drivers$meta_data$reference_matrix)
+expect_type(drivers$meta_data$reference_matrix, "character")
 
 #check that plot length is correct
 expect_true("plotted_ci" %in% names(drivers))
 expect_length(drivers$plotted_ci, 2)
 })
+
+test_that("results are correctly formatted for P value mode",{
+  
+  pattern_to_weight <- "Pattern.24"
+  drivers <- projectionDriveR(microglial_counts, #expression matrix
+                              glial_counts, #expression matrix
+                              loadings = retinal_patterns, #feature x pattern dataframe
+                              loadingsNames = NULL,
+                              pattern_name = pattern_to_weight, #column name
+                              pvalue = 1e-5, #pvalue before bonferroni correction
+                              display = T,
+                              normalize_pattern = T,  #normalize feature weights
+                              mode = "PV") #set to p value mode
+  #check output is in list format
+  expect_is(drivers, "list")
+  
+  #check length of dfs
+  expect_length(drivers, 4)
+  expect_length(drivers$mean_stats, 7)
+  expect_length(drivers$weighted_mean_stats, 7)
+  
+  #check that genes used for calculations overlap both datasets and loadings
+  expect_true(unique(drivers$mean_stats$gene %in% rownames(microglial_counts)))
+  expect_true(unique(drivers$mean_stats$gene %in% rownames(glial_counts)))
+  expect_true(unique(drivers$mean_stats$gene %in% rownames(retinal_patterns)))
+  expect_true(unique(drivers$weighted_mean_stats$gene %in% rownames(microglial_counts)))
+  expect_true(unique(drivers$weighted_mean_stats$gene %in% rownames(glial_counts)))
+  expect_true(unique(drivers$weighted_mean_stats$gene %in% rownames(retinal_patterns)))
+  
+  #name and class checks
+  expect_true("mean_stats" %in% names(drivers))
+  expect_is(drivers$mean_stats, "data.frame")
+  
+  expect_true("weighted_mean_stats" %in% names(drivers))
+  expect_is(drivers$mean_stats, "data.frame")
+  
+  expect_true("sig_genes" %in% names(drivers))
+  expect_is(drivers$sig_genes, "list")
+  expect_length(drivers$sig_genes, 3)
+  
+  expect_true(unique(c("PV_sig", "weighted_PV_sig", "PV_significant_shared_genes") %in% names(drivers$sig_genes)))
+  
+  expect_is(drivers$sig_genes$PV_sig, "character")
+  
+  expect_is(drivers$sig_genes$weighted_PV_sig, "character")
+  
+  expect_is(drivers$sig_genes$PV_significant_shared_genes, "character")
+  
+  expect_true("meta_data" %in% names(drivers))
+  expect_is(drivers$meta_data, "list")
+  expect_length(drivers$meta_data, 3)
+  expect_true("pvalue" %in% names(drivers$meta_data))
+  expect_is(drivers$meta_data$pvalue, "numeric")
+  
+  #check that matrix names are proper and match source names
+  expect_true(deparse(substitute(microglial_counts)) == drivers$meta_data$test_matrix)
+  expect_type(drivers$meta_data$test_matrix, "character")
+  
+  expect_true(deparse(substitute(glial_counts)) == drivers$meta_data$reference_matrix)
+  expect_type(drivers$meta_data$reference_matrix, "character")
+  
+})
+
+
