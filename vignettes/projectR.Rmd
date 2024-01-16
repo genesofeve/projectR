@@ -415,7 +415,7 @@ drivers <- projectionDriveR(microglial_counts, #expression matrix
                                        loadingsNames = NULL,
                                        pattern_name = pattern_to_weight, #column name
                                        pvalue = 1e-5, #pvalue before bonferroni correction
-                                       display = T,
+                                       display = F,
                                        normalize_pattern = T, #normalize feature weights
                                        mode = "CI") #confidence interval mode
 
