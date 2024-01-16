@@ -24,7 +24,7 @@ pdVolcano(
 
 \item{filter.inf}{remove genes that have pvalues below machine double minimum value}
 
-\item{label.no}{Number of genes to label on either side of the volcano plot, default 5}
+\item{label.num}{Number of genes to label on either side of the volcano plot, default 5}
 }
 \value{
 A list with weighted and unweighted differential expression metrics

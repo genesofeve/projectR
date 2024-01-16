@@ -142,11 +142,11 @@ plotConfidenceIntervals <- function(
 #' @param pvalue significance threshold, default set to pvalue stored in projectionDriveR output
 #' @param subset vector of gene names to subset the plot by
 #' @param filter.inf remove genes that have pvalues below machine double minimum value
-#' @param label.no Number of genes to label on either side of the volcano plot, default 5
+#' @param label.num Number of genes to label on either side of the volcano plot, default 5
+#' @import ggpubr
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom ggpubr ggarrange
 #' @import dplyr
 #' @return A list with weighted and unweighted differential expression metrics
 #' @export
