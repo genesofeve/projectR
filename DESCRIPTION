@@ -27,7 +27,8 @@ Imports:
     ggrepel,
     umap,
     tsne,
-    ggpubr
+    ggpubr,
+    magick
 Suggests:
     BiocStyle,
     CoGAPS,
