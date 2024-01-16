@@ -367,7 +367,7 @@ Given loadings that define the weight of features (genes) in a given latent spac
 ```
 library(projectR)
 projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
-                 pvalue, pattern_name, display = T, normalize_pattern = T)
+                 pvalue, pattern_name, display = T, normalize_pattern = T, mode = "CI")
 
 ```
 
@@ -384,10 +384,10 @@ The arguments for projectionDriveR are:
 **`pvalue`** Determines the significance of the confidence interval to be calculated between the difference of means  
 **`display`** Boolean. Whether or not to plot the estimates of significant features. Default = T  
 **`normalize_pattern`** Boolean. Whether or not to normalize the average feature weight. Default = T  
-
+**`mode`** 'CI' or 'PV'. Specifies whether to run projectionDriveR in confidence interval mode or to generate p values. Default = "CI"
 
 ### Output 
-The output of `projectionDriveR` is a list of length five `mean_ci` holds the confidence intervals for the difference in means for all features, `weighted_ci` holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, `significant_genes` is a vector of gene names that are significantly different at the threshold provided. `plotted_ci` returns the ggplot figure of the confidence intervals, see `plotConfidenceIntervals` for documentation.
+The output of `projectionDriveR` is a list of length five `mean_ci` holds the confidence intervals for the difference in means for all features, `weighted_mean_ci` holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, `sig_genes` is a list of three vectors of gene names that are significantly different at the threshold provided generated from the mean confidence intervals (`unweighted_sig_genes`), the weighted mean confidence intervals (`weighted_sig_genes`) and genes shared between the two (`significant_shared_genes`) . `plotted_ci` returns the ggplot figure of the confidence intervals, see `plotConfidenceIntervals` for documentation.
 
 ### Identifying differential features associated with learned patterns
 
@@ -415,9 +415,11 @@ drivers <- projectionDriveR(microglial_counts, #expression matrix
                                        pattern_name = pattern_to_weight, #column name
                                        pvalue = 1e-5, #pvalue before bonferroni correction
                                        display = T,
-                                       normalize_pattern = T) #normalize feature weights
+                                       normalize_pattern = T, #normalize feature weights
+                                       mode = "CI") #confidence interval mode
 
-conf_intervals <- drivers$mean_ci[drivers$significant_genes,]
+
+conf_intervals <- drivers$mean_ci[drivers$sig_genes$significant_shared_genes,]
 
 str(conf_intervals)
 
@@ -436,7 +438,7 @@ The arguments for plotConfidenceIntervals are:
 **`weights`** weights of features to include as annotation (default = NULL will not include heatmap)  
 **`weights_clip`** quantile of data to clip color scale for improved visualization (default: 0.99)  
 **`weights_vis_norm`** Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"  
-
+**`weighted`** Boolean. Specifies whether confidence intervals are weighted by a pattern or not. Default = "F" 
  
 ### Output 
 A list of the length three that includes confidence interval plots and relevant info. `ci_estimates_plot` is the point-range plot for the provided estimates. If called from within `projectionDriveR`, the unweighted estimates are used. `feature_order` is the vector of gene names in the order shown in the figure. `weights_heatmap` is a heatmap annotation of the gene loadings, in the same order as above.
@@ -473,7 +475,8 @@ pl2 <- plots_list[["weights_heatmap"]]
 weighted_conf_intervals <- drivers$weighted_mean_ci[gene_order,]
 plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
                                                sort = F,
-                                               pattern_name = pattern_to_weight)
+                                               pattern_name = pattern_to_weight,
+                                               weighted = T)
 
 pl3 <- plots_list_weighted[["ci_estimates_plot"]] +
   xlab("Difference in weighted group means") +
