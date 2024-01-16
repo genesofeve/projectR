@@ -396,6 +396,7 @@ The output of `projectionDriveR` is a list of length five `mean_ci` holds the co
 options(width = 60)
 library(projectR)
 library(dplyr, warn.conflicts = F)
+library(magick)
 
 #gene weights x pattern
 data("retinal_patterns")
