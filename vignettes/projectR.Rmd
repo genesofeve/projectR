@@ -33,7 +33,7 @@ Technological advances continue to spur the exponential growth of biological dat
 
 For automatic Bioconductor package installation, start R, and run:
 ```
-BiocManager::install("projectR")
+BiocManager::install("genesofeve/projectR@projectionDriveR")
 ```
 
 ## Methods
