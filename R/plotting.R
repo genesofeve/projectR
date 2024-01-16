@@ -146,6 +146,7 @@ plotConfidenceIntervals <- function(
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom ggpubr ggarrange
 #' @import dplyr
 #plot FC, weighted and unweighted. Designed for use with the output of projectionDriveRs
 pdVolcano <- function(result, 
