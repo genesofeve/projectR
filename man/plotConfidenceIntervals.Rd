@@ -12,7 +12,8 @@ plotConfidenceIntervals(
   genes = NULL,
   weights = NULL,
   weights_clip = 0.99,
-  weights_vis_norm = "none"
+  weights_vis_norm = "none",
+  weighted = F
 )
 }
 \arguments{
@@ -30,7 +31,9 @@ plotConfidenceIntervals(
 
 \item{weights_clip}{optional. quantile of data to clip color scale for improved visualization. Default: 0.99}
 
-\item{weights_vis_norm}{Which processed version of weights to visualize as a heatmap. 
+\item{weights_vis_norm}{Which processed version of weights to visualize as a heatmap.}
+
+\item{weighted}{specifies whether the confidence intervals in use are weighted by the pattern and labels plots accordingly
 Options are "none" (which uses provided weights) or "quantiles". Default: none}
 }
 \value{

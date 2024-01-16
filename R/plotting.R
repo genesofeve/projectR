@@ -148,6 +148,8 @@ plotConfidenceIntervals <- function(
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom ggpubr ggarrange
 #' @import dplyr
+#' @return A list with weighted and unweighted differential expression metrics
+#' @export
 #plot FC, weighted and unweighted. Designed for use with the output of projectionDriveRs
 pdVolcano <- function(result, 
                       FC = 0.2,
