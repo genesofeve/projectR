@@ -122,7 +122,7 @@ plotConfidenceIntervals <- function(
     wt_heatmap <- ggplot(data = confidence_intervals) +
       geom_tile(aes(x = 1, y = 1:n, fill = weights)) +
       scale_fill_viridis(limits=c(0, quantile(ordered_weights,weights_clip )),
-                         oob=squish,
+                         oob=scales::squish,
                          name = hm_name) +
       theme_void()
     
