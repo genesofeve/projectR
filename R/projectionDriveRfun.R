@@ -137,6 +137,7 @@ bonferroniCorrectedDifferences <- function(
 #' Calculate the weighted difference in expression between two groups (group1 - group2)
 #'
 #' @importFrom cowplot plot_grid
+#' @importFrom Matrix as.matrix
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
@@ -182,7 +183,7 @@ projectionDriveR<-function(
   #pattern weights must be formatted as a matrix for normalization
   if(pattern_name %in% colnames(loadings)){
     pattern <- loadings[,pattern_name, drop = F] #data.frame
-    pattern <- as.matrix(pattern)
+    pattern <- Matrix::as.matrix(pattern)
   } else  {
     stop(paste0("Provided pattern_name ",pattern_name, " is not a column in provided loadings"))
   }
