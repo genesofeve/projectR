@@ -9,6 +9,7 @@ author:
 
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::html_document
+fig_crop: false
 bibliography: projectR.bib
 description: |
  Functions for the Projection of Weights from PCA, CoGAPS, NMF, Correlation, and Clustering
@@ -19,7 +20,7 @@ vignette: >
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, crop = NULL)
+knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
 ```
