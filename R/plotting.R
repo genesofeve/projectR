@@ -143,7 +143,6 @@ plotConfidenceIntervals <- function(
 #' @param subset vector of gene names to subset the plot by
 #' @param filter.inf remove genes that have pvalues below machine double minimum value
 #' @param label.num Number of genes to label on either side of the volcano plot, default 5
-#' @import ggpubr
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom ggrepel geom_text_repel
@@ -276,7 +275,7 @@ pdVolcano <- function(result,
           axis.title=element_text(size=14),
           legend.text = element_text(size=12))
   
-  plt <- ggpubr::ggarrange(unweightedvolcano, weightedvolcano, common.legend = TRUE, legend = "bottom")
+  plt <- cowplot::plot_grid(unweightedvolcano, weightedvolcano, ncol = 2, align = "h")
   print(plt)
   
   #return a list of genes that can be used as input to fgsea

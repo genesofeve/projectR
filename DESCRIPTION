@@ -26,9 +26,7 @@ Imports:
     cowplot,
     ggrepel,
     umap,
-    tsne,
-    ggpubr,
-    magick
+    tsne
 Suggests:
     BiocStyle,
     CoGAPS,

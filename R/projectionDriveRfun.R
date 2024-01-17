@@ -137,7 +137,6 @@ bonferroniCorrectedDifferences <- function(
 #' Calculate the weighted difference in expression between two groups (group1 - group2)
 #'
 #' @importFrom cowplot plot_grid
-#' @importFrom ggpubr ggarrange
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
@@ -284,14 +283,14 @@ projectionDriveR<-function(
                                    ncol = 2,
                                    align = "h",
                                    rel_widths = c(1,.3)))
-      print(pl1_u)
+      #print(pl1_u)
       pl2_w <- (cowplot::plot_grid(pl_w[["ci_estimates_plot"]],
                                    pl_w[["weights_heatmap"]],
                                    ncol = 2,
                                    align = "h",
                                    rel_widths = c(1,.3)))
-      print(pl2_w)
-      plt <- ggpubr::ggarrange(pl1_u, pl2_w, common.legend = TRUE, legend = "bottom")
+      #print(pl2_w)
+      plt <- cowplot::plot_grid(pl1_u, pl2_w, ncol = 2, align = "h")
       print(plt)
     }
     

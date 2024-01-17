@@ -19,7 +19,7 @@ vignette: >
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, crop = NULL)
 options(scipen = 1, digits = 2)
 set.seed(1234)
 ```
@@ -415,7 +415,7 @@ drivers <- projectionDriveR(microglial_counts, #expression matrix
                                        loadingsNames = NULL,
                                        pattern_name = pattern_to_weight, #column name
                                        pvalue = 1e-5, #pvalue before bonferroni correction
-                                       display = F,
+                                       display = T,
                                        normalize_pattern = T, #normalize feature weights
                                        mode = "CI") #confidence interval mode
 
