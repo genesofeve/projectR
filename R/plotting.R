@@ -275,9 +275,6 @@ pdVolcano <- function(result,
           axis.title=element_text(size=14),
           legend.text = element_text(size=12))
   
-  plt <- cowplot::plot_grid(unweightedvolcano, weightedvolcano, ncol = 2, align = "h")
-  print(plt)
-  
   #return a list of genes that can be used as input to fgsea
   difexdf <- subset(mean_stats, Color == paste("Enriched in", metadata$reference_matrix) | Color == paste("Enriched in", metadata$test_matrix))
   vec <- difexdf$estimate
@@ -295,7 +292,8 @@ pdVolcano <- function(result,
                      fgseavecs = list(unweightedvec = vec,
                                       weightedvec = weighted_vec),
                      meta_data = metadata,
-                     plt = plt)
+                     plt = list(differential_expression = unweightedvolcano, 
+                                weighted_differential_expression = weightedvolcano))
   return(vol_result)
 }
 
