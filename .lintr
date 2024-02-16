@@ -1,0 +1,4 @@
+linters: all_linters()
+exclusions: list("projectR/tests/testthat/test_projectR.R",
+                 "projectR/tests/testthat.R")
+encoding: "UTF-8"

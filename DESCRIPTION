@@ -24,11 +24,13 @@ Imports:
     ggalluvial,
     RColorBrewer,
     dplyr,
+    fgsea,
     reshape2,
     viridis,
     scales,
     Matrix,
     MatrixModels,
+    msigdbr,
     ggplot2,
     cowplot,
     ggrepel,
@@ -48,7 +50,7 @@ Suggests:
     SeuratObject
 LazyData: TRUE
 LazyDataCompression: gzip
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software

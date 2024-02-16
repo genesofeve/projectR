@@ -1,14 +1,3 @@
-# Example plots to be functionalized
-# devtools::install_github('rlbarter/superheat')
-#
-# test<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,Patterns=AP.RNAseq6l3c3t$Amean,AnnotionObj=map.ESepiGen4c1l,IDcol="GeneSymbols",full=TRUE)
-#
-# tmp<-matrix("",nrow = 5,ncol=9)
-# tmp[test$pval<0.01]<-"*"
-#
-# superheat(test$projection,row.dendrogram=TRUE, pretty.order.cols = TRUE,
-#           heat.pal.values = c(0, 0.5, 1),yt=colSums(test$projection),yt.plot.type='scatterline',yt.axis.name="Sum of\nProjections",X.text=tmp,X.text.size=8,bottom.label.text.angle = 90)
-#
 #######################################################################################################################################
 #' 
 #' plotConfidenceIntervals
@@ -132,20 +121,69 @@ plotConfidenceIntervals <- function(
               "feature_order" = rownames(confidence_intervals),
               "weights_heatmap" = wt_heatmap))
 }
+#######################################################################################################################################
+#' plotVolcano
+#' 
+#' Volcano plotting function
+#' @param stats data frame with differential expression statistics
+#' @param metadata #metadata from pdVolcano
+#' @param FC Fold change threshold
+#' @param pvalue p value threshold
+#' @param title plot title
+#' @export
+
+plotVolcano<-function(
+    stats, #pdVolcano stats dataframe
+    metadata, #metadata from pdVolcano
+    FC,
+    pvalue,
+    title
+){
+
+  #set custom colors
+  myColors <- c("gray","red","dodgerblue")
+  names(myColors) <- levels(stats$Color)
+  custom_colors <- scale_color_manual(values = myColors, drop = FALSE)
+
+  #plot
+  volcano <- ggplot(data = stats, aes(x = mean_diff, y = -log10(welch_padj), color = Color, label = stats$label)) + 
+    geom_vline(xintercept = c(FC, -FC), lty = "dashed") +
+    geom_hline(yintercept = -log10(pvalue), lty = "dashed") +
+    geom_point(na.rm = TRUE) + 
+    custom_colors + 
+    coord_cartesian(ylim = c(0, 350), xlim = c(min(stats$mean_diff), max(stats$mean_diff))) +
+    ggrepel::geom_text_repel(size = 3, point.padding = 1, color = "black",
+                             min.segment.length = .1, box.padding = 0.15,
+                             max.overlaps = Inf, na.rm = TRUE) +
+    labs(x = "FC",
+         y = "Significance (-log10pval)",
+         color = NULL) +
+    ggtitle(paste(title)) + 
+    theme_bw() +
+    theme(plot.title = element_text(size = 16),
+          legend.position = "bottom",
+          axis.title=element_text(size=14),
+          legend.text = element_text(size=12))
+  return(volcano)
+}
+
 
 #######################################################################################################################################
 #' pdVolcano
 #'
 #' Generate volcano plot and gate genes based on fold change and pvalue, includes vectors that can be used with fast gene set enrichment (fgsea)
-#' @param result result output from projectionDriveR function with PI method selected
+#' @param result result output from projectionDriveR function with PV mode selected
 #' @param FC fold change threshold, default at 0.2
 #' @param pvalue significance threshold, default set to pvalue stored in projectionDriveR output
 #' @param subset vector of gene names to subset the plot by
 #' @param filter.inf remove genes that have pvalues below machine double minimum value
 #' @param label.num Number of genes to label on either side of the volcano plot, default 5
+#' @param display boolean. Whether or not to plot and display volcano plots
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
 #' @importFrom ggrepel geom_text_repel
+#' @import msigdbr
+#' @import fgsea
 #' @import dplyr
 #' @return A list with weighted and unweighted differential expression metrics
 #' @export
@@ -155,7 +193,8 @@ pdVolcano <- function(result,
                       pvalue = NULL,
                       subset = NULL, 
                       filter.inf = FALSE,
-                      label.num = 5) {
+                      label.num = 5,
+                      display = T) {
   
   #if a genelist is provided, use them to subset the output of projectiondrivers
   if(!is.null(subset)){
@@ -179,7 +218,20 @@ pdVolcano <- function(result,
   }
   
   if(is.null(pvalue) == FALSE) {
-    pvalue = pvalue
+    message('Updating sig_genes...')
+    #update previously stored pvalue
+    pvalue <- pvalue
+    result$meta_data$pvalue <- pvalue
+    #update sig_genes with new pvalue
+    #recreate vector of significant genes from weighted and unweighted tests
+    weighted_PV_sig <- rownames(result$weighted_mean_stats[which(result$weighted_mean_stats$welch_padj <= pvalue),])
+    PV_sig <- rownames(result$mean_stats[which(result$mean_stats$welch_padj <= pvalue),])
+    #create vector of significant genes shared between weighted and unweighted tests
+    shared_genes_PV <- base::intersect(
+      PV_sig, weighted_PV_sig)
+    result$sig_genes <- list(PV_sig = PV_sig, 
+                             weighted_PV_sig = weighted_PV_sig,
+                             PV_significant_shared_genes = shared_genes_PV)
   } else {
       pvalue <- result$meta_data$pvalue
   }
@@ -191,11 +243,11 @@ pdVolcano <- function(result,
   #extract unweighted confidence intervals / statistics
   mean_stats <- result$mean_stats
   #fold change / significance calls
-  mean_stats$Color <- paste("NS or FC", FC)
+  mean_stats$Color <- paste("NS or FC <", FC)
   mean_stats$Color[mean_stats$welch_padj < pvalue & mean_stats$mean_diff > FC] <- paste("Enriched in", metadata$test_matrix)
   mean_stats$Color[mean_stats$welch_padj < pvalue & mean_stats$mean_diff < -FC] <- paste("Enriched in", metadata$reference_matrix)
   mean_stats$Color <- factor(mean_stats$Color,
-                             levels = c(paste("NS or FC <", FC), paste("Enriched in", metadata$reference_matrix), paste("Enriched in", metadata$test_matrix)))
+                        levels = c(paste("NS or FC <", FC), paste("Enriched in", metadata$reference_matrix), paste("Enriched in", metadata$test_matrix)))
   
   #label the most significant genes for enrichment
   mean_stats$invert_P <- (-log10(mean_stats$welch_padj)) * (mean_stats$mean_diff)
@@ -207,32 +259,8 @@ pdVolcano <- function(result,
   mean_stats$label <- NA
   mean_stats$label[top_indices] <- paste(rownames(mean_stats)[top_indices])
   mean_stats$label[bottom_indices] <- paste(rownames(mean_stats)[bottom_indices])
-  
-  #set custom colors
-  myColors <- c("gray","red","dodgerblue")
-  names(myColors) <- levels(mean_stats$Color)
-  custom_colors <- scale_color_manual(values = myColors, drop = FALSE)
-  
-  #plot
-  unweightedvolcano = ggplot(data = mean_stats, aes(x = mean_diff, y = -log10(welch_padj), color = Color, label = label)) + 
-    geom_vline(xintercept = c(FC, -FC), lty = "dashed") +
-    geom_hline(yintercept = -log10(pvalue), lty = "dashed") +
-    geom_point(na.rm = TRUE) + 
-    custom_colors + 
-    coord_cartesian(ylim = c(0, 350), xlim = c(-2, 2)) +
-    ggrepel::geom_text_repel(size = 3, point.padding = 1, color = "black",
-                             min.segment.length = .1, box.padding = 0.15,
-                             max.overlaps = Inf, na.rm = TRUE) +
-    labs(x = "FC",
-         y = "Significance (-log10pval)",
-         color = NULL) +
-    ggtitle("Differential Expression") + 
-    theme_bw() +
-    theme(plot.title = element_text(size = 16),
-          legend.position = "bottom",
-          axis.title=element_text(size=14),
-          legend.text = element_text(size=12))
-  
+  #unweighted volcano plot
+  unweightedvolcano <- plotVolcano(stats = mean_stats, metadata = metadata, FC = FC, pvalue = pvalue, title = "Differential Enrichment")
   #weighted volcano plot
   weighted_mean_stats <- result$weighted_mean_stats
   weighted_mean_stats$Color <- paste("NS or FC <", FC)
@@ -244,37 +272,17 @@ pdVolcano <- function(result,
   weighted_mean_stats$invert_P <- (-log10(weighted_mean_stats$welch_padj)) * (weighted_mean_stats$mean_diff)
   
   
-  top_indices <- order(weighted_mean_stats$invert_P, decreasing = TRUE)[1:label.num]
-  bottom_indices <- order(weighted_mean_stats$invert_P)[1:label.num]
+  top_indices_w <- order(weighted_mean_stats$invert_P, decreasing = TRUE)[1:label.num]
+  bottom_indices_w <- order(weighted_mean_stats$invert_P)[1:label.num]
   
   # Add labels to the dataframe
   weighted_mean_stats$label <- NA
-  weighted_mean_stats$label[top_indices] <- paste(rownames(weighted_mean_stats)[top_indices])
-  weighted_mean_stats$label[bottom_indices] <- paste(rownames(weighted_mean_stats)[bottom_indices])
+  weighted_mean_stats$label[top_indices_w] <- paste(rownames(weighted_mean_stats)[top_indices_w])
+  weighted_mean_stats$label[bottom_indices_w] <- paste(rownames(weighted_mean_stats)[bottom_indices_w])
   
-  myColors <- c("gray","red","dodgerblue")
-  names(myColors) <- levels(weighted_mean_stats$Color)
-  custom_colors <- scale_color_manual(values = myColors, drop = FALSE)
-  
-  weightedvolcano = ggplot(data = weighted_mean_stats, aes(x = mean_diff, y = -log10(welch_padj), color = Color, label = label)) + 
-    geom_vline(xintercept = c(FC, -FC), lty = "dashed") +
-    geom_hline(yintercept = -log10(pvalue), lty = "dashed") +
-    geom_point(na.rm = TRUE) + 
-    custom_colors +
-    coord_cartesian(ylim = c(0, 350), xlim = c(-2, 2)) +
-    ggrepel::geom_text_repel(size = 3, point.padding = 1, color = "black",
-                             min.segment.length = .1, box.padding = 0.15,
-                             max.overlaps = Inf, na.rm = TRUE) +
-    labs(x = "FC",
-         y = "Significance (-log10pval)",
-         color = NULL) +
-    ggtitle("Weighted Differential Expression") + 
-    theme_bw() +
-    theme(plot.title = element_text(size = 16),
-          legend.position = "bottom",
-          axis.title=element_text(size=14),
-          legend.text = element_text(size=12))
-  
+  #weighted volcano plot
+  weightedvolcano <- plotVolcano(stats = weighted_mean_stats, FC = FC, pvalue = pvalue, title = "Weighted Differential Enrichment")
+
   #return a list of genes that can be used as input to fgsea
   difexdf <- subset(mean_stats, Color == paste("Enriched in", metadata$reference_matrix) | Color == paste("Enriched in", metadata$test_matrix))
   vec <- difexdf$estimate
@@ -286,6 +294,7 @@ pdVolcano <- function(result,
   names(vec) <- rownames(difexdf)
   vol_result <- list(mean_stats = mean_stats,
                      weighted_mean_stats = weighted_mean_stats,
+                     normalized_weights = result$normalized_weights,
                      sig_genes = result$sig_genes,
                      difexpgenes = difexdf,
                      weighted_difexpgenes = weighted_difexdf,
@@ -294,6 +303,15 @@ pdVolcano <- function(result,
                      meta_data = metadata,
                      plt = list(differential_expression = unweightedvolcano, 
                                 weighted_differential_expression = weightedvolcano))
+  if(display == TRUE){
+    #print volcano plots
+    pltgrid <- cowplot::plot_grid(vol_result$plt$differential_expression + theme(legend.position = "none"), 
+                                  vol_result$plt$weighted_differential_expression + theme(legend.position = "none"), 
+                                  ncol = 2, align = "h")
+    legend <- cowplot::get_legend(vol_result$plt$differential_expression + guides(color = guide_legend(nrow = 1)) +theme(legend.position = "bottom"))
+    plt <- cowplot::plot_grid(pltgrid, legend, ncol = 1, rel_heights = c(1, .1))
+    print(plt)
+  }
   return(vol_result)
 }
 

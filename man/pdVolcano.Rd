@@ -10,11 +10,12 @@ pdVolcano(
   pvalue = NULL,
   subset = NULL,
   filter.inf = FALSE,
-  label.num = 5
+  label.num = 5,
+  display = T
 )
 }
 \arguments{
-\item{result}{result output from projectionDriveR function with PI method selected}
+\item{result}{result output from projectionDriveR function with PV mode selected}
 
 \item{FC}{fold change threshold, default at 0.2}
 
@@ -25,6 +26,8 @@ pdVolcano(
 \item{filter.inf}{remove genes that have pvalues below machine double minimum value}
 
 \item{label.num}{Number of genes to label on either side of the volcano plot, default 5}
+
+\item{display}{boolean. Whether or not to plot and display volcano plots}
 }
 \value{
 A list with weighted and unweighted differential expression metrics

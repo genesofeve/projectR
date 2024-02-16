@@ -85,7 +85,7 @@ test_that("results are correctly formatted for confidence interval mode",{
 expect_is(drivers, "list")
 
 #check length of dfs
-expect_length(drivers, 5)
+expect_length(drivers, 6)
 expect_length(drivers$mean_ci, 3)
 expect_length(drivers$weighted_mean_ci, 3)
 
@@ -103,6 +103,9 @@ expect_is(drivers$mean_ci, "data.frame")
 
 expect_true("weighted_mean_ci" %in% names(drivers))
 expect_is(drivers$mean_ci, "data.frame")
+
+expect_true("normalized_weights" %in% names(drivers))
+expect_is(drivers$normalized_weights, "numeric")
 
 expect_true("sig_genes" %in% names(drivers))
 expect_is(drivers$sig_genes, "list")
@@ -148,9 +151,9 @@ test_that("results are correctly formatted for P value mode",{
   expect_is(drivers, "list")
   
   #check length of dfs
-  expect_length(drivers, 4)
-  expect_length(drivers$mean_stats, 7)
-  expect_length(drivers$weighted_mean_stats, 7)
+  expect_length(drivers, 9)
+  expect_length(drivers$mean_stats, 10)
+  expect_length(drivers$weighted_mean_stats, 10)
   
   #check that genes used for calculations overlap both datasets and loadings
   expect_true(unique(drivers$mean_stats$gene %in% rownames(microglial_counts)))
@@ -166,6 +169,9 @@ test_that("results are correctly formatted for P value mode",{
   
   expect_true("weighted_mean_stats" %in% names(drivers))
   expect_is(drivers$mean_stats, "data.frame")
+  
+  expect_true("normalized_weights" %in% names(drivers))
+  expect_is(drivers$normalized_weights, "numeric")
   
   expect_true("sig_genes" %in% names(drivers))
   expect_is(drivers$sig_genes, "list")

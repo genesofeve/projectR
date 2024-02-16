@@ -1,153 +1,131 @@
-#######################################################################################################################################
+################################################################################
 #' bonferroniCorrectedDifferences
 #'
-#' Calculate the weighted and unweighted difference in means for each measurement between two groups.
+#' Calculate weighted/unweighted mean difference for each gene between 2 groups
 #' @param group1 count matrix 1
 #' @param group2 count matrix 2
-#' @param diff_weights loadings to weight the differential expression between the groups
 #' @param pvalue significance value to threshold
-#' @param mode user specified statistical approach, confidence intervals (CI) or pvalues (PV) - default to CI
+#' @param diff_weights loadings to weight the differential expression
+#' @param mode statistical approach, confidence intervals(CI) or pvalues(PV)
 #' @importFrom stats var
 #' @importFrom ggrepel geom_label_repel
 #' @import dplyr
-bonferroniCorrectedDifferences <- function(
+bonferronicorrecteddifferences <- function(
     group1,
-    group2, 
+    group2,
+    pvalue,
     diff_weights = NULL,
-    mode = "CI",
-    pvalue) 
-
-  {
-  #if passed from projectionDrivers, cellgroup1 and cellgroup 1 will have the same rows (genes)
-  if(!(dim(group1)[1] == dim(group2)[1])){
+    mode = "CI") {
+  if (!(dim(group1)[[1L]] == dim(group2)[[1L]])) {
+    #if passed from projectionDrivers, cellgroups will have the same rows
     stop("Rows of two cell group matrices are not identical")
   }
-  
-  if(any(is.na(group1)) | any(is.na(group2))){
+
+  if (anyNA(group1) || anyNA(group2)) {
     stop("NA values in count matrices not allowed")
   }
 
   ##Take means over all genes and calculate differences
-  group1_mean <- apply(group1, 1, mean)
-  group2_mean <- apply(group2, 1, mean)
-  mean_diff <- group1_mean - group2_mean #if this is log normalized counts the mean difference is actually log(group1/group2)
-  
-  
+  group1_mean <- rowMeans(group1)
+  group2_mean <- rowMeans(group2)
+  mean_diff <- group1_mean - group2_mean
+
+
   #if weights are provided, use them to weight the difference in means
-  if(!is.null(diff_weights)){
-    
+  if (!is.null(diff_weights)) {
+
     #check that genes exactly match between difference vector and weight vector
-    if(!(all(names(mean_diff) == names(diff_weights)))){
+    if (!(all(names(mean_diff) == names(diff_weights)))) {
       stop("Names of loadings and counts do not match")
     }
-    
+
     mean_diff <- mean_diff * diff_weights
   }
-  
+
   ##Stats and corrections beginning here
   #calculate confidence intervals
   dimensionality <- length(mean_diff) #number of measurements (genes)
-  
-  n1_samples <- dim(group1)[2] #number of samples (cells)
-  n2_samples <- dim(group2)[2]
-  bon_correct <- pvalue / (2*dimensionality) #bonferroni correction
-  qval <- 1 - bon_correct
-  
-  tval <- qt(p = qval, df = n1_samples + n2_samples -2) #critical value
-  
-  group1_var <- apply(group1, 1, var) #variance of genes across group 1 
-  group2_var <- apply(group2, 1, var) #variance of genes across group 2
-  
+
+  n1_samples <- dim(group1)[[2L]] #number of samples (cells)
+  n2_samples <- dim(group2)[[2L]]
+  bon_correct <- pvalue / (2L * dimensionality) #bonferroni correction
+  qval <- 1L - bon_correct
+
+  tval <- qt(p = qval, df = n1_samples + n2_samples - 2L) #critical value
+
+  group1_var <- apply(group1, 1L, var) #variance of genes across group 1
+  group2_var <- apply(group2, 1L, var) #variance of genes across group 2
 
 
-  if(mode == "CI") {
-    
+
+  if (mode == "CI") {
     #pooled standard deviation
-    pooled <- ((n1_samples-1)*group1_var + (n2_samples-1)*group2_var)  /  (n1_samples+n2_samples-2) 
-    
-    #establish dataframe to populate in the following for loop
-    plusminus = data.frame(low = rep(NA_integer_, dimensionality), 
-                           high = rep(NA_integer_, dimensionality),
-                           gene = rep(NA_integer_, dimensionality)) 
+    pool <- ((n1_samples - 1L) * group1_var + (n2_samples - 1L) * group2_var) /
+      (n1_samples + n2_samples - 2L)
+    plusminus <- data.frame(low = mean_diff - tval *
+                              sqrt(pool * (1L / n1_samples + 1L / n2_samples)),
+                            high = mean_diff + tval *
+                              sqrt(pool * (1L / n1_samples + 1L / n2_samples)),
+                            gene = names(mean_diff))
     rownames(plusminus) <- names(mean_diff)
-    
-    #for each gene, calculate confidence interval around mean
-    for(i in 1:dimensionality){
-      
-      scale = tval * sqrt(pooled[i] * (1/n1_samples + 1/n2_samples))
-      
-      plusminus[i, "low"] <- mean_diff[i]  - scale #low estimate
-      plusminus[i, "high"] <- mean_diff[i] + scale #high estimate
-      plusminus[i, "gene"] <- names(mean_diff[i]) #gene names for easy sorting
-    }
-      
+
   } else if (mode == "PV") {
     #welch t test
-    #vartest <- group1_var / group2_var #test to see if variance across groups is equal, often not equal
     #variance calculation
-    deltaS <- sqrt((group1_var / n1_samples) + (group2_var / n2_samples))
+    delta_s <- sqrt((group1_var / n1_samples) + (group2_var / n2_samples))
     #welch t statistic, rounded to 10 digits to avoid infinite decimals
-    welch_estimate <- round(mean_diff / deltaS, digits = 10)
+    welch_estimate <- round(mean_diff / delta_s, digits = 10L)
     #Welch-Satterthwaite equation for degrees of freedom
-    df <- (((group1_var / n1_samples) + (group2_var / n2_samples))^2) / ((((group1_var / n1_samples)^2) / (n1_samples - 1)) + (((group2_var / n2_samples)^2) / (n2_samples - 1))) 
+    df <- (((group1_var / n1_samples) + (group2_var / n2_samples)) ^ 2L) /
+      ((((group1_var / n1_samples) ^ 2L) / (n1_samples - 1L)) +
+         (((group2_var / n2_samples) ^ 2L) / (n2_samples - 1L)))
     #calculate p value from estimate/tvalue
-    welch_pvalue <- 2*pt(-abs(welch_estimate), df=df)
+    welch_pvalue <- 2L * pt(-abs(welch_estimate), df = df)
     #bonferroni correction
-    welch_padj <- p.adjust(welch_pvalue, method = "bonferroni", n = dimensionality) 
-    
-    # replace p values equal to zero with the smallest machine value possible
-    if (min(welch_padj, na.rm=TRUE) <= .Machine$double.xmin) {
-      zp <- length(which(welch_padj <= .Machine$double.xmin))
-      warning(paste(zp,"P value(s) equal 0.",
-                    "Converting any values less than", .Machine$double.xmin, "to minimum possible value..."),
+    welch_padj <- p.adjust(welch_pvalue,
+                           method = "bonferroni",
+                           n = dimensionality)
+    #replace p values equal to zero with the smallest machine value possible
+    if (min(welch_padj, na.rm=TRUE) <= .Machine[[double.xmin]]) {
+      zp <- length(which(welch_padj <= .Machine[[double.xmin]]))
+      warning(zp, " P value(s) equal 0. Converting values less than ",
+              .Machine[[double.xmin]], " to minimum possible value...", 
               call. = FALSE)
-      welch_padj[welch_padj <= .Machine$double.xmin] <- .Machine$double.xmin
+      welch_padj[welch_padj <= .Machine[[double.xmin]]] <- .Machine[[double.xmin]]
     }
-    #establish dataframe to populate in the following for loop
-    plusminus = data.frame(ref_mean = rep(NA_integer_, dimensionality),
-                           test_mean = rep(NA_integer_, dimensionality),
-                           mean_diff = rep(NA_integer_, dimensionality),
-                           estimate = rep(NA_integer_, dimensionality),
-                           welch_pvalue = rep(NA_integer_, dimensionality),
-                           welch_padj = rep(NA_integer_, dimensionality),
-                           gene = rep(NA_integer_, dimensionality))
-    rownames(plusminus) <- names(mean_diff)
-    
-    #input stats gene-wise
-    for(i in 1:dimensionality){
-      plusminus[i, "ref_mean"] <- group2_mean[i]
-      plusminus[i, "test_mean"] <- group1_mean[i]   
-      plusminus[i, "mean_diff"] <- mean_diff[i]
-      plusminus[i, "estimate"] <- welch_estimate[i]  
-      plusminus[i, "welch_pvalue"] <- welch_pvalue[i]
-      plusminus[i, "welch_padj"] <- welch_padj[i]
-      plusminus[i, "gene"] <- names(mean_diff[i])
-    }
+    plusminus <- data.frame(
+      ref_mean = group2_mean,
+      test_mean = group1_mean,
+      mean_diff = mean_diff,
+      estimate = welch_estimate,
+      welch_pvalue = welch_pvalue,
+      welch_padj = welch_padj,
+      gene = names(mean_diff)
+    )
   } else {
     stop("Invalid mode selection")
   }
   return(plusminus)
 }
-  
 
-
-#######################################################################################################################################
+################################################################################
 #' projectionDriveR
 #'
-#' Calculate the weighted difference in expression between two groups (group1 - group2)
+#' Calculate weighted expression difference between two groups (group1 - group2)
 #'
 #' @importFrom cowplot plot_grid
 #' @importFrom Matrix as.matrix
 #' @param cellgroup1 gene x cell count matrix for cell group 1
 #' @param cellgroup2 gene x cell count matrix for cell group 2
 #' @param loadings A matrix of continuous values defining the features
-#' @param pattern_name column of loadings for which drivers will be calculated.
-#' @param pvalue confidence level for the bonferroni confidence intervals. Default 1e-5
-#' @param loadingsNames a vector with names of loading rows. Defaults to rownames.
-#' @param display boolean. Whether or not to plot and display confidence intervals
-#' @param normalize_pattern Boolean. Whether or not to normalize pattern weights.
-#' @param mode user specified statistical approach, confidence intervals (CI) or pvalues (PV) - default to CI
-#' @return A list with weighted mean differences, mean differences, and differential genes that meet the provided signficance threshold.
+#' @param pattern_name column of loadings for which drivers will be calculated
+#' @param pvalue confidence level. Default 1e-5
+#' @param loadingsNames a vector with names of loading rows defaults to rownames
+#' @param display boolean. Whether or not to display confidence intervals
+#' @param normalize_pattern Boolean. Whether or not to normalize pattern weights
+#' @param mode statistical approach, confidence intervals or pvalues. default CI
+#' @return A list with unweighted/weighted mean differences and differential 
+#' genes that meet the provided signficance threshold.
 #' @export
 #'
 #'
@@ -187,7 +165,7 @@ projectionDriveR<-function(
   } else  {
     stop(paste0("Provided pattern_name ",pattern_name, " is not a column in provided loadings"))
   }
-  print(paste("Mode:",mode))
+  message("Mode: ",mode)
   #extract names of data objects
   group1name <- deparse(substitute(cellgroup1))
 
@@ -196,7 +174,7 @@ projectionDriveR<-function(
   #Filter the two count matrices and the pattern weights to include the intersection of their features
   #shared rows in two data matrices
   filtered_data <-geneMatchR(data1=cellgroup1, data2=cellgroup2, data1Names=NULL, data2Names=NULL, merge=FALSE)
-  print(paste(as.character(dim(filtered_data[[2]])[1]),'row names matched between datasets'))
+  message(as.character(dim(filtered_data[[2]])[1]),' row names matched between datasets')
   
   cellgroup1 <- filtered_data[[2]] #geneMatchR flips the indexes
   cellgroup2 <- filtered_data[[1]]
@@ -206,7 +184,7 @@ projectionDriveR<-function(
   filtered_weights <- geneMatchR(data1 = cellgroup1, data2 = pattern, data1Names = NULL, data2Names = NULL, merge = F)
   dimensionality_final <- dim(filtered_weights[[2]])[1]
   
-  print(paste('Updated dimension of data:',as.character(paste(dimensionality_final, collapse = ' '))))
+  message('Updated dimension of data: ',as.character(paste(dimensionality_final, collapse = ' ')))
   
   if(dimensionality_final == 0){
     stop("No features matched by rownames of count matrix and rownames of loadings")
@@ -231,13 +209,13 @@ projectionDriveR<-function(
   names(pattern_normalized_vec) <- rownames(pattern_filtered)
   
   #weighted confidence intervals of differences in cluster means
-  weighted_drivers_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
+  weighted_drivers_bonferroni <- bonferronicorrecteddifferences(group1 = cellgroup1_filtered,
                                                                 group2 = cellgroup2_filtered,
                                                                 diff_weights = pattern_normalized_vec,
                                                                 pvalue = pvalue,
                                                                 mode = mode)
   #unweighted confidence intervals of difference in cluster means
-  mean_bonferroni <- bonferroniCorrectedDifferences(group1 = cellgroup1_filtered,
+  mean_bonferroni <- bonferronicorrecteddifferences(group1 = cellgroup1_filtered,
                                                     group2 = cellgroup2_filtered,
                                                     diff_weights = NULL,
                                                     pvalue = pvalue,
@@ -284,35 +262,34 @@ projectionDriveR<-function(
                                    ncol = 2,
                                    align = "h",
                                    rel_widths = c(1,.3)))
-      #print(pl1_u)
       pl2_w <- (cowplot::plot_grid(pl_w[["ci_estimates_plot"]],
                                    pl_w[["weights_heatmap"]],
                                    ncol = 2,
                                    align = "h",
                                    rel_widths = c(1,.3)))
-      #print(pl2_w)
       plt <- cowplot::plot_grid(pl1_u, pl2_w, ncol = 2, align = "h")
       print(plt)
     }
     
     if(length(shared_genes) == 0){
       #no genes were significant. Return info we have and skip plotting.
-      warning("No features (and weighted features) were significantly differentially used between the two groups")
+      warning("No features (and weighted features) were significantly differentially used between the two groups", call. = FALSE)
       
       result <- list(mean_ci = mean_bonferroni,
                      weighted_mean_ci = weighted_drivers_bonferroni,
+                     normalized_weights = pattern_normalized_vec,
                      significant_shared_genes = shared_genes,
                      plotted_ci = NULL,
-                     sig_genes = list(unweighted_sig_genes = rownames(unweighted_sig_genes),
-                                      weighted_sig_genes = rownames(weighted_sig_genes)),
                      meta_data = list(reference_matrix = paste0(group2name),
                                       test_matrix = paste0(group1name))
                      )
+      return(result)
     }
     
     result <- list(
       mean_ci = mean_bonferroni,
       weighted_mean_ci = weighted_drivers_bonferroni,
+      normalized_weights = pattern_normalized_vec,
       sig_genes = list(unweighted_sig_genes = rownames(unweighted_sig_genes),
                        weighted_sig_genes = rownames(weighted_sig_genes),
                        significant_shared_genes = shared_genes),
@@ -327,8 +304,21 @@ projectionDriveR<-function(
     #create vector of significant genes shared between weighted and unweighted tests
     shared_genes_PV <- base::intersect(
       PV_sig, weighted_PV_sig)
+    if(length(shared_genes_PV) == 0){
+      #no genes were significant. Return info we have and skip plotting.
+      warning("No features (and weighted features) were significantly differentially used between the two groups", call. = FALSE)
+      result <- list(mean_stats = mean_bonferroni,
+                     weighted_mean_stats = weighted_drivers_bonferroni,
+                     normalized_weights = pattern_normalized_vec,
+                     meta_data = list(reference_matrix = paste0(group2name),
+                                      test_matrix = paste0(group1name),
+                                      pvalue = pvalue)
+      )
+      return(result)
+    }
     result <- list(mean_stats = mean_bonferroni,
                    weighted_mean_stats = weighted_drivers_bonferroni,
+                   normalized_weights = pattern_normalized_vec,
                    sig_genes = list(PV_sig = PV_sig, 
                                     weighted_PV_sig = weighted_PV_sig,
                                     PV_significant_shared_genes = shared_genes_PV),
@@ -336,6 +326,17 @@ projectionDriveR<-function(
                                     test_matrix = paste0(group1name),
                                     pvalue = pvalue)
                    )
+    #apply pdVolcano function to result
+    result <- pdVolcano(result, display = FALSE)
+    if(display){
+      #print volcano plots
+      pltgrid <- cowplot::plot_grid(result$plt$differential_expression + theme(legend.position = "none"), 
+                                result$plt$weighted_differential_expression + theme(legend.position = "none"), 
+                                ncol = 2, align = "h")
+      legend <- cowplot::get_legend(result$plt$differential_expression + guides(color = guide_legend(nrow = 1)) +theme(legend.position = "bottom"))
+      plt <- cowplot::plot_grid(pltgrid, legend, ncol = 1, rel_heights = c(1, .1))
+      print(plt)
+    }
   } else {
     stop("Invalid mode selection")
   }
