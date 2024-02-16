@@ -8,36 +8,39 @@ plotConfidenceIntervals(
   confidence_intervals,
   interval_name = c("low", "high"),
   pattern_name = NULL,
-  sort = T,
+  sort = TRUE,
   genes = NULL,
   weights = NULL,
   weights_clip = 0.99,
   weights_vis_norm = "none",
-  weighted = F
+  weighted = FALSE
 )
 }
 \arguments{
 \item{confidence_intervals}{A dataframe of features x estimates.}
 
-\item{interval_name}{names of columns that contain the low and high estimates, respectively. Default: c("low","high")}
+\item{interval_name}{Estimate column names. Default: c("low","high")}
 
 \item{pattern_name}{string to use as the title for plots.}
 
-\item{sort}{Boolean. Whether or not to sort genes by their estimates (default = T)}
+\item{sort}{Boolean. Sort genes by their estimates (default = TRUE)}
 
-\item{genes}{a vector with names of genes to include in plot. If sort=F, estimates will be plotted in this order.}
+\item{genes}{a vector with names of genes to include in plot.
+If sort=F, estimates will be plotted in this order.}
 
 \item{weights}{optional. weights of features to include as annotation.}
 
-\item{weights_clip}{optional. quantile of data to clip color scale for improved visualization. Default: 0.99}
+\item{weights_clip}{optional. quantile of data to clip color scale for
+improved visualization. Default: 0.99}
 
-\item{weights_vis_norm}{Which processed version of weights to visualize as a heatmap.}
+\item{weights_vis_norm}{Which version of weights to visualize as a heatmap.
+Options are "none" (uses provided weights) or "quantiles". Default: none}
 
-\item{weighted}{specifies whether the confidence intervals in use are weighted by the pattern and labels plots accordingly
-Options are "none" (which uses provided weights) or "quantiles". Default: none}
+\item{weighted}{specifies whether the confidence intervals in use are
+weighted by the pattern and labels plots accordingly}
 }
 \value{
-A list with pointrange estimates and, if requested, a heatmap of pattern weights.
+A list with pointrange estimates and a heatmap of pattern weights.
 }
 \description{
 Generate point and line confidence intervals from provided estimates.

@@ -7,9 +7,9 @@
 bonferroniCorrectedDifferences(
   group1,
   group2,
+  pvalue,
   diff_weights = NULL,
-  mode = "CI",
-  pvalue
+  mode = "CI"
 )
 }
 \arguments{
@@ -17,12 +17,12 @@ bonferroniCorrectedDifferences(
 
 \item{group2}{count matrix 2}
 
-\item{diff_weights}{loadings to weight the differential expression between the groups}
-
-\item{mode}{user specified statistical approach, confidence intervals (CI) or pvalues (PV) - default to CI}
-
 \item{pvalue}{significance value to threshold}
+
+\item{diff_weights}{loadings to weight the differential expression}
+
+\item{mode}{statistical approach, confidence intervals(CI) or pvalues(PV)}
 }
 \description{
-Calculate the weighted and unweighted difference in means for each measurement between two groups.
+Calculate weighted/unweighted mean difference for each gene between 2 groups
 }

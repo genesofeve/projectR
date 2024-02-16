@@ -10,16 +10,16 @@ pdVolcano(
   pvalue = NULL,
   subset = NULL,
   filter.inf = FALSE,
-  label.num = 5,
-  display = T
+  label.num = 5L,
+  display = TRUE
 )
 }
 \arguments{
-\item{result}{result output from projectionDriveR function with PV mode selected}
+\item{result}{result output from projectionDriveR function in PV mode}
 
 \item{FC}{fold change threshold, default at 0.2}
 
-\item{pvalue}{significance threshold, default set to pvalue stored in projectionDriveR output}
+\item{pvalue}{significance threshold, default set stored pvalue}
 
 \item{subset}{vector of gene names to subset the plot by}
 
@@ -33,5 +33,6 @@ pdVolcano(
 A list with weighted and unweighted differential expression metrics
 }
 \description{
-Generate volcano plot and gate genes based on fold change and pvalue, includes vectors that can be used with fast gene set enrichment (fgsea)
+Generate volcano plot and gate genes based on fold change and pvalue, 
+includes vectors that can be used with fast gene set enrichment (fgsea)
 }
