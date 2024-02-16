@@ -213,13 +213,17 @@ plotVolcano <- function(
 #' @return A list with weighted and unweighted differential expression metrics
 #' @export
 #plot FC, weighted and unweighted. Designed for use with the output of projectionDriveRs
-pdVolcano <- function(result,
-                      FC = 0.2,
-                      pvalue = NULL,
-                      subset = NULL,
-                      filter.inf = FALSE,
-                      label.num = 5L,
-                      display = TRUE) {
+pdVolcano <- function(
+    result,
+    FC = 0.2,
+    pvalue = NULL,
+    subset = NULL,
+    filter.inf = FALSE,
+    label.num = 5L,
+    display = TRUE) {
+  
+  #bind local variables 
+  welch_padj <- Color <- NULL
   #if a genelist is provided, use them to subset the output of projectiondrivers
   if (!is.null(subset)) {
     #subset the mean_stats object by provided gene list
