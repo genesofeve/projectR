@@ -491,7 +491,6 @@ pl2 <- plots_list[["weights_heatmap"]]
 weighted_conf_intervals <- drivers_ci$weighted_mean_ci[gene_order,]
 plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
                                                sort = F,
-                                               pattern_name = pattern_to_weight,
                                                weighted = T)
 
 pl3 <- plots_list_weighted[["ci_estimates_plot"]] +
