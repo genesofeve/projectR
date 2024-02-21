@@ -72,7 +72,7 @@ Projection of principal components is achieved by matrix multiplication of a new
 ## Obtaining PCs to project.
 ```{r prcomp, warning=FALSE}
 # data to define PCs
-
+library(ggplot2)
 data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data
