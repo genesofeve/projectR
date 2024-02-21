@@ -105,7 +105,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ```{r projectR.prcomp, warning=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data
 data(p.ESepiGen4c1l)
-
+library(ggplot2)
 
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
 full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
