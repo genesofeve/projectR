@@ -95,6 +95,16 @@
 #' @format A CogapsResult object
 "CR.RNAseq6l3c3t"
 
+#' CogapsResult object for microglial_counts
+#'
+#' cr_microglia contains the output of the CoGAPS function in the
+#' CoGAPS package for data = microglial_counts
+#'
+#' @name cr_microglial
+#' @docType data
+#' @format A CogapsResult object
+"cr_microglial"
+
 #' CoGAPS patterns learned from the developing mouse retina.
 #'
 #' @references

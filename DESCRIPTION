@@ -4,7 +4,14 @@ Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
 Version: 1.19.01
 Author: Gaurav Sharma, Charles Shin, Jared Slosberg, Loyal Goff, Genevieve Stein-O'Brien
-Maintainer: Genevieve Stein-O'Brien <gsteinobrien@gmail.com>
+Authors@R: c(
+    person("Gaurav", "Sharma", role = c("aut")),
+    person("Charles", "Shin", role = c("aut")),
+    person("Jared", "Slosberg", role = c("aut")),
+    person("Loyal", "Goff", role = c("aut")),
+    person("Ryan", "Palaganas", role = c("aut")),
+    person("Genevieve", "Stein-O'Brien", role = c("aut", "cre" ), email = "gsteinobrien@gmail.com")
+    )
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
 Imports:
@@ -17,11 +24,13 @@ Imports:
     ggalluvial,
     RColorBrewer,
     dplyr,
+    fgsea,
     reshape2,
     viridis,
     scales,
     Matrix,
     MatrixModels,
+    msigdbr,
     ggplot2,
     cowplot,
     ggrepel,
@@ -41,7 +50,7 @@ Suggests:
     SeuratObject
 LazyData: TRUE
 LazyDataCompression: gzip
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software

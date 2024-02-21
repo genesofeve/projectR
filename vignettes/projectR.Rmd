@@ -9,6 +9,7 @@ author:
 
 date: "`r BiocStyle::doc_date()`"
 output: BiocStyle::html_document
+fig_crop: false
 bibliography: projectR.bib
 description: |
  Functions for the Projection of Weights from PCA, CoGAPS, NMF, Correlation, and Clustering
@@ -22,6 +23,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
+library(projectR)
 ```
 
 # Introduction
@@ -33,7 +35,7 @@ Technological advances continue to spur the exponential growth of biological dat
 
 For automatic Bioconductor package installation, start R, and run:
 ```
-BiocManager::install("projectR")
+BiocManager::install("genesofeve/projectR@projectionDriveR")
 ```
 
 ## Methods
@@ -44,7 +46,7 @@ Projection can roughly be defined as a mapping or transformation of points from 
 
 The generic projectR function is executed as follows:
 ```
-library(projectR)
+
 projectR(data, loadings, dataNames=NULL, loadingsNames=NULL, NP = NULL, full = false)
 ```
 
@@ -70,7 +72,7 @@ Projection of principal components is achieved by matrix multiplication of a new
 ## Obtaining PCs to project.
 ```{r prcomp, warning=FALSE}
 # data to define PCs
-library(projectR)
+library(ggplot2)
 data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data
@@ -79,7 +81,7 @@ pcVAR <- round(((pc.RNAseq6l3c3t$sdev)^2/sum(pc.RNAseq6l3c3t$sdev^2))*100,2)
 dPCA <- data.frame(cbind(pc.RNAseq6l3c3t$x,pd.RNAseq6l3c3t))
 
 #plot pca
-library(ggplot2)
+
 setCOL <- scale_colour_manual(values = c("blue","black","red"), name="Condition:")
 setFILL <- scale_fill_manual(values = c("blue","black","red"),guide = FALSE)
 setPCH <- scale_shape_manual(values=c(23,22,25,25,21,24),name="Cell Line:")
@@ -103,8 +105,8 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 ```{r projectR.prcomp, warning=FALSE}
 # data to project into PCs from RNAseq6l3c3t expression data
 data(p.ESepiGen4c1l)
+library(ggplot2)
 
-library(projectR)
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
 full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
@@ -148,7 +150,7 @@ The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of b
 Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in (1) for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the `lmFit` function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
 
 ```
-library(projectR)
+
 projectR(data, loadings,dataNames = NULL, loadingsNames = NULL,
      NP = NA, full = FALSE)
 ```
@@ -173,7 +175,7 @@ The basic output of the base projectR function, i.e. `full=FALSE`, returns `proj
 
 ```{r}
 # get data
-library(projectR)
+
 AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
 AP <- AP$Amean
 # heatmap of gene weights for CoGAPs patterns
@@ -189,7 +191,7 @@ pNMF<-heatmap.2(as.matrix(AP),col=bluered, trace='none',
 ## Projecting CoGAPS objects
 ```{r}
 # data to project into PCs from RNAseq6l3c3t expression data
-library(projectR)
+
 data('p.ESepiGen4c1l4')
 data('p.RNAseq6l3c3t')
 
@@ -223,7 +225,7 @@ As canonical projection is not defined for clustering objects, the projectR pack
 `cluster2pattern` uses the corelation of each genes expression to the mean of each cluster to define continuous weights.
 
 ```
-library(projectR)
+
 data(p.RNAseq6l3c3t)
 
 
@@ -254,7 +256,6 @@ The output of the `cluster2pattern` function is a `pclust` class object; specifi
 `intersectoR` function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S4 class methods for `hclust` and `kmeans` objects are also available.
 
 ```
-library(projectR)
 intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
 ```
 
@@ -280,7 +281,7 @@ Correlation based projection requires a matrix of gene-wise correlation values t
 ## correlateR
 
 ```
-library(projectR)
+
 correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
 ```
 
@@ -304,7 +305,7 @@ The output of the `correlateR` function is a `correlateR` class object. Specific
 
 ```{r correlateR-exp}
 # data to
-library(projectR)
+
 data("p.RNAseq6l3c3t")
 
 # get genes correlated to T
@@ -351,7 +352,7 @@ pCorT
 # data to project into from RNAseq6l3c3t expression data
 data(p.ESepiGen4c1l)
 
-library(projectR)
+
 cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
     dataNames=map.ESepiGen4c1l$GeneSymbols)
 
@@ -365,9 +366,9 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
 Given loadings that define the weight of features (genes) in a given latent space (e.g. PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
 
 ```
-library(projectR)
+
 projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
-                 pvalue, pattern_name, display = T, normalize_pattern = T)
+                 pvalue, pattern_name, display = T, normalize_pattern = T, mode = "CI")
 
 ```
 
@@ -381,24 +382,19 @@ The arguments for projectionDriveR are:
 **`loadings`** Matrix or dataframe with features as rows, columns as patterns. Values define feature weights in that space  
 **`loadingsNames`** Vector of names corresponding to rows of loadings. By default the rownames of loadings will be used  
 **`pattern_name`** the column name of the loadings by which the features will be weighted  
-**`pvalue`** Determines the significance of the confidence interval to be calculated between the difference of means  
+**`pvalue`** Determines the significance of the confidence interval to be calculated between the difference of means. Default 1e-5
 **`display`** Boolean. Whether or not to plot the estimates of significant features. Default = T  
 **`normalize_pattern`** Boolean. Whether or not to normalize the average feature weight. Default = T  
-
+**`mode`** 'CI' or 'PV'. Specifies whether to run projectionDriveR in confidence interval mode or to generate p values. Default = "CI"
 
 ### Output 
-The output of `projectionDriveR` is a list of length five `mean_ci` holds the confidence intervals for the difference in means for all features, `weighted_ci` holds the confidence intervals for the weighted difference in means for all features, and normalized_weights are the weights themselves. In addition, `significant_genes` is a vector of gene names that are significantly different at the threshold provided. `plotted_ci` returns the ggplot figure of the confidence intervals, see `plotConfidenceIntervals` for documentation.
+The output of `projectionDriveR` in confidence interval mode ('CI') is a list of length six `mean_ci` holds the confidence intervals for the difference in means for all features, `weighted_mean_ci` holds the confidence intervals for the weighted difference in means for all features, and `normalized_weights` are the weights themselves. In addition, `sig_genes` is a list of three vectors of gene names that are significantly different at the threshold provided generated from the mean confidence intervals (`unweighted_sig_genes`), the weighted mean confidence intervals (`weighted_sig_genes`) and genes shared between the two (`significant_shared_genes`) . `plotted_ci` returns the ggplot figure of the confidence intervals, see `plotConfidenceIntervals` for documentation. `meta_data` contains matrix names and pvalue thresholds. The output of `projectionDriveR` in p value mode ('PV') is a list of length nine. `meta_data`, `sig_genes` and `normalized_weights` are similar between modes. `mean_stats` and `weighted_mean_stats` contains summary information for welch t-tests. `difexpgenes` and `weighted_difexpgenes` are filtered dataframes containing differentially expressed genes at a FC and pvalue cut off of 0.2 and 1e-5 respectively. `fgseavecs` contain unweighted and weighted named vectors of welch-t test estimates that can be used with fgsea. `plt` returns the volcano ggplot figure. See `pdVolcano` for documentation. FC and pvalue can be manually altered by calling pdVolcano on projectionDriveR result. 
 
 ### Identifying differential features associated with learned patterns
 
-
 ```{r projectionDriver, message = F, out.width="100%"}
 options(width = 60)
-library(projectR)
 library(dplyr, warn.conflicts = F)
-
-#gene weights x pattern
-data("retinal_patterns")
 
 #size-normed, log expression
 data("microglial_counts")
@@ -406,20 +402,41 @@ data("microglial_counts")
 #size-normed, log expression
 data("glial_counts")
 
+#5 pattern cogaps object generated on microglial_counts
+data("cr_microglial")
+microglial_fl <- cr_microglial@featureLoadings
+
 #the features by which to weight the difference in expression 
-pattern_to_weight <- "Pattern.24"
-drivers <- projectionDriveR(microglial_counts, #expression matrix
+pattern_to_weight <- "Pattern_1"
+drivers_ci <- projectionDriveR(microglial_counts, #expression matrix
                                        glial_counts, #expression matrix
-                                       loadings = retinal_patterns, #feature x pattern dataframe
+                                       loadings = microglial_fl, #feature x pattern dataframe
                                        loadingsNames = NULL,
                                        pattern_name = pattern_to_weight, #column name
                                        pvalue = 1e-5, #pvalue before bonferroni correction
                                        display = T,
-                                       normalize_pattern = T) #normalize feature weights
+                                       normalize_pattern = T, #normalize feature weights
+                                       mode = "CI") #confidence interval mode
 
-conf_intervals <- drivers$mean_ci[drivers$significant_genes,]
+
+conf_intervals <- drivers_ci$mean_ci[drivers_ci$sig_genes$significant_shared_genes,]
+
 
 str(conf_intervals)
+
+drivers_pv <- projectionDriveR(microglial_counts, #expression matrix
+                                       glial_counts, #expression matrix
+                                       loadings = microglial_fl, #feature x pattern dataframe
+                                       loadingsNames = NULL,
+                                       pattern_name = pattern_to_weight, #column name
+                                       pvalue = 1e-5, #pvalue before bonferroni correction
+                                       display = T,
+                                       normalize_pattern = T, #normalize feature weights
+                                       mode = "PV") #confidence interval mode
+
+difexp <- drivers_pv$difexpgenes
+str(difexp)
+
 
 ```
 
@@ -436,7 +453,7 @@ The arguments for plotConfidenceIntervals are:
 **`weights`** weights of features to include as annotation (default = NULL will not include heatmap)  
 **`weights_clip`** quantile of data to clip color scale for improved visualization (default: 0.99)  
 **`weights_vis_norm`** Which processed version of weights to visualize as a heatmap. One of c("none", "quantile"). default = "none"  
-
+**`weighted`** Boolean. Specifies whether confidence intervals are weighted by a pattern or not. Default = "F" 
  
 ### Output 
 A list of the length three that includes confidence interval plots and relevant info. `ci_estimates_plot` is the point-range plot for the provided estimates. If called from within `projectionDriveR`, the unweighted estimates are used. `feature_order` is the vector of gene names in the order shown in the figure. `weights_heatmap` is a heatmap annotation of the gene loadings, in the same order as above.
@@ -459,7 +476,7 @@ conf_intervals$label_name[idx] <- gene_ids
 #the labels above can now be used as ggplot aesthetics
 plots_list <- plotConfidenceIntervals(conf_intervals, #mean difference in expression confidence intervals
                                       sort = F, #should genes be sorted by estimates
-                                      weights = drivers$normalized_weights[rownames(conf_intervals)],
+                                      weights = drivers_ci$normalized_weights[rownames(conf_intervals)],
                                       pattern_name = pattern_to_weight,
                                       weights_clip = 0.99,
                                       weights_vis_norm = "none")
@@ -470,10 +487,10 @@ pl1 <- plots_list[["ci_estimates_plot"]] +
 pl2 <- plots_list[["weights_heatmap"]]
 
 #now plot the weighted differences
-weighted_conf_intervals <- drivers$weighted_mean_ci[gene_order,]
+weighted_conf_intervals <- drivers_ci$weighted_mean_ci[gene_order,]
 plots_list_weighted <- plotConfidenceIntervals(weighted_conf_intervals,
                                                sort = F,
-                                               pattern_name = pattern_to_weight)
+                                               weighted = T)
 
 pl3 <- plots_list_weighted[["ci_estimates_plot"]] +
   xlab("Difference in weighted group means") +
@@ -484,13 +501,86 @@ cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3
 
 
 ```
+##pdVolcano
 
-## multivariateAnalysisR
+### Input
+The arguments for pdVolcano are:
+
+**`result`** Output from projectionDriveR function with PV mode selected
+**`FC`** fold change threshold, default at 0.2
+**`pvalue`** significance threshold, default set to pvalue stored in projectionDriveR output
+**`subset`** optional vector of gene names to subset the result by
+**`filter.inf`** Boolean. If TRUE will remove genes that have pvalues below machine double minimum value  
+**`label.num`** number of genes to label on either end of volcano plot, default to 5 (10 total)
+**`display`** Boolean. Default TRUE, will print volcano plots using cowplot grid_arrange
+
+### Output 
+Generates the same output as projectionDriveR. Allows manual updates to pvalue and FC thresholds and can accept gene lists of interest to subset results. 
+
+### Customize volcano plot and run FGSEA
+
+```{r fig.width=9, fig.height=10}
+suppressWarnings(library(cowplot))
+library(fgsea)
+library(msigdbr)
+#manually change FC and pvalue threshold from defaults 0.2, 1e-5
+drivers_pv_mod <- pdVolcano(drivers_pv, FC = 0.5, pvalue = 1e-7)
+
+difexp_mod <- drivers_pv_mod$difexpgenes
+str(difexp_mod)
+
+#fgsea application 
+
+#extract unweighted fgsea vector
+fgseavec <- drivers_pv$fgseavecs$unweightedvec
+#split into enrichment groups, negative estimates are enriched in the reference matrix (glial), positive are enriched in the test matrix (microglial), take abs value 
+glial_fgsea_vec <- abs(fgseavec[which(fgseavec < 0)])
+microglial_fgsea_vec <- abs(fgseavec[which(fgseavec > 0)])
+
+#get FGSEA pathways - selecting subcategory C8 for cell types
+msigdbr_list =  msigdbr::msigdbr(species = "Mus musculus", category = "C8")
+pathways = split(x = msigdbr_list$ensembl_gene, f = msigdbr_list$gs_name)
+
+#run fgsea scoreType positive, all values will be positive
+glial_fgsea <- fgsea::fgsea(pathways, glial_fgsea_vec, scoreType = "pos")
+#tidy 
+glial_fgseaResTidy <- glial_fgsea %>% 
+  subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
+    as_tibble() %>%
+    dplyr::arrange(desc(size))
+#plot 
+glial_EnrichmentPlot <- ggplot2::ggplot(glial_fgseaResTidy, 
+                                        ggplot2::aes(reorder(pathway, NES), NES)) + 
+  ggplot2::geom_point(aes(size=size, color = padj)) + 
+  coord_flip() + 
+  labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
+  theme_minimal()
+glial_EnrichmentPlot
+  
+microglial_fgsea <- fgsea::fgsea(pathways, microglial_fgsea_vec, scoreType = "pos")
+#tidy 
+microglial_fgseaResTidy <- microglial_fgsea %>% 
+  subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
+    as_tibble() %>%
+    dplyr::arrange(desc(size))
+
+microglial_EnrichmentPlot <- ggplot2::ggplot(microglial_fgseaResTidy, 
+                                             ggplot2::aes(reorder(pathway, NES), NES)) +
+  ggplot2::geom_point(aes(size=size, color = padj)) + 
+  coord_flip() + 
+  labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
+  theme_minimal()
+microglial_EnrichmentPlot
+
+
+
+```
+##multivariateAnalysisR
 
 This function performs multivariate analysis on different clusters within a dataset, which in this case is restricted to Seurat Object. Clusters are identified as those satisfying the conditions specified in their corresponding dictionaries. `multivariateAnalysisR` performs two tests: Analysis of Variance (ANOVA) and Confidence Interval (CI) evaluations. ANOVA is performed to understand the general differentiation between clusters through the lens of a specified pattern. CI is to visualize pair-wise differential expressions between two clusters for each pattern. Researchers can visually understand both the macroscopic and microscopic differential uses of each pattern across different clusters through this function.
 
 ```
-library(projectR)
+
 multivariateAnalysisR <- function(significanceLevel = 0.05, patternKeys, seuratobj,
                                   dictionaries, customNames = NULL, exclusive = TRUE,
                                   exportFolder = "", ANOVAwidth = 1000,
