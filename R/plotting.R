@@ -43,10 +43,10 @@ plotConfidenceIntervals <- function(
     stop("weights_vis_norm must be either 'none' or 'quantiles'")
   }
 
-  if (weighted == FALSE) {
-    lab = "Unweighted"
+  if (weighted) {
+    lab <- "Weighted"
   } else {
-    lab = "Weighted"
+    lab <- "Unweighted"
   }
   #gene names were stored as rownames, store high and low estimates
   confidence_intervals$gene_names <- rownames(confidence_intervals)
@@ -101,10 +101,10 @@ plotConfidenceIntervals <- function(
 
   #if provided, create heatmap for pattern weights
   if (!is.null(weights)) {
-    
+
     #label with pattern name if provided
     hm_name <- ifelse(is.null(pattern_name), "weights", pattern_name)
-    
+
     #maintain established order from the pointrange plot
     ordered_weights <- weights[rownames(confidence_intervals)]
     confidence_intervals$weights <- ordered_weights
@@ -144,7 +144,7 @@ plotConfidenceIntervals <- function(
 }
 ################################################################################
 #' plotVolcano
-#' 
+#'
 #' Volcano plotting function
 #' @param stats data frame with differential expression statistics
 #' @param metadata #metadata from pdVolcano
@@ -233,7 +233,7 @@ pdVolcano <- function(
 
   }
 
-  if (filter.inf == TRUE) {
+  if (filter.inf) {
     #remove p values below the machine limit representation for plotting purposes 
     cat("Filtering", length(which(result$mean_stats$welch_padj <= .Machine$double.xmin)), "unweighted genes and",
         length(which(result$weighted_mean_stats$welch_padj <= .Machine$double.xmin)), "weighted genes", "\n")
@@ -241,11 +241,16 @@ pdVolcano <- function(
     result$weighted_mean_stats <- subset(result$weighted_mean_stats, welch_padj > .Machine$double.xmin)
   }
 
-  if (is.numeric(FC) == FALSE) {
+  if (!is.numeric(FC)) {
     stop('FC must be a number')
   }
 
-  if (is.null(pvalue) == FALSE) {
+  if (!is.null(pvalue)) {
+
+    if (!is.numeric(pvalue)) {
+      stop('p value must be a number')
+    }
+
     message("Updating sig_genes...")
     #update previously stored pvalue
     pvalue <- pvalue
@@ -343,7 +348,7 @@ pdVolcano <- function(
                      meta_data = metadata,
                      plt = list(differential_expression = unweightedvolcano,
                                 weighted_differential_expression = weightedvolcano))
-  if (display == TRUE) {
+  if (display) {
     #print volcano plots
     pltgrid <- cowplot::plot_grid(vol_result$plt$differential_expression +
                                     theme(legend.position = "none"),
