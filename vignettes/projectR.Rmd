@@ -501,7 +501,7 @@ cowplot::plot_grid(pl1, pl2, pl3, align = "h", rel_widths = c(1,.4, 1), ncol = 3
 
 
 ```
-## pdVolcano
+##pdVolcano
 
 ### Input
 The arguments for pdVolcano are:
@@ -575,7 +575,7 @@ microglial_EnrichmentPlot
 
 
 ```
-## multivariateAnalysisR
+##multivariateAnalysisR
 
 This function performs multivariate analysis on different clusters within a dataset, which in this case is restricted to Seurat Object. Clusters are identified as those satisfying the conditions specified in their corresponding dictionaries. `multivariateAnalysisR` performs two tests: Analysis of Variance (ANOVA) and Confidence Interval (CI) evaluations. ANOVA is performed to understand the general differentiation between clusters through the lens of a specified pattern. CI is to visualize pair-wise differential expressions between two clusters for each pattern. Researchers can visually understand both the macroscopic and microscopic differential uses of each pattern across different clusters through this function.
 
