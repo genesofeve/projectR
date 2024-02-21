@@ -23,6 +23,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen = 1, digits = 2)
 set.seed(1234)
+library(projectR)
 ```
 
 # Introduction
@@ -45,7 +46,7 @@ Projection can roughly be defined as a mapping or transformation of points from 
 
 The generic projectR function is executed as follows:
 ```
-library(projectR)
+
 projectR(data, loadings, dataNames=NULL, loadingsNames=NULL, NP = NULL, full = false)
 ```
 
@@ -71,7 +72,7 @@ Projection of principal components is achieved by matrix multiplication of a new
 ## Obtaining PCs to project.
 ```{r prcomp, warning=FALSE}
 # data to define PCs
-library(projectR)
+
 data(p.RNAseq6l3c3t)
 
 # do PCA on RNAseq6l3c3t expression data
@@ -80,7 +81,7 @@ pcVAR <- round(((pc.RNAseq6l3c3t$sdev)^2/sum(pc.RNAseq6l3c3t$sdev^2))*100,2)
 dPCA <- data.frame(cbind(pc.RNAseq6l3c3t$x,pd.RNAseq6l3c3t))
 
 #plot pca
-library(ggplot2)
+
 setCOL <- scale_colour_manual(values = c("blue","black","red"), name="Condition:")
 setFILL <- scale_fill_manual(values = c("blue","black","red"),guide = FALSE)
 setPCH <- scale_shape_manual(values=c(23,22,25,25,21,24),name="Cell Line:")
@@ -105,7 +106,7 @@ pPCA <- ggplot(dPCA, aes(x=PC1, y=PC2, colour=ID.cond, shape=ID.line,
 # data to project into PCs from RNAseq6l3c3t expression data
 data(p.ESepiGen4c1l)
 
-library(projectR)
+
 PCA2ESepi <- projectR(data = p.ESepiGen4c1l$mRNA.Seq,loadings=pc.RNAseq6l3c3t,
 full=TRUE, dataNames=map.ESepiGen4c1l[["GeneSymbols"]])
 
@@ -149,7 +150,7 @@ The number of rows in ${\bf{P}}$ (columns in ${\bf{A}}$) defines the number of b
 Projection of CoGAPS/GWCoGAPS patterns is implemented by solving the factorization in (1) for the new data matrix where ${\bf{A}}$ is the fixed nonorthogonal basis vectors comprising the average of the posterior mean for the CoGAPS/GWCoGAPS simulations performed on the original data. The patterns ${\bf{P}}$ in the new data associated with this amplitude matrix is estimated using the least-squares fit to the new data implemented with the `lmFit` function in the `r BiocStyle::Biocpkg("limma")` package. The `projectR` function has S4 method for class `Linear Embedding Matrix, LME`.
 
 ```
-library(projectR)
+
 projectR(data, loadings,dataNames = NULL, loadingsNames = NULL,
      NP = NA, full = FALSE)
 ```
@@ -174,7 +175,7 @@ The basic output of the base projectR function, i.e. `full=FALSE`, returns `proj
 
 ```{r}
 # get data
-library(projectR)
+
 AP <- get(data("AP.RNAseq6l3c3t")) #CoGAPS run data
 AP <- AP$Amean
 # heatmap of gene weights for CoGAPs patterns
@@ -190,7 +191,7 @@ pNMF<-heatmap.2(as.matrix(AP),col=bluered, trace='none',
 ## Projecting CoGAPS objects
 ```{r}
 # data to project into PCs from RNAseq6l3c3t expression data
-library(projectR)
+
 data('p.ESepiGen4c1l4')
 data('p.RNAseq6l3c3t')
 
@@ -224,7 +225,7 @@ As canonical projection is not defined for clustering objects, the projectR pack
 `cluster2pattern` uses the corelation of each genes expression to the mean of each cluster to define continuous weights.
 
 ```
-library(projectR)
+
 data(p.RNAseq6l3c3t)
 
 
@@ -255,7 +256,6 @@ The output of the `cluster2pattern` function is a `pclust` class object; specifi
 `intersectoR` function can be used to test for significant overlap between two clustering objects. The base function finds and tests the intersecting values of two sets of lists, presumably the genes associated with patterns in two different datasets. S4 class methods for `hclust` and `kmeans` objects are also available.
 
 ```
-library(projectR)
 intersectoR(pSet1 = NA, pSet2 = NA, pval = 0.05, full = FALSE, k = NULL)
 ```
 
@@ -281,7 +281,7 @@ Correlation based projection requires a matrix of gene-wise correlation values t
 ## correlateR
 
 ```
-library(projectR)
+
 correlateR(genes = NA, dat = NA, threshtype = "R", threshold = 0.7, absR = FALSE, ...)
 ```
 
@@ -305,7 +305,7 @@ The output of the `correlateR` function is a `correlateR` class object. Specific
 
 ```{r correlateR-exp}
 # data to
-library(projectR)
+
 data("p.RNAseq6l3c3t")
 
 # get genes correlated to T
@@ -352,7 +352,7 @@ pCorT
 # data to project into from RNAseq6l3c3t expression data
 data(p.ESepiGen4c1l)
 
-library(projectR)
+
 cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
     dataNames=map.ESepiGen4c1l$GeneSymbols)
 
@@ -366,7 +366,7 @@ cor2ESepi <- projectR(p.ESepiGen4c1l$mRNA.Seq,loadings=cor2T[[1]],full=FALSE,
 Given loadings that define the weight of features (genes) in a given latent space (e.g. PCA, NMF), and the use of these patterns in samples, it is of interest to look at differential usage of these features between conditions. These conditions may be defined by user-defined annotations of cell type or by differential usage of a (projected) pattern. By examining differences in gene expression, weighted by the loadings that define their importance in a specific latent space, a unique understanding of differential expression in that context can be gained. This approach was originally proposed and developed in (Baraban et al, 2021), which demonstrates its utility in cross-celltype and cross-species interpretation of pattern usages.
 
 ```
-library(projectR)
+
 projectionDriveR(cellgroup1, cellgroup2, loadings, loadingsNames = NULL,
                  pvalue, pattern_name, display = T, normalize_pattern = T, mode = "CI")
 
@@ -394,7 +394,6 @@ The output of `projectionDriveR` in confidence interval mode ('CI') is a list of
 
 ```{r projectionDriver, message = F, out.width="100%"}
 options(width = 60)
-library(projectR)
 library(dplyr, warn.conflicts = F)
 
 #size-normed, log expression
@@ -518,9 +517,9 @@ The arguments for pdVolcano are:
 ### Output 
 Generates the same output as projectionDriveR. Allows manual updates to pvalue and FC thresholds and can accept gene lists of interest to subset results. 
 
-### Customize plotting of confidence intervals
+### Customize volcano plot and run FGSEA
 
-```{r fig.width=10, fig.height=11}
+```{r fig.width=9, fig.height=10}
 suppressWarnings(library(cowplot))
 library(fgsea)
 library(msigdbr)
@@ -545,26 +544,32 @@ pathways = split(x = msigdbr_list$ensembl_gene, f = msigdbr_list$gs_name)
 #run fgsea scoreType positive, all values will be positive
 glial_fgsea <- fgsea::fgsea(pathways, glial_fgsea_vec, scoreType = "pos")
 #tidy 
-glial_fgseaResTidy <- glial_fgsea %>% subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
+glial_fgseaResTidy <- glial_fgsea %>% 
+  subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
     as_tibble() %>%
     dplyr::arrange(desc(size))
 #plot 
-glial_EnrichmentPlot <- ggplot2::ggplot(glial_fgseaResTidy, ggplot2::aes(reorder(pathway, NES), NES)) + ggplot2::geom_point(aes(size=size, color = padj)) + 
-coord_flip() + 
-labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
-theme_minimal()
+glial_EnrichmentPlot <- ggplot2::ggplot(glial_fgseaResTidy, 
+                                        ggplot2::aes(reorder(pathway, NES), NES)) + 
+  ggplot2::geom_point(aes(size=size, color = padj)) + 
+  coord_flip() + 
+  labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
+  theme_minimal()
 glial_EnrichmentPlot
   
 microglial_fgsea <- fgsea::fgsea(pathways, microglial_fgsea_vec, scoreType = "pos")
 #tidy 
-microglial_fgseaResTidy <- microglial_fgsea %>% subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
+microglial_fgseaResTidy <- microglial_fgsea %>% 
+  subset(padj <= 0.05 & size >= 10 & size <= 500) %>%
     as_tibble() %>%
     dplyr::arrange(desc(size))
 
-microglial_EnrichmentPlot <- ggplot2::ggplot(microglial_fgseaResTidy, ggplot2::aes(reorder(pathway, NES), NES)) + ggplot2::geom_point(aes(size=size, color = padj)) + 
-coord_flip() + 
-labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
-theme_minimal()
+microglial_EnrichmentPlot <- ggplot2::ggplot(microglial_fgseaResTidy, 
+                                             ggplot2::aes(reorder(pathway, NES), NES)) +
+  ggplot2::geom_point(aes(size=size, color = padj)) + 
+  coord_flip() + 
+  labs(x="Pathway", y="Normalized Enrichment Score", title="Pathway NES from GSEA") + 
+  theme_minimal()
 microglial_EnrichmentPlot
 
 
@@ -575,7 +580,7 @@ microglial_EnrichmentPlot
 This function performs multivariate analysis on different clusters within a dataset, which in this case is restricted to Seurat Object. Clusters are identified as those satisfying the conditions specified in their corresponding dictionaries. `multivariateAnalysisR` performs two tests: Analysis of Variance (ANOVA) and Confidence Interval (CI) evaluations. ANOVA is performed to understand the general differentiation between clusters through the lens of a specified pattern. CI is to visualize pair-wise differential expressions between two clusters for each pattern. Researchers can visually understand both the macroscopic and microscopic differential uses of each pattern across different clusters through this function.
 
 ```
-library(projectR)
+
 multivariateAnalysisR <- function(significanceLevel = 0.05, patternKeys, seuratobj,
                                   dictionaries, customNames = NULL, exclusive = TRUE,
                                   exportFolder = "", ANOVAwidth = 1000,
