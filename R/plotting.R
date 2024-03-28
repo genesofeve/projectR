@@ -170,7 +170,7 @@ plotVolcano <- function(
   volcano <- ggplot(data = stats,
                     aes(x = mean_diff, y = -log10(welch_padj),
                         color = Color,
-                        label = stats$label)) +
+                        label = label)) +
     geom_vline(xintercept = c(FC, -FC), lty = "dashed") +
     geom_hline(yintercept = -log10(pvalue), lty = "dashed") +
     geom_point(na.rm = TRUE) +
