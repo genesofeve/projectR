@@ -355,9 +355,7 @@ pdVolcano <- function(
                                   vol_result$plt$weighted_differential_expression +
                                     theme(legend.position = "none"),
                                   ncol = 2L, align = "h")
-    legend <- cowplot::get_legend(vol_result$plt$differential_expression +
-                                    guides(color = guide_legend(nrow = 1L)) +
-                                    theme(legend.position = "bottom"))
+    legend <- cowplot::get_plot_component(result$plt$differential_expression, "guide-box-bottom")
     plt <- cowplot::plot_grid(pltgrid,
                               legend,
                               ncol = 1L,
