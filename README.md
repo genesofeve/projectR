@@ -18,4 +18,4 @@ BiocManager::install("projectR")
 BiocManager::install("genesofeve/projectR")
 ```
 ## Getting Started
-We recommend going through the [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/projectR/inst/doc/projectR.pdf) and the [Bioinformatics article](https://academic.oup.com/bioinformatics/article/36/11/3592/5804979) to learn more about **projectR**.
+We recommend going through the [vignette](https://www.bioconductor.org/packages/release/bioc/vignettes/projectR/inst/doc/projectR.html) and the [Bioinformatics article](https://academic.oup.com/bioinformatics/article/36/11/3592/5804979) to learn more about **projectR**.
