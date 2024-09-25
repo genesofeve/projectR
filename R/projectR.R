@@ -9,7 +9,6 @@ setOldClass("prcomp")
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
-#' @param family VGAM family function for model fitting (default: "gaussianff")
 #' @param bootstrapPval logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects
 #' @param bootIter number of bootstrap iterations, default = 1000
 #' @rdname projectR-methods
@@ -21,13 +20,12 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  family="gaussianff",  # VGAM family function (default: "gaussianff")
   bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
   bootIter=1e3 # No of bootstrap iterations
   ){
 
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  #if(!is.na(NP)){loadings<-loadings[,NP]} was giving warning with subset of patterns
+
   #match genes in data sets
   if(is.null(dataNames)){
     dataNames <- rownames(data)
@@ -45,16 +43,8 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   projectionPatterns <- t(projection$coefficients)
   projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
 
-  #projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
-  #projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
-
-  #For VGAM
-  #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
-
   #For limma
   pval.matrix<-2*pnorm(-abs(projection.ts))
-  #colnames(pval.matrix)<-colnames(projectionPatterns)
-  #rownames(pval.matrix)<-rownames(projectionPatterns)
 
   if(bootstrapPval){
   boots <- lapply(1:bootIter,function(x){
@@ -66,7 +56,6 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
   }
 
   if(full & bootstrapPval){
-      #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix, 'bootstrapPval' = bootPval)
       return(projectionFit)
   } else if(full){
@@ -82,7 +71,6 @@ setMethod("projectR",signature(data="matrix",loadings="matrix"),function(
 #' @param NP vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
 #' @param full logical indicating whether to return the full model solution. By default only the new pattern object is returned.
 #' @param model Optional arguements to choose method for projection
-#' @param family VGAM family function for model fitting (default: "gaussianff")
 #' @rdname projectR-methods
 #' @aliases projectR
 setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
@@ -91,8 +79,7 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
   dataNames = NULL, # a vector with names of data rows
   loadingsNames = NULL, # a vector with names of loadings rows
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
-  full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
-  family="gaussianff"  # VGAM family function (default: "gaussianff")
+  full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
   ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
@@ -108,25 +95,15 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
   print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
   print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
   # do projection
-  Design <- model.matrix(~0 + dataM[[1]])
-  colnames(Design) <- colnames(dataM[[1]])
   projection <- MatrixModels:::lm.fit.sparse(t(dataM[[2]]),dataM[[1]])
   projectionPatterns <- t(projection$coefficients)
   projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
 
-  #projection<-vglm(dataM$data2 ~ 0 + dataM$data1,family=family)
-  #projectionPatterns<-coefvlm(projection,matrix.out=TRUE)
-
-  #For VGAM
-  #pval.matrix<-matrix(2*pnorm(-abs(summary(projection)@coef3[,3])),nrow=5,byrow=TRUE)
 
   #For limma
   pval.matrix<-2*pnorm(-abs(projection.ts))
-  #colnames(pval.matrix)<-colnames(projectionPatterns)
-  #rownames(pval.matrix)<-rownames(projectionPatterns)
 
   if(full==TRUE){
-      #projectionFit <- list('projection'=projectionPatterns, 'fit'=projection,'pval'=pval.matrix)
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
       return(projectionFit)
   }
@@ -153,7 +130,6 @@ setMethod("projectR",signature(data="matrix",loadings="LinearEmbeddingMatrix"),f
   NP=NA, # vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.
   full=FALSE, # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   model=NA, # optional arguements to choose method for projection
-  family="gaussianff", # VGAM family function (default: "gaussianff")
   bootstrapPval=FALSE, # logical to indicate whether to generate p-values using bootstrap
   bootIter=1e3 # No of bootstrap iterations
   ){
@@ -256,10 +232,8 @@ setMethod("projectR",signature(data="matrix",loadings="rotatoR"),function(
   Eigenvalues<-eigen(cov(projectionPatterns))$values
   PercentVariance<-round(Eigenvalues/sum(Eigenvalues) * 100, digits = 2)
 
-  #PercentVariance<-apply(projectionPatterns,2, function(x) 100*var(x)/sum(apply(p2P,2,var)))
-
-    projectionFit <- list(t(projectionPatterns), PercentVariance)
-    return(projectionFit)
+  projectionFit <- list(t(projectionPatterns), PercentVariance)
+  return(projectionFit)
   }
   else{return(t(projectionPatterns))}
 
