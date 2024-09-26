@@ -86,18 +86,6 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
     loadings<-loadings[,NP]
   }
 
-  #match genes in data sets
-  if(is.null(dataNames)){
-    dataNames <- rownames(data)
-  }
-  if(is.null(loadingsNames)){
-    loadingsNames <- rownames(loadings)
-  }
-
-  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
-  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
-  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
-
   print("dgCMatrix detected, projecting in chunks.")
   #columns of dgcMatrix are LHS for stats::lm, and columns of loadings are the
   #dense RHS (predictors). sometimes dgcMatrix is too big to fit RAM, so we
@@ -113,11 +101,13 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
     })
   }
   #discard print statements projectR generates each time a chunk is called
-  invisible(capture.output(
-    projectionList <- lapply(chop(dataM[[2]]), function(i) {
-      projectR(as.matrix(dataM[[2]][,i]), dataM[[1]], full=full)
+  w <- invisible(capture.output(
+    projectionList <- lapply(chop(data), function(i) {
+      projectR(as.matrix(data[,i]), loadings, full=full)
     })
   ))
+  #since chopping by columns, it's enough to print matching rows only once
+  print(w[1])
 
   if(full==TRUE) {
       if(length(projectionList)==1) {#if only one chunk
