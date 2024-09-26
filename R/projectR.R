@@ -135,6 +135,7 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
 
 #######################################################################################################################################
 #' @import limma
+#' @import SingleCellExperiment
 #' @importFrom NMF fcnnls
 #' @examples
 #' library("CoGAPS")
