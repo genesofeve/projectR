@@ -82,26 +82,29 @@ setMethod("projectR",signature(data="dgCMatrix",loadings="matrix"),function(
   full=FALSE # logical indicating whether to return the full model solution. By default only the new pattern object is returned.
   ){
 
-  ifelse(!is.na(NP),loadings<-loadings[,NP],loadings<-loadings)
-  #if(!is.na(NP)){loadings<-loadings[,NP]} was giving warning with subset of patterns
-  #match genes in data sets
-  if(is.null(dataNames)){
-    dataNames <- rownames(data)
-  }
-  if(is.null(loadingsNames)){
-    loadingsNames <- rownames(loadings)
-  }
-  dataM<-geneMatchR(data1=data, data2=loadings, data1Names=dataNames, data2Names=loadingsNames, merge=FALSE)
-  print(paste(as.character(dim(dataM[[2]])[1]),'row names matched between data and loadings'))
-  print(paste('Updated dimension of data:',as.character(paste(dim(dataM[[2]]), collapse = ' '))))
-  # do projection
-  projection <- MatrixModels:::lm.fit.sparse(t(dataM[[2]]),dataM[[1]])
-  projectionPatterns <- t(projection$coefficients)
-  projection.ts<-t(projection$coefficients/projection$stdev.unscaled/projection$sigma)
+  #columns of dgcMatrix are LHS for stats::lm, and columns of loadings are the
+  #dense RHS (predictors). sometimes dgcMatrix is too big to fit RAM, so we
+  #just project in chunks lm models as supported by stats::lm/limma::lmFit
 
+  print("dgCMatrix detected, projecting in chunks.")
 
-  #For limma
-  pval.matrix<-2*pnorm(-abs(projection.ts))
+  chop <- function(sparsematrix) {
+    NCOL <- ncol(sparsematrix)
+    bins <- seq(1, NCOL, by = 1000)
+    lapply(seq_along(bins), function(i) {
+      start <- bins[i]
+      end <- ifelse(i < length(bins), bins[i + 1] - 1, NCOL)
+      return(start:end)
+    })
+  }
+  #capture print statement that projectR generated when geneMatchR is called
+  warns <- invisible(capture.output(
+    projectionList <- lapply(chop(data), function(i) {
+      projectR(as.matrix(data[,i]), loadings, dataNames, loadingsNames, NP, full)
+    })
+  ))
+
+  projectionPatterns <- do.call(cbind, projectionList)
 
   if(full==TRUE){
       projectionFit <- list('projection'=projectionPatterns, 'pval'=pval.matrix)
