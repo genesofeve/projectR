@@ -2,7 +2,7 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 1.19.2
+Version: 1.19.3
 Author: Gaurav Sharma, Charles Shin, Jared Slosberg, Loyal Goff, Genevieve Stein-O'Brien
 Authors@R: c(
     person("Gaurav", "Sharma", role = c("aut")),
@@ -15,6 +15,7 @@ Authors@R: c(
 Description: Functions for the projection of data into the spaces defined by PCA, CoGAPS, NMF, correlation, and clustering.
 License: GPL (==2)
 Imports:
+    SingleCellExperiment,
     methods,
     cluster,
     stats,
@@ -50,7 +51,7 @@ Suggests:
     SeuratObject
 LazyData: TRUE
 LazyDataCompression: gzip
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
