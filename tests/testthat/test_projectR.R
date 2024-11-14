@@ -210,8 +210,7 @@ test_that("projection works on sparse data matrix", {
 
   pdense <- projectR(dense, loadings)
   psparse <- projectR(sparse, loadings)
-  expect_identical(projectR(dense, loadings),
-                   projectR(sparse, loadings))
+  expect_identical(pdense, psparse)
 })
 
 test_that("projection works on sparse data matrix with full=TRUE", {
@@ -224,6 +223,5 @@ test_that("projection works on sparse data matrix with full=TRUE", {
 
   pdense <- projectR(dense, loadings, full=TRUE)
   psparse <- projectR(sparse, loadings, full=TRUE)
-  expect_identical(projectR(dense, loadings),
-                   projectR(sparse, loadings))
+  expect_identical(pdense, psparse)
 })
