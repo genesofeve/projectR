@@ -23,7 +23,6 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   loadingsNames = NULL,
   NP = NA,
   full = FALSE,
-  family = "gaussianff",
   bootstrapPval = FALSE,
   bootIter = 1000
 )
@@ -33,9 +32,8 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   loadings,
   dataNames = NULL,
   loadingsNames = NULL,
-  NP = NA,
-  full = FALSE,
-  family = "gaussianff"
+  NP = NULL,
+  full = FALSE
 )
 
 \S4method{projectR}{matrix,LinearEmbeddingMatrix}(
@@ -46,7 +44,6 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   NP = NA,
   full = FALSE,
   model = NA,
-  family = "gaussianff",
   bootstrapPval = FALSE,
   bootIter = 1000
 )
@@ -128,8 +125,6 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 \item{NP}{vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.}
 
 \item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
-
-\item{family}{VGAM family function for model fitting (default: "gaussianff")}
 
 \item{bootstrapPval}{logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects}
 

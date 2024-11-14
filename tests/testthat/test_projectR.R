@@ -200,4 +200,28 @@ test_that("results are correctly formatted for P value mode",{
   
 })
 
+test_that("projection works on sparse data matrix", {
+  dense <- as.matrix(p.RNAseq6l3c3t)
+  sparse <- as(p.RNAseq6l3c3t, "sparseMatrix")
+  loadings <- CR.RNAseq6l3c3t@featureLoadings
 
+  expect_true("dgCMatrix" %in% class(sparse))
+  expect_no_error(projectR(sparse, loadings))
+
+  pdense <- projectR(dense, loadings)
+  psparse <- projectR(sparse, loadings)
+  expect_identical(pdense, psparse)
+})
+
+test_that("projection works on sparse data matrix with full=TRUE", {
+  dense <- as.matrix(p.RNAseq6l3c3t)
+  sparse <- as(p.RNAseq6l3c3t, "sparseMatrix")
+  loadings <- CR.RNAseq6l3c3t@featureLoadings
+
+  expect_true("dgCMatrix" %in% class(sparse))
+  expect_no_error(projectR(sparse, loadings))
+
+  pdense <- projectR(dense, loadings, full=TRUE)
+  psparse <- projectR(sparse, loadings, full=TRUE)
+  expect_identical(pdense, psparse)
+})
