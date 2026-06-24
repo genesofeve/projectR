@@ -8,7 +8,7 @@
 A list of 12 items
 }
 \usage{
-AP.RNAseq6l3c3t
+data(AP.RNAseq6l3c3t)
 }
 \description{
 AP.RNAseq6l3c3t contains the output of the gapsRun function in the

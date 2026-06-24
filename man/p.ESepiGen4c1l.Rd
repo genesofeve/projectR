@@ -8,7 +8,7 @@
 p.ESepiGen4c1l is a list of 6 data frames each with with 93 rows and between 4 and 9 variables:
 }
 \usage{
-p.ESepiGen4c1l
+data(p.ESepiGen4c1l)
 }
 \description{
 p.ESepiGen4c1l contains log2(RPKM + 1) values for polyA bulk sequencing

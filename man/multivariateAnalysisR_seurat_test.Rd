@@ -9,7 +9,7 @@ done to unspecified cells in different stages for multivariateAnalysisR analysis
 A Seurat Object with 31034 observations of 4 variables in meta.data:
 }
 \usage{
-multivariateAnalysisR_seurat_test
+data(multivariateAnalysisR_seurat_test)
 }
 \description{
 Truncated Seurat Object with latent space projection

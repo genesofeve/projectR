@@ -51,10 +51,11 @@ test_that("results are as expected",{
 	expect_true(all(!is.na(pca.ESepiGen4c1l)))
 	
 	#multivariateAnalysisR check
-	output <- multivariateAnalysisR(seuratobj = multivariateAnalysisR_seurat_test, 
-	                                patternKeys = list("Pattern_1", "Pattern_2"), 
+	withr::local_dir(withr::local_tempdir())
+	output <- multivariateAnalysisR(seuratobj = multivariateAnalysisR_seurat_test,
+	                                patternKeys = list("Pattern_1", "Pattern_2"),
 	                                dictionaries = list(
-	                                  list("stage" = "E18"), 
+	                                  list("stage" = "E18"),
 	                                  list("stage" = "Adult")
 	                                  )
 	                                )
@@ -63,6 +64,10 @@ test_that("results are as expected",{
 	expect_true("patternKey" %in% names(output[[1]]))
 	expect_true("ANOVA" %in% names(output[[1]]))
 	expect_true("CI" %in% names(output[[1]]))
+	expect_true(file.exists("multivariateAnalysisR_ANOVA.png"))
+	expect_true(file.exists("multivariateAnalysisR_ANOVA.csv"))
+	expect_true(file.exists("multivariateAnalysisR_CI.png"))
+	expect_true(file.exists("multivariateAnalysisR_CI.csv"))
 	
 	})
 
@@ -229,4 +234,110 @@ test_that("projection works on sparse data matrix with full=TRUE", {
   #case with chopBy < ncol
   psparse_chunked <- projectR(sparse, loadings, full=TRUE, chopBy=10)
   expect_identical(pdense, psparse_chunked)
+})
+
+test_that("prcomp dispatch full=TRUE returns named list with correct slots", {
+  pca <- prcomp(t(p.RNAseq6l3c3t), center = TRUE)
+  result_full <- projectR(
+    data = p.ESepiGen4c1l$mRNA.Seq, loadings = pca,
+    dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE
+  )
+  expect_type(result_full, "list")
+  expect_named(result_full, c("projection", "pvar", "r_squared"))
+  expect_equal(
+    dim(result_full$projection),
+    dim(projectR(p.ESepiGen4c1l$mRNA.Seq, pca,
+      dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+    ))
+  )
+  expect_true(all(result_full$r_squared <= 1))
+  expect_named(result_full$r_squared)
+})
+
+test_that("matrix dispatch full=TRUE returns named list with correct slots", {
+  result_full <- projectR(
+    data = p.ESepiGen4c1l$mRNA.Seq, loadings = AP.RNAseq6l3c3t$Amean,
+    dataNames = map.ESepiGen4c1l[["GeneSymbols"]], full = TRUE
+  )
+  expect_type(result_full, "list")
+  expect_named(result_full, c("projection", "pval", "r_squared"))
+  expect_equal(
+    dim(result_full$projection),
+    dim(projectR(p.ESepiGen4c1l$mRNA.Seq, AP.RNAseq6l3c3t$Amean,
+      dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+    ))
+  )
+  expect_true(all(result_full$pval >= 0 & result_full$pval <= 1))
+  expect_true(all(result_full$r_squared <= 1))
+  expect_named(result_full$r_squared)
+})
+
+test_that("center_by_loadings produces different projection than per-sample centering", {
+  pca <- prcomp(t(p.RNAseq6l3c3t), center = TRUE)
+  proj_default <- projectR(
+    data = p.ESepiGen4c1l$mRNA.Seq, loadings = pca,
+    dataNames = map.ESepiGen4c1l[["GeneSymbols"]], center_by_loadings = FALSE
+  )
+  proj_centered <- projectR(
+    data = p.ESepiGen4c1l$mRNA.Seq, loadings = pca,
+    dataNames = map.ESepiGen4c1l[["GeneSymbols"]], center_by_loadings = TRUE
+  )
+  expect_false(identical(proj_default, proj_centered))
+})
+
+test_that("center_by_loadings=TRUE errors when loadings$center is absent", {
+  pca_no_center <- prcomp(t(p.RNAseq6l3c3t), center = FALSE)
+  expect_error(
+    projectR(
+      data = p.ESepiGen4c1l$mRNA.Seq, loadings = pca_no_center,
+      dataNames = map.ESepiGen4c1l[["GeneSymbols"]], center_by_loadings = TRUE
+    ),
+    regexp = "loadings\\$center is missing or FALSE"
+  )
+})
+
+test_that("matrix dispatch include_intercept=FALSE returns no intercept slot", {
+  result <- projectR(
+    data      = p.ESepiGen4c1l$mRNA.Seq,
+    loadings  = AP.RNAseq6l3c3t$Amean,
+    dataNames = map.ESepiGen4c1l[["GeneSymbols"]],
+    full      = TRUE
+  )
+  expect_null(result$intercept)
+})
+
+test_that("matrix dispatch include_intercept=TRUE adds intercept slot and raises R2", {
+  r0 <- projectR(
+    data              = p.ESepiGen4c1l$mRNA.Seq,
+    loadings          = AP.RNAseq6l3c3t$Amean,
+    dataNames         = map.ESepiGen4c1l[["GeneSymbols"]],
+    full              = TRUE
+  )
+  r1 <- projectR(
+    data              = p.ESepiGen4c1l$mRNA.Seq,
+    loadings          = AP.RNAseq6l3c3t$Amean,
+    dataNames         = map.ESepiGen4c1l[["GeneSymbols"]],
+    full              = TRUE,
+    include_intercept = TRUE
+  )
+  expect_length(r1$intercept, ncol(p.ESepiGen4c1l$mRNA.Seq))
+  expect_named(r1$intercept)
+  expect_equal(dim(r0$projection), dim(r1$projection))
+  expect_equal(dim(r0$pval), dim(r1$pval))
+  expect_true(all(r1$r_squared >= r0$r_squared))
+})
+
+test_that("prcomp dispatch with scalar NP does not drop matrix dimensions", {
+  pca <- prcomp(t(p.RNAseq6l3c3t), center = TRUE)
+  result <- projectR(
+    data               = p.ESepiGen4c1l$mRNA.Seq,
+    loadings           = pca,
+    dataNames          = map.ESepiGen4c1l[["GeneSymbols"]],
+    NP                 = 3L,
+    center_by_loadings = TRUE,
+    full               = TRUE
+  )
+  expect_type(result, "list")
+  expect_equal(nrow(result$projection), 1L)
+  expect_equal(ncol(result$projection), ncol(p.ESepiGen4c1l$mRNA.Seq))
 })

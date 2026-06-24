@@ -9,7 +9,7 @@ in 3 experimental condition at 3 time points}
 A data frames with 108 rows and 54 variables:
 }
 \usage{
-map.RNAseq6l3c3t
+data(map.RNAseq6l3c3t)
 }
 \description{
 map.RNAseq6l3c3 contains gene annotations for polyA bulk sequencing of 6 cell lines

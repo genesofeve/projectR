@@ -248,19 +248,19 @@ multivariateAnalysisR <- function(
     color = color
   )
   # Create barplot
-  ggplot(df, aes(x = name, y = value)) +
+  anova_plot <- ggplot(df, aes(x = name, y = value)) +
     geom_bar(stat = 'identity', aes(fill = color), position = 'dodge') +
     coord_flip() +
     labs(title = "Multivariate Analysis - ANOVA",
          x = "Patterns",
          y = "F-statistic") +
-    scale_fill_manual(name = "Significance", 
+    scale_fill_manual(name = "Significance",
                       values = c("red" = "red", "blue" = "blue"),
                       labels = c(
-                        "red" = paste("p > ", significanceLevel, sep = ""), 
+                        "red" = paste("p > ", significanceLevel, sep = ""),
                         "blue" = paste("p < ", significanceLevel, sep = ""))
-    ) + 
-    theme_minimal() + 
+    ) +
+    theme_minimal() +
     theme(
       axis.line = element_line(linewidth = 0.5, linetype = "solid"),
       plot.title = element_text(size = 20, face = "bold"),
@@ -269,7 +269,7 @@ multivariateAnalysisR <- function(
     )
   # save ANOVA plot
   ANOVA_file_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_ANOVA.png")
-  ggsave(filename = ANOVA_file_path, plot = last_plot(), width = ANOVAwidth, height = ANOVAheight, units = "px", limitsize = FALSE, device = "png", bg = "white")
+  ggsave(filename = ANOVA_file_path, plot = anova_plot, width = ANOVAwidth, height = ANOVAheight, units = "px", limitsize = FALSE, device = "png", bg = "white")
   
   # ggplotting CI
   group <- unlist(lapply(sortedGrossList, function(x) rep(x$patternKey, times = length(x$CI))))
@@ -324,7 +324,7 @@ multivariateAnalysisR <- function(
   )
   # Create the horizontal plot
   ggplot_obj <- ggplot(data, aes(y = y_pos, x = (ci_lower + ci_upper) / 2)) +
-    geom_errorbarh(aes(xmin = ci_lower, xmax = ci_upper, color = colors), height = 0.2, size = 1.5) +
+    geom_errorbar(aes(xmin = ci_lower, xmax = ci_upper, color = colors), height = 0.2, linewidth = 1.5, orientation = "y") +
     geom_text(aes(label = labels), vjust = -1.6, size = 4, fontface = "bold") +
     scale_color_manual(name = "Color Labels", 
                        values = colors,
@@ -342,7 +342,7 @@ multivariateAnalysisR <- function(
     )
   # dividing lines per pattern
   ggplot_obj <- ggplot_obj +
-    geom_hline(yintercept = dividing_lines, linetype = "dashed", color = "black", size = 0.5)
+    geom_hline(yintercept = dividing_lines, linetype = "dashed", color = "black", linewidth = 0.5)
   # save CI plot
   CI_file_path <- file.path(getwd(), exportFolder, "multivariateAnalysisR_CI.png")
   ggsave(filename = CI_file_path, plot = last_plot(), width = CIwidth, height = CIheight, units = "px", limitsize = FALSE, device = "png", bg = "white")

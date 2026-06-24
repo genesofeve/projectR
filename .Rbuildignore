@@ -4,3 +4,4 @@
 ^Meta$
 ^\.github
 ^\.travis
+^\.claude$

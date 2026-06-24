@@ -23,6 +23,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   loadingsNames = NULL,
   NP = NA,
   full = FALSE,
+  include_intercept = FALSE,
   bootstrapPval = FALSE,
   bootIter = 1000
 )
@@ -34,6 +35,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   loadingsNames = NULL,
   NP = NULL,
   full = FALSE,
+  include_intercept = FALSE,
   chopBy = 1000
 )
 
@@ -45,6 +47,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   NP = NA,
   full = FALSE,
   model = NA,
+  include_intercept = FALSE,
   bootstrapPval = FALSE,
   bootIter = 1000
 )
@@ -55,6 +58,7 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
   dataNames = NULL,
   loadingsNames = NULL,
   NP = NA,
+  center_by_loadings = FALSE,
   full = FALSE
 )
 
@@ -123,24 +127,123 @@ projectR(data, loadings, dataNames = NULL, loadingsNames = NULL, ...)
 
 \item{...}{Additional arguments to projectR}
 
-\item{NP}{vector of integers indicating which columns of loadings object to use. The default of NP=NA will use entire matrix.}
+\item{NP}{vector of integers indicating which columns of loadings object to
+use. The default of NP=NA will use entire matrix.}
 
-\item{full}{logical indicating whether to return the full model solution. By default only the new pattern object is returned.}
+\item{full}{Logical, default \code{FALSE}. If \code{FALSE}, returns only the
+scores matrix. If \code{TRUE}, returns a named list with three elements;
+see Value.}
 
-\item{bootstrapPval}{logical to indicate whether to generate p-values using bootstrap, not available for prcomp and rotatoR objects}
+\item{include_intercept}{Logical, default \code{FALSE}. If \code{FALSE}
+(default), fits \code{~ 0 + A} — the model must explain absolute
+expression levels including the global mean, which is absorbed into the
+pattern weights. If \code{TRUE}, fits \code{~ 1 + A} — an explicit
+intercept absorbs the per-sample global mean shift, leaving pattern
+coefficients to describe only pattern-specific variation above that
+baseline. When \code{full = TRUE}, the per-sample intercept estimates are
+returned in \code{$intercept}. Only applies to the matrix, dgCMatrix, and
+LinearEmbeddingMatrix (CoGAPS/NMF) dispatches.}
+
+\item{bootstrapPval}{logical to indicate whether to generate p-values using
+bootstrap, not available for prcomp and rotatoR objects}
 
 \item{bootIter}{number of bootstrap iterations, default = 1000}
 
-\item{chopBy}{number of columns to chop the data into (chopping helps runnning large datasets)}
+\item{chopBy}{number of columns to chop the data into (chopping helps running
+large datasets)}
 
-\item{model}{Optional arguements to choose method for projection}
+\item{model}{Optional arguments to choose method for projection}
+
+\item{center_by_loadings}{Logical, default \code{FALSE}. If \code{TRUE},
+centers the new data using the gene means stored in \code{loadings$center}
+(computed from the original training data) before projecting onto the
+loading vectors. If \code{FALSE}, each gene is centered by its own mean in
+the new data prior to projection. Only valid when \code{loadings$center}
+is not \code{FALSE}, i.e. when \code{prcomp} was called with
+\code{center = TRUE}.}
 
 \item{targetNumPatterns}{desired number of patterns with hclust}
 
 \item{sourceData}{data used to create cluster object}
 }
 \value{
-A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
+When \code{full = FALSE} (default), a numeric matrix (patterns or
+  PCs x samples) of projected sample weights. When \code{full = TRUE}, a
+  named list whose elements differ by dispatch method; see the subsections
+  in the Value section of the full documentation (\code{?projectR}).
+
+\subsection{Matrix, NMF, CoGAPS, correlateR, and clustering
+  dispatch}{
+  When \code{full = FALSE} (default), a numeric matrix (patterns x samples)
+  of projected sample weights in the pattern space defined by
+  \code{loadings}.
+
+  When \code{full = TRUE}, a named list with three or four elements (plus
+  \code{bootstrapPval} if \code{bootstrapPval = TRUE}):
+  \describe{
+    \item{\code{projection}}{Numeric matrix (patterns x samples). Projected
+      weights for each sample in the pattern space defined by
+      \code{loadings}. Equivalent to the matrix returned when
+      \code{full = FALSE}.}
+    \item{\code{pval}}{Numeric matrix (patterns x samples). Two-sided
+      p-values from t-tests with \code{lmFit} residual degrees of freedom
+      (\eqn{n_{\text{samples}} - n_{\text{patterns}}}). Uses the
+      t-distribution rather than the normal approximation, which is exact
+      for all sample sizes and converges to the normal for large degrees of
+      freedom.}
+    \item{\code{r_squared}}{Named numeric vector (length = n samples).
+      Per-sample coefficient of determination computed as
+      \eqn{1 - ||r||^2 / ||X||^2} where \eqn{||r||^2} is the sum of
+      squared residuals and \eqn{||X||^2} is the raw (uncentered) total sum
+      of squares for the gene-matched data. Using raw \eqn{||X||^2} ensures
+      comparability with the prcomp method and across basis methods. When
+      \code{include_intercept = TRUE}, \eqn{R^2} will be higher because the
+      intercept absorbs mean-shift variance; the difference between the two
+      values quantifies that contribution.}
+    \item{\code{intercept}}{(only when \code{include_intercept = TRUE} and
+      \code{full = TRUE}) Named numeric vector (length = n samples). The
+      per-sample intercept estimate from \code{lmFit}, representing the
+      global mean expression shift not explained by the pattern basis.}
+    \item{\code{bootstrapPval}}{(only when \code{bootstrapPval = TRUE})
+      Bootstrap p-values for projection weights.}
+  }
+}
+
+\subsection{prcomp dispatch}{
+  When \code{full = FALSE} (default), a numeric matrix (PCs x samples) of
+  projected sample coordinates in the PC space defined by \code{loadings}.
+  Row names are PC labels (e.g. \code{PC1}, \code{PC2}, ...); column names
+  are sample names from \code{data}.
+
+  When \code{full = TRUE}, a named list with three elements. Note that the
+  second element is \code{$pvar} (variance), not \code{$pval} (p-values) as
+  returned by the matrix/NMF/CoGAPS dispatch:
+  \describe{
+    \item{\code{projection}}{Numeric matrix (PCs x samples). Projected
+      coordinates of each sample in the PC space defined by \code{loadings}.
+      Equivalent to the matrix returned when \code{full = FALSE}.}
+    \item{\code{pvar}}{Named numeric vector (length = number of PCs).
+      Percentage of variance in the \emph{projected} data accounted for by
+      each PC, computed as \eqn{100 \times \sigma^2_k / \sum_j \sigma^2_j}
+      where \eqn{\sigma^2_k} is the variance of the scores on PC \eqn{k}.
+      Note that these percentages are relative to the projected data and
+      will differ from the variance explained reported by the original
+      \code{prcomp} fit.}
+    \item{\code{r_squared}}{Named numeric vector (length = n samples).
+      Per-sample coefficient of determination computed as
+      \eqn{1 - ||r||^2 / ||X||^2} where \eqn{||r||^2} is the sum of
+      squared residuals (centered data minus reconstruction) and
+      \eqn{||X||^2} is the raw (uncentered) total sum of squares for the
+      gene-matched data. Using raw \eqn{||X||^2} ensures comparability with
+      the matrix dispatch (NMF/CoGAPS) method across projection methods.
+      Note that because PCA explicitly removes the mean before fitting, its
+      R^2 will be lower than NMF/CoGAPS R^2 when a global mean shift exists
+      between reference and new data — this difference is itself
+      informative. Comparing \code{center_by_loadings = TRUE} vs
+      \code{FALSE} R^2 values quantifies the contribution of the mean shift
+      to total variance.}
+  }
+}
 }
 \description{
 A function for the projection of new data into a previously defined
@@ -158,29 +261,40 @@ dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
 
 library("CoGAPS")
 # CR.RNAseq6l3c3t <- CoGAPS(p.RNAseq6l3c3t, params = new("CogapsParams", nPatterns=5))
-projectR(data=p.ESepiGen4c1l$mRNA.Seq,loadings=CR.RNAseq6l3c3t,
-dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+projectR(
+  data = p.ESepiGen4c1l$mRNA.Seq, loadings = CR.RNAseq6l3c3t,
+  dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+)
 
-pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
-loadings=pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+pca.RNAseq6l3c3t <- prcomp(t(p.RNAseq6l3c3t))
+pca.ESepiGen4c1l <- projectR(
+  data = p.ESepiGen4c1l$mRNA.Seq,
+  loadings = pca.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+)
 
-pca.RNAseq6l3c3t<-prcomp(t(p.RNAseq6l3c3t))
-r.RNAseq6l3c3t<-rotatoR(1,1,-1,-1,pca.RNAseq6l3c3t$rotation[,1:2])
-pca.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq,
-loadings=r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+pca.RNAseq6l3c3t <- prcomp(t(p.RNAseq6l3c3t))
+r.RNAseq6l3c3t <- rotatoR(1, 1, -1, -1, pca.RNAseq6l3c3t$rotation[, 1:2])
+pca.ESepiGen4c1l <- projectR(
+  data = p.ESepiGen4c1l$mRNA.Seq,
+  loadings = r.RNAseq6l3c3t, dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+)
 
-c.RNAseq6l3c3t<-correlateR(genes="T", dat=p.RNAseq6l3c3t, threshtype="N",
-threshold=10, absR=TRUE)
-cor.ESepiGen4c1l<-projectR(data=p.ESepiGen4c1l$mRNA.Seq, loadings=c.RNAseq6l3c3t,
-NP="PositiveCOR", dataNames = map.ESepiGen4c1l[["GeneSymbols"]])
+c.RNAseq6l3c3t <- correlateR(
+  genes = "T", dat = p.RNAseq6l3c3t, threshtype = "N",
+  threshold = 10, absR = TRUE
+)
+cor.ESepiGen4c1l <- projectR(
+  data = p.ESepiGen4c1l$mRNA.Seq,
+  loadings = c.RNAseq6l3c3t, NP = "PositiveCOR",
+  dataNames = map.ESepiGen4c1l[["GeneSymbols"]]
+)
 
 library("projectR")
 data(p.RNAseq6l3c3t)
-nP<-3
-kClust<-kmeans(t(p.RNAseq6l3c3t),centers=nP)
-kpattern<-cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
-p<-as.matrix(p.RNAseq6l3c3t)
-projectR(p,kpattern)
+nP <- 3
+kClust <- kmeans(t(p.RNAseq6l3c3t), centers = nP)
+kpattern <- cluster2pattern(clusters = kClust, NP = nP, data = p.RNAseq6l3c3t)
+p <- as.matrix(p.RNAseq6l3c3t)
+projectR(p, kpattern)
 
 }

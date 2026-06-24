@@ -8,7 +8,7 @@
 A gene (rows) by cell (column) matrix
 }
 \usage{
-microglial_counts
+data(microglial_counts)
 }
 \description{
 log-normalized count data from microglial cells in the p6 mouse cortex.

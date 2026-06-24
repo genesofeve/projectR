@@ -1,12 +1,6 @@
 
 
 #######################################################################################################################################
-#' @examples
-#' library(projectR)
-#' data(p.RNAseq6l3c3t)
-#' condition<-sapply(colnames(p.RNAseq6l3c3t),function(x) strsplit(x,"[.]")[[1]][1])
-#' cluster2pattern(clusters=condition,data=p.RNAseq6l3c3t)
-#'
 .cluster2pattern <- function(
   clusters, # a vector of character cluster assignments
   data # data used to make clusters object
@@ -34,9 +28,6 @@ setMethod("cluster2pattern",signature(clusters="character"),.cluster2pattern)
 
 
 #######################################################################################################################################
-
-#'
-#'  
 .cluster2pattern_numeric <- function(
   clusters, # a vector of numeric cluster assignments
   data # data used to make clusters object

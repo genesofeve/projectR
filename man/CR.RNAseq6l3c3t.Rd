@@ -8,7 +8,7 @@
 A CogapsResult object
 }
 \usage{
-CR.RNAseq6l3c3t
+data(CR.RNAseq6l3c3t)
 }
 \description{
 CR.RNAseq6l3c3t contains the output of the CoGAPS function in the

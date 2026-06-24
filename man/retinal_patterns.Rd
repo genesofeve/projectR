@@ -8,7 +8,7 @@
 A gene (rows) by pattern (column) matrix
 }
 \usage{
-retinal_patterns
+data(retinal_patterns)
 }
 \description{
 CoGAPS patterns learned from the developing mouse retina.

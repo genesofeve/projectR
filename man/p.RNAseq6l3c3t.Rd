@@ -9,7 +9,7 @@ in 3 experimental condition at 3 time points}
 A data frames with 108 rows and 54 variables:
 }
 \usage{
-p.RNAseq6l3c3t
+data(p.RNAseq6l3c3t)
 }
 \description{
 p.RNAseq6l3c3 contains log2(RPKM + 1) values for polyA bulk sequencing of 6 cell lines

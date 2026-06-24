@@ -8,7 +8,7 @@
 A data frames with 93 rows and 9 variables:
 }
 \usage{
-map.ESepiGen4c1l
+data(map.ESepiGen4c1l)
 }
 \description{
 map.ESepiGen4c1l contains gene annotations

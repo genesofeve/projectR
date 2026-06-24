@@ -15,7 +15,10 @@
 #' @param loadingsNames a vector containing unique names, i.e. gene names, for the rows ofloadings to be used to match features with the data, if not provided by \code{rownames(loadings)}. Order of names in vector must match order of rows in loadings.
 #' @param ... Additional arguments to projectR
 #'
-#' @return A matrix of sample weights for each input basis in the loadings matrix (if full=TRUE, full model solution is returned).
+#' @return When \code{full = FALSE} (default), a numeric matrix (patterns or
+#'   PCs x samples) of projected sample weights. When \code{full = TRUE}, a
+#'   named list whose elements differ by dispatch method; see the subsections
+#'   in the Value section of the full documentation (\code{?projectR}).
 #' @export
 #'
 #' @examples

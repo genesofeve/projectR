@@ -2,7 +2,7 @@ Package: projectR
 Type: Package
 Title: Functions for the projection of weights from PCA, CoGAPS, NMF,
     correlation, and clustering
-Version: 1.23.2
+Version: 1.24.0
 Author: Gaurav Sharma, Charles Shin, Jared Slosberg, Loyal Goff, Genevieve Stein-O'Brien
 Authors@R: c(
     person("Gaurav", "Sharma", role = c("aut")),
@@ -43,6 +43,7 @@ Suggests:
     gridExtra,
     grid,
     testthat,
+    withr,
     devtools,
     knitr,
     rmarkdown,
@@ -51,7 +52,6 @@ Suggests:
     SeuratObject
 LazyData: TRUE
 LazyDataCompression: gzip
-RoxygenNote: 7.3.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 biocViews: FunctionalPrediction, GeneRegulation, BiologicalQuestion, Software
@@ -59,3 +59,4 @@ BugReports: https://support.bioconductor.org/t/projectR/
 URL: https://github.com/genesofeve/projectR/
 Depends: 
     R (>= 4.0.0)
+Config/roxygen2/version: 8.0.0

@@ -9,7 +9,7 @@ in 3 experimental condition at 3 time points}
 A data frames with 54 rows and 38 variables:
 }
 \usage{
-pd.RNAseq6l3c3t
+data(pd.RNAseq6l3c3t)
 }
 \description{
 pd.RNAseq6l3c3t contains sample phenotype and experimental information

@@ -8,7 +8,7 @@
 A gene (rows) by cell (column) matrix
 }
 \usage{
-glial_counts
+data(glial_counts)
 }
 \description{
 log-normalized count data from astrocytes and oligodendrocytes in the p6 mouse cortex.

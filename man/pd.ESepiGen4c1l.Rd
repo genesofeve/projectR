@@ -8,7 +8,7 @@
 A data frames with 9 rows and 2 variables:
 }
 \usage{
-pd.ESepiGen4c1l
+data(pd.ESepiGen4c1l)
 }
 \description{
 pd.ESepiGen4c1l.4cond contains sample phenotype and experimental information

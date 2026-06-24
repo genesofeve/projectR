@@ -8,7 +8,7 @@
 A CogapsResult object
 }
 \usage{
-cr_microglial
+data(cr_microglial)
 }
 \description{
 cr_microglia contains the output of the CoGAPS function in the
